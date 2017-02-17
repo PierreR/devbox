@@ -1,25 +1,30 @@
 {-# LANGUAGE DeriveGeneric          #-}
+{-# LANGUAGE FlexibleContexts       #-}
 {-# LANGUAGE FlexibleInstances      #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE LambdaCase             #-}
 {-# LANGUAGE MultiParamTypeClasses  #-}
 {-# LANGUAGE OverloadedStrings      #-}
 {-# LANGUAGE QuasiQuotes            #-}
+{-# LANGUAGE StrictData             #-}
 {-# LANGUAGE TemplateHaskell        #-}
 {-# LANGUAGE TypeSynonymInstances   #-}
 
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
 
-import qualified Control.Foldl  as Fold
-import           Control.Lens   hiding (noneOf, view)
-import qualified Data.Text      as Text
+import qualified Control.Foldl                as Fold
+import           Control.Lens                 hiding (noneOf)
+import           Control.Monad.Reader
+import qualified Data.Text                    as Text
 import qualified Data.Text.Lazy
-import           Data.Vector    (Vector)
-import           Dhall          hiding (Text, input, text)
+import           Data.Vector                  (Vector)
+import           Dhall                        hiding (Text, input, text)
 import qualified Dhall
-import           Prelude        hiding (FilePath)
-import           Turtle         hiding (strict)
+import           Prelude                      hiding (FilePath)
+import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red, (<+>))
+import qualified Text.PrettyPrint.ANSI.Leijen as PP
+import           Turtle                       hiding (strict, view)
 
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
@@ -50,63 +55,119 @@ makeLensesWith abbreviatedFields ''BoxConfig
 
 instance Interpret BoxConfig
 
-installPkKeys = sh $ do
-  printf "\nStarting ssh keys synchronization\n"
+data ScriptEnv
+  = ScriptEnv
+  { _boxConfig :: BoxConfig
+  , _homeDir   :: FilePath
+  } deriving Show
+
+makeLenses ''ScriptEnv
+
+scriptEnv :: IO ScriptEnv
+scriptEnv =
+   ScriptEnv <$> Dhall.input auto "/vagrant/config/box"
+             <*> home
+
+adConfig :: MonadIO m => m AdConfig
+adConfig = liftIO $ Dhall.input auto "/vagrant/config/ad"
+
+installPkKeys :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installPkKeys = do
+  printf "\nSynchronizing ssh keys\n"
   testdir "/vagrant/ssh-keys" >>= \case
     False -> die "ERROR: no ssh-keys directory found. User provisioning aborted."
     True -> do
-      shells "cp user/ssh-config ${HOME}/.ssh/config" empty
-      shells "rsync --chmod=644 /vagrant/ssh-keys/*.pub ${HOME}/.ssh/" empty
-      pk <- find (star (noneOf ".")) "/vagrant/ssh-keys"
-      shells ("rsync --chmod=600 " <> format fp pk <> " ${HOME}/.ssh/") empty
-      printf ("Synchronize "%fp%" key\n") pk
-
-installMrRepos mr_url = sh $ do
-  printf "\nStarting mr updates\n"
-  _home <- home
-  exitcode <- testfile (_home </> ".mrconfig") >>= \case
-    False -> do
-      proc "vcsh" ["clone", mr_url, "mr"] empty
-      .&&. shell "mr -f -d $HOME up" empty
-      .||. signal_mr_clone_failure
-    True -> shell "mr -d $HOME up -q" empty
-  case exitcode of
-    ExitFailure _ -> printf "FAILURE: Unable to install all mr repositories\n\n"
-    ExitSuccess   -> printf "Done with mr repositories\n\n"
+      homedir <- asks (view homeDir)
+      let ssh_guestdir = homedir </> ".ssh/"
+          ssh_hostdir = "/vagrant/ssh-keys"
+      cp "user/ssh-config" (ssh_guestdir </> "config")
+      sync_pubkeys ssh_hostdir ssh_guestdir
+      sync_privatekeys ssh_hostdir ssh_guestdir
   where
-    signal_mr_clone_failure = do
-      printf ("Enable to clone and install mr '"%s%"'.\n") mr_url
+    sync_pubkeys hostdir guestdir = sh $ do
+      pk <- find (suffix ".pub") hostdir
+      procs "rsync" [ "--chmod=644"
+                    , format fp pk
+                    , format fp guestdir] empty
+    sync_privatekeys hostdir guestdir = sh $ do
+      pk <- find (star (noneOf ".")) hostdir
+      procs "rsync" [ "--chmod=600"
+                    , format fp pk
+                    , format fp guestdir] empty
+      printf ("Synchronize "%fp%" \n") pk
+
+installMrRepos :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installMrRepos =  do
+  printf "\nInstalling mr repos\n"
+  homedir <- asks (view homeDir)
+  mr_url <- asks $ view (boxConfig.mrRepoUrl.strict)
+  stacks <- asks $ view (boxConfig.userStacks)
+  activate_stacks homedir stacks
+  exitcode <- testfile (homedir </> ".mrconfig") >>= \case
+    False -> do
+      proc "vcsh" ["clone"
+                  , mr_url
+                  , "mr"] empty
+      .&&. proc "mr" [ "-f"
+                     , "-d", format fp homedir
+                     , "up" ] empty
+      .||. signal_mr_clone_failure mr_url
+    True -> proc "mr" [ "-d", format fp homedir
+                      , "up", "-q"] empty
+  case exitcode of
+    ExitFailure _ -> ppFailure "Unable to install all mr repositories\n\n"
+    ExitSuccess   -> ppSuccess "mr repositories\n"
+  where
+    activate_stacks home_dir stacks = sh $ do
+      stack <- select (stacks^..traverse.strict) :: Shell Text
+      unless (Text.null stack) $ do
+        let mr_file = format ("puppet-"%s%".mr") stack
+            link_target = format ("../available.d/"%s) mr_file
+            link_name = format (fp%"/.config/mr/config.d/"%s) home_dir mr_file
+        printf ("Activate "%s%"\n") mr_file
+        procs "ln" [ "-sf", link_target, link_name] empty
+    signal_mr_clone_failure url = do
+      printf ("Enable to clone and install mr '"%s%"'.\n") url
       pure (ExitFailure 1)
 
-installDoc = sh $ do
+installDoc :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installDoc = do
   inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/puppet-shared-scripts/raw/README.adoc?at=refs/heads/master"] empty
     & output "puppet.adoc"
   inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/cicd-shell/raw/README.adoc?at=refs/heads/master"] empty
     & output "cicd-shell.adoc"
   exitcode <- shell "make doc > /dev/null" empty
   case exitcode of
-    ExitFailure _ -> echo "FAILURE: documentation not installed successfully."
+    ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
     ExitSuccess   -> do
-      _home <- home
-      cp "./doc/devbox.html" (_home </> ".local/share/doc/devbox.html")
-      cp "doc/devbox.pdf" (_home </> ".local/share/doc/devbox.pdf")
-      printf "Install documentation\n\n"
+      homedir <- asks (view homeDir)
+      cp "./doc/devbox.html" (homedir </> ".local/share/doc/devbox.html")
+      cp "doc/devbox.pdf" (homedir </> ".local/share/doc/devbox.pdf")
+      ppSuccess "documentation\n"
 
-installNixPkgsFiles = sh $ do
-  _home <- home
-  printf "Installing nixpkgs files\n\n"
-  cp "user/config.nix" (_home </> ".nixpkgs/config.nix")
-  shells "rsync -r user/pkgs ${HOME}/.nixpkgs/" empty
 
-installEclipsePlugins with_geppetto = sh $ do
-    install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/mars/" "org.eclipse.egit.feature.group"
-    install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/mars/" "org.eclipse.m2e.feature.feature.group"
+installNixPkgsFiles :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installNixPkgsFiles = do
+  homedir <- asks (view homeDir)
+  printf "\nInstalling nixpkgs local files\n"
+  cp "user/config.nix" (homedir </> ".nixpkgs/config.nix")
+  procs "rsync" [ "-r"
+                , "user/pkgs"
+                , format fp (homedir </> ".nixpkgs/")] empty
+
+installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installEclipsePlugins = do
+    with_plugins <- asks $ view (boxConfig.eclipsePlugins)
+    with_geppetto <- asks $ view (boxConfig.geppetto)
+    when with_plugins $ do
+      install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/mars/" "org.eclipse.egit.feature.group"
+      install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/mars/" "org.eclipse.m2e.feature.feature.group"
     when with_geppetto $
       install_plugin "com.puppetlabs.geppetto" "http://geppetto-updates.puppetlabs.com/4.x" "com.puppetlabs.geppetto.feature.group"
   where
     install_plugin full_name repository installIU = do
-      _home <- home
-      let installPath = _home </> fromText (".eclipse/org.eclipse.platform_" <> eclipseVersion)
+      homedir <- ask $ view homeDir
+      let installPath = homedir </> fromText (".eclipse/org.eclipse.platform_" <> eclipseVersion)
           prefix_fp = installPath </> "plugins" </> fromText full_name
       not_installed <- fold (find (prefix (text (format fp prefix_fp))) installPath) Fold.null
       when not_installed $ do
@@ -124,52 +185,51 @@ installEclipsePlugins with_geppetto = sh $ do
                                    , "-nosplash"
                                    ] empty
         case exitcode of
-          ExitFailure _ -> printf ("FAILURE: Eclipse plugin "%s%" won't installed\n\n") full_name
-          ExitSuccess -> printf ("SUCCESS: Eclipse plugin "%s%" installed\n\n") full_name
+          ExitFailure _ -> ppFailure ("Eclipse plugin" <+> ppText full_name <+> "won't installed\n\n")
+          ExitSuccess -> ppSuccess ("Eclipse plugin" <+> ppText full_name <+> "\n")
 
-configureGit :: Text -> Text -> IO ()
-configureGit user_name user_email = sh $ do
+configureGit :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+configureGit = do
+  printf "\nConfiguring git\n"
+  user_name <- asks $ view (boxConfig.userName.strict)
+  user_email <- asks $ view (boxConfig.userEmail.strict)
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
   unless (Text.null user_email) $ procs "git" [ "config", "--global", "user.email", user_email] empty
-  printf "Configure git\n\n"
 
-configureMr :: Vector LText -> IO ()
-configureMr stacks = sh $ do
-  printf "\nStarting mr configuration\n"
-  _home <- home
-  stack <- select (stacks^..traverse.strict) :: Shell Text
-  unless (Text.null stack) $ do
-    let mr_file = format ("puppet-"%s%".mr") stack
-        link_target = format ("../available.d/"%s) mr_file
-        link_name = format (fp%"/.config/mr/config.d/"%s) _home mr_file
-    printf ("Activate "%s%"\n") mr_file
-    procs "ln" [ "-sf", link_target, link_name] empty
-
-installCicdShell = sh $ do
+installCicdShell :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installCicdShell = do
   -- we currently copy the AD id & pwd into the home of the box
   -- In later versions, such management would go in the CICD shell project
-  _home <- home
-  ad <- liftIO $ Dhall.input auto "/vagrant/config/ad" :: Shell AdConfig
+  homedir <- asks (view homeDir)
+  ad <- adConfig
   let
     usr_id = unsafeTextToLine $ ad^.loginId.strict
     usr_pwd = unsafeTextToLine $ ad^.password.strict
-  output (_home </> ".user_id") $ pure usr_id
-  output (_home </> ".user_pwd") $ pure usr_pwd
-
+  output (homedir </> ".user_id") $ pure usr_id
+  output (homedir </> ".user_pwd") $ pure usr_pwd
   shell "nix-env -f '<nixpkgs>' -i cicd-shell" empty >>= \case
-    ExitSuccess   -> printf "Done with cicd shell\n\n"
-    ExitFailure _ -> printf "WARNING: enable to install the cicd shell\n\n"
+    ExitSuccess   -> ppSuccess "cicd shell\n"
+    ExitFailure _ -> ppFailure "enable to install the cicd shell\n\n"
 
 main :: IO ()
 main = do
   printf "\n> Starting user configuration\n"
-  box_config  <- Dhall.input auto "/vagrant/config/box" :: IO BoxConfig
-  installPkKeys
-  configureGit (box_config^.userName.strict) (box_config^.userEmail.strict)
-  installNixPkgsFiles
-  configureMr (box_config^.userStacks)
-  installMrRepos (box_config^.mrRepoUrl.strict)
-  when (box_config^.eclipsePlugins) $ installEclipsePlugins (box_config^.geppetto)
-  installCicdShell
-  installDoc
+  runReaderT (sequence_ [ installPkKeys
+                        , configureGit
+                        , installNixPkgsFiles
+                        , installMrRepos
+                        , installEclipsePlugins
+                        , installCicdShell
+                        , installDoc
+                        ]) =<< scriptEnv
   printf "< User configuration completed\n"
+
+
+-- UTILS
+ppText = PP.text . Text.unpack
+
+ppFailure :: MonadIO m => PP.Doc -> m ()
+ppFailure msg = liftIO $ putDoc $ red "FAILURE:" <+> msg
+
+ppSuccess :: MonadIO m => PP.Doc -> m ()
+ppSuccess msg = liftIO $ putDoc (dullgreen ("Done with" <+> msg) <> line)

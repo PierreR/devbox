@@ -57,13 +57,5 @@
       in
       {
         inherit asciidoctor hiera-eyaml-gpg pepper puppet-env cicd-shell;
-        haskellPackages = super.haskellPackages.override {
-          overrides = self: super: {
-            language-puppet_1_3_4 = dontCheck (dontHaddock (self.callPackage ./pkgs/language-puppet {
-              servant = self.servant_0_9_1_1;
-              servant-client = self.servant-client_0_9_1_1;
-            }));
-          };
-        };
       };
 }
