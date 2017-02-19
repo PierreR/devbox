@@ -10,7 +10,12 @@ let
   };
 
   pkgs = import src { };
+
   hghc = pkgs.haskellPackages;
+  henv = hghc.ghcWithPackages (p: with p; [dhall text turtle vector]);
 
 in
-hghc.ghcWithPackages (p: with p; [dhall text turtle vector])
+pkgs.stdenv.mkDerivation {
+  name = "devbox-release-userenv";
+  buildInputs = [ henv ];
+}

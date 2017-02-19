@@ -150,7 +150,9 @@ installNixPkgsFiles :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installNixPkgsFiles = do
   homedir <- asks (view homeDir)
   printf "\nInstalling nixpkgs local files\n"
-  cp "user/config.nix" (homedir </> ".nixpkgs/config.nix")
+  let nixpkgsdir = homedir </> ".nixpkgs/"
+  found_dir <- testdir nixpkgsdir; unless found_dir $ mkdir nixpkgsdir
+  cp "user/config.nix" (nixpkgsdir </> "config.nix")
   procs "rsync" [ "-r"
                 , "user/pkgs"
                 , format fp (homedir </> ".nixpkgs/")] empty
