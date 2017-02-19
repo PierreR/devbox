@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
     if [[ -z "${version}" ]]; then
       version="$(curl -s ${scm_api}/latest | jq -r .tag_name)"
     else
-      echo "Overriding latest version";
+      echo "Overriding latest version with ${version}";
     fi
     configdir="devbox-${version}"
     if ! [[ -d "/tmp/system" ]]; then

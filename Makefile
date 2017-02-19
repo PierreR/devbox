@@ -4,7 +4,7 @@ user:
 	@nix-shell release.nix --command 'user/setenv.sh'
 
 system:
-	./system/setenv.sh
+	@./system/setenv.sh
 
 doc: doc/devbox.html doc/devbox.pdf
 
