@@ -121,13 +121,13 @@ installMrRepos =  do
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
     activate_stacks home_dir stacks = sh $ do
-      stack <- select (stacks^..traverse.strict) :: Shell Text
+      stack <- select (stacks^..traverse.strict)
       unless (Text.null stack) $ do
         let mr_file = format ("puppet-"%s%".mr") stack
             link_target = format ("../available.d/"%s) mr_file
             link_name = format (fp%"/.config/mr/config.d/"%s) home_dir mr_file
-        printf ("Activate "%s%"\n") mr_file
         procs "ln" [ "-sf", link_target, link_name] empty
+        printf ("Activate "%s%"\n") mr_file
 
 installDoc :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installDoc = do
@@ -218,9 +218,9 @@ main :: IO ()
 main = do
   printf "\n> Starting user configuration\n"
   runReaderT (sequence_ [ installPkKeys
-                        , configureGit
                         , installNixPkgsFiles
                         , installMrRepos
+                        , configureGit
                         , installEclipsePlugins
                         , installCicdShell
                         , installDoc
