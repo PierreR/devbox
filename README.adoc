@@ -40,18 +40,27 @@ Please do update if you have older release(s).
 
 ## Quick first time setup
 
+### preparation
+
+1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox` or `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
++
 ====
-Within the os host, create a new folder of your choice. You might call it `devbox`. We will use the term `ROOT_DIR` to refer to this folder in the next paragraphs.
+We will use the term `ROOT_DIR` to refer to this folder in the following sections.
 ====
+2. In `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] to automate your personal setup (git repos, git config, credentials, ...):
++
+```
+curl -o params.sh https://raw.githubusercontent.com/CIRB/devbox/master/user/params.sh
+```
++
+WARNING: To preserve the original encoding of the file (`unix` and not `Windows`) do not copy/paste from the Github UI. If you decide to manually create the param.sh file in the ROOT_DIR,  please verify and eventually change the file encoding using the editor of your choice. This file is read from within the `devbox` and  we want avoid unwanted characters such as `CR LF`.
+
 
 ### ssh keys
 
 1. in the `ROOT_DIR`, create a directory `ssh-keys`.
 2. in this ssh-keys subfolder, copy your `Bitbucket` key pair, rename them 'cirb_rsa' and 'cirb_rsa.pub' respectively if the filename differs.
 3. in the ssh-keys subfolder, copy your `Github` key pair, rename them 'cirb_github_rsa' and 'cirb_github_rsa.pub'. If you use the same key pair, copy the previous pair and rename accordingly.
-4. in `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] to automate your personal setup (your credentials, the clone of your stack, the git config,...).
-+
-WARNING: To preserve the original encoding of the file (`unix` and not `Windows`) do not copy/paste from Github UI. Instead, download the https://raw.githubusercontent.com/CIRB/devbox/master/user/params.sh[template] using `wget` or `curl`. As an alternative, you can just verify and change the file encoding within the editor of your choice. This file is read from within the `devbox` and  we want avoid unwanted characters such as `CR LF`.
 
 ### box import
 
