@@ -140,8 +140,10 @@ installDoc = do
     ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
     ExitSuccess   -> do
       homedir <- asks (view homeDir)
-      cp "./doc/devbox.html" (homedir </> ".local/share/doc/devbox.html")
-      cp "doc/devbox.pdf" (homedir </> ".local/share/doc/devbox.pdf")
+      let docdir = homedir </> ".local/share/doc"
+      mktree docdir
+      cp "./doc/devbox.html" (docdir </> "devbox.html")
+      cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
       ppSuccess "documentation\n"
 
 
@@ -233,4 +235,4 @@ ppFailure :: MonadIO m => PP.Doc -> m ()
 ppFailure msg = liftIO $ putDoc $ (red "FAILURE:" <+> msg) <> line
 
 ppSuccess :: MonadIO m => PP.Doc -> m ()
-ppSuccess msg = liftIO $ putDoc (dullgreen ("Done with" <+> msg) <> line)
+ppSuccess msg = liftIO $ putDoc $ (dullgreen "Done with" <+> msg) <> line
