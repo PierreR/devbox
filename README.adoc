@@ -228,19 +228,20 @@ After changing the `local-configuration.nix` file, rebuild `nixos` by using this
 
 TIP: To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/local-configuration.nix` into `/vagrant` on the boxfootnote:[The ROOT_DIR of the host is automatically mounted to /vagrant on the box given the box is started with `vagrant up`.]. If such a file exists on the ROOT_DIR of the host, it will be used the first time a box is provisioned and won't be overridden by a call to `vagrant provision` later on.
 
-WARNING: More drastic changes such a changing the window manager is only possible via `/etc/nixos/configuration.nix`.
+WARNING: More drastic changes such a changing the window manager is only possible via `/etc/nixos/configuration.nix`. There is currently no support to persist such changes after a `vagrant destroy`.
 
 ### user
 
 #### provision
 
-Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/params.sh[user/params.sh] file, `vagrant provision --provision-with user` will:
+Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/params.sh[params.sh] file, `vagrant provision --provision-with user` will:
 
 - setup your git config 'user.name' and 'user.email'
-- synchronize the `ssh-keys` folder from the ROOT_DIR
-- download eclipse plugins
-- installed declared `mr` repositories including https://github.com/CIRB/devbox-dotfiles[dotfiles]
+- synchronize the `ssh-keys` folder of the ROOT_DIR
+- download requested eclipse plugins
+- installed declared `mr` repositories including all https://github.com/CIRB/devbox-dotfiles[dotfiles]
 - setup/download the cicd shell
+- generate documentation
 
 #### dotfiles
 
