@@ -45,16 +45,15 @@ Please do update if you have older release(s).
 1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox` or `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
 +
 ====
-We will use the term `ROOT_DIR` to refer to this folder in the following sections.
+We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
 ====
-2. In `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] to automate your personal setup (git repos, git config, credentials, ...):
+2. In `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] and modify it to match your personal settings:
 +
 ```
 curl -o params.sh https://raw.githubusercontent.com/CIRB/devbox/master/user/params.sh
 ```
 +
-WARNING: To preserve the original encoding of the file (`unix` and not `Windows`) do not copy/paste from the Github UI. If you decide to manually create the param.sh file in the ROOT_DIR,  please verify and eventually change the file encoding using the editor of your choice. This file is read from within the `devbox` and  we want avoid unwanted characters such as `CR LF`.
-
+WARNING: Prefer #curl# or #wget#. If you create the file manually, you might end up with the wrong file encoding. In such situation, change the encoding back to `unix` in the editor of your choice. Because the file is readfootnote:[The file is directly `source` in a bash file. In devbox v3 a more structured format will be used.] from within the `devbox`, we need to avoid unwanted characters such as `CR LF`.
 
 ### ssh keys
 
@@ -95,26 +94,34 @@ vagrant reload
 ### vagrant
 
 ```
-# shutdown the vm
-vagrant halt
 # boot the vm
 vagrant up
-# update configuration
+# shutdown the vm
+vagrant halt
+# update system and user configuration
 vagrant provision
-# destroy the box (all local state is lost)
+# update user configuration only
+vagrant provision --provision-with user
+# update system configuration only
+vagrant provision --provision-with system
+# destroy the box (all local state is lost but the imported box remains)
 vagrant destroy
+# remove the imported box (necessary in case of a major version bump)
+vagrant box remove devbox
+
 ```
 
-The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring new features listed in the <<_changelog>>. In case of a major version bump (which is expected two or three times a year), the box should be destroyed and downloaded again.
+The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring the new features listed in the <<_changelog>>. In case of a major version bump  a new devbox needs to be downloaded as described in <<_life_cycle>>.
+
 
 [NOTE]
 ====
-Provisioning is separated into two steps: `system` to configure the system and `user` to configure the vagrant user. You can selectively ask for provisioning using:
+Provisioning is separated into two steps:
 
-```
-vagrant provision --provision-with system
-vagrant provision --provision-with user
-```
+- `system` to update and (re)configure the system
+- `user` to (re)configure the vagrant user.
+
+Updating the system takes a while and even more so if it is not done regularly. On the other hand, `vagrant provision --provision-with user` is a quick task.
 ====
 
 ### operating system
@@ -176,7 +183,7 @@ You might want to enable some `oh-my-zsh` plugins by updating your zshrc. None h
 
 ### projects
 
-If you set a value for `user_stack` in the `params.sh` file, the puppet `mr` file for your stack will be activated for you. That means that the source for puppet for your stack will be automatically cloned into the puppet project directory (`~/projects/cicd/puppet/$stackname`).
+If you set a valuefootnote:[Multiple values will be supported in devbox v3] for `user_stack` in the `params.sh` file, the puppet `mr` file for your stack will be activated for you. That means that the puppet source for your stack will be automatically cloned into the puppet project directory (`~/projects/cicd/puppet/$stackname`).
 
 If you don't set the value, there will be no project on the box. You will need to enable some `mr` repositories associated with your `hostgroup`.
 
@@ -225,22 +232,15 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 ### user
 
-#### params
+#### provision
 
-You can tweak some default settings such as "do I want to install the geppetto plugin" by modifying the `user/params.sh` file. In order to do so, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[file] to the host where the `Vagrantfile` sits. You can easily do this by using this command line on the box:
+Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/params.sh[user/params.sh] file, `vagrant provision --provision-with user` will:
 
-```
-→ cp /tmp/user/devbox-x.x.x/user/params.sh /vagrant/params.sh
-```
-
-`vagrant provision` will automatically configure your global `.gitconfig`, if you add your `user.name` and `user.email`:
-
-.params.sh
-```
-user_name="John Doe"
-user_email="jdoe@cirb.brussels"
-```
-WARNING: Don't separate `=` with spaces
+- setup your git config 'user.name' and 'user.email'
+- synchronize the `ssh-keys` folder from the ROOT_DIR
+- download eclipse plugins
+- installed declared `mr` repositories including https://github.com/CIRB/devbox-dotfiles[dotfiles]
+- setup/download the cicd shell
 
 #### dotfiles
 
@@ -342,15 +342,21 @@ Tickets and issues are handled directly on https://github.com/CIRB/devbox/issues
 
 Question, support, discussion are handled in the slack `#devbox` channel.
 
-The versioning scheme used is semantic: `major.minor.patch`. A major jump implies some incompatible changes likely from the `vagrantFile` and forces to:
+The versioning scheme used is semantic: `major.minor.patch`. A major jump (which is expected two or three times a year) implies some incompatible changes. Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] for more information.
 
+Here are the steps to migrate:
+
+====
 [lowerroman]
 . destroy the old box losing all current statefootnote:[The README describes several tricks to keep/store your customization.] : `vagrant destroy`
 . remove the old box: `vagrant box remove devbox`
 . add the new one: `vagrant box add devbox http://repo.irisnet.be/boxes/devbox.box`
 . initialize the new box: `vagrant init devbox && vagrant up`
+====
 
-Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] for more information.
+TIP: You might prefer to keep the old devbox and create a new one to be 100% sure not to lose anything. Just pick another name when adding and initiating the box with vagrant. A good tip is to use `devbox-x.x` where `x.x` is the major and minor version of the box.
+
+
 
 The devbox will be maintained continuously with at least a major release every six months to follow the OS life cycle.
 
