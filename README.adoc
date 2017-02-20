@@ -128,13 +128,24 @@ Updating the system takes a while and even more so if it is not done regularly. 
 
 The devbox is based on https://nixos.org/[NixOS] version 16.09. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
+Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
+
+- *reproducability*: everything is reproducible (packages are identical binary wise).
+- *atomicity*: configuration changes (`nixos-rebuild`) can be rollback.
+- *isolation*: on a project, user or system level, processes are built in an isolated environment.
+
+By using `nixos` we are striving for a system that we can destroy and re-create at will without fuss.
+
 The whole system setup is declared in https://github.com/CIRB/devbox/blob/master/system/configuration.nix.
 
+[TIP]
+====
 To clean-up the store (whenever the disk usage is too high) use:
 
 ```
 → sudo nix-collect-garbage -d
 ```
+====
 
 ### windows manager
 
@@ -247,16 +258,17 @@ Given the personal settings defined in the https://github.com/CIRB/devbox/blob/m
 
 You can add any `dotfiles` repositories including your own personal ones thanks to https://github.com/RichiH/vcsh[vcsh/myrepos].
 
-For instance you might easily add/share some `vim`, `tmux` or `zsh` configurations.
+For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
 
-To share simple dotfiles configuration, for instance let say you want to share a default `.zshrc` file for the devbox, you can simply add the file to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. The file is now part of the default CIRB dotfiles source repository and will be pushed on the devbox at the next provisioning.
+To share simple dotfiles configuration across all devbox users, for instance let say you want to share a `~/.tmux.conf` file for the devbox, or make a change to an existing configuration you would do a pull request to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. Upon acceptance, the file will be part of the default CIRB dotfiles source repository and will be pushed on the devbox at the next provisioning.
 
-If you want to share a non trivial, external or optional configuration, you can use or create a specific source repository for it and register the repository https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here].
+#### mr
+
+If you want to share across all devbox users a non trivial, external or optional configuration, you can use or create a specific source repository for it and register the repository https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository]. This is also done via a pull request.
 
 If you want the configuration to be active by default, you then add a link to it in the SCM, just like https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/config.d/dotfiles.vcsh[this one]. On the other hand, if you want it inactive by default, you would ask the interested users to make the link themselves on their box.
 
-
-Eventually there is a third option. Some of your configurations are personal and there is no need for them to be shared inside the CIRB organization. You normally won't need that option but it is there for flexibility sake. 3 steps are required:
+Eventually there is a third option. Some of your configurations are personal and there is no need for them to be shared inside the CIRB organization. You normally won't need that option but it is there for flexibility sake. In that case, 3 steps are required:
 
 1. Fork https://github.com/CIRB/vcsh_mr_template[mr CIRB template]
 2. Change the https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/available.d/mr.vcsh#L2[mr pointer] to it.
@@ -266,7 +278,7 @@ Eventually there is a third option. Some of your configurations are personal and
 → vcsh mr remote set-url origin git://github.com/PierreR/vcsh_mr_template.git
 ```
 
-As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you would copy the `user/params.sh` to `/vagrant` and change the `mr_template_repo_url` value.
+As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you need to update the `mr_template_repo_url` value in `params.sh`.
 
 For more information about `vcsh`, https://github.com/RichiH/vcsh/blob/master/doc/README.md#from-zero-to-vcsh[Look here].
 
