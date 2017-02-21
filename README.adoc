@@ -226,6 +226,10 @@ For puppet help, go to the <<_puppet>> dedicated section.
 
 ## Customization
 
+====
+The customization of the devbox operates at different level and makes sure every configuration - personal or shared - survives a `vagrant destroy`.
+====
+
 ### system
 
 You can add some specific configuration by editing `/etc/nixos/local-configuration.nix`.
@@ -247,7 +251,7 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/params.sh[params.sh] file, `vagrant provision --provision-with user` will:
 
-- setup your git config 'user.name' and 'user.email'
+- setup your git config
 - synchronize the `ssh-keys` folder of the ROOT_DIR
 - download requested eclipse plugins
 - installed declared `mr` repositories including all https://github.com/CIRB/devbox-dotfiles[dotfiles]
@@ -260,7 +264,7 @@ You can add any `dotfiles` repositories including your own personal ones thanks 
 
 For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
 
-To share simple dotfiles configuration across all devbox users, for instance let say you want to share a `~/.tmux.conf` file for the devbox, or make a change to an existing configuration you would do a pull request to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. Upon acceptance, the file will be part of the default CIRB dotfiles source repository and will be pushed on the devbox at the next provisioning.
+To share simple dotfiles configuration across all devbox users, for instance let say you want to share a `~/.tmux.conf` file for the devbox, or make a change to an existing configuration you would do a pull request to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. Upon acceptance, the file will be part of the default CIRB dotfiles repository and will be pushed on all devboxes at the next provisioning.
 
 #### mr
 
@@ -268,7 +272,9 @@ If you want to share across all devbox users a non trivial, external or optional
 
 If you want the configuration to be active by default, you then add a link to it in the SCM, just like https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/config.d/dotfiles.vcsh[this one]. On the other hand, if you want it inactive by default, you would ask the interested users to make the link themselves on their box.
 
-Eventually there is a third option. Some of your configurations are personal and there is no need for them to be shared inside the CIRB organization. You normally won't need that option but it is there for flexibility sake. In that case, 3 steps are required:
+#### mr template
+
+Eventually there is yet another way to change the local user configuration. You normally won't need that option but it is there for flexibility sake. Some of your settings are personal and there is no need for them to be shared inside the CIRB organization. In that case, 3 steps are required:
 
 1. Fork https://github.com/CIRB/vcsh_mr_template[mr CIRB template]
 2. Change the https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/available.d/mr.vcsh#L2[mr pointer] to it.
