@@ -96,7 +96,6 @@
     maven
     mr
     nettools
-    vim
     (vim_configurable.customize {
       name = "vim";
       vimrcConfig.vam.knownPlugins = vimPlugins // ({
@@ -112,23 +111,24 @@
       });
       vimrcConfig.customRC = ''
         set hidden
-        set smartcase
-        set undofile
-        set hidden
+        set hlsearch
         set nobackup
         set noswapfile
+        set smartcase
+        set undofile
         if has('unnamedplus')
           set clipboard=unnamed,unnamedplus
         endif
         set t_Co=256
-
       '';
      vimrcConfig.vam.pluginDictionaries = [
         { names = [
+          "ctrlp"
           "puppet-vim"
           "sensible"
           "surround"
-          "Syntastic"
+          "syntastic"
+          "vim-nix"
         ]; }
      ];
      })
