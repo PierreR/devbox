@@ -1,9 +1,9 @@
 {- HELP
 Active directory credentials configuration file
-  adLoginId  : Your Active directory id
-  adPassword : Your Active directory password
+  loginId  : Your Active directory id
+  password : Your Active directory password
 -}
 
-{ adLoginId  = ""
-, adPassword = ""
+{ loginId  = ""
+, password = ""
 }

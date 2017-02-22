@@ -1,14 +1,14 @@
-{-# LANGUAGE DeriveGeneric          #-}
-{-# LANGUAGE FlexibleContexts       #-}
-{-# LANGUAGE FlexibleInstances      #-}
-{-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE LambdaCase             #-}
-{-# LANGUAGE MultiParamTypeClasses  #-}
-{-# LANGUAGE OverloadedStrings      #-}
-{-# LANGUAGE QuasiQuotes            #-}
-{-# LANGUAGE StrictData             #-}
-{-# LANGUAGE TemplateHaskell        #-}
-{-# LANGUAGE TypeSynonymInstances   #-}
+{-# LANGUAGE DeriveGeneric             #-}
+{-# LANGUAGE FlexibleContexts          #-}
+{-# LANGUAGE FunctionalDependencies    #-}
+{-# LANGUAGE LambdaCase                #-}
+{-# LANGUAGE MultiParamTypeClasses     #-}
+{-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE OverloadedStrings         #-}
+{-# LANGUAGE QuasiQuotes               #-}
+{-# LANGUAGE StrictData                #-}
+{-# LANGUAGE TemplateHaskell           #-}
+{-# LANGUAGE TypeSynonymInstances      #-}
 
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
@@ -19,39 +19,49 @@ import           Control.Monad.Reader
 import qualified Data.Text                    as Text
 import qualified Data.Text.Lazy
 import           Data.Vector                  (Vector)
-import           Dhall                        hiding (Text, input, text)
+import           Dhall                        hiding (Text, auto, input, text)
 import qualified Dhall
 import           Prelude                      hiding (FilePath)
-import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red, (<+>))
+import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red,
+                                               (<+>))
 import qualified Text.PrettyPrint.ANSI.Leijen as PP
 import           Turtle                       hiding (strict, view)
+-- import GHC.Generics
 
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
 
 type LText = Data.Text.Lazy.Text
 
+-- auto :: (GenericInterpret (Rep a), Generic a) => Type a
+auto = deriveAuto
+  ( defaultInterpretOptions { fieldModifier = Data.Text.Lazy.dropWhile (== '_') })
+
 data AdConfig
   = AdConfig
-  { adLoginId  :: LText
-  , adPassword :: LText
+  { _loginId  :: LText
+  , _password :: LText
   } deriving (Generic, Show)
 
-makeLensesWith abbreviatedFields ''AdConfig
+makeLenses ''AdConfig
 
 instance Interpret AdConfig
 
+
+adConfig :: MonadIO m => m AdConfig
+adConfig = liftIO $ (Dhall.input auto  "/vagrant/config/ad")
+
 data BoxConfig
   = BoxConfig
-  { boxUserName       :: LText
-  , boxUserEmail      :: LText
-  , boxUserStacks     :: Vector LText
-  , boxEclipsePlugins :: Bool
-  , boxGeppetto       :: Bool
-  , boxMrRepoUrl      :: LText
+  { _userName       :: LText
+  , _userEmail      :: LText
+  , _userStacks     :: Vector LText
+  , _eclipsePlugins :: Bool
+  , _geppetto       :: Bool
+  , _mrRepoUrl      :: LText
   } deriving (Generic, Show)
 
-makeLensesWith abbreviatedFields ''BoxConfig
+makeLenses ''BoxConfig
 
 instance Interpret BoxConfig
 
@@ -67,9 +77,6 @@ scriptEnv :: IO ScriptEnv
 scriptEnv =
    ScriptEnv <$> Dhall.input auto "/vagrant/config/box"
              <*> home
-
-adConfig :: MonadIO m => m AdConfig
-adConfig = liftIO $ Dhall.input auto "/vagrant/config/ad"
 
 installPkKeys :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installPkKeys = do
@@ -109,7 +116,7 @@ installMrRepos =  do
                 , "up", "-q"
                 ]
   proc "mr" (if bootstrap then "-f" : mr_args else mr_args) empty >>= \case
-    ExitFailure _ -> ppFailure "Unable to update all mr repositories\n\n"
+    ExitFailure _ -> ppFailure "Unable to update all mr repositories\n"
     ExitSuccess   -> ppSuccess "mr repositories\n"
   where
     clone_mr url = do
@@ -193,7 +200,7 @@ installEclipsePlugins = do
 
 configureGit :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 configureGit = do
-  printf "\nConfiguring git\n"
+  printf "Configuring git\n\n"
   user_name <- asks $ view (boxConfig.userName.strict)
   user_email <- asks $ view (boxConfig.userEmail.strict)
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty

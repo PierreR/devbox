@@ -1,17 +1,17 @@
 {- HELP
 Box configuration file
-  boxUserName       : Your full user name e.g "John Doe" (used in git)
-  boxUserEmail      : The email address you want to used for your 'git commit' e.g "jdoe@cirb.brussels"
-  boxUserStacks     : List of puppet stack(s) you want to manage
-  boxEclipsePlugins : Do you want to download eclipse plugins such as egit or m2e ?
-  boxGeppetto       : Do you want to download the Geppetto Eclipse plugin (puppet development) ?
-  boxMrRepoUrl      : Url of the `vcsh_mr_template` repository.
+  userName       : Full user name e.g "John Doe" (used in git)
+  userEmail      : Email address e.g "jdoe@cirb.brussels" (used in git)
+  userStacks     : Mr repos to activate; look at the available list at https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d 
+  eclipsePlugins : Download eclipse plugins such as egit or m2e ?
+  geppetto       : Download the Geppetto Eclipse plugin (puppet development) ?
+  mrRepoUrl      : Url of the `vcsh_mr_template` repository.
 -}
 
-{ boxUserName       = ""
-, boxUserEmail      = ""
-, boxUserStacks     = ["bos", "irisbox"]
-, boxEclipsePlugins = True
-, boxGeppetto       = True
-, boxMrRepoUrl      = "git://github.com/CIRB/vcsh_mr_template.git"
+{ userName       = ""
+, userEmail      = ""
+, userStacks     = ["puppet-bos", "puppet-irisbox"]
+, eclipsePlugins = True
+, geppetto       = True
+, mrRepoUrl      = "git://github.com/CIRB/vcsh_mr_template.git"
 }
