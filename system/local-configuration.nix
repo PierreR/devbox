@@ -4,7 +4,7 @@
 {
   environment.systemPackages = with pkgs; [
     (eclipses.eclipseWithPlugins {
-       eclipse = eclipses.eclipse-sdk-452;
+       eclipse = eclipses.eclipse-sdk-46;
        plugins = [ ];
      })
     firefox

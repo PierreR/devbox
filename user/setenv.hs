@@ -55,7 +55,7 @@ data BoxConfig
   = BoxConfig
   { _userName       :: LText
   , _userEmail      :: LText
-  , _userStacks     :: Vector LText
+  , _mrRepos        :: Vector LText
   , _eclipsePlugins :: Bool
   , _geppetto       :: Bool
   , _mrRepoUrl      :: LText
@@ -108,10 +108,10 @@ installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- asks (view homeDir)
   mr_url <- asks $ view (boxConfig.mrRepoUrl.strict)
-  stacks <- asks $ view (boxConfig.userStacks)
+  stacks <- asks $ view (boxConfig.mrRepos)
   bootstrap <- not <$> testfile (homedir </> ".mrconfig")
   when bootstrap $ clone_mr mr_url
-  activate_stacks homedir stacks
+  activate_repos homedir stacks
   let mr_args = [ "-d", format fp homedir
                 , "up", "-q"
                 ]
@@ -127,10 +127,10 @@ installMrRepos =  do
            ppFailure ("Unable to clone mr" <+> ppText url <> "\n")
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
-    activate_stacks home_dir stacks = sh $ do
-      stack <- select (stacks^..traverse.strict)
+    activate_repos home_dir repos = sh $ do
+      stack <- select (repos^..traverse.strict)
       unless (Text.null stack) $ do
-        let mr_file = format ("puppet-"%s%".mr") stack
+        let mr_file = format (s%".mr") stack
             link_target = format ("../available.d/"%s) mr_file
             link_name = format (fp%"/.config/mr/config.d/"%s) home_dir mr_file
         procs "ln" [ "-sf", link_target, link_name] empty
@@ -177,9 +177,12 @@ installEclipsePlugins = do
   where
     install_plugin full_name repository installIU = do
       homedir <- ask $ view homeDir
-      let installPath = homedir </> fromText (".eclipse/org.eclipse.platform_" <> eclipseVersion)
+      let localdir = homedir </> ".eclipse"
+          installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseVersion)
           prefix_fp = installPath </> "plugins" </> fromText full_name
-      not_installed <- fold (find (prefix (text (format fp prefix_fp))) installPath) Fold.null
+      not_installed <- testdir localdir >>= \case
+        True -> fold (find (prefix (text (format fp prefix_fp))) installPath) Fold.null
+        False -> pure True
       when not_installed $ do
         printf ("About to download Eclipse "%s%". Hold on.\n") full_name
         exitcode <- proc "eclipse" [ "-application", "org.eclipse.equinox.p2.director"

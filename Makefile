@@ -1,7 +1,7 @@
 .PHONY: clean user system
 
 user:
-	@nix-shell release.nix --command 'user/setenv.sh'
+	@nix-shell release.nix --run 'script -c user/setenv.sh -q /vagrant/last_run.log'
 
 system:
 	@./system/setenv.sh
