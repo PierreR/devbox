@@ -17,10 +17,17 @@ let
     rev    = "505a786c6dd7dcc37e43f3cc96031d30028625be";
     sha256 = "1dsjy4czxcwh4gy7yjffzfrbb6bmnxbixf1sy8aqrbkavgmh8s29";
   }) {};
-  henv = hghc.ghcWithPackages (p: with p; [dhall_github text turtle vector]);
+  henv = hghc.ghcWithPackages (p: with p; [dhall_github turtle ghc ]);
 
 in
 pkgs.stdenv.mkDerivation {
-  name = "devbox-release-userenv";
-  buildInputs = [ henv ];
+    name = "devbox-release-userenv";
+    buildInputs = [
+      henv
+      pkgs.asciidoctor
+      pkgs.mr
+      pkgs.ghc
+      pkgs.rsync
+      pkgs.curl
+    ];
 }

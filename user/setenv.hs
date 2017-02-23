@@ -1,13 +1,13 @@
-{-# LANGUAGE DeriveGeneric             #-}
-{-# LANGUAGE FlexibleContexts          #-}
-{-# LANGUAGE FunctionalDependencies    #-}
-{-# LANGUAGE LambdaCase                #-}
-{-# LANGUAGE MultiParamTypeClasses     #-}
-{-# LANGUAGE OverloadedStrings         #-}
-{-# LANGUAGE QuasiQuotes               #-}
-{-# LANGUAGE StrictData                #-}
-{-# LANGUAGE TemplateHaskell           #-}
-{-# LANGUAGE TypeSynonymInstances      #-}
+{-# LANGUAGE DeriveGeneric          #-}
+{-# LANGUAGE FlexibleContexts       #-}
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE LambdaCase             #-}
+{-# LANGUAGE MultiParamTypeClasses  #-}
+{-# LANGUAGE OverloadedStrings      #-}
+{-# LANGUAGE QuasiQuotes            #-}
+{-# LANGUAGE StrictData             #-}
+{-# LANGUAGE TemplateHaskell        #-}
+{-# LANGUAGE TypeSynonymInstances   #-}
 
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
@@ -142,16 +142,19 @@ installDoc = do
     & output "puppet.adoc"
   inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/cicd-shell/raw/README.adoc?at=refs/heads/master"] empty
     & output "cicd-shell.adoc"
-  exitcode <- shell "make doc > /dev/null" empty
-  case exitcode of
-    ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
-    ExitSuccess   -> do
-      homedir <- asks (view homeDir)
-      let docdir = homedir </> ".local/share/doc"
-      mktree docdir
-      cp "./doc/devbox.html" (docdir </> "devbox.html")
-      cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
-      ppSuccess "documentation\n"
+  isFileEmpty "puppet.adoc" <||> isFileEmpty "cicd-shell.adoc" >>= \case
+    True -> ppFailure "cannot fetch extra documentation from stash: documentation not installed"
+    False -> do
+      exitcode <- shell "make doc > /dev/null" empty
+      case exitcode of
+        ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
+        ExitSuccess   -> do
+          homedir <- asks (view homeDir)
+          let docdir = homedir </> ".local/share/doc"
+          mktree docdir
+          cp "./doc/devbox.html" (docdir </> "devbox.html")
+          cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
+          ppSuccess "documentation\n"
 
 
 installNixPkgsFiles :: (MonadIO m, MonadReader ScriptEnv m) => m ()
@@ -242,8 +245,15 @@ main = do
 -- UTILS
 ppText = PP.text . Text.unpack
 
-ppFailure :: MonadIO m => PP.Doc -> m ()
+ppFailure :: MonadIO io => PP.Doc -> io ()
 ppFailure msg = liftIO $ putDoc $ (red "FAILURE:" <+> msg) <> line
 
-ppSuccess :: MonadIO m => PP.Doc -> m ()
+ppSuccess :: MonadIO io => PP.Doc -> io ()
 ppSuccess msg = liftIO $ putDoc $ (dullgreen "Done with" <+> msg) <> line
+
+isFileEmpty :: MonadIO io => FilePath -> io Bool
+isFileEmpty path =
+  fold (input path) Fold.null
+
+(<||>) :: Applicative a => a Bool -> a Bool -> a Bool
+(<||>) = liftA2 (||)
