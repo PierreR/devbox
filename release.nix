@@ -11,13 +11,13 @@ let
 
   pkgs = import src { };
   hghc = pkgs.haskellPackages;
-  dhall_lens = hghc.callCabal2nix "dhall" (pkgs.fetchFromGitHub {
+  dhall_github = hghc.callCabal2nix "dhall" (pkgs.fetchFromGitHub {
     owner  = "Gabriel439";
     repo   = "Haskell-Dhall-Library";
-    rev    = "c4aab8d1fc0824e92f18a0cadf2c0a6066b18b3a";
-    sha256 = "0c0jzrvcjqr2a113j12mb5q1lvf30fsmany4rycix683ma2q07sq";
+    rev    = "505a786c6dd7dcc37e43f3cc96031d30028625be";
+    sha256 = "1dsjy4czxcwh4gy7yjffzfrbb6bmnxbixf1sy8aqrbkavgmh8s29";
   }) {};
-  henv = hghc.ghcWithPackages (p: with p; [dhall_lens text turtle vector]);
+  henv = hghc.ghcWithPackages (p: with p; [dhall_github text turtle vector]);
 
 in
 pkgs.stdenv.mkDerivation {

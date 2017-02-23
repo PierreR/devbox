@@ -3,7 +3,6 @@
 {-# LANGUAGE FunctionalDependencies    #-}
 {-# LANGUAGE LambdaCase                #-}
 {-# LANGUAGE MultiParamTypeClasses     #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE OverloadedStrings         #-}
 {-# LANGUAGE QuasiQuotes               #-}
 {-# LANGUAGE StrictData                #-}
@@ -21,19 +20,20 @@ import qualified Data.Text.Lazy
 import           Data.Vector                  (Vector)
 import           Dhall                        hiding (Text, auto, input, text)
 import qualified Dhall
+import           GHC.Generics
 import           Prelude                      hiding (FilePath)
+import qualified System.IO                    as System
 import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red,
                                                (<+>))
 import qualified Text.PrettyPrint.ANSI.Leijen as PP
 import           Turtle                       hiding (strict, view)
--- import GHC.Generics
 
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
 
 type LText = Data.Text.Lazy.Text
 
--- auto :: (GenericInterpret (Rep a), Generic a) => Type a
+auto :: (GenericInterpret (Rep a), Generic a) => Type a
 auto = deriveAuto
   ( defaultInterpretOptions { fieldModifier = Data.Text.Lazy.dropWhile (== '_') })
 
@@ -226,6 +226,7 @@ installCicdShell = do
 
 main :: IO ()
 main = do
+  System.hSetBuffering System.stdout System.LineBuffering
   printf "\n> Starting user configuration\n"
   runReaderT (sequence_ [ installPkKeys
                         , installNixPkgsFiles
