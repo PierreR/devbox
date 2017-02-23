@@ -80,6 +80,7 @@ vagrant init devbox && vagrant up
 ====
 - Always verify that the cable of the VM is connected as virtualbox (mainly older versions but has appeared with 5.1.2 too) has a bug not starting the network interface. If so, you will have to *connect the cable*. See <<Troubleshooting>>
 - Do not interrupt the process. The first time it might take a while to update and fetch all the required components.
+- Don't start the devbox from the Virtualbox UI. Use the command line (`vagrant up`). Otherwise the shared folder (/vagrant) won't be properly mounted.
 - In case any issue arises, please use the `#devbox` slack channel and ask for help.
 ====
 
