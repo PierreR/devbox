@@ -37,20 +37,6 @@ auto :: (GenericInterpret (Rep a), Generic a) => Type a
 auto = deriveAuto
   ( defaultInterpretOptions { fieldModifier = Data.Text.Lazy.dropWhile (== '_') })
 
-data AdConfig
-  = AdConfig
-  { _loginId  :: LText
-  , _password :: LText
-  } deriving (Generic, Show)
-
-makeLenses ''AdConfig
-
-instance Interpret AdConfig
-
-
-adConfig :: MonadIO m => m AdConfig
-adConfig = liftIO $ (Dhall.input auto  "/vagrant/config/ad")
-
 data BoxConfig
   = BoxConfig
   { _userName       :: LText
@@ -217,12 +203,6 @@ installCicdShell = do
   -- we currently copy the AD id & pwd into the home of the box
   -- In later versions, such management would go in the CICD shell project
   homedir <- asks (view homeDir)
-  ad <- adConfig
-  let
-    usr_id = unsafeTextToLine $ ad^.loginId.strict
-    usr_pwd = unsafeTextToLine $ ad^.password.strict
-  output (homedir </> ".user_id") $ pure usr_id
-  output (homedir </> ".user_pwd") $ pure usr_pwd
   shell "nix-env -f '<nixpkgs>' -i cicd-shell" empty >>= \case
     ExitSuccess   -> ppSuccess "cicd shell\n"
     ExitFailure _ -> ppFailure "enable to install the cicd shell\n"
