@@ -61,7 +61,6 @@
       sessionCommands = ''
         ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
         ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg"
-        ${pkgs.numlockx}/bin/numlockx on
       '';
     };
   };
@@ -69,9 +68,21 @@
   virtualisation.docker.extraOptions = "--insecure-registry docker.cirb.lan --insecure-registry docker.sandbox.srv.cirb.lan";
 
   fonts = {
+    enableDefaultFonts = true;
     enableFontDir = true;
     enableGhostscriptFonts = true;
-    fonts = [ pkgs.source-code-pro ];
+    fonts = [
+      pkgs.source-code-pro
+      pkgs.source-sans-pro
+      pkgs.source-serif-pro
+      ];
+    fontconfig = {
+      defaultFonts = {
+        monospace = [ "Source Code Pro" ];
+        sansSerif = [ "Source Sans Pro" ];
+        serif     = [ "Source Serif Pro" ];
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -97,7 +108,6 @@
     maven
     mr
     nettools
-    vim
     (vim_configurable.customize {
       name = "vim";
       vimrcConfig.vam.knownPlugins = vimPlugins // ({
@@ -112,24 +122,35 @@
         };
       });
       vimrcConfig.customRC = ''
-        set hidden
-        set smartcase
-        set undofile
-        set hidden
-        set nobackup
-        set noswapfile
         if has('unnamedplus')
           set clipboard=unnamed,unnamedplus
         endif
+        set cpoptions+=$
+        set directory=~/tmp
+        set enc=utf-8
+        set gdefault
+        set hidden
+        set history=50
+        set hlsearch
+        set nobackup
+        set noswapfile
+        set smartcase
+        set showcmd
         set t_Co=256
+        set undofile
+        set undodir=/tmp
+        set wildignore+=*.pyc,*.jar,*.pdf,*.class,/tmp/*.*,.git,*.o,*.obj,*.png,*.jpeg,*.gif,*.orig,target/*,*.6,*.a,*.out,*.hi
 
+        hi CursorLine cterm=NONE ctermbg=254
       '';
      vimrcConfig.vam.pluginDictionaries = [
         { names = [
+          "ctrlp"
           "puppet-vim"
           "sensible"
           "surround"
-          "Syntastic"
+          "syntastic"
+          "vim-nix"
         ]; }
      ];
      })
@@ -137,12 +158,10 @@
     nix-repl
     nfs-utils
     nodejs
+    rsync
     oh-my-zsh
     parallel
     python
-    python3
-    rsync
-    ruby
     shellcheck
     silver-searcher
     stalonetray
