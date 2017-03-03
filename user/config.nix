@@ -7,6 +7,7 @@
       with super.haskell.lib;
 
       let self = super.pkgs;
+          hghc = self.haskellPackages;
           hiera-eyaml-gpg = self.bundlerEnv rec {
             name = "hiera-eyaml-gpg-${version}";
             version = "0.6";
@@ -34,11 +35,15 @@
             gemset = ./pkgs/puppet-env/gemset.nix;
           };
 
-          turtle = self.haskellPackages.turtle_1_3_0.overrideScope (self: super: {
-            optparse-applicative = self.optparse-applicative_0_13_0_0;
-          });
+          dhall_git = hghc.callCabal2nix "dhall_git" (self.fetchFromGitHub {
+            owner  = "Gabriel439";
+            repo   = "Haskell-Dhall-Library";
+            rev    = "505a786c6dd7dcc37e43f3cc96031d30028625be";
+            sha256 = "1dsjy4czxcwh4gy7yjffzfrbb6bmnxbixf1sy8aqrbkavgmh8s29";
+          }) {};
+
           cicd-shell = dontCheck (dontHaddock(self.haskellPackages.callPackage ./pkgs/cicd-shell/. {
-            inherit turtle;
+            dhall = dhall_git;
           }));
       in
       {
