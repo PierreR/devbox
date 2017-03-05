@@ -1,37 +1,32 @@
 {-# LANGUAGE DeriveGeneric          #-}
 {-# LANGUAGE FlexibleContexts       #-}
-{-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE LambdaCase             #-}
 {-# LANGUAGE MultiParamTypeClasses  #-}
+{-# LANGUAGE NoImplicitPrelude      #-}
 {-# LANGUAGE OverloadedStrings      #-}
-{-# LANGUAGE QuasiQuotes            #-}
 {-# LANGUAGE StrictData             #-}
 {-# LANGUAGE TemplateHaskell        #-}
-{-# LANGUAGE TypeSynonymInstances   #-}
 
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
 
 import qualified Control.Foldl                as Fold
 import           Control.Lens                 hiding (noneOf)
-import           Control.Monad.Reader
 import qualified Data.Text                    as Text
 import qualified Data.Text.Lazy
-import           Data.Vector                  (Vector)
 import           Dhall                        hiding (Text, auto, input, text)
 import qualified Dhall
 import           GHC.Generics
-import           Prelude                      hiding (FilePath)
 import qualified System.IO                    as System
 import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red,
                                                (<+>))
 import qualified Text.PrettyPrint.ANSI.Leijen as PP
 import           Turtle                       hiding (strict, view)
 
+import           Protolude                    hiding (FilePath, die, find, fold,
+                                               (%))
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
-
-type LText = Data.Text.Lazy.Text
 
 auto :: (GenericInterpret (Rep a), Generic a) => Type a
 auto = deriveAuto
@@ -128,7 +123,7 @@ installDoc = do
     & output "puppet.adoc"
   inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/cicd-shell/raw/README.adoc?at=refs/heads/master"] empty
     & output "cicd-shell.adoc"
-  isFileEmpty "puppet.adoc" <||> isFileEmpty "cicd-shell.adoc" >>= \case
+  isFileEmpty "puppet.adoc" ||^ isFileEmpty "cicd-shell.adoc" >>= \case
     True -> ppFailure "cannot fetch extra documentation from stash: documentation not installed"
     False -> do
       exitcode <- shell "make doc > /dev/null" empty
@@ -193,6 +188,7 @@ installEclipsePlugins = do
 configureGit :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 configureGit = do
   printf "Configuring git\n\n"
+  let test = "baba"
   user_name <- asks $ view (boxConfig.userName.strict)
   user_email <- asks $ view (boxConfig.userEmail.strict)
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
@@ -212,11 +208,11 @@ main = do
   System.hSetBuffering System.stdout System.LineBuffering
   printf "\n> Starting user configuration\n"
   runReaderT (sequence_ [ installPkKeys
-                        , installNixPkgsFiles
-                        , installMrRepos
-                        , configureGit
-                        , installEclipsePlugins
-                        , installCicdShell
+                        -- , installNixPkgsFiles
+                        -- , installMrRepos
+                        -- , configureGit
+                        -- , installEclipsePlugins
+                        -- , installCicdShell
                         , installDoc
                         ]) =<< scriptEnv
   printf "< User configuration completed\n"
@@ -234,6 +230,3 @@ ppSuccess msg = liftIO $ putDoc $ (dullgreen "Done with" <+> msg) <> line
 isFileEmpty :: MonadIO io => FilePath -> io Bool
 isFileEmpty path =
   fold (input path) Fold.null
-
-(<||>) :: Applicative a => a Bool -> a Bool -> a Bool
-(<||>) = liftA2 (||)
