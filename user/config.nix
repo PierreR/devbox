@@ -4,10 +4,10 @@
     allowUnfree = true;
 
     packageOverrides = super:
-      with super.haskell.lib;
 
       let self = super.pkgs;
           hghc = self.haskellPackages;
+          hlib = self.haskell.lib;
           hiera-eyaml-gpg = self.bundlerEnv rec {
             name = "hiera-eyaml-gpg-${version}";
             version = "0.6";
@@ -42,9 +42,11 @@
             sha256 = "1dsjy4czxcwh4gy7yjffzfrbb6bmnxbixf1sy8aqrbkavgmh8s29";
           }) {};
 
-          cicd-shell = dontCheck (dontHaddock(self.haskellPackages.callPackage ./pkgs/cicd-shell/. {
-            dhall = dhall_git;
-          }));
+          cicd-shell = hlib.dontCheck (hlib.dontHaddock(hghc.callCabal2nix "cicd-shell" (self.fetchgit {
+            url = "http://stash.cirb.lan/scm/cicd/cicd-shell.git";
+            rev = "a75d119dc437c12a3481aa01149fb227352589ee";
+            sha256 = "00z82fzrg95pwq5fh1p05yc35fab5vp6sm73gncyj4l57vj4zk6h";
+          }) {dhall = dhall_git;}));
       in
       {
         inherit hiera-eyaml-gpg pepper puppet-env cicd-shell;

@@ -145,7 +145,8 @@ installNixPkgsFiles = do
   let nixpkgsdir = homedir </> ".nixpkgs/"
   found_dir <- testdir nixpkgsdir; unless found_dir $ mkdir nixpkgsdir
   cp "user/config.nix" (nixpkgsdir </> "config.nix")
-  procs "rsync" [ "-r"
+  procs "rsync" [ "-a"
+                , "--delete-after"
                 , "user/pkgs"
                 , format fp (homedir </> ".nixpkgs/")] empty
 
@@ -188,7 +189,6 @@ installEclipsePlugins = do
 configureGit :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 configureGit = do
   printf "Configuring git\n\n"
-  let test = "baba"
   user_name <- asks $ view (boxConfig.userName.strict)
   user_email <- asks $ view (boxConfig.userEmail.strict)
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
@@ -196,8 +196,6 @@ configureGit = do
 
 installCicdShell :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installCicdShell = do
-  -- we currently copy the AD id & pwd into the home of the box
-  -- In later versions, such management would go in the CICD shell project
   homedir <- asks (view homeDir)
   shell "nix-env -f '<nixpkgs>' -i cicd-shell" empty >>= \case
     ExitSuccess   -> ppSuccess "cicd shell\n"
@@ -208,11 +206,11 @@ main = do
   System.hSetBuffering System.stdout System.LineBuffering
   printf "\n> Starting user configuration\n"
   runReaderT (sequence_ [ installPkKeys
-                        -- , installNixPkgsFiles
-                        -- , installMrRepos
-                        -- , configureGit
-                        -- , installEclipsePlugins
-                        -- , installCicdShell
+                        , installNixPkgsFiles
+                        , installMrRepos
+                        , configureGit
+                        , installEclipsePlugins
+                        , installCicdShell
                         , installDoc
                         ]) =<< scriptEnv
   printf "< User configuration completed\n"
