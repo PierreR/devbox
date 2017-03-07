@@ -1,7 +1,7 @@
 .PHONY: clean user system
 
 user:
-	@nix-shell release.nix --run 'runghc user/setenv.hs' | tee /vagrant/last_run.log
+	@nix-shell -A user release.nix --run 'runghc user/setenv.hs' | tee /vagrant/last_run.log
 
 system:
 	@./system/setenv.sh

@@ -34,21 +34,8 @@
             lockfile = ./pkgs/puppet-env/Gemfile.lock;
             gemset = ./pkgs/puppet-env/gemset.nix;
           };
-
-          dhall_git = hghc.callCabal2nix "dhall_git" (self.fetchFromGitHub {
-            owner  = "Gabriel439";
-            repo   = "Haskell-Dhall-Library";
-            rev    = "505a786c6dd7dcc37e43f3cc96031d30028625be";
-            sha256 = "1dsjy4czxcwh4gy7yjffzfrbb6bmnxbixf1sy8aqrbkavgmh8s29";
-          }) {};
-
-          cicd-shell = hlib.dontCheck (hlib.dontHaddock(hghc.callCabal2nix "cicd-shell" (self.fetchgit {
-            url = "http://stash.cirb.lan/scm/cicd/cicd-shell.git";
-            rev = "a75d119dc437c12a3481aa01149fb227352589ee";
-            sha256 = "00z82fzrg95pwq5fh1p05yc35fab5vp6sm73gncyj4l57vj4zk6h";
-          }) {dhall = dhall_git;}));
       in
       {
-        inherit hiera-eyaml-gpg pepper puppet-env cicd-shell;
+        inherit hiera-eyaml-gpg pepper puppet-env;
       };
 }

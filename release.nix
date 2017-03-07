@@ -11,6 +11,7 @@ let
 
   pkgs = import src { };
   hghc = pkgs.haskellPackages;
+  hlib = pkgs.haskell.lib;
   protolude_git = hghc.callCabal2nix "protolude" (pkgs.fetchFromGitHub {
     owner  = "pierrer";
     repo   = "protolude";
@@ -23,11 +24,19 @@ let
     rev    = "11ceab1dfeb9ed9a25dab717b4fe24ffaf7d320e";
     sha256 = "00iz2albmj3iw8sdj2idf1y4vgfjfliv7xcxbqgmb3ggp7n7wf6a";
   }) {};
+
+  cicd-shell_git = hlib.dontCheck (hlib.dontHaddock(hghc.callCabal2nix "cicd-shell" (pkgs.fetchgit {
+    url = "http://stash.cirb.lan/scm/cicd/cicd-shell.git";
+    rev = "a75d119dc437c12a3481aa01149fb227352589ee";
+    sha256 = "00z82fzrg95pwq5fh1p05yc35fab5vp6sm73gncyj4l57vj4zk6h";
+  }) {dhall = dhall_git;}));
   henv = hghc.ghcWithPackages (p: with p; [dhall_git protolude_git turtle ]);
 
 in
-pkgs.stdenv.mkDerivation {
-    name = "devbox-release-userenv";
+{
+  # We create an 'shell' suitable for interpreting the script
+  user = pkgs.stdenv.mkDerivation {
+    name = "user";
     buildInputs = [
       henv
       pkgs.asciidoctor
@@ -36,4 +45,12 @@ pkgs.stdenv.mkDerivation {
       pkgs.rsync
       pkgs.curl
     ];
+  };
+  cicd-shell = pkgs.buildEnv {
+    name = "cicd-shell";
+    paths = [
+      cicd-shell_git
+      # pkgs.pepper
+    ];
+  };
 }

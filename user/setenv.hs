@@ -197,7 +197,7 @@ configureGit = do
 installCicdShell :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installCicdShell = do
   homedir <- asks (view homeDir)
-  shell "nix-env -f '<nixpkgs>' -i cicd-shell" empty >>= \case
+  shell "nix-env -f release.nix -iA cicd-shell" empty >>= \case
     ExitSuccess   -> ppSuccess "cicd shell\n"
     ExitFailure _ -> ppFailure "enable to install the cicd shell\n"
 
