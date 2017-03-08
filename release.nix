@@ -27,8 +27,8 @@ let
 
   cicd-shell_git = hlib.dontCheck (hlib.dontHaddock(hghc.callCabal2nix "cicd-shell" (pkgs.fetchgit {
     url = "http://stash.cirb.lan/scm/cicd/cicd-shell.git";
-    rev = "a75d119dc437c12a3481aa01149fb227352589ee";
-    sha256 = "00z82fzrg95pwq5fh1p05yc35fab5vp6sm73gncyj4l57vj4zk6h";
+    rev = "d7833d37c424d1451c103a24a92d28bc8b79322b";
+    sha256 = "0qhi21905k17wvpn1smps4g5h82br20nps68hbijkr3h49yq2662";
   }) {dhall = dhall_git;}));
   henv = hghc.ghcWithPackages (p: with p; [dhall_git protolude_git turtle ]);
 
