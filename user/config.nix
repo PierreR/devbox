@@ -17,15 +17,6 @@
             gemset = ./pkgs/hiera-eyaml-gpg/gemset.nix;
 
           };
-          pepper = self.pythonPackages.buildPythonPackage rec {
-            name = "salt-pepper-${version}";
-            version = "0.4.1";
-            src = self.fetchurl {
-                url = "https://github.com/saltstack/pepper/releases/download/${version}/${name}.tar.gz";
-                sha256 = "1a9b78afa5f68443e18569532d8216d0bf3b1364006b81f9472e4fa7a3dfcf17";
-            };
-          };
-
           puppet-env = self.bundlerEnv rec {
             name = "puppet-env-${version}";
             version = "4.7.0";
@@ -36,6 +27,6 @@
           };
       in
       {
-        inherit hiera-eyaml-gpg pepper puppet-env;
+        inherit hiera-eyaml-gpg puppet-env;
       };
 }
