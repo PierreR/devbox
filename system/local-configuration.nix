@@ -9,7 +9,11 @@
      })
     firefox
     gitAndTools.tig
+    # atom
     # geany
+    # gnome3.nautilus
+    # pandoc
+    # parcellite
   ];
 
 }
