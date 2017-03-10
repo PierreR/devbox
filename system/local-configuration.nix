@@ -5,7 +5,7 @@
   environment.systemPackages = with pkgs; [
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-46;
-       plugins = [ ];
+       plugins = with eclipses.plugins; [ yedit ];
      })
     firefox
     gitAndTools.tig
