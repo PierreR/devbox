@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   scm_uri = "https://github.com/CIRB/devbox"
   scm_api = "https://api.github.com/repos/CIRB/devbox/releases"
 
-  config.vm.box = "devbox-2.2-pre"
+  config.vm.box = "devbox-3.0-pre"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
