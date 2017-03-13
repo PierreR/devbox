@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = "3"
     vb.customize ["modifyvm", :id, "--vram", "64"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
   end
 
   config.vm.provision "system", args: [scm_uri, scm_api], type: "shell", name: "configure-system", inline: <<-SHELL
