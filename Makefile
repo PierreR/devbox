@@ -6,7 +6,7 @@ user:
 system:
 	@./system/setenv.sh
 
-doc: doc/devbox.html doc/devbox.pdf
+doc: doc/devbox.html
 
 doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor $< -o $@"

@@ -134,7 +134,7 @@ installDoc = do
           let docdir = homedir </> ".local/share/doc"
           mktree docdir
           cp "./doc/devbox.html" (docdir </> "devbox.html")
-          cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
+          -- cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
           ppSuccess "documentation\n"
 
 
