@@ -87,7 +87,7 @@
     };
   };
 
-  
+
   environment.pathsToLink = [ "/share" ];
 
   environment.systemPackages = with pkgs; [
@@ -102,6 +102,7 @@
     docker
     findutils
     gitFull
+    gnome3.dconf
     go2nix
     gnupg
     gnumake
@@ -165,6 +166,7 @@
     })
     netcat
     nix-repl
+    nix-prefetch-git
     nfs-utils
     nodejs
     numix-gtk-theme

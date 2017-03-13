@@ -1,22 +1,22 @@
 let
-  bootstrap = import <nixpkgs> { };
+  _pkgs = import <nixpkgs> { };
 
-  nixpkgs = builtins.fromJSON (builtins.readFile ./.nixpkgs.json);
+  _nixpkgs = builtins.fromJSON (builtins.readFile ./.nixpkgs.json);
 
-  src = bootstrap.fetchFromGitHub {
+  _src = _pkgs.fetchFromGitHub {
     owner = "NixOS";
     repo  = "nixpkgs";
-    inherit (nixpkgs) rev sha256;
+    inherit (_nixpkgs) rev sha256;
   };
 
-  pkgs = import src { };
+  pkgs = import _src { };
   hghc = pkgs.haskellPackages;
   hlib = pkgs.haskell.lib;
   protolude_git = hghc.callCabal2nix "protolude" (pkgs.fetchFromGitHub {
-    owner  = "pierrer";
+    owner  = "sdiehl";
     repo   = "protolude";
-    rev = "03639fd5bb71297a61a4f9fd523a87fd40b9d280";
-    sha256 = "1h1b8rmr1qz7xvdaf2blj2z13zsqkj9a6zmql70b4hn38digddk8";
+    rev    = "ca5087201b7a2c9c082a4c332b054d3b032a07d1";
+    sha256 = "103i2ckvhscw13lxqwgpg4q2j1y4mri8x3nwh4fqj3rjg6bpmfw1";
   }) {};
   dhall_git = hghc.callCabal2nix "dhall" (pkgs.fetchFromGitHub {
     owner  = "Gabriel439";
@@ -27,8 +27,8 @@ let
 
   cicd-shell_git = hlib.dontCheck (hlib.dontHaddock(hghc.callCabal2nix "cicd-shell" (pkgs.fetchgit {
     url = "http://stash.cirb.lan/scm/cicd/cicd-shell.git";
-    rev = "d7833d37c424d1451c103a24a92d28bc8b79322b";
-    sha256 = "0qhi21905k17wvpn1smps4g5h82br20nps68hbijkr3h49yq2662";
+    rev = "ea926b0a943fb5f275347217081b17e5c6db645c";
+    sha256 = "00f41yv7df3hhzpbkrv520jfv0m8njmfcz59kdskdfw6kb59lh5p";
   }) {dhall = dhall_git;}));
   henv = hghc.ghcWithPackages (p: with p; [dhall_git protolude_git turtle ]);
 
@@ -39,11 +39,11 @@ in
     name = "user";
     buildInputs = [
       henv
-      pkgs.asciidoctor
-      pkgs.mr
-      pkgs.ghc
-      pkgs.rsync
-      pkgs.curl
+      _pkgs.ruby
+      _pkgs.asciidoctor
+      _pkgs.mr
+      _pkgs.rsync
+      _pkgs.curl
     ];
   };
   cicd-shell = pkgs.buildEnv {
