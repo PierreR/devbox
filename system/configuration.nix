@@ -34,6 +34,7 @@
   time.timeZone = "Europe/Amsterdam";
 
   services.dbus.enable = true;
+  services.gnome3.at-spi2-core.enable = true;
   services.ntp.enable = false;
   services.openssh.enable = true;
   services.openssh.allowSFTP = false;
@@ -86,6 +87,9 @@
     };
   };
 
+  
+  environment.pathsToLink = [ "/share" ];
+
   environment.systemPackages = with pkgs; [
     aspell
     aspellDicts.en
@@ -109,56 +113,62 @@
     maven
     mr
     nettools
-    (vim_configurable.customize {
-      name = "vim";
-      vimrcConfig.vam.knownPlugins = vimPlugins // ({
-        puppet-vim = vimUtils.buildVimPluginFrom2Nix {
-          name = "puppet-vim";
-          src = fetchgit {
-            url = "https://github.com/rodjek/vim-puppet.git";
-            rev = "bffbd2955ef8025cbc3d8af0f3c929c07e4bd45f";
-            sha256 = "1kh7asvm4m9m25wqq370qmqxnq27cbqbcgd2r5zyadlnj5ymzp42";
-          };
-          dependencies = [];
-        };
-      });
-      vimrcConfig.customRC = ''
-        if has('unnamedplus')
-          set clipboard=unnamed,unnamedplus
-        endif
-        set cpoptions+=$
-        set directory=~/tmp
-        set enc=utf-8
-        set gdefault
-        set hidden
-        set history=50
-        set hlsearch
-        set nobackup
-        set noswapfile
-        set smartcase
-        set showcmd
-        set t_Co=256
-        set undofile
-        set undodir=/tmp
-        set wildignore+=*.pyc,*.jar,*.pdf,*.class,/tmp/*.*,.git,*.o,*.obj,*.png,*.jpeg,*.gif,*.orig,target/*,*.6,*.a,*.out,*.hi
+    ( neovim.override {
+        vimAlias = true;
+        configure = {
+          vam.knownPlugins = vimPlugins // ({
+            puppet-vim = vimUtils.buildVimPluginFrom2Nix {
+              name = "puppet-vim";
+              src = fetchgit {
+                url = "https://github.com/rodjek/vim-puppet.git";
+                rev = "bffbd2955ef8025cbc3d8af0f3c929c07e4bd45f";
+                sha256 = "1kh7asvm4m9m25wqq370qmqxnq27cbqbcgd2r5zyadlnj5ymzp42";
+              };
+              dependencies = [];
+            };
+          });
+          customRC = ''
+            if has('unnamedplus')
+              set clipboard=unnamed,unnamedplus
+            endif
+            set cpoptions+=$
+            set cursorline
+            set directory=~/tmp
+            set enc=utf-8
+            set gdefault
+            set hidden
+            set history=50
+            set hlsearch
+            set nobackup
+            set noswapfile
+            set smartcase
+            set showcmd
+            set t_Co=256
+            set undofile
+            set undodir=/tmp
+            set wildignore+=*.pyc,*.jar,*.pdf,*.class,/tmp/*.*,.git,*.o,*.obj,*.png,*.jpeg,*.gif,*.orig,target/*,*.6,*.a,*.out,*.hi
 
-        hi CursorLine cterm=NONE ctermbg=254
-      '';
-     vimrcConfig.vam.pluginDictionaries = [
-        { names = [
-          "ctrlp"
-          "puppet-vim"
-          "sensible"
-          "surround"
-          "syntastic"
-          "vim-nix"
-        ]; }
-     ];
-     })
+            hi CursorLine cterm=NONE ctermbg=254
+          '';
+          vam.pluginDictionaries = [
+            { names = [
+              "ctrlp"
+              "puppet-vim"
+              "sensible"
+              "surround"
+              "neomake"
+              "vim-nix"
+              ];
+            }
+          ];
+        };
+    })
     netcat
     nix-repl
     nfs-utils
     nodejs
+    numix-gtk-theme
+    numix-icon-theme
     rsync
     oh-my-zsh
     parallel
