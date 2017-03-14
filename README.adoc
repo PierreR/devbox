@@ -33,27 +33,29 @@ TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
 ## Software requirements
 
 - Virtualbox 5.1.x
-- Vagrant 1.8.x
+- Vagrant 1.9.x
 
 Please do update if you have older release(s).
 
 
-## Quick first time setup
+## First time setup
 
 ### preparation
 
-1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox` or `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
+1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
 +
 ====
 We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
 ====
-2. In `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] and modify it to match your personal settings:
+2. In `ROOT_DIR`, create a new config folder and copy the two files from the  https://github.com/CIRB/devbox/blob/master/user/config[config folder]. Modify them to match your personal settings:
 +
 ```
-curl -o params.sh https://raw.githubusercontent.com/CIRB/devbox/master/user/params.sh
+mkdir config
+curl -o config/box https://raw.githubusercontent.com/CIRB/devbox/master/user/config/box
+curl -o config/shell https://raw.githubusercontent.com/CIRB/devbox/master/user/config/shell
 ```
 +
-WARNING: Prefer #curl# or #wget#. If you create the file manually, you might end up with the wrong file encoding. In such situation, change the encoding back to `unix` in the editor of your choice. Because the file is readfootnote:[The file is directly `source` in a bash file. In devbox v3 a more structured format will be used.] from within the `devbox`, we need to avoid unwanted characters such as `CR LF`.
+WARNING: If you create the file manually, make sure you keep an `unix` file encoding.
 
 ### ssh keys
 
@@ -195,17 +197,12 @@ You might want to enable some `oh-my-zsh` plugins by updating your zshrc. None h
 
 ### projects
 
-If you set a valuefootnote:[Multiple values will be supported in devbox v3] for `user_stack` in the `params.sh` file, the puppet `mr` file for your stack will be activated for you. That means that the puppet source for your stack will be automatically cloned into the puppet project directory (`~/projects/cicd/puppet/$stackname`).
+You can list all the repositories you wish to enable by setting `mrRepos` in 'ROOT_DIR/config/box'. The list of available repositories is defined https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here] .
 
-If you don't set the value, there will be no project on the box. You will need to enable some `mr` repositories associated with your `hostgroup`.
+All enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `mrRepos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and to enter `make` on the command line.
 
-For instance, for the `bos` hostgroup, you would do the following:
-
+To update all registered mr repository, do
 ```
-→ cd .config/mr/config.d
-→ ln -s ../available.d/puppet-bos.mr .
-→ ln -s ../available.d/salt-bos.mr .
-→ cd
 → mr -f up <1>
 ```
 <1> you usually don't want to automatically update such repository on provisioning. That's the reason behind the `-f` (force) flag.
@@ -228,7 +225,7 @@ For puppet help, go to the <<_puppet>> dedicated section.
 ## Customization
 
 ====
-The customization of the devbox operates at different level and makes sure every configuration - personal or shared - survives a `vagrant destroy`.
+The customization of the devbox operates at different levels and makes sure every configuration - personal or shared - survives a `vagrant destroy`.
 ====
 
 ### system
@@ -250,7 +247,7 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 #### provision
 
-Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/params.sh[user/params.sh] file, `vagrant provision --provision-with user` will:
+Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box] file, `vagrant provision --provision-with user` will:
 
 - setup your git config
 - synchronize the `ssh-keys` folder of the ROOT_DIR
@@ -260,7 +257,7 @@ Given the personal settings defined in the https://github.com/CIRB/devbox/blob/m
 
 #### dotfiles
 
-You can add any `dotfiles` repositories including your own personal ones thanks to https://github.com/RichiH/vcsh[vcsh/myrepos].
+You can add any `dotfiles` repositories including your own personal configuration thanks to a little tool called  https://github.com/RichiH/vcsh[vcsh].
 
 For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
 
@@ -284,7 +281,7 @@ Eventually there is yet another way to change the local user configuration. You 
 → vcsh mr remote set-url origin git://github.com/PierreR/vcsh_mr_template.git
 ```
 
-As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you need to update the `mr_template_repo_url` value in `params.sh`.
+As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you need to update the `mrRepoUrl` value in `config/box`.
 
 For more information about `vcsh`, https://github.com/RichiH/vcsh/blob/master/doc/README.md#from-zero-to-vcsh[Look here].
 
@@ -295,6 +292,8 @@ If you need a package in 'user space' (and you are not interested in sharing suc
 ```
 → nix-env -i geany
 ```
+
+It is quite a useful approach for testing but such changes won't survive a `vagrant destroy`. When you settle down on a list of packages, please add them to `local-configuration.nix` to gain persistence.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 

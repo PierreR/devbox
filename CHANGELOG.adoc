@@ -8,12 +8,14 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
-### box configuration
+### Changes
 
-The previous `params.sh` file has been replaced by two files:
+#### configuration
 
-    - `config/box` (devbox configuration)
-    - `config/shell` (cicd-shell configuration)
+The `params.sh` file has been replaced by two files:
+
+    - `config/box` (devbox data)
+    - `config/shell` (cicd-shell data)
 
 [TIP]
 ====
@@ -22,12 +24,18 @@ The previous `params.sh` file has been replaced by two files:
 - The key `mrRepos` replaces the previous `user_stack` field and accepts a list of available `mr` repositories.
 ====
 
+####  packages
+
+- update nixos to `17.03`
+- replace `vim` with `neovim`
+
 ### New features
 
 -  https://albertlauncher.github.io/docs/[`albert`] (application launcer) on kbd:[<Control><Space>] replaces kbd:[<Super> p] (open menu)
 - `nautilus` (file manager) enabled by default (see `local-configuration.nix`)
-- `eclipse` updated to 4.6 neon
+- `eclipse` updated to `neon` (4.6)
 - `yedit` (eclipse plugin) enabled by default (see `local-configuration.nix`)
+
 
 ## v2.5, 11/02/2017
 
