@@ -1,29 +1,39 @@
+ifdef::env-github[]
+:experimental:
+endif::env-github[]
+
 # Changelog
 
 include::meta.adoc[]
 
 ## {latest_revision}
 
-
-
 ### box configuration
 
 The previous `params.sh` file has been replaced by two files:
 
-    - `config/box` (box parameters)
-    - `config/ad` (active directory credentials)
+    - `config/box` (devbox configuration)
+    - `config/shell` (cicd-shell configuration)
 
 [TIP]
 ====
 - You will be warned beforehand if a configuration file is invalid.
 
-- The key `boxUserStacks` replaces the previous `user_stack` field and accepts a list of stacks.
+- The key `mrRepos` replaces the previous `user_stack` field and accepts a list of available `mr` repositories.
 ====
+
+### New features
+
+-  https://albertlauncher.github.io/docs/[`albert`] (application launcer) on kbd:[<Control><Space>] replaces kbd:[<Super> p] (open menu)
+- `nautilus` (file manager) enabled by default (see `local-configuration.nix`)
+- `eclipse` updated to 4.6 neon
+- `yedit` (eclipse plugin) enabled by default (see `local-configuration.nix`)
 
 ## v2.5, 11/02/2017
 
+- Add default configuration for `vim`.
 - Add `taffybar` a new status bar for xmonad.
-
++
 The previous xmobar status bar is still available via `ln -sf xmonad-xmobar.hs ~/.xmonad/xmonad.hs`.
 
 ## v2.4, 23/01/2017

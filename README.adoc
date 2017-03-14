@@ -40,18 +40,26 @@ Please do update if you have older release(s).
 
 ## Quick first time setup
 
+### preparation
+
+1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox` or `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
++
 ====
-Within the os host, create a new folder of your choice. You might call it `devbox`. We will use the term `ROOT_DIR` to refer to this folder in the next paragraphs.
+We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
 ====
+2. In `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] and modify it to match your personal settings:
++
+```
+curl -o params.sh https://raw.githubusercontent.com/CIRB/devbox/master/user/params.sh
+```
++
+WARNING: Prefer #curl# or #wget#. If you create the file manually, you might end up with the wrong file encoding. In such situation, change the encoding back to `unix` in the editor of your choice. Because the file is readfootnote:[The file is directly `source` in a bash file. In devbox v3 a more structured format will be used.] from within the `devbox`, we need to avoid unwanted characters such as `CR LF`.
 
 ### ssh keys
 
 1. in the `ROOT_DIR`, create a directory `ssh-keys`.
 2. in this ssh-keys subfolder, copy your `Bitbucket` key pair, rename them 'cirb_rsa' and 'cirb_rsa.pub' respectively if the filename differs.
 3. in the ssh-keys subfolder, copy your `Github` key pair, rename them 'cirb_github_rsa' and 'cirb_github_rsa.pub'. If you use the same key pair, copy the previous pair and rename accordingly.
-4. in `ROOT_DIR`, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[params file] to automate your personal setup (your credentials, the clone of your stack, the git config,...).
-+
-WARNING: To preserve the original encoding of the file (`unix` and not `Windows`) do not copy/paste from Github UI. Instead, download the https://raw.githubusercontent.com/CIRB/devbox/master/user/params.sh[template] using `wget` or `curl`. As an alternative, you can just verify and change the file encoding within the editor of your choice. This file is read from within the `devbox` and  we want avoid unwanted characters such as `CR LF`.
 
 ### box import
 
@@ -83,42 +91,63 @@ vagrant reload
 
 ## Usage
 
+WARNING: Don't start the devbox from the Virtualbox UI. Use the command line (`vagrant up`). Otherwise the shared folder (/vagrant) won't be properly mounted.
+
 ### vagrant
 
 ```
-# shutdown the vm
-vagrant halt
 # boot the vm
 vagrant up
-# update configuration
+# shutdown the vm
+vagrant halt
+# update system and user configuration
 vagrant provision
-# destroy the box (all local state is lost)
+# update user configuration only
+vagrant provision --provision-with user
+# update system configuration only
+vagrant provision --provision-with system
+# destroy the box (all local state is lost but the imported box remains)
 vagrant destroy
+# remove the imported box (necessary in case of a major version bump)
+vagrant box remove devbox
+
 ```
 
-The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring new features listed in the <<_changelog>>. In case of a major version bump (which is expected two or three times a year), the box should be destroyed and downloaded again.
+The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring the new features listed in the <<_changelog>>. In case of a major version bump  a new devbox needs to be downloaded as described in <<_life_cycle>>.
+
 
 [NOTE]
 ====
-Provisioning is separated into two steps: `system` to configure the system and `user` to configure the vagrant user. You can selectively ask for provisioning using:
+Provisioning is separated into two steps:
 
-```
-vagrant provision --provision-with system
-vagrant provision --provision-with user
-```
+- `system` to update and (re)configure the system
+- `user` to (re)configure the vagrant user.
+
+Updating the system takes a while and even more so if it is not done regularly. On the other hand, `vagrant provision --provision-with user` is a quick task.
 ====
 
 ### operating system
 
 The devbox is based on https://nixos.org/[NixOS] version 16.09. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
+Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
+
+- *reproducability*: everything is reproducible (packages are identical binary wise).
+- *atomicity*: configuration changes (`nixos-rebuild`) can be rollback.
+- *isolation*: on a project, user or system level, processes are built in an isolated environment.
+
+By using `nixos` we are striving for a system that we can destroy and re-create at will without fuss.
+
 The whole system setup is declared in https://github.com/CIRB/devbox/blob/master/system/configuration.nix.
 
+[TIP]
+====
 To clean-up the store (whenever the disk usage is too high) use:
 
 ```
 → sudo nix-collect-garbage -d
 ```
+====
 
 ### windows manager
 
@@ -133,9 +162,10 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 |======
 |Command |Description
 
-| kbd:[<Super> p] |Open Menu
 | kbd:[<Super> t] |New terminal
 | kbd:[<Super> 1..9] |Go to nth desktop
+| kbd:[<Super> <Right>] | Go to next desktop
+| kbd:[<Super> <Left>] | Go to previous desktop
 | kbd:[<Super> <Shift> 1..9] |Switch to nth desktop
 | kbd:[<Super> Space] |Change between horizontal, vertical and stack layout
 | kbd:[<Super> Tab] |In stack layout, switch the stacked window
@@ -165,7 +195,7 @@ You might want to enable some `oh-my-zsh` plugins by updating your zshrc. None h
 
 ### projects
 
-If you set a value for `user_stack` in the `params.sh` file, the puppet `mr` file for your stack will be activated for you. That means that the source for puppet for your stack will be automatically cloned into the puppet project directory (`~/projects/cicd/puppet/$stackname`).
+If you set a valuefootnote:[Multiple values will be supported in devbox v3] for `user_stack` in the `params.sh` file, the puppet `mr` file for your stack will be activated for you. That means that the puppet source for your stack will be automatically cloned into the puppet project directory (`~/projects/cicd/puppet/$stackname`).
 
 If you don't set the value, there will be no project on the box. You will need to enable some `mr` repositories associated with your `hostgroup`.
 
@@ -197,6 +227,10 @@ For puppet help, go to the <<_puppet>> dedicated section.
 
 ## Customization
 
+====
+The customization of the devbox operates at different level and makes sure every configuration - personal or shared - survives a `vagrant destroy`.
+====
+
 ### system
 
 You can add some specific configuration by editing `/etc/nixos/local-configuration.nix`.
@@ -214,37 +248,33 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 ### user
 
-#### params
+#### provision
 
-You can tweak some default settings such as "do I want to install the geppetto plugin" by modifying the `user/params.sh` file. In order to do so, copy the https://github.com/CIRB/devbox/blob/master/user/params.sh[file] to the host where the `Vagrantfile` sits. You can easily do this by using this command line on the box:
+Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/params.sh[user/params.sh] file, `vagrant provision --provision-with user` will:
 
-```
-→ cp /tmp/user/devbox-x.x.x/user/params.sh /vagrant/params.sh
-```
-
-`vagrant provision` will automatically configure your global `.gitconfig`, if you add your `user.name` and `user.email`:
-
-.params.sh
-```
-user_name="John Doe"
-user_email="jdoe@cirb.brussels"
-```
-WARNING: Don't separate `=` with spaces
+- setup your git config
+- synchronize the `ssh-keys` folder of the ROOT_DIR
+- download requested eclipse plugins
+- installed declared `mr` repositories including all https://github.com/CIRB/devbox-dotfiles[dotfiles]
+- setup/download the cicd shell
 
 #### dotfiles
 
 You can add any `dotfiles` repositories including your own personal ones thanks to https://github.com/RichiH/vcsh[vcsh/myrepos].
 
-For instance you might easily add/share some `vim`, `tmux` or `zsh` configurations.
+For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
 
-To share simple dotfiles configuration, for instance let say you want to share a default `.zshrc` file for the devbox, you can simply add the file to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. The file is now part of the default CIRB dotfiles source repository and will be pushed on the devbox at the next provisioning.
+To share simple dotfiles configuration across all devbox users, for instance let say you want to share a `~/.tmux.conf` file for the devbox, or make a change to an existing configuration you would do a pull request to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. Upon acceptance, the file will be part of the default CIRB dotfiles repository and will be pushed on all devboxes at the next provisioning.
 
-If you want to share a non trivial, external or optional configuration, you can use or create a specific source repository for it and register the repository https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here].
+#### mr
+
+If you want to share across all devbox users a non trivial, external or optional configuration, you can use or create a specific source repository for it and register the repository https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository]. This is also done via a pull request.
 
 If you want the configuration to be active by default, you then add a link to it in the SCM, just like https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/config.d/dotfiles.vcsh[this one]. On the other hand, if you want it inactive by default, you would ask the interested users to make the link themselves on their box.
 
+#### mr template
 
-Eventually there is a third option. Some of your configurations are personal and there is no need for them to be shared inside the CIRB organization. You normally won't need that option but it is there for flexibility sake. 3 steps are required:
+Eventually there is yet another way to change the local user configuration. You normally won't need that option but it is there for flexibility sake. Some of your settings are personal and there is no need for them to be shared inside the CIRB organization. In that case, 3 steps are required:
 
 1. Fork https://github.com/CIRB/vcsh_mr_template[mr CIRB template]
 2. Change the https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/available.d/mr.vcsh#L2[mr pointer] to it.
@@ -254,7 +284,7 @@ Eventually there is a third option. Some of your configurations are personal and
 → vcsh mr remote set-url origin git://github.com/PierreR/vcsh_mr_template.git
 ```
 
-As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you would copy the `user/params.sh` to `/vagrant` and change the `mr_template_repo_url` value.
+As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you need to update the `mr_template_repo_url` value in `params.sh`.
 
 For more information about `vcsh`, https://github.com/RichiH/vcsh/blob/master/doc/README.md#from-zero-to-vcsh[Look here].
 
@@ -331,15 +361,21 @@ Tickets and issues are handled directly on https://github.com/CIRB/devbox/issues
 
 Question, support, discussion are handled in the slack `#devbox` channel.
 
-The versioning scheme used is semantic: `major.minor.patch`. A major jump implies some incompatible changes likely from the `vagrantFile` and forces to:
+The versioning scheme used is semantic: `major.minor.patch`. A major jump (which is expected two or three times a year) implies some incompatible changes. Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] for more information.
 
+Here are the steps to migrate:
+
+====
 [lowerroman]
 . destroy the old box losing all current statefootnote:[The README describes several tricks to keep/store your customization.] : `vagrant destroy`
 . remove the old box: `vagrant box remove devbox`
 . add the new one: `vagrant box add devbox http://repo.irisnet.be/boxes/devbox.box`
 . initialize the new box: `vagrant init devbox && vagrant up`
+====
 
-Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] for more information.
+TIP: You might prefer to keep the old devbox and create a new one to be 100% sure not to lose anything. Just pick another name when adding and initiating the box with vagrant. A good tip is to use `devbox-x.x` where `x.x` is the major and minor version of the box.
+
+
 
 The devbox will be maintained continuously with at least a major release every six months to follow the OS life cycle.
 
