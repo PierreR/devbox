@@ -137,14 +137,6 @@ installDoc = do
           -- cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
           ppSuccess "documentation\n"
 
-installNixPkgsFiles :: (MonadIO m, MonadReader ScriptEnv m) => m ()
-installNixPkgsFiles = do
-  homedir <- asks (view homeDir)
-  printf "\nInstalling nixpkgs local files\n"
-  let nixpkgsdir = homedir </> ".nixpkgs/"
-  found_dir <- testdir nixpkgsdir; unless found_dir $ mkdir nixpkgsdir
-  cp "user/config.nix" (nixpkgsdir </> "config.nix")
-
 installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installEclipsePlugins = do
     with_plugins <- asks $ view (boxConfig.eclipsePlugins)
@@ -201,7 +193,6 @@ main = do
   System.hSetBuffering System.stdout System.LineBuffering
   printf "\n> Starting user configuration\n"
   runReaderT (sequence_ [ installPkKeys
-                        , installNixPkgsFiles
                         , installMrRepos
                         , configureGit
                         , installEclipsePlugins
