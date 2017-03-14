@@ -50,7 +50,6 @@ in
     name = "cicd-shell";
     paths = [
       cicd-shell_git
-      # pkgs.pepper
     ];
   };
 }

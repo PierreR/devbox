@@ -13,5 +13,5 @@ cp --verbose -n "./system/local-configuration.nix" "/etc/nixos/local-configurati
 # Sync system custom nixpkgs files
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
-echo "Updating the configuration. Hold on. It might take a while (usually from 5 to 20 minutes)";
+echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
 nixos-rebuild switch --upgrade > /dev/null 2>&1;
