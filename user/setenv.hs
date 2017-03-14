@@ -137,7 +137,6 @@ installDoc = do
           -- cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
           ppSuccess "documentation\n"
 
-
 installNixPkgsFiles :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installNixPkgsFiles = do
   homedir <- asks (view homeDir)
@@ -145,10 +144,6 @@ installNixPkgsFiles = do
   let nixpkgsdir = homedir </> ".nixpkgs/"
   found_dir <- testdir nixpkgsdir; unless found_dir $ mkdir nixpkgsdir
   cp "user/config.nix" (nixpkgsdir </> "config.nix")
-  procs "rsync" [ "-a"
-                , "--delete-after"
-                , "user/pkgs"
-                , format fp (homedir </> ".nixpkgs/")] empty
 
 installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installEclipsePlugins = do
