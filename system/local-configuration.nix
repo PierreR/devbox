@@ -16,4 +16,11 @@
     # parcellite
   ];
 
+  # Uncomment these lines if you want to launch virtualbox from its UI
+  #fileSystems."/vagrant" = {
+  #  fsType = "vboxsf";
+  #  device = "vagrant";
+  #  options = [ "rw" ];
+  #};
+
 }
