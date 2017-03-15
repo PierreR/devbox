@@ -1,4 +1,4 @@
-.PHONY: clean user system
+.PHONY: clean user system cicd-shell
 
 bootrelease:
 	@echo -e "Downloading all required packages.\nHold on. It might take several minutes."
@@ -9,6 +9,9 @@ user: bootrelease
 
 system:
 	@./system/setenv.sh
+
+cicd-shell:
+	@nix-env -f release.nix -iA cicd-shell
 
 doc: doc/devbox.html
 
