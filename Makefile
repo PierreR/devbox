@@ -2,7 +2,7 @@
 
 bootstrap:
 	@mkdir -p ${PWD}/overlays
-	@curl -s -L https://api.github.com/repos/CIRB/nixpkgs-overlays/tarball/1.1.1 | tar xz -C ${PWD}/overlays --strip-component=1
+	@curl -s -L https://api.github.com/repos/CIRB/nixpkgs-overlays/tarball/1.2.0 | tar xz -C ${PWD}/overlays --strip-component=1
 
 bootrelease: bootstrap
 	@echo -e "Downloading all required packages.\nHold on. It might take several minutes."
