@@ -98,6 +98,7 @@
     bundix
     cabal2nix
     chromium
+    desktop_file_utils
     dnsmasq
     docker
     findutils
@@ -175,6 +176,7 @@
     oh-my-zsh
     parallel
     python
+    shared_mime_info
     shellcheck
     silver-searcher
     stalonetray
