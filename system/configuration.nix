@@ -44,6 +44,9 @@
     server = /cicd/127.0.0.1#5354
   '';
 
+  services.unclutter-xfixes = {
+    enable = true;
+  };
 
   services.xserver = {
     enable = true;
