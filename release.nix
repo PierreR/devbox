@@ -15,11 +15,4 @@ in
       pkgs.curl
     ];
   };
-  # We create a 'env' suitable for installing in user space
-  cicd-shell = pkgs.buildEnv {
-    name = "cicd-shell";
-    paths = [
-      pkgs.cicd-shell
-    ];
-  };
 }

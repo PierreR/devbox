@@ -15,7 +15,7 @@ system:
 	@./system/setenv.sh
 
 cicd-shell:
-	@nix-env -f release.nix -iA cicd-shell
+	@nix-env -i cicd-shell
 
 doc: doc/devbox.html
 
