@@ -7,9 +7,17 @@
 # Always override the main system configuration file
 cp --verbose "./system/configuration.nix" "/etc/nixos/configuration.nix";
 
-# Don't override the local system configuration
-cp --verbose -n "./system/local-configuration.nix" "/etc/nixos/local-configuration.nix"
-
+if [[ -f "/vagrant/local-configuration.nix" ]]; then
+  # Always override with the shared file ?
+  echo "Overridding local-configuration."
+  if [[ -f "/etc/nixos/local-configuration.nix" ]]; then
+    cp --verbose "/etc/nixos/local-configuration.nix" "/etc/nixos/local-configuration.back"
+  fi
+  cp --verbose "/vagrant/local-configuration.nix" "/etc/nixos/local-configuration.nix"
+else
+  # Don't override the local system configuration
+  cp --verbose -n "./system/local-configuration.nix" "/etc/nixos/local-configuration.nix"
+fi
 # Sync system custom nixpkgs files
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
