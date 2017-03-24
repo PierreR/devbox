@@ -6,7 +6,7 @@ bootstrap:
 
 bootrelease: bootstrap
 	@echo -e "Downloading all required packages.\nHold on. It might take several minutes."
-	@nix-shell -A user release.nix --run "touch bootrelease" -I nixpkgs-overlays=${PWD}/overlays > /vagrant/boot.log 2>&1
+	@nix-shell -A trigger release.nix --run "touch bootrelease" -I nixpkgs-overlays=${PWD}/overlays > /vagrant/boot.log 2>&1
 
 user: bootrelease
 	@nix-shell -A user release.nix --run 'runghc user/setenv.hs' -I nixpkgs-overlays=${PWD}/overlays | tee /vagrant/last_run.log

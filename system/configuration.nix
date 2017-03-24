@@ -95,6 +95,7 @@
   environment.pathsToLink = [ "/share" ];
 
   environment.systemPackages = with pkgs; [
+    asciidoctor
     aspell
     aspellDicts.en
     aspellDicts.fr
