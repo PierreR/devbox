@@ -93,7 +93,7 @@ vagrant reload
 
 ## Usage
 
-WARNING: Don't start the devbox from the Virtualbox UI. Use the command line (`vagrant up`). Otherwise the shared folder (/vagrant) won't be properly mounted.
+WARNING: If you want to start the `devbox` from the Virtualbox UI, you should first uncomment https://github.com/CIRB/devbox/blob/058fd956c62e890a775b3c8ce709a855e7b0c758/system/local-configuration.nix#L19-L24[these lines] from local-configuration.nix. Otherwise the shared folder (/vagrant) won't be mounted. On the other hand the command line (`vagrant up`) will always mount the shared folder.
 
 ### vagrant
 
