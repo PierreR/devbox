@@ -27,6 +27,8 @@ import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
+-- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
+mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
 
 auto :: (GenericInterpret (Rep a), Generic a) => Type a
 auto = deriveAuto
@@ -34,12 +36,12 @@ auto = deriveAuto
 
 data BoxConfig
   = BoxConfig
-  { _userName       :: LText
-  , _userEmail      :: LText
-  , _mrRepos        :: Vector LText
-  , _eclipsePlugins :: Bool
-  , _geppetto       :: Bool
-  , _mrRepoUrl      :: LText
+  { _userName        :: LText
+  , _userEmail       :: LText
+  , _mrRepos         :: Vector LText
+  , _eclipsePlugins  :: Bool
+  , _geppetto        :: Bool
+  , _dotfilesRepoUrl :: LText
   } deriving (Generic, Show)
 
 makeLenses ''BoxConfig
@@ -88,10 +90,12 @@ installMrRepos :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- asks (view homeDir)
-  mr_url <- asks $ view (boxConfig.mrRepoUrl.strict)
+  dotfiles_url <- asks $ view (boxConfig.dotfilesRepoUrl.strict)
   stacks <- asks $ view (boxConfig.mrRepos)
   bootstrap <- not <$> testfile (homedir </> ".mrconfig")
-  when bootstrap $ clone_mr mr_url
+  when bootstrap $ do
+    clone_mr mrRepoUrl
+    addDotfilesToMr dotfiles_url
   activate_repos homedir stacks
   let mr_args = [ "-d", format fp homedir
                 , "up", "-q"
@@ -108,6 +112,15 @@ installMrRepos =  do
            ppFailure ("Unable to clone mr" <+> ppText url <> "\n")
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
+    addDotfilesToMr url = do
+      proc "mr" [ "config"
+                 , "$HOME/.config/vcsh/repo.d/dotfiles.git"
+                 , "checkout= vcsh clone " <> url
+                ] empty >>= \case
+         ExitFailure _ -> do
+           ppFailure ("Unable to add" <+> ppText url <+> "to mr\n")
+           die "Aborting user configuration"
+         ExitSuccess   -> ppSuccess ("Add" <+> ppText url <+> "to mr\n")
     activate_repos home_dir repos = sh $ do
       stack <- select (repos^..traverse.strict)
       unless (Text.null stack) $ do
