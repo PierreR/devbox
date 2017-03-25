@@ -22,4 +22,4 @@ fi
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
-nixos-rebuild switch --upgrade > /dev/null 2>&1 && echo "\nSystem configuration completed\n"
+nixos-rebuild switch --upgrade > /vagrant/system_boot.log 2>&1 && echo "System configuration completed"
