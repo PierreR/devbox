@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-
+set -e
 # This script assumes it will be run as root from the ROOT_DIR on the devbox
 # Don't call it directly, use the make system target
 # When testing the script on the devbox itself, you might use: sudo su - -p -c 'make system'
@@ -22,4 +22,4 @@ fi
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
-nixos-rebuild switch --upgrade > /dev/null 2>&1;
+nixos-rebuild switch --upgrade > /dev/null 2>&1 && echo "\nSystem configuration completed\n"
