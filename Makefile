@@ -19,13 +19,13 @@ system:
 cicd-shell:
 	@nix-env -i cicd-shell
 
-doc: doc/devbox.html
+doc: doc/devbox.html doc/devbox.pdf
 
 doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor $< -o $@"
 
 doc/devbox.pdf: README.adoc meta.adoc
-	@nix-shell -p asciidoctor --command "asciidoctor-pdf $< -o $@"
+	@nix-shell -p asciidoctor --command "asciidoctor -r asciidoctor-pdf -b pdf $< -o $@"
 
 clean:
 	rm -f doc/devbox.*
