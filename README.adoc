@@ -55,7 +55,7 @@ curl -o config/box https://raw.githubusercontent.com/CIRB/devbox/master/user/con
 curl -o config/shell https://raw.githubusercontent.com/CIRB/devbox/master/user/config/shell
 ```
 +
-WARNING: If you create the file manually, make sure you keep an `unix` file encoding.
+WARNING: If you create the file manually, make sure you keep a `unix` file encoding.
 
 ### ssh keys
 
@@ -93,7 +93,7 @@ vagrant reload
 
 ## Usage
 
-WARNING: If you want to start the `devbox` from the Virtualbox UI, you should first uncomment https://github.com/CIRB/devbox/blob/058fd956c62e890a775b3c8ce709a855e7b0c758/system/local-configuration.nix#L19-L24[these lines] from local-configuration.nix. Otherwise the shared folder (/vagrant) won't be mounted. On the other hand the command line (`vagrant up`) will always mount the shared folder.
+WARNING: If you want to start the `devbox` from the Virtualbox UI, you should first uncomment https://github.com/CIRB/devbox/blob/058fd956c62e890a775b3c8ce709a855e7b0c758/system/local-configuration.nix#L20-L24[these lines] from local-configuration.nix. Otherwise the shared folder (/vagrant) won't be mounted. On the other hand the command line (`vagrant up`) will always mount the shared folder.
 
 ### vagrant
 
@@ -130,26 +130,34 @@ Updating the system takes a while and even more so if it is not done regularly. 
 
 ### operating system
 
-The devbox is based on https://nixos.org/[NixOS] version 16.09. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
+The devbox is based on https://nixos.org/[NixOS] version 17.03. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
 Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
 
 - *reproducability*: everything is reproducible (packages are identical binary wise).
-- *atomicity*: configuration changes (`nixos-rebuild`) can be rollback.
+- *atomicity*: configuration changes can be rollback.
 - *isolation*: on a project, user or system level, processes are built in an isolated environment.
 
 By using `nixos` we are striving for a system that we can destroy and re-create at will without fuss.
 
-The whole system setup is declared in https://github.com/CIRB/devbox/blob/master/system/configuration.nix.
+The whole system setup is declared in the https://github.com/CIRB/devbox/blob/master/system/configuration.nix[/etc/nixos/configuration.nix] file.
 
-[TIP]
-====
-To clean-up the store (whenever the disk usage is too high) use:
+#### useful command
 
 ```
+# rebuild nixos after changing the system configuration file
+→ sudo nixos-rebuild switch
+
+# install a package in user space
+→ nix-env -i atom
+
+# search for a package
+→ nq docker
+
+# clean-up the store (whenever the disk usage is too high)
 → sudo nix-collect-garbage -d
+
 ```
-====
 
 ### windows manager
 
@@ -233,11 +241,7 @@ The customization of the devbox operates at different levels and makes sure ever
 You can add some specific configuration by editing `/etc/nixos/local-configuration.nix`.
 For instance if you want to install the `geany` package, just uncomment the adhoc line in `local-configuration.nix`.
 
-After changing the `local-configuration.nix` file, rebuild `nixos` by using this command line:
-
-```
-→ sudo nixos-rebuild switch
-```
+After changing the `local-configuration.nix` file, rebuild `nixos` with `nixos-rebuild switch` as root.
 
 TIP: To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/local-configuration.nix` into `/vagrant` on the boxfootnote:[The ROOT_DIR of the host is automatically mounted to /vagrant on the box given the box is started with `vagrant up`.]. If such a file exists on the ROOT_DIR of the host, it will be used the first time a box is provisioned and won't be overridden by a call to `vagrant provision` later on.
 
@@ -249,15 +253,16 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box] file, `vagrant provision --provision-with user` will:
 
+- install and configure useful packages (eclipse, docker, vim, ...)
 - setup your git config
-- synchronize the `ssh-keys` folder of the ROOT_DIR
-- download requested eclipse plugins
+- synchronize the `ssh-keys` folder from the ROOT_DIR
 - installed declared `mr` repositories including all https://github.com/CIRB/devbox-dotfiles[dotfiles]
-- setup/download the cicd shell
+- install the cicd shell
+- install all required packages for working with puppet stacks
 
 #### dotfiles
 
-You can add any `dotfiles` repositories including your own personal configuration thanks to a little tool called  https://github.com/RichiH/vcsh[vcsh].
+You can install any git repositories including your own personal configuration thanks to a little tool called  https://github.com/RichiH/vcsh[vcsh].
 
 For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
 
