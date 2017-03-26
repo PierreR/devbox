@@ -5,7 +5,7 @@ Box configuration file
   mrRepos         : Mr repos to activate; look at the available list at https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d
   eclipsePlugins  : Download eclipse plugins such as egit or m2e ?
   geppetto        : Download the Geppetto Eclipse plugin (puppet development) ?
-  dotfilesRepoUrl : Url of the dotfiles repository.
+  dotfilesGitRepo : Dotfiles git repository.
 -}
 
 { userName        = ""
@@ -13,5 +13,5 @@ Box configuration file
 , mrRepos         = ["puppet-bos", "puppet-irisbox"]
 , eclipsePlugins  = True
 , geppetto        = True
-, dotfilesRepoUrl = "git://github.com/CIRB/devbox-dotfiles.git"
+, dotfilesGitRepo = { repoHost = "github.com", repoName = "CIRB/devbox-dotfiles.git"}
 }
