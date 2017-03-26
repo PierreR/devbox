@@ -102,6 +102,7 @@
     autojump
     bundix
     cabal2nix
+    curl
     chromium
     desktop_file_utils
     dnsmasq
