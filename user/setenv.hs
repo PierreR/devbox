@@ -1,11 +1,10 @@
-{-# LANGUAGE DeriveGeneric          #-}
-{-# LANGUAGE FlexibleContexts       #-}
-{-# LANGUAGE LambdaCase             #-}
-{-# LANGUAGE MultiParamTypeClasses  #-}
-{-# LANGUAGE NoImplicitPrelude      #-}
-{-# LANGUAGE OverloadedStrings      #-}
-{-# LANGUAGE StrictData             #-}
-{-# LANGUAGE TemplateHaskell        #-}
+{-# LANGUAGE DeriveGeneric      #-}
+{-# LANGUAGE FlexibleContexts   #-}
+{-# LANGUAGE LambdaCase         #-}
+{-# LANGUAGE NoImplicitPrelude  #-}
+{-# LANGUAGE OverloadedStrings  #-}
+{-# LANGUAGE StrictData         #-}
+{-# LANGUAGE TemplateHaskell    #-}
 
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
@@ -13,10 +12,9 @@ module Main where
 import qualified Control.Foldl                as Fold
 import           Control.Lens                 hiding (noneOf)
 import qualified Data.Text                    as Text
-import qualified Data.Text.Lazy
+import qualified Data.Text.Lazy               as Text.Lazy
 import           Dhall                        hiding (Text, auto, input, text)
 import qualified Dhall
-import           GHC.Generics
 import qualified System.IO                    as System
 import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red,
                                                (<+>))
@@ -30,9 +28,12 @@ eclipseVersion = "4.6.0"
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
 
-auto :: (GenericInterpret (Rep a), Generic a) => Type a
-auto = deriveAuto
-  ( defaultInterpretOptions { fieldModifier = Data.Text.Lazy.dropWhile (== '_') })
+
+data GitRepo
+  = GitRepo
+  { _anonUrl :: LText
+  , _sshUrl  :: LText
+  } deriving (Generic, Show)
 
 data BoxConfig
   = BoxConfig
@@ -41,11 +42,13 @@ data BoxConfig
   , _mrRepos         :: Vector LText
   , _eclipsePlugins  :: Bool
   , _geppetto        :: Bool
-  , _dotfilesRepoUrl :: LText
+  , _dotfilesGitRepo :: GitRepo
   } deriving (Generic, Show)
 
+makeLenses ''GitRepo
 makeLenses ''BoxConfig
 
+instance Interpret GitRepo
 instance Interpret BoxConfig
 
 data ScriptEnv
@@ -60,6 +63,10 @@ scriptEnv :: IO ScriptEnv
 scriptEnv =
    ScriptEnv <$> Dhall.input auto "/vagrant/config/box"
              <*> home
+  where
+    auto ::  Interpret a => Type a
+    auto = autoWith
+      ( defaultInterpretOptions { fieldModifier = Text.Lazy.dropWhile (== '_') })
 
 installPkKeys :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installPkKeys = do
@@ -90,12 +97,13 @@ installMrRepos :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- asks (view homeDir)
-  dotfiles_url <- asks $ view (boxConfig.dotfilesRepoUrl.strict)
+  dotfiles_anon_url <- asks $ view (boxConfig.dotfilesGitRepo.anonUrl.strict)
+  dotfiles_ssh_url <- asks $ view (boxConfig.dotfilesGitRepo.sshUrl.strict)
   stacks <- asks $ view (boxConfig.mrRepos)
   bootstrap <- not <$> testfile (homedir </> ".mrconfig")
   when bootstrap $ do
     clone_mr mrRepoUrl
-    addDotfilesToMr dotfiles_url
+    addDotfilesToMr dotfiles_anon_url dotfiles_ssh_url
   activate_repos homedir stacks
   let mr_args = [ "-d", format fp homedir
                 , "up", "-q"
@@ -112,15 +120,16 @@ installMrRepos =  do
            ppFailure ("Unable to clone mr" <+> ppText url <> "\n")
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
-    addDotfilesToMr url = do
+    addDotfilesToMr anon_url ssh_url = do
       proc "mr" [ "config"
                  , "$HOME/.config/vcsh/repo.d/dotfiles.git"
-                 , "checkout= vcsh clone " <> url
+                 , "checkout = vcsh clone " <> anon_url
+                 , "push = vcsh dotfiles push " <> ssh_url
                 ] empty >>= \case
          ExitFailure _ -> do
-           ppFailure ("Unable to add" <+> ppText url <+> "to mr\n")
+           ppFailure ("Unable to add" <+> ppText anon_url <+> "to mr\n")
            die "Aborting user configuration"
-         ExitSuccess   -> ppSuccess ("Add" <+> ppText url <+> "to mr\n")
+         ExitSuccess   -> printf ("Add "%s%" to mr\n") anon_url
     activate_repos home_dir repos = sh $ do
       stack <- select (repos^..traverse.strict)
       unless (Text.null stack) $ do
@@ -147,7 +156,7 @@ installDoc = do
           let docdir = homedir </> ".local/share/doc"
           mktree docdir
           cp "./doc/devbox.html" (docdir </> "devbox.html")
-          -- cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
+          cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
           ppSuccess "documentation\n"
 
 installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
