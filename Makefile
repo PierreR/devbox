@@ -7,7 +7,7 @@ bootstrap:
 	@curl -s -L https://api.github.com/repos/CIRB/nixpkgs-overlays/tarball/$(overlays-version) | tar xz -C ${PWD}/overlays --strip-component=1
 
 bootrelease: bootstrap
-	@echo -e "Downloading all required packages.\nHold on. It might take several minutes."
+	@echo -e "Downloading all required packages.\nHold on. It will take several minutes."
 	@nix-shell -A trigger release.nix --run "touch bootrelease" -I nixpkgs-overlays=${PWD}/overlays > /vagrant/user_boot.log 2>&1
 
 user: bootrelease

@@ -17,12 +17,15 @@ The `params.sh` file has been replaced by two files:
     - `config/box` (devbox data)
     - `config/shell` (cicd-shell data)
 
+The https://github.com/CIRB/vcsh_mr_template[mr template repository] is now generic and shouldn't be forked.
+
 [TIP]
 ====
 - You will be warned beforehand if a configuration file is invalid.
-
 - The key `mrRepos` replaces the previous `user_stack` field and accepts a list of available `mr` repositories.
+- The key `dotfilesGitRepo` deprecates the previous `mr_template_repo_url` field.
 ====
+
 
 ####  packages
 

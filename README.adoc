@@ -115,18 +115,28 @@ vagrant box remove devbox
 
 ```
 
+#### provisioning
+
 The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring the new features listed in the <<_changelog>>. In case of a major version bump  a new devbox needs to be downloaded as described in <<_life_cycle>>.
 
-
-[NOTE]
-====
 Provisioning is separated into two steps:
 
-- `system` to update and (re)configure the system
-- `user` to (re)configure the vagrant user.
+- `vagrant provision --provision-with system`:
++
+Update and (re)configure the system synchronizing the 'ROOT_DIR/local-configuration.nix'.
++
+Updating the system takes a while and even more so if it is not done regularly.
 
-Updating the system takes a while and even more so if it is not done regularly. On the other hand, `vagrant provision --provision-with user` is a quick task.
-====
+- `vagrant provision --provision-with user`:
++
+(Re)configuring the user is usually a quick task.
+Given the personal settings defined in https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box], it will:
++
+* setup your git config
+* synchronize the `ROOT_DIR/ssh-keys` folder
+* update all declared `mr` repositories including the https://github.com/CIRB/devbox-dotfiles[dotfiles repo]
+* install/update the cicd shell
+* install all required packages for working with the puppet stacks
 
 ### operating system
 
@@ -205,7 +215,7 @@ You might want to enable some `oh-my-zsh` plugins by updating your zshrc. None h
 
 ### projects
 
-You can list all the repositories you wish to enable by setting `mrRepos` in 'ROOT_DIR/config/box'. The list of available repositories is defined https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here] .
+You can activate any available repository by setting `mrRepos` in 'ROOT_DIR/config/box'. The list of available repositories is defined https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here] .
 
 All enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `mrRepos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and to enter `make` on the command line.
 
@@ -215,6 +225,11 @@ To update all registered mr repository, do
 ```
 <1> you usually don't want to automatically update such repository on provisioning. That's the reason behind the `-f` (force) flag.
 
+You can ask the `git status` of all repositories using
+
+```
+→ mr status
+```
 
 ### cicd
 
@@ -249,46 +264,34 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 ### user
 
-#### provision
-
-Given the personal settings defined in the https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box] file, `vagrant provision --provision-with user` will:
-
-- install and configure useful packages (eclipse, docker, vim, ...)
-- setup your git config
-- synchronize the `ssh-keys` folder from the ROOT_DIR
-- installed declared `mr` repositories including all https://github.com/CIRB/devbox-dotfiles[dotfiles]
-- install the cicd shell
-- install all required packages for working with puppet stacks
 
 #### dotfiles
 
 You can install any git repositories including your own personal configuration thanks to a little tool called  https://github.com/RichiH/vcsh[vcsh].
+`vcsh` allows to have multiple git repository installed in a single $HOME folder.
 
 For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
 
 To share simple dotfiles configuration across all devbox users, for instance let say you want to share a `~/.tmux.conf` file for the devbox, or make a change to an existing configuration you would do a pull request to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. Upon acceptance, the file will be part of the default CIRB dotfiles repository and will be pushed on all devboxes at the next provisioning.
 
+For more information about `vcsh`, https://github.com/RichiH/vcsh/blob/master/doc/README.md#from-zero-to-vcsh[Look here].
+
 #### mr
 
 If you want to share across all devbox users a non trivial, external or optional configuration, you can use or create a specific source repository for it and register the repository https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository]. This is also done via a pull request.
 
-If you want the configuration to be active by default, you then add a link to it in the SCM, just like https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/config.d/dotfiles.vcsh[this one]. On the other hand, if you want it inactive by default, you would ask the interested users to make the link themselves on their box.
+To activate the new repo, you just add it to the list of `mrRepos` in 'ROOT_DIR/config/box' and run `mr up` in the box.
 
-#### mr template
+#### forking the dotfiles repository
 
-Eventually there is yet another way to change the local user configuration. You normally won't need that option but it is there for flexibility sake. Some of your settings are personal and there is no need for them to be shared inside the CIRB organization. In that case, 3 steps are required:
+Eventually there is yet another way to change the local user configuration but in a more drastic way. You normally won't need that option but it is there for flexibility sake. You can use your own fork of the https://github.com/CIRB/devbox-dotfiles[standard dotfiles repository] by following these 4 steps:
 
-1. Fork https://github.com/CIRB/vcsh_mr_template[mr CIRB template]
-2. Change the https://github.com/CIRB/vcsh_mr_template/blob/master/.config/mr/available.d/mr.vcsh#L2[mr pointer] to it.
-3. Change the `mr` pointer on your local box. As an example, you might follow this command line:
+1. vagrant destroy
+2. Fork the https://github.com/CIRB/devbox-dotfiles[dotfiles repo]
+3. Change the box configuration file to use the new repo (see `dotfilesGitRepo`)
+4. vagrant up
 
-```
-→ vcsh mr remote set-url origin git://github.com/PierreR/vcsh_mr_template.git
-```
-
-As a note, if you want to override the CIRB dotfiles completely you can replace https://github.com/PierreR/vcsh_mr_template/commit/82708255d904beffe53b9587e8f553aa8804cc37[the pointer to the dotfiles]. In order to keep such a setting after a `vagrant destroy`, you need to update the `mrRepoUrl` value in `config/box`.
-
-For more information about `vcsh`, https://github.com/RichiH/vcsh/blob/master/doc/README.md#from-zero-to-vcsh[Look here].
+WARNING: The burden of back-porting useful changes from the standard dotfiles repo will be on you.
 
 #### local packages
 
@@ -378,7 +381,6 @@ Here are the steps to migrate:
 ====
 
 TIP: You might prefer to keep the old devbox and create a new one to be 100% sure not to lose anything. Just pick another name when adding and initiating the box with vagrant. A good tip is to use `devbox-x.x` where `x.x` is the major and minor version of the box.
-
 
 
 The devbox will be maintained continuously with at least a major release every six months to follow the OS life cycle.
