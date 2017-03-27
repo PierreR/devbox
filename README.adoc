@@ -169,6 +169,9 @@ The whole system setup is declared in the https://github.com/CIRB/devbox/blob/ma
 
 ```
 
+
+
+
 ### windows manager
 
 The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tiling windows manager] called http://xmonad.org/[xmonad]. Such a minimal approach has been chosen for 3 reasons:
@@ -215,9 +218,9 @@ You might want to enable some `oh-my-zsh` plugins by updating your zshrc. None h
 
 ### projects
 
-You can activate any available repository by setting `mrRepos` in 'ROOT_DIR/config/box'. The list of available repositories is defined https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here] .
+You can activate any available repository by setting `repos` in 'ROOT_DIR/config/box'. The list of available repositories is defined https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here] .
 
-All enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `mrRepos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and to enter `make` on the command line.
+All enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `repos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and to enter `make` on the command line.
 
 To update all registered mr repository, do
 ```
@@ -264,46 +267,32 @@ WARNING: More drastic changes such a changing the window manager is only possibl
 
 ### user
 
+#### install local packages
 
-#### dotfiles
-
-You can install any git repositories including your own personal configuration thanks to a little tool called  https://github.com/RichiH/vcsh[vcsh].
-`vcsh` allows to have multiple git repository installed in a single $HOME folder.
-
-For instance you might easily add/share some `geany`, `atom` or `eclipse` configurations.
-
-To share simple dotfiles configuration across all devbox users, for instance let say you want to share a `~/.tmux.conf` file for the devbox, or make a change to an existing configuration you would do a pull request to the https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry]. Upon acceptance, the file will be part of the default CIRB dotfiles repository and will be pushed on all devboxes at the next provisioning.
-
-For more information about `vcsh`, https://github.com/RichiH/vcsh/blob/master/doc/README.md#from-zero-to-vcsh[Look here].
-
-#### mr
-
-If you want to share across all devbox users a non trivial, external or optional configuration, you can use or create a specific source repository for it and register the repository https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository]. This is also done via a pull request.
-
-To activate the new repo, you just add it to the list of `mrRepos` in 'ROOT_DIR/config/box' and run `mr up` in the box.
-
-#### forking the dotfiles repository
-
-Eventually there is yet another way to change the local user configuration but in a more drastic way. You normally won't need that option but it is there for flexibility sake. You can use your own fork of the https://github.com/CIRB/devbox-dotfiles[standard dotfiles repository] by following these 4 steps:
-
-1. vagrant destroy
-2. Fork the https://github.com/CIRB/devbox-dotfiles[dotfiles repo]
-3. Change the box configuration file to use the new repo (see `dotfilesGitRepo`)
-4. vagrant up
-
-WARNING: The burden of back-porting useful changes from the standard dotfiles repo will be on you.
-
-#### local packages
-
-If you need a package in 'user space' (and you are not interested in sharing such configuration), you might prefer the more imperative approach:
+To install a package, just do:
 
 ```
-→ nix-env -i geany
+→ nix-env -i geany <1>
 ```
+<1> install the `geany` package for the vagrant user. The suffix _env_ expresses the fact that only the user environment is affected.
 
-It is quite a useful approach for testing but such changes won't survive a `vagrant destroy`. When you settle down on a list of packages, please add them to `local-configuration.nix` to gain persistence.
+This imperative approach is quite useful for testing but the change is not recorded and won't survive a `vagrant destroy`. When you settle down on a list of packages, please add them to `local-configuration.nix` to gain persistence.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
+
+#### available mr repositories
+
+The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository].
+
+For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository. As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its `repos` in `ROOT_DIR/config/box`.
+
+#### generic dotfiles
+
+The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] maintains a very general non specific default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
+
+#### personal mr repositories
+
+You can register any source repository by adding it to the `additionalRepos` in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. Once register, you update the user configuration with `mr up`.
 
 
 ## How is the box generated ?

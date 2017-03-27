@@ -30,8 +30,9 @@ mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpo
 
 data MrRepo
   = MrRepo
-  { checkout :: LText
-  , push     :: LText
+  { _path     :: LText
+  , _checkout :: LText
+  , _push     :: LText
   } deriving (Generic, Show)
 
 data BoxConfig
@@ -43,6 +44,7 @@ data BoxConfig
   , _additionalRepos :: Vector MrRepo
   } deriving (Generic, Show)
 
+makeLenses ''MrRepo
 makeLenses ''BoxConfig
 
 instance Interpret MrRepo
@@ -117,16 +119,20 @@ installMrRepos =  do
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
     add_repo_to_mr rx = sh $ do
-      MrRepo checkout push <- select (rx^..traverse)
+      r <- select (rx^..traverse)
+      let
+        path' = r^.path.strict
+        checkout' = r^.checkout.strict
+        push' = r^.push.strict
       proc "mr" [ "config"
-                 , "$HOME/.config/vcsh/repo.d/dotfiles.git"
-                 , "checkout = " <> toS checkout
-                 , "push = " <> toS push
+                 , path'
+                 , "checkout = " <> checkout'
+                 , "push = " <> push'
                 ] empty >>= \case
          ExitFailure _ -> do
-           ppFailure ("Unable to add" <+> ppText (toS checkout) <+> "to mr\n")
+           ppFailure ("Unable to add" <+> ppText checkout' <+> "to mr\n")
            die "Aborting user configuration"
-         ExitSuccess   -> printf ("Add "%s%" to mr\n") (toS checkout)
+         ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
     activate_repos home_dir rx = sh $ do
       stack <- select (rx^..traverse.strict)
       unless (Text.null stack) $ do

@@ -2,7 +2,7 @@
 Box configuration file
   userName        : Full user name e.g "John Doe" (used in git)
   userEmail       : Email address e.g "jdoe@cirb.brussels" (used in git)
-  repos           : Git repos to activate; look at the available list at https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d
+  repos           : Git repos to activate; see https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d
   eclipsePlugins  : Download eclipse plugins such as egit or m2e ?
   geppetto        : Download the Geppetto Eclipse plugin (puppet development) ?
   additionalRepos : List of additional personal mr repositories you might want to add
@@ -10,7 +10,14 @@ Box configuration file
 
 { userName        = ""
 , userEmail       = ""
-, mrRepos         = ["puppet-bos", "puppet-irisbox"]
+, repos         = [ "puppet-bos"
+                  , "puppet-fmx"
+                  , "puppet-irisbox"
+                  ]
 , eclipsePlugins  = True
-, additionalRepos = [{ checkout = "vcsh clone git://github.com/CIRB/dotfiles.git", push = "vcsh dotfiles push git@github.com:CIRB/dotfiles.git" }]
+, additionalRepos = [ { path     = "$HOME/.config/vcsh/repo.d/dotfiles.git"
+                      , checkout = "vcsh clone git://github.com/CIRB/dotfiles.git"
+                      , push     = "vcsh dotfiles push git@github.com:CIRB/dotfiles.git"
+                      }
+                    ]
 }
