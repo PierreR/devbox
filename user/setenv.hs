@@ -28,7 +28,6 @@ eclipseVersion = "4.6.0"
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
 
-
 data GitRepo
   = GitRepo
   { _anonUrl :: LText
@@ -41,7 +40,6 @@ data BoxConfig
   , _userEmail       :: LText
   , _mrRepos         :: Vector LText
   , _eclipsePlugins  :: Bool
-  , _geppetto        :: Bool
   , _dotfilesGitRepo :: GitRepo
   } deriving (Generic, Show)
 
@@ -162,12 +160,9 @@ installDoc = do
 installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installEclipsePlugins = do
     with_plugins <- asks $ view (boxConfig.eclipsePlugins)
-    with_geppetto <- asks $ view (boxConfig.geppetto)
     when with_plugins $ do
       install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/mars/" "org.eclipse.egit.feature.group"
       install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/mars/" "org.eclipse.m2e.feature.feature.group"
-    when with_geppetto $
-      install_plugin "com.puppetlabs.geppetto" "http://geppetto-updates.puppetlabs.com/4.x" "com.puppetlabs.geppetto.feature.group"
   where
     install_plugin full_name repository installIU = do
       homedir <- ask $ view homeDir

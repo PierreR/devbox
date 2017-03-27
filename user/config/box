@@ -12,6 +12,5 @@ Box configuration file
 , userEmail       = ""
 , mrRepos         = ["puppet-bos", "puppet-irisbox"]
 , eclipsePlugins  = True
-, geppetto        = True
 , dotfilesGitRepo = { repoHost = "github.com", repoName = "CIRB/devbox-dotfiles.git"}
 }
