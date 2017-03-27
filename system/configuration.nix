@@ -4,6 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./windowManager.nix
       ./local-configuration.nix
     ];
 
@@ -51,9 +52,6 @@
   services.xserver = {
     enable = true;
     layout = "be";
-    windowManager.xmonad.enable = true;
-    windowManager.xmonad.enableContribAndExtras = true;
-    windowManager.default = "xmonad";
     xkbOptions = "caps:escape";
     desktopManager.default = "none";
     displayManager = {

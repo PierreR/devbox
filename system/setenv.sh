@@ -4,20 +4,28 @@ set -e
 # Don't call it directly, use the make system target
 # When testing the script on the devbox itself, you might use: sudo su - -p -c 'make system'
 
+# sync config file located in /vagrant
+sync_extra_config () {
+    local config_file=$1
+    if [[ -f "/vagrant/${config_file}" ]]; then
+        # Always override with the shared file
+        echo "Overridding ${config_file}"
+        if [[ -f "/etc/nixos/${config_file}" ]]; then
+            cp --verbose "/etc/nixos/${config_file}" "/etc/nixos/${config_file}.back"
+        fi
+        cp --verbose "/vagrant/${config_file}" "/etc/nixos/${config_file}"
+    else
+        # when there is no custom config file, copy only but don't override an existing installed configuration
+        cp --verbose -n "./system/${config_file}" "/etc/nixos/${config_file}"
+    fi
+}
+
 # Always override the main system configuration file
 cp --verbose "./system/configuration.nix" "/etc/nixos/configuration.nix";
 
-if [[ -f "/vagrant/local-configuration.nix" ]]; then
-  # Always override with the shared file ?
-  echo "Overridding local-configuration."
-  if [[ -f "/etc/nixos/local-configuration.nix" ]]; then
-    cp --verbose "/etc/nixos/local-configuration.nix" "/etc/nixos/local-configuration.back"
-  fi
-  cp --verbose "/vagrant/local-configuration.nix" "/etc/nixos/local-configuration.nix"
-else
-  # Don't override the local system configuration
-  cp --verbose -n "./system/local-configuration.nix" "/etc/nixos/local-configuration.nix"
-fi
+sync_extra_config "local-configuration.nix"
+sync_extra_config "windowManager-configuration.nix"
+
 # Sync system custom nixpkgs files
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
