@@ -28,25 +28,24 @@ eclipseVersion = "4.6.0"
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
 
-data GitRepo
-  = GitRepo
-  { _anonUrl :: LText
-  , _sshUrl  :: LText
+data MrRepo
+  = MrRepo
+  { checkout :: LText
+  , push     :: LText
   } deriving (Generic, Show)
 
 data BoxConfig
   = BoxConfig
   { _userName        :: LText
   , _userEmail       :: LText
-  , _mrRepos         :: Vector LText
+  , _repos           :: Vector LText
   , _eclipsePlugins  :: Bool
-  , _dotfilesGitRepo :: GitRepo
+  , _additionalRepos :: Vector MrRepo
   } deriving (Generic, Show)
 
-makeLenses ''GitRepo
 makeLenses ''BoxConfig
 
-instance Interpret GitRepo
+instance Interpret MrRepo
 instance Interpret BoxConfig
 
 data ScriptEnv
@@ -95,14 +94,13 @@ installMrRepos :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- asks (view homeDir)
-  dotfiles_anon_url <- asks $ view (boxConfig.dotfilesGitRepo.anonUrl.strict)
-  dotfiles_ssh_url <- asks $ view (boxConfig.dotfilesGitRepo.sshUrl.strict)
-  stacks <- asks $ view (boxConfig.mrRepos)
+  add_rx <- asks $ view (boxConfig.additionalRepos)
+  rx <- asks $ view (boxConfig.repos)
   bootstrap <- not <$> testfile (homedir </> ".mrconfig")
   when bootstrap $ do
     clone_mr mrRepoUrl
-    addDotfilesToMr dotfiles_anon_url dotfiles_ssh_url
-  activate_repos homedir stacks
+    add_repo_to_mr add_rx
+  activate_repos homedir rx
   let mr_args = [ "-d", format fp homedir
                 , "up", "-q"
                 ]
@@ -118,18 +116,19 @@ installMrRepos =  do
            ppFailure ("Unable to clone mr" <+> ppText url <> "\n")
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
-    addDotfilesToMr anon_url ssh_url = do
+    add_repo_to_mr rx = sh $ do
+      MrRepo checkout push <- select (rx^..traverse)
       proc "mr" [ "config"
                  , "$HOME/.config/vcsh/repo.d/dotfiles.git"
-                 , "checkout = vcsh clone " <> anon_url
-                 , "push = vcsh dotfiles push " <> ssh_url
+                 , "checkout = " <> toS checkout
+                 , "push = " <> toS push
                 ] empty >>= \case
          ExitFailure _ -> do
-           ppFailure ("Unable to add" <+> ppText anon_url <+> "to mr\n")
+           ppFailure ("Unable to add" <+> ppText (toS checkout) <+> "to mr\n")
            die "Aborting user configuration"
-         ExitSuccess   -> printf ("Add "%s%" to mr\n") anon_url
-    activate_repos home_dir repos = sh $ do
-      stack <- select (repos^..traverse.strict)
+         ExitSuccess   -> printf ("Add "%s%" to mr\n") (toS checkout)
+    activate_repos home_dir rx = sh $ do
+      stack <- select (rx^..traverse.strict)
       unless (Text.null stack) $ do
         let mr_file = format (s%".mr") stack
             link_target = format ("../available.d/"%s) mr_file
