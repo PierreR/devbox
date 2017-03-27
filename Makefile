@@ -16,9 +16,6 @@ user: bootrelease
 system:
 	@./system/setenv.sh
 
-cicd-shell:
-	@nix-env -i cicd-shell
-
 doc: doc/devbox.html doc/devbox.pdf
 
 doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc
