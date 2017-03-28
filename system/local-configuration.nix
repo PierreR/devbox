@@ -12,6 +12,7 @@
     gnome3.nautilus
     # atom
     # geany
+    # jdk
     # pandoc
     # parcellite
   ];
