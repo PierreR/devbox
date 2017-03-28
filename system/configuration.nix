@@ -4,7 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./windowManager.nix
+      ./windowManager-configuration.nix
       ./local-configuration.nix
     ];
 
