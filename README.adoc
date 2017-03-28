@@ -27,6 +27,9 @@ endif::env-github[]
 
 toc::[]
 
+[.text-right]
+icon:print[link="file:///home/vagrant/.local/share/doc/devbox.pdf"]
+
 TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
 
 
