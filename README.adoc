@@ -27,8 +27,10 @@ endif::env-github[]
 
 toc::[]
 
+ifndef::env-github[]
 [.text-right]
 icon:print[link="file:///home/vagrant/.local/share/doc/devbox.pdf"]
+endif::env-github[]
 
 TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
 
@@ -83,8 +85,7 @@ vagrant init devbox && vagrant up
 
 [NOTE]
 ====
-- Always verify that the cable of the VM is connected as virtualbox (mainly older versions but has appeared with 5.1.2 too) has a bug not starting the network interface. If so, you will have to *connect the cable*. See <<Troubleshooting>>
-- Do not interrupt the process. The first time it might take a while to update and fetch all the required components.
+- Do not interrupt the process. The first time it takes a while to update and fetch all the required components. Check for io and network activity by looking at the icons at the bottom right corner of the virtualbox ui.
 - In case any issue arises, please use the `#devbox` slack channel and ask for help.
 ====
 
@@ -171,8 +172,6 @@ The whole system setup is declared in the https://github.com/CIRB/devbox/blob/ma
 → sudo nix-collect-garbage -d
 
 ```
-
-
 
 
 ### windows manager
@@ -264,9 +263,10 @@ For instance if you want to install the `geany` package, just uncomment the adho
 
 After changing the `local-configuration.nix` file, rebuild `nixos` with `nixos-rebuild switch` as root.
 
-TIP: To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/local-configuration.nix` into `/vagrant` on the boxfootnote:[The ROOT_DIR of the host is automatically mounted to /vagrant on the box given the box is started with `vagrant up`.]. If such a file exists on the ROOT_DIR of the host, it will be used the first time a box is provisioned and won't be overridden by a call to `vagrant provision` later on.
+To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/local-configuration.nix` into the ROOT_DIR folder. When such a file exists, it is used at the first boot and is synchronized at each provisioning.
 
-WARNING: More drastic changes such a changing the window manager is only possible via `/etc/nixos/configuration.nix`.
+WARNING: More drastic changes might conflict with the base configuration. If you wish to change the window manager you should change the `/etc/nixos/windowManager-configuration.nix` file.
+
 
 ### user
 
@@ -291,7 +291,7 @@ For instance, let say you want to propose some eclipse (or geany, atom, ...) set
 
 #### generic dotfiles
 
-The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] maintains a very general non specific default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
+The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
 
 #### personal mr repositories
 
