@@ -62,9 +62,10 @@
       };
       sessionCommands = ''
         ${pkgs.rxvt_unicode-with-plugins}/bin/urxvtd -q -o -f
-        ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
+        # ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
         ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg"
         ${pkgs.numlockx}/bin/numlockx on
+        # ${pkgs.dunst}/bin/dunst -cto 4 -nto 2 -lto 1 -config ${config.users.extraUsers.vagrant.home}/.dunstrc &
       '';
     };
   };
@@ -114,8 +115,10 @@
     haskellPackages.shake
     haskellPackages.xmobar
     htop
+    iotop
     iputils
     jq
+    libnotify
     maven
     mr
     nettools
@@ -178,7 +181,10 @@
     numix-icon-theme
     rsync
     oh-my-zsh
+    paper-gtk-theme
+    paper-icon-theme
     parallel
+    psmisc
     python
     shared_mime_info
     shellcheck
@@ -192,6 +198,7 @@
     vcsh
     wget
     which
+    xdg_utils
     xsel
     zeal
     zip
