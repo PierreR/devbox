@@ -41,6 +41,7 @@ data BoxConfig
   , _userEmail       :: LText
   , _repos           :: Vector LText
   , _eclipsePlugins  :: Bool
+  , _wallpaper       :: LText
   , _additionalRepos :: Vector MrRepo
   } deriving (Generic, Show)
 
@@ -203,6 +204,18 @@ configureGit = do
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
   unless (Text.null user_email) $ procs "git" [ "config", "--global", "user.email", user_email] empty
 
+configureWallpaper :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+configureWallpaper = do
+  printf "Configuring wallpaper\n\n"
+  homedir <- asks (view homeDir)
+  filename <- asks $ view (boxConfig.wallpaper.strict)
+  let link_target = homedir </> ".wallpaper" </> fromText filename
+      link_name = homedir </> ".wallpaper.jpg"
+  procs "ln" [ "-sf"
+             , format fp link_target
+             , format fp link_name
+             ] empty
+
 installCicdShell :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installCicdShell = do
   homedir <- asks (view homeDir)
@@ -217,6 +230,7 @@ main = do
   runReaderT (sequence_ [ installPkKeys
                         , installMrRepos
                         , configureGit
+                        , configureWallpaper
                         , installEclipsePlugins
                         , installCicdShell
                         , installDoc
