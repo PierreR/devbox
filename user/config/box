@@ -6,6 +6,9 @@ Box configuration file
   eclipsePlugins  : Download eclipse plugins such as egit or m2e ?
   wallpaper       : Devbox wallpaper, see https://github.com/CIRB/devbox-dotfiles/.wallpaper
   additionalRepos : List of additional personal mr repositories you might want to add
+                    mr repo is a record with two fields. e.g: { path     = "$HOME/.config/vcsh/repo.d/xmonad.git"
+                                                              , checkout = "vcsh clone git@github.com:PierreR/xmonad-config.git xmonad"
+                                                              }
 -}
 
 { userName        = ""
@@ -16,5 +19,5 @@ Box configuration file
                   ]
 , eclipsePlugins  = True
 , wallpaper       = "devbox.jpg"
-, additionalRepos = [ ] : List { path : Text, checkout : Text, push : Text}
+, additionalRepos = [ ] : List { path : Text, checkout : Text }
 }

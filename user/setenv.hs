@@ -32,7 +32,6 @@ data MrRepo
   = MrRepo
   { _path     :: LText
   , _checkout :: LText
-  , _push     :: LText
   } deriving (Generic, Show)
 
 data BoxConfig
@@ -124,11 +123,9 @@ installMrRepos =  do
       let
         path' = r^.path.strict
         checkout' = r^.checkout.strict
-        push' = r^.push.strict
       proc "mr" [ "config"
                  , path'
                  , "checkout = " <> checkout'
-                 , "push = " <> push'
                 ] empty >>= \case
          ExitFailure _ -> do
            ppFailure ("Unable to add" <+> ppText checkout' <+> "to mr\n")
