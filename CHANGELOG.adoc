@@ -12,19 +12,18 @@ include::meta.adoc[]
 
 #### configuration
 
-The `params.sh` file has been replaced by two files:
+- The `params.sh` file has been replaced by two files:
+* https://github.com/CIRB/devbox/blob/master/user/config/box[`config/box`] to configure the devbox
+* https://github.com/CIRB/devbox/blob/master/user/config/box[`config/shell`] to configure the cicd-shell
 
-    - `config/box` (devbox data)
-    - `config/shell` (cicd-shell data)
-
-The https://github.com/CIRB/vcsh_mr_template[mr template repository] is now generic and shouldn't be forked.
-
-[TIP]
-====
-- You will be warned beforehand if a configuration file is invalid.
 - The key `repos` replaces the previous `user_stack` field and accepts a list of available `mr` repositories.
 - The key `additionalRepos` deprecates the previous `mr_template_repo_url` field.
-====
+- The https://github.com/CIRB/vcsh_mr_template[mr template repository] is now generic and shouldn't be forked.
+
+Press `F1` for more detailed instructions.
+
+[NOTE]
+We are using https://github.com/Gabriel439/Haskell-Dhall-Library[`dhall`], a statically typed configuration format. You will be warned beforehand if a configuration file is invalid.
 
 ####  packages
 
