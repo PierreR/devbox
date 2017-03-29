@@ -13,6 +13,9 @@ bootrelease: bootstrap
 user: bootrelease
 	@nix-shell -A user release.nix --run 'runghc user/setenv.hs' -I nixpkgs-overlays=${PWD}/overlays | tee /vagrant/user_lastrun.log
 
+sync-user:
+	@nix-shell -A user release.nix --run 'runghc user/setenv.hs --sync' -I nixpkgs-overlays=${PWD}/overlays
+
 system:
 	@./system/setenv.sh
 

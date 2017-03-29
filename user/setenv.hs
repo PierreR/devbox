@@ -222,18 +222,29 @@ installCicdShell = do
 
 main :: IO ()
 main = do
+  args <- getArgs
   System.hSetBuffering System.stdout System.LineBuffering
-  printf "\n> Starting user configuration\n"
-  runReaderT (sequence_ [ installPkKeys
-                        , installMrRepos
-                        , configureGit
-                        , configureWallpaper
-                        , installEclipsePlugins
-                        , installCicdShell
-                        , installDoc
-                        ]) =<< scriptEnv
+  actions <- case args of
+    [] -> do
+      printf "\n> Starting user configuration\n"
+      pure [ installPkKeys
+           , installMrRepos
+           , configureGit
+           , configureWallpaper
+           , installEclipsePlugins
+           , installCicdShell
+           , installDoc
+           ]
+    ["--sync"] -> do
+      printf "\n> Sync user configuration\n"
+      pure [ installPkKeys
+           , installMrRepos
+           , configureGit
+           , configureWallpaper
+           ]
+    _ -> die "Unrecognized option. Exit."
+  runReaderT (sequence_ actions) =<< scriptEnv
   printf "< User configuration completed\n"
-
 
 -- UTILS
 ppText = PP.text . Text.unpack
