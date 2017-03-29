@@ -74,13 +74,13 @@ Open a terminal in the `ROOT_DIR`. You might want to use 'Git bash here' if you 
 
 To download the base box from our CIRB repository:
 ```
-vagrant box add devbox http://repo.irisnet.be/boxes/devbox.box <1>
+vagrant box add devbox-3.0 http://repo.irisnet.be/boxes/devbox.box <1>
 ```
 <1> You can also use 'devbox-novagrant.box' and maintain a Vagrantfile locally
 
 To initialize the box, in `ROOT_DIR` do:
 ```
-vagrant init devbox && vagrant up
+vagrant init devbox-3.0 && vagrant up
 ```
 
 [NOTE]
@@ -115,7 +115,7 @@ vagrant provision --provision-with system
 # destroy the box (all local state is lost but the imported box remains)
 vagrant destroy
 # remove the imported box (necessary in case of a major version bump)
-vagrant box remove devbox
+vagrant box remove devbox-3.0
 
 ```
 
@@ -187,6 +187,7 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 |======
 |Command |Description
 
+| kbd:[<Ctrl> Space] |Open app launcher
 | kbd:[<Super> t] |New terminal
 | kbd:[<Super> 1..9] |Go to nth desktop
 | kbd:[<Super> <Right>] | Go to next desktop
@@ -233,7 +234,7 @@ To update all registered mr repository, do
 You can ask the `git status` of all repositories using
 
 ```
-→ mr status
+→ mr st
 ```
 
 ### cicd
@@ -295,7 +296,7 @@ The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] ma
 
 #### personal mr repositories
 
-You can register any source repository by adding it to the `additionalRepos` in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. Once register, you update the user configuration with `mr up`.
+You can register any source repository by adding it to the `additionalRepos` in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
 
 
 ## How is the box generated ?
