@@ -1,6 +1,0 @@
-source 'https://rubygems.org'
-gem 'hiera-eyaml-gpg'
-gem 'gpgme'
-gem 'hiera-eyaml'
-gem 'mini_portile2'
-
