@@ -102,7 +102,6 @@
     bundix
     cabal2nix
     curl
-    chromium
     desktop_file_utils
     dnsmasq
     docker
@@ -110,6 +109,7 @@
     gitFull
     gnome3.dconf
     go2nix
+    google-chrome
     gnupg
     gnumake
     haskellPackages.shake
