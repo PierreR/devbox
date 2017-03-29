@@ -15,7 +15,7 @@ sync_extra_config () {
         fi
         cp --verbose "/vagrant/${config_file}" "/etc/nixos/${config_file}"
     else
-        # when there is no custom config file, copy only but don't override an existing installed configuration
+        # when there is no custom config file, copy but don't override an existing installed configuration
         cp --verbose -n "./system/${config_file}" "/etc/nixos/${config_file}"
     fi
 }

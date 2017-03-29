@@ -33,22 +33,16 @@ Vagrant.configure("2") do |config|
       echo "Overriding latest version with ${version}";
     fi
     configdir="devbox-${version}"
-    if ! [[ -d "/tmp/system" ]]; then
-      echo "First time provisioning"
-      mkdir /tmp/system
-      if [[ -f "/vagrant/local-configuration.nix" ]]; then
-        cp --verbose "/vagrant/local-configuration.nix" "/etc/nixos/local-configuration.nix"
-      fi
-    fi
-    if [[ ! -d "/tmp/system/${configdir}" ]]; then
+    mkdir -p /tmp/system
+    pushd /tmp/system > /dev/null;
+    if [[ ! -d "${configdir}" ]]; then
       echo "Fetching ${version} configuration from ${scm_uri}";
-      pushd /tmp/system > /dev/null;
       curl -s -L ${scm_uri}/archive/${version}.tar.gz | tar xz;
       pushd ${configdir} > /dev/null;
       make system
       popd > /dev/null;
-      popd > /dev/null;
     fi
+    popd > /dev/null;
   SHELL
 
   config.vm.provision "user", args: [scm_uri, scm_api], type: "shell" , name: "configure-user", privileged: false, inline: <<-SHELL
@@ -67,15 +61,15 @@ Vagrant.configure("2") do |config|
     fi
     configdir="devbox-${version}"
     [[ -d "/tmp/user" ]] || mkdir /tmp/user
-    if [[ ! -d "/tmp/user/${configdir}" ]]; then
+    pushd /tmp/user > /dev/null;
+    if [[ ! -d "${configdir}" ]]; then
       echo "Fetching ${version} configuration from ${scm_uri}";
-      pushd /tmp/user > /dev/null;
       curl -s -L ${scm_uri}/archive/${version}.tar.gz | tar xz;
-      pushd ${configdir} > /dev/null;
-      make user
-      popd > /dev/null;
-      popd > /dev/null;
+      pushd ${configdir} > /dev/null; make user; popd > /dev/null;
+    else
+      pushd ${configdir} > /dev/null; make sync-user; popd > /dev/null;
     fi
+    popd > /dev/null;
   SHELL
 
 end
