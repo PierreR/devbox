@@ -37,8 +37,8 @@ TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
 
 ## Software requirements
 
-- Virtualbox 5.1.x
-- Vagrant 1.9.x
+- Virtualbox 5.1.x (tested with 5.1.18)
+- Vagrant 1.9.x (tested with 1.9.1)
 
 Please do update if you have older release(s).
 
@@ -296,7 +296,7 @@ The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] ma
 
 #### personal mr repositories
 
-You can register any source repository by adding it to the `additionalRepos` in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L8[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
 
 
 ## How is the box generated ?

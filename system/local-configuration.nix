@@ -3,15 +3,17 @@
 
 {
   environment.systemPackages = with pkgs; [
+    # atom
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-46;
        plugins = with eclipses.plugins; [ jdt yedit ];
      })
     firefox
+    # geany
     gitAndTools.tig
     gnome3.nautilus
-    # atom
-    # geany
+    # idea.idea-community
+    # idea.idea-ultimate
     # jdk
     # pandoc
     # parcellite

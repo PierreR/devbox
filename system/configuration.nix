@@ -92,7 +92,10 @@
 
 
   environment.pathsToLink = [ "/share" ];
-
+  # Fix intelliJ blank popup
+  environment.extraInit = ''
+    export _JAVA_AWT_WM_NONREPARENTING=1
+  '';
   environment.systemPackages = with pkgs; [
     asciidoctor
     aspell
