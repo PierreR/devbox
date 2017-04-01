@@ -34,7 +34,7 @@ We are using https://github.com/Gabriel439/Haskell-Dhall-Library[`dhall`], a sta
 
 #### system configuration
 
-The nixos window manager configuration has been isolated in a new file called `windowManager-configuration.nix`. Alike `local-configuratin.nix`, this file can be saved in your ROOT_DIR in case you want to use/try another window manager.
+The nixos desktop/window manager configuration has been isolated in a new file called `desktop-configuration.nix`. Alike `local-configuratin.nix`, this file can be saved in your ROOT_DIR in case you want to use/try another desktop/window manager.
 
 ### New features
 

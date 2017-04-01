@@ -266,7 +266,7 @@ After changing the `local-configuration.nix` file, rebuild `nixos` with `nixos-r
 
 To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/local-configuration.nix` into the ROOT_DIR folder. When such a file exists, it is used at the first boot and is synchronized at each provisioning.
 
-WARNING: More drastic changes might conflict with the base configuration. If you wish to change the window manager you should change the `/etc/nixos/windowManager-configuration.nix` file.
+TIP: If you wish to change the desktop or window manager you should change the `/etc/nixos/desktop-configuration.nix` file. Alike `local-configuratin.nix`, you then copy the file to ROOT_DIR to retain such config across `vagrant destroy`.
 
 
 ### user

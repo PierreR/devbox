@@ -4,7 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./windowManager-configuration.nix
+      ./desktop-configuration.nix
       ./local-configuration.nix
     ];
 
@@ -53,7 +53,6 @@
     enable = true;
     layout = "be";
     xkbOptions = "caps:escape";
-    desktopManager.default = "none";
     displayManager = {
       lightdm = {
         enable = true;
