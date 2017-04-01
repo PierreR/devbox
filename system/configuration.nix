@@ -92,9 +92,10 @@
 
 
   environment.pathsToLink = [ "/share" ];
-  # Fix intelliJ blank popup
+
   environment.extraInit = ''
-    export _JAVA_AWT_WM_NONREPARENTING=1
+    export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
+    export DESKTOP_SESSION=gnome
   '';
   environment.systemPackages = with pkgs; [
     asciidoctor

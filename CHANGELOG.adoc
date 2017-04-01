@@ -10,7 +10,7 @@ include::meta.adoc[]
 
 ### Changes
 
-#### configuration
+#### user configuration
 
 - The `params.sh` file has been replaced by two files:
 * https://github.com/CIRB/devbox/blob/master/user/config/box[`config/box`] to configure the devbox
@@ -25,12 +25,16 @@ Press `F1` for more detailed instructions.
 [NOTE]
 We are using https://github.com/Gabriel439/Haskell-Dhall-Library[`dhall`], a statically typed configuration format. You will be warned beforehand if a configuration file is invalid.
 
-####  packages
+#### packages
 
 - update nixos to `17.03`
 - `cicd-shell` v1
 - replace `vim` with `neovim`
 - replace `chromium` with `chrome`
+
+#### system configuration
+
+The nixos window manager configuration has been isolated in a new file called `windowManager-configuration.nix`. Alike `local-configuratin.nix`, this file can be saved in your ROOT_DIR in case you want to use/try another window manager.
 
 ### New features
 
