@@ -8,41 +8,39 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
-### Changes
+### system configuration
 
-#### user configuration
+#### packages
+
+- update nixos to `17.03`
+- https://albertlauncher.github.io/docs/[`albert`] (application launcher) on kbd:[<Control><Space>] replaces kbd:[<Super> p] (open menu)
+- `cicd-shell` v1
+- `eclipse` updated to `neon` (4.6)
+- `yedit` and `jdt` (eclipse plugins) enabled by default (see `local-configuration.nix`)
+- `nautilus` (file manager) enabled by default (see `local-configuration.nix`)
+- replace `vim` with `neovim`
+- replace `chromium` with `chrome`
+- add `idea-community` and `idea-ultimate` to the list of suggested packages (see `local-configuration.nix`)
+
+#### customization
+
+- The nixos desktop/window manager configuration has been isolated in a new file called `desktop-configuration.nix`. Alike `local-configuratin.nix`, this file can be saved in your ROOT_DIR in case you want to use/try another desktop/window manager.
+- ROOT_DIR `local-configuration.nix` and `desktop-configuration.nix` override their `/etc/nixos` counterpart when provisioning a new release (a backup file is created).
+
+### user configuration
 
 - The `params.sh` file has been replaced by two files:
 * https://github.com/CIRB/devbox/blob/master/user/config/box[`config/box`] to configure the devbox
 * https://github.com/CIRB/devbox/blob/master/user/config/box[`config/shell`] to configure the cicd-shell
 
 - The key `repos` replaces the previous `user_stack` field and accepts a list of available `mr` repositories.
-- The key `additionalRepos` deprecates the previous `mr_template_repo_url` field.
-- The https://github.com/CIRB/vcsh_mr_template[mr template repository] is now generic and shouldn't be forked.
+- The https://github.com/CIRB/vcsh_mr_template[mr template repository] is now generic and shouldn't be forked. The key `additionalRepos` deprecates the previous `mr_template_repo_url` field.
+- possibility to choose among different wallpapers
 
 Press `F1` for more detailed instructions.
 
 [NOTE]
-We are using https://github.com/Gabriel439/Haskell-Dhall-Library[`dhall`], a statically typed configuration format. You will be warned beforehand if a configuration file is invalid.
-
-#### packages
-
-- update nixos to `17.03`
-- `cicd-shell` v1
-- replace `vim` with `neovim`
-- replace `chromium` with `chrome`
-
-#### system configuration
-
-The nixos desktop/window manager configuration has been isolated in a new file called `desktop-configuration.nix`. Alike `local-configuratin.nix`, this file can be saved in your ROOT_DIR in case you want to use/try another desktop/window manager.
-
-### New features
-
-- https://albertlauncher.github.io/docs/[`albert`] (application launcer) on kbd:[<Control><Space>] replaces kbd:[<Super> p] (open menu)
-- `nautilus` (file manager) enabled by default (see `local-configuration.nix`)
-- `eclipse` updated to `neon` (4.6)
-- `yedit` and `jdt` (eclipse plugin) enabled by default (see `local-configuration.nix`)
-- possibility to choose among different wallpapers
+We are using https://github.com/Gabriel439/Haskell-Dhall-Library[`dhall`], a statically typed configuration format. You will be warned beforehand when a configuration file is invalid.
 
 
 ## v2.5, 11/02/2017
