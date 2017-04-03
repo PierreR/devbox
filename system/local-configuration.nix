@@ -12,6 +12,7 @@
     # geany
     gitAndTools.tig
     gnome3.nautilus
+    # gnome3.file-roller
     # idea.idea-community
     # idea.idea-ultimate
     # jdk
