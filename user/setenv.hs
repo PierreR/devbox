@@ -27,6 +27,8 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 eclipseVersion = "4.6.0"
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
+--
+envPackages = ["cicd-shell", "albert_"]
 
 data MrRepo
   = MrRepo
@@ -213,12 +215,14 @@ configureWallpaper = do
              , format fp link_name
              ] empty
 
-installCicdShell :: (MonadIO m, MonadReader ScriptEnv m) => m ()
-installCicdShell = do
-  homedir <- asks (view homeDir)
-  shell "nix-env -i cicd-shell" empty >>= \case
-    ExitSuccess   -> ppSuccess "cicd shell\n"
-    ExitFailure _ -> ppFailure "enable to install the cicd shell\n"
+installEnvPackages:: MonadIO m => [Text] -> m ()
+installEnvPackages px = sh $ do
+  p <- select px
+  proc "nix-env" [ "-iA"
+                 , "nixos." <> p
+                 ]  empty >>= \case
+    ExitSuccess   -> ppSuccess $ ppText p <> "\n"
+    ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "the devbox user environment\n"
 
 main :: IO ()
 main = do
@@ -232,7 +236,7 @@ main = do
            , configureGit
            , configureWallpaper
            , installEclipsePlugins
-           , installCicdShell
+           , installEnvPackages envPackages
            , installDoc
            ]
     ["--sync"] -> do
