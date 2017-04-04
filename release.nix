@@ -1,6 +1,7 @@
 let
-  pkgs = import <nixpkgs> { };
-  henv = pkgs.haskellPackages.ghcWithPackages (p: with p; [dhall_git protolude_git turtle ]);
+  pkgs = import <nixpkgs> {};
+  pinned = import ./nixpkgs/pin.nix;
+  henv = pinned.haskellPackages.ghcWithPackages (p: with p; [dhall_git protolude_git turtle ]);
 in
 {
   # We create a 'shell' suitable for interpreting the script
@@ -8,8 +9,6 @@ in
     name = "user";
     buildInputs = [
       henv
-      pkgs.ruby
-      pkgs.asciidoctor
       pkgs.mr
       pkgs.rsync
       pkgs.curl
@@ -20,7 +19,8 @@ in
     name = "trigger";
     buildInputs = [
       henv
-      pkgs.cicd-shell
+      pinned.cicd-shell
+      pinned.albert
       pkgs.puppet-env
     ];
   };
