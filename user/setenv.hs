@@ -25,8 +25,13 @@ import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
+
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
+
+-- pinned user env pkgs
+nixpkgsPinFile = ".config/nixpkgs/pin.nix"
+envPackages = ["cicd-shell", "albert"]
 
 data MrRepo
   = MrRepo
@@ -213,12 +218,16 @@ configureWallpaper = do
              , format fp link_name
              ] empty
 
-installCicdShell :: (MonadIO m, MonadReader ScriptEnv m) => m ()
-installCicdShell = do
+installEnvPackages :: (MonadIO m, MonadReader ScriptEnv m) => [Text] -> m ()
+installEnvPackages px = do
   homedir <- asks (view homeDir)
-  shell "nix-env -i cicd-shell" empty >>= \case
-    ExitSuccess   -> ppSuccess "cicd shell\n"
-    ExitFailure _ -> ppFailure "enable to install the cicd shell\n"
+  sh $ do
+      p <- select px
+      proc "nix-env" [ "-i", p
+                     , "-f" , format fp (homedir </> nixpkgsPinFile)
+                     ] empty >>= \case
+        ExitSuccess   -> ppSuccess $ ppText p <> "\n"
+        ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
 
 main :: IO ()
 main = do
@@ -232,7 +241,7 @@ main = do
            , configureGit
            , configureWallpaper
            , installEclipsePlugins
-           , installCicdShell
+           , installEnvPackages envPackages
            , installDoc
            ]
     ["--sync"] -> do
