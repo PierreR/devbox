@@ -28,7 +28,7 @@ eclipseVersion = "4.6.0"
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
 --
-envPackages = ["cicd-shell", "albert_"]
+envPackages = ["cicd-shell", "albert"]
 
 data MrRepo
   = MrRepo
@@ -218,11 +218,10 @@ configureWallpaper = do
 installEnvPackages:: MonadIO m => [Text] -> m ()
 installEnvPackages px = sh $ do
   p <- select px
-  proc "nix-env" [ "-iA"
-                 , "nixos." <> p
-                 ]  empty >>= \case
+  let cmd = "nix-env -i " <> p <> " -f '<pinned>'"
+  shell cmd empty >>= \case
     ExitSuccess   -> ppSuccess $ ppText p <> "\n"
-    ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "the devbox user environment\n"
+    ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
 
 main :: IO ()
 main = do

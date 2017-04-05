@@ -1,6 +1,6 @@
 .PHONY: clean user system cicd-shell
 
-overlays-version := 1.3.2
+overlays-version := 1.3.4
 
 bootstrap:
 	@mkdir -p ${PWD}/overlays
