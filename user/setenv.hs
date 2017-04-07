@@ -239,9 +239,9 @@ main = do
            , installMrRepos
            , configureGit
            , configureWallpaper
-           , installEclipsePlugins
            , installEnvPackages envPackages
            , installDoc
+           , installEclipsePlugins
            ]
     ["--sync"] -> do
       printf "\n> Sync user configuration\n"
