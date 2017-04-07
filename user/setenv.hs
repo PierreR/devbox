@@ -24,7 +24,7 @@ import           Turtle                       hiding (strict, view)
 import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 -- !! This needs to be changed when local-configuration.nix updates its version !!
-eclipseVersion = "4.6.0"
+eclipseVersion = "4.6.2"
 
 -- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
 mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
