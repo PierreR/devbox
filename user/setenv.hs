@@ -26,7 +26,8 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.0"
 
-mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
+-- mrRepoUrl = "git@github.com:CIRB/vcsh_mr_template.git"
+mrRepoUrl = "git@mygithub.com:PierreR/vcsh_mr_template.git" -- for testing purpose
 
 -- pinned user env pkgs
 nixpkgsPinFile = ".config/nixpkgs/pin.nix"
@@ -136,13 +137,12 @@ installMrRepos =  do
            die "Aborting user configuration"
          ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
     activate_repos home_dir rx = sh $ do
-      stack <- select (rx^..traverse.strict)
-      unless (Text.null stack) $ do
-        let mr_file = format (s%".mr") stack
-            link_target = format ("../available.d/"%s) mr_file
-            link_name = format (fp%"/.config/mr/config.d/"%s) home_dir mr_file
+      r <- select (rx^..traverse.strict)
+      unless (Text.null r) $ do
+        let link_target = format ("../available.d/"%s) r
+            link_name = format (fp%"/.config/mr/config.d/"%s) home_dir r
         procs "ln" [ "-sf", link_target, link_name] empty
-        printf ("Activate "%s%"\n") mr_file
+        printf ("Activate "%s%"\n") r
 
 installDoc :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installDoc = do
