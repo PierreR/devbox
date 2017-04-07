@@ -13,8 +13,8 @@ Box configuration file
 
 { userName        = ""
 , userEmail       = ""
-, repos         = [ "devbox-xmonad.vcsh" -- don't remove
-                  , "nixpkgs-config.mr" -- don't remove
+, repos         = [ "nixpkgs-config.mr" -- don't remove
+                  , "xmonad.vcsh"       -- don't remove
                   , "puppet-bos.mr"
                   , "puppet-fmx.mr"
                   ]
