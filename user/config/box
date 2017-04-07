@@ -13,9 +13,9 @@ Box configuration file
 
 { userName        = ""
 , userEmail       = ""
-, repos         = [ "puppet-bos"
+, repos         = [ "devbox-xmonad" -- don't remove (unless you provide your own window manager config)
+                  , "puppet-bos"
                   , "puppet-fmx"
-                  , "puppet-irisbox"
                   ]
 , eclipsePlugins  = True
 , wallpaper       = "devbox.jpg"
