@@ -73,14 +73,16 @@ WARNING: If you create the file manually, make sure you keep a `unix` file encod
 Open a terminal in the `ROOT_DIR`. You might want to use 'Git bash here' if you have a git client on your Windows host.
 
 To download the base box from our CIRB repository:
+[subs=attributes+]
 ```
-vagrant box add devbox-3.0 http://repo.irisnet.be/boxes/devbox.box <1>
+vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box <1>
 ```
 <1> You can also use 'devbox-novagrant.box' and maintain a Vagrantfile locally
 
 To initialize the box, in `ROOT_DIR` do:
+[subs=attributes+]
 ```
-vagrant init devbox-3.0 && vagrant up
+vagrant init devbox-{latest_version} && vagrant up
 ```
 
 [NOTE]
@@ -101,6 +103,7 @@ WARNING: If you want to start the `devbox` from the Virtualbox UI, you should fi
 
 ### vagrant
 
+[subs=attributes+]
 ```
 # boot the vm
 vagrant up
@@ -115,7 +118,7 @@ vagrant provision --provision-with system
 # destroy the box (all local state is lost but the imported box remains)
 vagrant destroy
 # remove the imported box (necessary in case of a major version bump)
-vagrant box remove devbox-3.0
+vagrant box remove devbox-{latest_version}
 
 ```
 
@@ -368,9 +371,9 @@ Here are the steps to migrate:
 ====
 [lowerroman]
 . destroy the old box losing all current statefootnote:[The README describes several tricks to keep/store your customization.] : `vagrant destroy`
-. remove the old box: `vagrant box remove devbox`
-. add the new one: `vagrant box add devbox http://repo.irisnet.be/boxes/devbox.box`
-. initialize the new box: `vagrant init devbox && vagrant up`
+. remove the old box: `vagrant box remove devbox-{latest_version}`
+. add the new one: `vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box`
+. initialize the new box: `vagrant init devbox-{latest_version} && vagrant up`
 ====
 
 TIP: You might prefer to keep the old devbox and create a new one to be 100% sure not to lose anything. Just pick another name when adding and initiating the box with vagrant. A good tip is to use `devbox-x.x` where `x.x` is the major and minor version of the box.
