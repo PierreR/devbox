@@ -200,6 +200,7 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 | kbd:[<Super> Tab] |In stack layout, switch the stacked window
 | kbd:[<Super> <Shift> c] |Close (kill) current window
 | kbd:[<Super> m] kbd:[<Super> h] |Resize windows
+| kbd:[<Super> w] |Put window back into tiling 
 | kbd:[F 1] |Open this README in a browser
 |======
 
@@ -301,6 +302,7 @@ The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] ma
 
 You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L8[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
 
+TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of `ROOT_DIR/config/box` points to such a workflow as an example.
 
 ## How is the box generated ?
 
