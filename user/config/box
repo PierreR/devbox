@@ -18,6 +18,6 @@ Box configuration file
                   , "puppet-bos.mr"
                   ]
 , eclipsePlugins  = True
-, wallpaper       = "devbox3.jpg"
+, wallpaper       = "devbox.jpg"
 , additionalRepos = [ ] : List { path : Text, checkout : Text }
 }
