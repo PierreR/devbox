@@ -267,6 +267,7 @@
 
   programs.zsh.enable = true;
   programs.zsh.interactiveShellInit = ''
+    setopt globdots
     export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
 
     nlink () {
