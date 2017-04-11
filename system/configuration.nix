@@ -168,7 +168,6 @@
               "puppet-vim"
               "sensible"
               "surround"
-              "neomake"
               "vim-nix"
               ];
             }
