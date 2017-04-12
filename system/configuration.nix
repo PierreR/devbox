@@ -253,6 +253,7 @@
     build = "./build/build.sh";
     see = "./bin/check_role.sh";
     fixlint = "./bin/fix-lint.sh";
+    chrome = "google-chrome-stable";
   };
 
   programs.bash.interactiveShellInit = ''
@@ -286,6 +287,7 @@
     df = " df -h";
     ag = "ag --color-line-number=3";
     vi = "vim";
+    chrome = "google-chrome-stable";
     build = "./build/build.sh";
     see = "./bin/check_role.sh";
     heyaml = "./bin/eyaml.sh $@";
