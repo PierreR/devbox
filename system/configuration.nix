@@ -304,19 +304,27 @@
     allowUnfree = true;
     packageOverrides = super:
       let self = super.pkgs;
-      puppetdb-dns = self.buildGoPackage rec {
-        name = "puppetdb-dns-${version}";
-        version = "20161124-${self.stdenv.lib.strings.substring 0 7 rev}";
-        rev = "66e9343db2d6f5991767d36ba96e0121b6d6f04b";
-        goPackagePath = "github.com/jfroche/puppetdb-dns";
-        src = self.fetchgit {
-          inherit rev;
-          url = "https://github.com/jfroche/puppetdb-dns";
-          sha256 = "0v5azn6gx8a8pjbfd7gh5q7azbf48yb97xd8pwv3qyr1sask68vs";
-        };
-        goDeps = /etc/cicd/puppetdb-dns/deps.nix;
-      };
-      in { inherit puppetdb-dns; };
+          geppetto = self.eclipses.plugins.buildEclipseUpdateSite rec {
+           name = "geppetto-4.3.1";
+           version = "4.3.1-R201501182354";
+           src = pkgs.fetchurl {
+             url = "https://downloads.puppetlabs.com/geppetto/4.x/geppetto-linux.gtk.x86_64-${version}.zip";
+             sha256= "1nlj47486ic4vj692wy83aba6h82q4ax3nfmmk79vvcalwg2yp9w";
+           };
+          };
+          puppetdb-dns = self.buildGoPackage rec {
+            name = "puppetdb-dns-${version}";
+            version = "20161124-${self.stdenv.lib.strings.substring 0 7 rev}";
+            rev = "66e9343db2d6f5991767d36ba96e0121b6d6f04b";
+            goPackagePath = "github.com/jfroche/puppetdb-dns";
+            src = self.fetchgit {
+              inherit rev;
+              url = "https://github.com/jfroche/puppetdb-dns";
+              sha256 = "0v5azn6gx8a8pjbfd7gh5q7azbf48yb97xd8pwv3qyr1sask68vs";
+            };
+            goDeps = /etc/cicd/puppetdb-dns/deps.nix;
+          };
+      in { inherit puppetdb-dns geppetto; };
   };
   systemd.services.puppetdb-dns = {
     description = "Puppetdb DNS service";
