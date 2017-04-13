@@ -6,7 +6,7 @@
     # atom
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-46;
-       plugins = with eclipses.plugins; [ jdt yedit testng ];
+       plugins = with eclipses.plugins; [ jdt yedit testng geppetto ];
      })
     firefox
     # geany
