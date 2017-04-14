@@ -375,7 +375,7 @@ NOTE: The only use of hyper-v we have detected so far is by the latest version o
 
 ## Life cycle
 
-Tickets and issues are handled directly on https://github.com/CIRB/devbox/issues[Github issues]. Alternatively you might want to use http://jira.cirb.lan/browse/CICDPROJ-150[Jira].
+The https://github.com/CIRB/devbox/issues[issues] and the https://github.com/CIRB/devbox/milestones?direction=asc&sort=due_date&state=open[roadmap] are handled directly on Github. Alternatively you might want to use http://jira.cirb.lan/browse/CICDPROJ-150[Jira].
 
 The devbox will be maintained continuously with at least a major release every six months to follow the OS life cycle.
 
