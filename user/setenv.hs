@@ -38,6 +38,11 @@ data MrRepo
   , _checkout :: LText
   } deriving (Generic, Show)
 
+data Console
+  = Console
+  { _color :: LText
+  } deriving (Generic, Show)
+
 data BoxConfig
   = BoxConfig
   { _userName        :: LText
@@ -45,12 +50,15 @@ data BoxConfig
   , _repos           :: Vector LText
   , _eclipsePlugins  :: Bool
   , _wallpaper       :: LText
+  , _console         :: Console
   , _additionalRepos :: Vector MrRepo
   } deriving (Generic, Show)
 
+makeLenses ''Console
 makeLenses ''MrRepo
 makeLenses ''BoxConfig
 
+instance Interpret Console
 instance Interpret MrRepo
 instance Interpret BoxConfig
 
@@ -216,6 +224,19 @@ configureWallpaper = do
              , format fp link_name
              ] empty
 
+configureConsole :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+configureConsole = do
+  printf "Configuring console\n\n"
+  homedir <- asks (view homeDir)
+  color <- asks $ view (boxConfig.console.color.strict)
+  let color_fp = homedir </> ".config/urxvt/themes"
+      link_target = color_fp </> fromText color
+      link_name = color_fp </> "default"
+  procs "ln" [ "-sf"
+             , format fp link_target
+             , format fp link_name
+             ] empty
+
 installEnvPackages :: (MonadIO m, MonadReader ScriptEnv m) => [Text] -> m ()
 installEnvPackages px = do
   homedir <- asks (view homeDir)
@@ -238,6 +259,7 @@ main = do
            , installMrRepos
            , configureGit
            , configureWallpaper
+           , configureConsole
            , installEnvPackages envPackages
            , installDoc
            , installEclipsePlugins
@@ -248,6 +270,7 @@ main = do
            , installMrRepos
            , configureGit
            , configureWallpaper
+           , configureConsole
            ]
     _ -> die "Unrecognized option. Exit."
   runReaderT (sequence_ actions) =<< scriptEnv

@@ -8,6 +8,10 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
+- Add console configuration (light/dark color theme)
+
+## v3.0, 07/04/2017
+
 ### system configuration
 
 #### packages
