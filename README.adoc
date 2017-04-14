@@ -176,7 +176,6 @@ The whole system setup is declared in the https://github.com/CIRB/devbox/blob/ma
 
 ```
 
-
 ### windows manager
 
 The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tiling windows manager] called http://xmonad.org/[xmonad]. Such a minimal approach has been chosen for 3 reasons:
@@ -211,16 +210,25 @@ The `devbox` uses the `urxvt` terminal for its speed and customization.
 |=====
 |Command | Description
 
-|kbd:[<Control> <Meta> p]|Change theme
+|kbd:[<Control><Meta> c/v] | Copy/paste to/from clipboard
 |kbd:[<Control> <Shift> up/down] |Increase/Decrease font size
 |kbd:[<Meta> <s>] |Search console output
-|kbd:[<Control><Meta> c/v] | Copy/paste to/from clipboard
 |=====
 
 The default shell is `zsh` which allows for predictable history and completion.
 You can revert to using `bash` as your default shell if you wish by removing all zsh related lines in the `/etc/nixos/local-configuration.nix` file.
 
-You might want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
+You can use https://github.com/wting/autojump[`autojump`] to quickly navigate from one directory to another using the `j` shortcut:
+```
+# Go to your directory (you can omit the `cd`)
+→ cd projects/cicd/puppet/bos
+# Teach autojump that you like bos
+→ autojump -i 20
+# Open a new terminal. You can now quickly go to ~/projects/cicd/puppet/bos
+→ j bos
+```
+
+You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
 
 
 ### projects
@@ -292,7 +300,9 @@ You can quickly search for packages online at https://nixos.org/nixos/packages.h
 
 The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository].
 
-For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository. As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its `repos` in `ROOT_DIR/config/box`.
+For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
+
+As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/master/user/config/box#L5[`repos`] in `ROOT_DIR/config/box`.
 
 #### generic dotfiles
 
@@ -300,11 +310,11 @@ The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] ma
 
 #### personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L8[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L9[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
 
 TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of `ROOT_DIR/config/box` points to such a workflow as an example.
 
-WARNING: `additionalRepos` is meant as a static setting. It is only taken into account the first time you create a box. This is unlike `repos` that refreshes activated repositories each time you provision.
+WARNING: `additionalRepos` is meant as a static setting. It is only taken into account the first time you create a box. This is unlike `repos` for which the list of activated repositories is refreshed each time you provision.
 
 
 ## How is the box generated ?
