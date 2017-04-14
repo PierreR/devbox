@@ -157,7 +157,7 @@ Compare to more traditional distributions, NixOS favors declarative settings and
 
 By using `nixos` we are striving for a system that we can destroy and re-create at will without fuss.
 
-The whole system setup is declared in the https://github.com/CIRB/devbox/blob/master/system/configuration.nix[/etc/nixos/configuration.nix] file.
+The whole system setup is declared in the https://github.com/CIRB/devbox/blob/master/system/configuration.nix[/etc/nixos/configuration.nix] file. In the same file you will find the https://github.com/CIRB/devbox/blob/master/system/configuration.nix#L99-L209[list] of all the system packages installed.
 
 #### useful command
 
