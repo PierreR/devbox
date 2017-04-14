@@ -304,6 +304,9 @@ You can register any source repository by adding it to https://github.com/CIRB/d
 
 TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of `ROOT_DIR/config/box` points to such a workflow as an example.
 
+WARNING: `additionalRepos` is meant as a static setting. It is only taken into account the first time you create a box. This is unlike `repos` that refreshes activated repositories each time you provision.
+
+
 ## How is the box generated ?
 
 The box is generated using packer and the source files from https://github.com/zimbatm/nixbox[here]:
