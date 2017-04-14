@@ -145,7 +145,7 @@ Given the personal settings defined in https://github.com/CIRB/devbox/blob/maste
 * install/update the cicd shell
 * install all required packages for working with the puppet stacks
 
-### operating system
+### operating system (nixos)
 
 The devbox is based on https://nixos.org/[NixOS] version 17.03. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
@@ -176,7 +176,7 @@ The whole system setup is declared in the https://github.com/CIRB/devbox/blob/ma
 
 ```
 
-### windows manager
+### windows manager (xmonad)
 
 The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tiling windows manager] called http://xmonad.org/[xmonad]. Such a minimal approach has been chosen for 3 reasons:
 
@@ -203,7 +203,7 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 | kbd:[F 1] |Open this README in a browser
 |======
 
-### terminal emulator
+### terminal emulator (urxvt)
 
 The `devbox` uses the `urxvt` terminal for its speed and customization.
 
@@ -231,11 +231,13 @@ You can use https://github.com/wting/autojump[`autojump`] to quickly navigate fr
 You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
 
 
-### projects
+### projects (mr)
 
-You can activate any available repository by setting `repos` in 'ROOT_DIR/config/box'. The list of available repositories is defined https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[here] .
+The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called  https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[vcsh_mr_template] .
 
-All enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `repos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and to enter `make` on the command line.
+You can activate any available repositories by setting `repos` in 'ROOT_DIR/config/box'.
+
+The enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `repos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and enter `make` on the command line.
 
 To update all registered mr repository, do
 ```
@@ -243,7 +245,7 @@ To update all registered mr repository, do
 ```
 <1> you usually don't want to automatically update such repository on provisioning. That's the reason behind the `-f` (force) flag.
 
-You can ask the `git status` of all repositories using
+You can ask a `git status` of all your repositories with
 
 ```
 → mr st
@@ -317,31 +319,37 @@ TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration wit
 WARNING: `additionalRepos` is meant as a static setting. It is only taken into account the first time you create a box. This is unlike `repos` for which the list of activated repositories is refreshed each time you provision.
 
 
-## How is the box generated ?
+## Life cycle
 
-The box is generated using packer and the source files from https://github.com/zimbatm/nixbox[here]:
+The https://github.com/CIRB/devbox/issues[issues] and the https://github.com/CIRB/devbox/milestones?direction=asc&sort=due_date&state=open[roadmap] are handled directly on Github. Alternatively you might want to use http://jira.cirb.lan/browse/CICDPROJ-150[Jira].
 
-```
-packer.exe build nixos-x86_64.json <1>
-vagrant box add devbox-x.x-pre packer_virtualbox-iso_virtualbox.box
-```
-<1> be careful of keeping the linux file encoding while working on windows !
+The devbox will be maintained continuously with at least a major release every six months to follow the OS life cycle.
 
-The size of the 'pre box' is ~ 300M
+The versioning scheme used is semantic: `major.minor.patch`.
 
-The box is then repackaged to a full vm:
+A major jump is expected two or three times a year and entails incompatible changes. As a result, the box will need to be destroy and re-create again. You should look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README to know the details.
 
-```
-git clone git@github.com:CIRB/devbox.git
-cd devbox
-vagrant up --no-provision
-vagrant provision --provision-with system
-vagrant reload
-rm -rf /tmp/system # on the future packaged box
-vagrant package --output devbox-x.x.x --vagrantfile Vagrantfile
-```
+Here are the steps to migrate:
 
-The size of the repackaged vagrant box is ~ 2G.
+====
+[lowerroman]
+. destroy the old box losing all current statefootnote:[The README describes several tricks to keep/store your customization.] : `vagrant destroy`
+. remove the old box: `vagrant box remove devbox-{latest_version}`
+. add the new one: `vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box`
+. initialize the new box: `vagrant init devbox-{latest_version} && vagrant up`
+====
+
+TIP: You might prefer to keep the old devbox around and create a new one to be 100% sure not to lose anything.
+
+Question, support, discussion are handled in the slack `#devbox` channel.
+
+## FAQ
+
+### Eclipse: how to add plugins ?
+
+You can add any https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/eclipse/plugins.nix[available] eclipse plugins to https://github.com/CIRB/devbox/blob/master/system/local-configuration.nix#L9[this list] in your ROOT_DIR/local-configuration.nix.
+
+If it is not available, please submit an issue.
 
 
 [[Troubleshooting]]
@@ -373,29 +381,32 @@ In the meanwhile, if you face such a issue you will have to disable hyper-v to g
 NOTE: The only use of hyper-v we have detected so far is by the latest version of *Docker for Windows*.
 
 
-## Life cycle
+## How is the box generated ?
 
-The https://github.com/CIRB/devbox/issues[issues] and the https://github.com/CIRB/devbox/milestones?direction=asc&sort=due_date&state=open[roadmap] are handled directly on Github. Alternatively you might want to use http://jira.cirb.lan/browse/CICDPROJ-150[Jira].
+The box is generated using packer and the source files from https://github.com/zimbatm/nixbox[here]:
 
-The devbox will be maintained continuously with at least a major release every six months to follow the OS life cycle.
+```
+packer.exe build nixos-x86_64.json <1>
+vagrant box add devbox-x.x-pre packer_virtualbox-iso_virtualbox.box
+```
+<1> be careful of keeping the linux file encoding while working on windows !
 
-The versioning scheme used is semantic: `major.minor.patch`.
+The size of the 'pre box' is ~ 300M
 
-A major jump is expected two or three times a year and entails incompatible changes. As a result, the box will need to be destroy and re-create again. You should look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README to know the details.
+The box is then repackaged to a full vm:
 
-Here are the steps to migrate:
+```
+git clone git@github.com:CIRB/devbox.git
+cd devbox
+vagrant up --no-provision
+vagrant provision --provision-with system
+vagrant reload
+rm -rf /tmp/system # on the future packaged box
+vagrant package --output devbox-x.x.x --vagrantfile Vagrantfile
+```
 
-====
-[lowerroman]
-. destroy the old box losing all current statefootnote:[The README describes several tricks to keep/store your customization.] : `vagrant destroy`
-. remove the old box: `vagrant box remove devbox-{latest_version}`
-. add the new one: `vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box`
-. initialize the new box: `vagrant init devbox-{latest_version} && vagrant up`
-====
+The size of the repackaged vagrant box is ~ 2G.
 
-TIP: You might prefer to keep the old devbox around and create a new one to be 100% sure not to lose anything.
-
-Question, support, discussion are handled in the slack `#devbox` channel.
 
 ifndef::env-github[]
 
