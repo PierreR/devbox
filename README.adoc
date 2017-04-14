@@ -351,6 +351,10 @@ You can add any https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/e
 
 If it is not available, please submit an issue.
 
+### Vagrant: using Virtualbox UI
+
+If you want to use the Virtualbox UI instead of the vagrant commands, you will need to uncomment the https://github.com/CIRB/devbox/blob/master/system/local-configuration.nix#L24-L28[following lines] in your ROOT_DIR/local-configuration.nix file.
+
 
 [[Troubleshooting]]
 ## Troubleshooting
