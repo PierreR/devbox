@@ -386,7 +386,7 @@ NOTE: The only use of hyper-v we have detected so far is by the latest version o
 
 For Mac users::
 +
-There is known critical issues with Virtualbox and VPN clients on `macosx`.
+There are known critical issues with Virtualbox and VPN clients on `macosx`.
 
 
 ## How is the box generated ?
