@@ -197,7 +197,7 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 | kbd:[<Super> <Shift> 1..9] |Switch to nth desktop
 | kbd:[<Super> Space] |Change between horizontal, vertical and stack layout
 | kbd:[<Super> Tab] |In stack layout, switch the stacked window
-| kbd:[<Super> q] |Close (kill) current window
+| kbd:[<Super> q] |Close current window
 | kbd:[<Super> m] kbd:[<Super> h] |Resize windows
 | kbd:[<Super> w] |Put window back into tiling
 | kbd:[F 1] |Open this README in a browser
