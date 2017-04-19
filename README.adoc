@@ -384,6 +384,10 @@ In the meanwhile, if you face such a issue you will have to disable hyper-v to g
 
 NOTE: The only use of hyper-v we have detected so far is by the latest version of *Docker for Windows*.
 
+For Mac users::
++
+There is known critical issues with Virtualbox and VPN clients on `macosx`.
+
 
 ## How is the box generated ?
 
