@@ -21,10 +21,10 @@ system:
 
 doc: doc/devbox.html doc/devbox.pdf
 
-doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc
+doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc cicd-shell.adoc puppet.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor $< -o $@"
 
-doc/devbox.pdf: README.adoc meta.adoc
+doc/devbox.pdf: README.adoc meta.adoc cicd-shell.adoc puppet.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor -r asciidoctor-pdf -b pdf $< -o $@"
 
 clean:
