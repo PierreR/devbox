@@ -95,6 +95,7 @@
   environment.extraInit = ''
     export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
     export DESKTOP_SESSION=gnome
+    export BROWSER=google-chrome-stable
   '';
   environment.systemPackages = with pkgs; [
     asciidoctor
