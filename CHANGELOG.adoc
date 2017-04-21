@@ -8,8 +8,9 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
-- Add console configuration (light/dark color theme)
-- Fix missing `geppetto` eclipse plugin
+- add console configuration (light/dark color theme)
+- fix missing `geppetto` eclipse plugin
+- cicd-shell v1.1
 
 ## v3.0, 07/04/2017
 
