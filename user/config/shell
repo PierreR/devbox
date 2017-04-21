@@ -1,5 +1,5 @@
 {- HELP
-Active directory credentials configuration file
+Configuration file for the cicd-shell
   loginId  : Your Active directory id
   password : Your Active directory password
   defaultStack : Stack to use by default when none is specified in the command line
