@@ -165,10 +165,9 @@ installDoc = do
         ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
         ExitSuccess   -> do
           homedir <- asks (view homeDir)
-          let docdir = homedir </> ".local/share/doc"
+          let docdir = homedir </> ".local/share/"
           mktree docdir
-          cp "./doc/devbox.html" (docdir </> "devbox.html")
-          cp "doc/devbox.pdf" (docdir </> "devbox.pdf")
+          proc "cp" ["-r", "doc", format fp docdir] empty
           ppSuccess "documentation\n"
 
 installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()

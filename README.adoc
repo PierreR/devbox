@@ -9,6 +9,7 @@ endif::env-github[]
 :toclevels: 2
 :numbered:
 :sectnumlevels: 1
+:imagesdir: res
 :nofooter:
 :icons: font
 :docinfo1:
@@ -32,8 +33,12 @@ ifndef::env-github[]
 icon:print[link="file:///home/vagrant/.local/share/doc/devbox.pdf"]
 endif::env-github[]
 
+
 TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
 
+## Overview
+
+image::devbox.png[]
 
 ## Software requirements
 
@@ -42,6 +47,7 @@ TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
 
 Please do update if you have older release(s).
 
+<<<
 
 ## First time setup
 
