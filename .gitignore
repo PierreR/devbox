@@ -2,7 +2,7 @@
 ssh-keys/
 dotfiles/
 user/result
-doc/devbox.*
+doc/
 _site/
 *_brackets.html
 stack.yaml
