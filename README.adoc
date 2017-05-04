@@ -56,8 +56,9 @@ Please do update if you have older release(s).
 1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
 +
 ====
-We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
+We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide
 ====
+
 2. In `ROOT_DIR`, create a new config folder and copy the two files from the  https://github.com/CIRB/devbox/blob/master/user/config[config folder]. Modify them to match your personal settings:
 +
 ```
@@ -73,6 +74,22 @@ WARNING: If you create the file manually, make sure you keep a `unix` file encod
 1. in the `ROOT_DIR`, create a directory `ssh-keys`.
 2. in this ssh-keys subfolder, copy your `Bitbucket` key pair, rename them 'cirb_rsa' and 'cirb_rsa.pub' respectively if the filename differs.
 3. in the ssh-keys subfolder, copy your `Github` key pair, rename them 'cirb_github_rsa' and 'cirb_github_rsa.pub'. If you use the same key pair, copy the previous pair and rename accordingly.
+
+[subs=attributes+]
+.typical ROOT_DIR folder
+-----
+devbox-{latest_version}
+   ├── config
+   │      ├── box
+   │      ├── shell
+   ├── ssh_keys
+   │      ├── cirb_rsa
+   │      ├── cirb_rsa.pub
+   │      ├── cirb_github_rsa
+   │      └── cirb_github_rsa.pub
+   ├── local-configuration.nix
+   └── Vagrantfile
+-----
 
 ### box import
 
