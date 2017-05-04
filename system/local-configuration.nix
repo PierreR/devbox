@@ -16,6 +16,7 @@
     # idea.idea-community
     # idea.idea-ultimate
     # jdk
+    # maven
     # pandoc
     # parcellite
   ];
