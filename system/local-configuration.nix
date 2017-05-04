@@ -15,7 +15,7 @@
     # gnome3.file-roller
     # idea.idea-community
     # idea.idea-ultimate
-    # jdk
+    jdk
     # maven
     # pandoc
     # parcellite
