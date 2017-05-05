@@ -8,6 +8,12 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
+- fix random freezing (due to taffybar crash)
+- default eclipse configuration available (at `.eclipse/workspace`)
+- update cicd-shell to v1.3
+
+## v3.1, 14/04/2017
+
 - add console configuration (light/dark color theme)
 - fix missing `geppetto` eclipse plugin
 - cicd-shell v1.1
