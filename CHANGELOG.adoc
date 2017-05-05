@@ -12,6 +12,10 @@ include::meta.adoc[]
 - default eclipse configuration available (at `.eclipse/workspace`)
 - update cicd-shell to v1.3
 
+### Changes
+
+- Since v3.0, `vagrant provision` has overridden both `/etc/nixos/local-configuration.nix` and `/etc/nixos/desktop-configuration.nix` with your personal configuration from ROOT_DIR. When such personal configuration is not found in ROOT_DIR, the two system files are now also overridden but with their original sources from the devbox repository (a backup is available in case some changes were not propagated to the ROOT_DIR).
+
 ## v3.1, 14/04/2017
 
 - add console configuration (light/dark color theme)

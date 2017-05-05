@@ -7,16 +7,15 @@ set -e
 # sync config file located in /vagrant
 sync_extra_config () {
     local config_file=$1
+    if [[ -f "/etc/nixos/${config_file}" ]]; then
+        cp --verbose "/etc/nixos/${config_file}" "/etc/nixos/${config_file}.back"
+    fi
     if [[ -f "/vagrant/${config_file}" ]]; then
-        # Always override with the shared file
-        echo "Overridding ${config_file}"
-        if [[ -f "/etc/nixos/${config_file}" ]]; then
-            cp --verbose "/etc/nixos/${config_file}" "/etc/nixos/${config_file}.back"
-        fi
+        echo "Overridding ${config_file} using your personal configuration from the ROOT_DIR"
         cp --verbose "/vagrant/${config_file}" "/etc/nixos/${config_file}"
     else
-        # when there is no custom config file, copy but don't override an existing installed configuration
-        cp --verbose -n "./system/${config_file}" "/etc/nixos/${config_file}"
+        echo "No personal configuration found. Overridding ${config_file} using the devbox source repository
+        cp --verbose "./system/${config_file}" "/etc/nixos/${config_file}"
     fi
 }
 
