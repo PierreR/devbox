@@ -14,7 +14,7 @@ sync_extra_config () {
         echo "Overridding ${config_file} using your personal configuration from the ROOT_DIR"
         cp --verbose "/vagrant/${config_file}" "/etc/nixos/${config_file}"
     else
-        echo "No personal configuration found. Overridding ${config_file} using the devbox source repository
+        echo "No personal configuration found. Overridding ${config_file} using the devbox source repository"
         cp --verbose "./system/${config_file}" "/etc/nixos/${config_file}"
     fi
 }
