@@ -60,7 +60,6 @@
         autoLogin.enable= true;
       };
       sessionCommands = ''
-        ${pkgs.rxvt_unicode-with-plugins}/bin/urxvtd -q -o -f
         ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
         ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg"
         ${pkgs.numlockx}/bin/numlockx on
@@ -195,6 +194,7 @@
     silver-searcher
     stalonetray
     taffybar
+    termite
     tmux
     tree
     unzip

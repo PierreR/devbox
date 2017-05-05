@@ -226,16 +226,17 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 | kbd:[F 1] |Open this README in a browser
 |======
 
-### terminal emulator (urxvt)
+### terminal emulator (termite)
 
-The `devbox` uses the `urxvt` terminal for its speed and customization.
+The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite`] terminal.
 
 |=====
 |Command | Description
 
-|kbd:[<Control><Meta> c/v] | Copy/paste to/from clipboard
-|kbd:[<Control> <Shift> up/down] |Increase/Decrease font size
-|kbd:[<Meta> <s>] |Search console output
+|kbd:[<Control><Shift> c/v] | Copy/paste to/from clipboard
+|kbd:[<Control><Shift> +/-/=] |Increase/Decrease/Reset font size
+|kbd:[<Control><tab>] |Start scrollback completion
+|kbd:[<Control><Shift> <space>] |Start selection mode
 |=====
 
 The default shell is `zsh` which allows for predictable history and completion.

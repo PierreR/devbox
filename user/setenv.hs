@@ -228,9 +228,9 @@ configureConsole = do
   printf "Configuring console\n\n"
   homedir <- asks (view homeDir)
   color <- asks $ view (boxConfig.console.color.strict)
-  let color_fp = homedir </> ".config/urxvt/themes"
+  let color_fp = homedir </> ".config/termite"
       link_target = color_fp </> fromText color
-      link_name = color_fp </> "default"
+      link_name = color_fp </> "config"
   procs "ln" [ "-sf"
              , format fp link_target
              , format fp link_name
