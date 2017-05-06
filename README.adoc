@@ -119,11 +119,11 @@ When `vagrant up` terminates, restart your box in order to finalize your first t
 vagrant reload
 ```
 
-
 ## Usage
 
 WARNING: If you want to start the `devbox` from the Virtualbox UI, you should first uncomment https://github.com/CIRB/devbox/blob/058fd956c62e890a775b3c8ce709a855e7b0c758/system/local-configuration.nix#L20-L24[these lines] from local-configuration.nix. Otherwise the shared folder (/vagrant) won't be mounted. On the other hand the command line (`vagrant up`) will always mount the shared folder.
 
+ifdef::backend-pdf[<<<]
 ### vagrant
 
 [subs=attributes+]
@@ -226,6 +226,21 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 | kbd:[F 1] |Open this README in a browser
 |======
 
+#### layout
+
+The current layout is displayed on the status bar.
+|=====
+|Symbol |Name
+
+| ≡ | horizontal
+| ⊤ | horizontal tiled
+| ∥ | vertical
+| □ | full (stack)
+| ⊢ | vertical tiled
+|=====
+
+TIP: You can also change layout by clicking on the symbol
+
 ### terminal emulator (termite)
 
 The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite`] terminal.
@@ -236,7 +251,7 @@ The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite
 |kbd:[<Control><Shift> c/v] | Copy/paste to/from clipboard
 |kbd:[<Control><Shift> +/-/=] |Increase/Decrease/Reset font size
 |kbd:[<Control><tab>] |Start scrollback completion
-|kbd:[<Control><Shift> <space>] |Start selection mode
+|kbd:[<Control><Shift><space>] |Start selection mode
 |=====
 
 The default shell is `zsh` which allows for predictable history and completion.

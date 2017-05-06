@@ -8,14 +8,16 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
-- fix random freezing (due to taffybar crash)
-- default eclipse configuration available (at `.eclipse/workspace`)
-- update cicd-shell to v1.3
-
-### Changes
-
-- Since v3.0, `vagrant provision` has overridden both `/etc/nixos/local-configuration.nix` and `/etc/nixos/desktop-configuration.nix` with your personal configuration from ROOT_DIR. When such personal configuration is not found in ROOT_DIR, the two system files are now also overridden but with their original sources from the devbox repository (a backup is available in case some changes were not propagated to the ROOT_DIR).
-- The devbox is now using the https://github.com/thestinger/termite[`termite`] terminal instead of `urxvt`
+- https://github.com/thestinger/termite[`termite`] is now the default terminal emulator (replacing `urxvt`)
+- the status bar now displays the active <<_layout>>
+- fix random desktop freezes (due to taffybar crash)
+- introduce a default persistent Eclipse configuration (available at `.eclipse/workspace`)
+- enable the terminal and Chrome bookmarks extension in Albert
+- `cicd-shell` updated to `v1.3`
+- Add an overview schema in the README
+- Since v3.0, `vagrant provision` has overridden both `/etc/nixos/local-configuration.nix` and `/etc/nixos/desktop-configuration.nix` with your configuration from ROOT_DIR.
++
+When such personal config is not found in ROOT_DIR, the two system files are now also overridden but with their original sources from the devbox repository (a backup is available in case some changes were not propagated to the ROOT_DIR).
 
 ## v3.1, 14/04/2017
 
