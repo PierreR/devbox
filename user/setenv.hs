@@ -182,7 +182,7 @@ installEclipsePlugins = do
       let localdir = homedir </> ".eclipse"
           installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseVersion)
           prefix_fp = installPath </> "plugins" </> fromText full_name
-      not_installed <- testdir localdir >>= \case
+      not_installed <- testdir installPath >>= \case
         True -> fold (find (prefix (text (format fp prefix_fp))) installPath) Fold.null
         False -> pure True
       when not_installed $ do
