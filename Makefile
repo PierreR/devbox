@@ -19,7 +19,7 @@ sync-user:
 system:
 	@./system/setenv.sh
 
-doc: doc/devbox.html doc/devbox.pdf doc/res/devbox.png
+doc: doc/devbox.html doc/devbox.pdf doc/res/devbox.png doc/res/layout-indicator.png
 
 doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc cicd-shell.adoc puppet.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor $< -o $@"
@@ -27,7 +27,7 @@ doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc cicd-shell.adoc puppet.ado
 doc/devbox.pdf: README.adoc meta.adoc cicd-shell.adoc puppet.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor -r asciidoctor-pdf -b pdf $< -o $@"
 
-doc/res/devbox.png:
+doc/res/%.png:
 	cp -r res doc/
 
 clean:

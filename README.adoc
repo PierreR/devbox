@@ -228,7 +228,11 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 
 #### layout
 
-The current layout is displayed on the status bar.
+The active layout is displayed on the status bar:
+
+image::layout-indicator.png[float="right"]
+
+[width="35%", float="left"]
 |=====
 |Symbol |Name
 
@@ -239,7 +243,7 @@ The current layout is displayed on the status bar.
 | ⊢ | vertical tiled
 |=====
 
-TIP: You can also change layout by clicking on the symbol
+TIP: You can also change layout by clicking on the symbol in the status bar.
 
 ### terminal emulator (termite)
 
