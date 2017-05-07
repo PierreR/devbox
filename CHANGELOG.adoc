@@ -9,9 +9,18 @@ include::meta.adoc[]
 ## {latest_revision}
 
 - https://github.com/thestinger/termite[`termite`] is now the default terminal emulator (replacing `urxvt`)
++
+[WARNING]
+====
+copy/paste is now bound to  kbd:[<Ctrl><Shift>c/v] instead of kbd:[<Ctrl><Alt>c/v]
+
+Check out the file:///home/vagrant/.local/share/doc/devbox.html#_terminal_emulator_termite[updated documentation].
+====
+
 - the status bar now displays the active <<_layout>>
 - fix random desktop freezes (due to taffybar crash)
 - introduce a default persistent Eclipse configuration (available at `.eclipse/workspace`)
+- Eclipse will always open in the first workspace `[1]` and Chrome in the last one `[9]`.
 - enable the terminal and Chrome bookmarks extension in Albert
 - `cicd-shell` updated to `v1.3`
 - Add an overview schema in the README

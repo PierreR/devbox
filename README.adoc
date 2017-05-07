@@ -249,7 +249,7 @@ The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite
 |Command | Description
 
 |kbd:[<Control><Shift> c/v] | Copy/paste to/from clipboard
-|kbd:[<Control><Shift> +/-/=] |Increase/Decrease/Reset font size
+|kbd:[<Control><Shift> {plus}/-/=] |Increase/Decrease/Reset font size
 |kbd:[<Control><tab>] |Start scrollback completion
 |kbd:[<Control><Shift><space>] |Start selection mode
 |=====
