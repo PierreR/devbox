@@ -50,7 +50,6 @@
   };
 
   services.xserver = {
-    videoDriver = "virtualbox";
     enable = true;
     layout = "be";
     xkbOptions = "caps:escape";
