@@ -98,9 +98,8 @@ Open a terminal in the `ROOT_DIR`. You might want to use 'Git bash here' if you 
 To download the base box from our CIRB repository:
 [subs=attributes+]
 ```
-vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box <1>
+vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box
 ```
-<1> You can also use 'devbox-novagrant.box' and maintain a Vagrantfile locally
 
 To initialize the box, in `ROOT_DIR` do:
 [subs=attributes+]
