@@ -92,19 +92,12 @@
 
   environment.pathsToLink = [ "/share" ];
 
-  environment.extraInit = ''
-    export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
-    export DESKTOP_SESSION=gnome
-    export BROWSER=google-chrome-stable
-  '';
   environment.systemPackages = with pkgs; [
     asciidoctor
     aspell
     aspellDicts.en
     aspellDicts.fr
     autojump
-    bundix
-    cabal2nix
     curl
     desktop_file_utils
     dnsmasq
@@ -113,12 +106,9 @@
     findutils
     gitFull
     gnome3.dconf
-    go2nix
-    google-chrome
     gnupg
     gnumake
     haskellPackages.shake
-    haskellPackages.xmobar
     htop
     iotop
     iputils
