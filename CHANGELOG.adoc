@@ -8,6 +8,16 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
+- Move browser choice logic in `local-configuration.nix`
+- Move video driver setting in desktop-configuration (to support non virtualbox setting)
+- Turn off virtualbox `accelate3d` by default (unsupported by `OS X`, doesn't seem to make a difference  on linux)
+- Add the `docker-compose` package
+- `language-puppet` updated to `1.3.8.1`
+- `cicd-shell` updated to `v1.5`
+- Deprecation of `devbox-novagrant`
+
+## v3.2, 08/05/2017
+
 - https://github.com/thestinger/termite[`termite`] is now the default terminal emulator (replacing `urxvt`)
 +
 [WARNING]
