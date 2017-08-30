@@ -190,7 +190,6 @@
     tree
     unzip
     rxvt_unicode-with-plugins
-    vcsh
     wget
     which
     xdg_utils
