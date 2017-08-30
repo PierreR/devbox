@@ -255,11 +255,11 @@ main = do
     [] -> do
       printf "\n> Starting user configuration\n"
       pure [ installPkKeys
+           , installEnvPackages envPackages
            , installMrRepos
            , configureGit
            , configureWallpaper
            , configureConsole
-           , installEnvPackages envPackages
            , installDoc
            , installEclipsePlugins
            ]
