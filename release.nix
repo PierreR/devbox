@@ -19,7 +19,6 @@ in
     name = "trigger";
     buildInputs = [
       henv
-      pinned.vcsh
       pinned.cicd-shell
       pinned.albert
       pinned.haskellPackages.language-puppet
