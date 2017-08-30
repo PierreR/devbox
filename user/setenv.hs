@@ -30,7 +30,7 @@ mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
 -- pinned user env pkgs
 nixpkgsPinFile = ".config/nixpkgs/pin.nix"
-envPackages = ["cicd-shell", "albert", "vcsh"]
+envPackages = ["cicd-shell", "albert"]
 
 data MrRepo
   = MrRepo

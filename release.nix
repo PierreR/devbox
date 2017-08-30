@@ -10,6 +10,7 @@ in
     buildInputs = [
       henv
       pkgs.mr
+      pkgs.vcsh
       pkgs.rsync
       pkgs.curl
     ];
