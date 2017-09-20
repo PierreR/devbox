@@ -72,7 +72,7 @@ makeLenses ''ScriptEnv
 
 scriptEnv :: IO ScriptEnv
 scriptEnv =
-   ScriptEnv <$> Dhall.input auto "/vagrant/config/box"
+   ScriptEnv <$> Dhall.input auto "/vagrant/config/box.dhall"
              <*> home
   where
     auto ::  Interpret a => Type a
