@@ -7,6 +7,12 @@ endif::env-github[]
 include::meta.adoc[]
 
 ## {latest_revision}
+- Add `dhall` extension to config files
+- Update nixos to `17.09`
+- Update `cicd-shell` to v1.6
+
+
+## v3.3, 28/08/2017
 
 - Move browser choice logic in `local-configuration.nix`
 - Move video driver setting in desktop-configuration (to support non virtualbox setting)
