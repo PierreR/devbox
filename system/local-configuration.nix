@@ -22,8 +22,8 @@
     go2nix
     google-chrome
     # gnome3.file-roller
-    # idea.idea-community
-    # idea.idea-ultimate
+    # jetbrains.idea-community
+    # jetbrains.idea-ultimate
     # haskellPackages.xmobar
     jdk
     # maven
