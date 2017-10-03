@@ -15,7 +15,7 @@
        eclipse = eclipses.eclipse-sdk-46;
        plugins = with eclipses.plugins; [ jdt yedit testng geppetto ];
      })
-    firefox
+    # firefox
     # geany
     gitAndTools.tig
     gnome3.nautilus
