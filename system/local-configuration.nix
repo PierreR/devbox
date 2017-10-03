@@ -24,7 +24,7 @@
     # gnome3.file-roller
     # idea.idea-community
     # idea.idea-ultimate
-    haskellPackages.xmobar
+    # haskellPackages.xmobar
     jdk
     # maven
     # pandoc
