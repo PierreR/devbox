@@ -290,7 +290,7 @@
   };
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
-  system.stateVersion = "16.09";
+  system.stateVersion = "17.09";
 
   nixpkgs.config = {
     allowUnfree = true;
