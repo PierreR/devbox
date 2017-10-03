@@ -15,6 +15,7 @@ include::meta.adoc[]
 - Add `dhall` extension to config files
 - Update nixos to `17.09`
 - Update `cicd-shell` to v1.6
+- Remove xmobar config
 
 ## v3.3, 28/08/2017
 
