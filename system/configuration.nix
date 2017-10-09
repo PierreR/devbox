@@ -304,6 +304,9 @@
              sha256= "1nlj47486ic4vj692wy83aba6h82q4ax3nfmmk79vvcalwg2yp9w";
            };
           };
+          salt = super.salt.override {
+            extraInputs = [super.python2Packages.psycopg2];
+          };
           puppetdb-dns = self.buildGoPackage rec {
             name = "puppetdb-dns-${version}";
             version = "20161124-${self.stdenv.lib.strings.substring 0 7 rev}";
@@ -316,7 +319,7 @@
             };
             goDeps = /etc/cicd/puppetdb-dns/deps.nix;
           };
-      in { inherit puppetdb-dns geppetto; };
+      in { inherit puppetdb-dns geppetto salt; };
   };
   systemd.services.puppetdb-dns = {
     description = "Puppetdb DNS service";
