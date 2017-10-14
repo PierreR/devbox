@@ -27,6 +27,7 @@
     # haskellPackages.xmobar
     jdk
     # maven
+    # openssl
     # pandoc
     # parcellite
     # vscode
