@@ -19,7 +19,7 @@
     # geany
     gitAndTools.tig
     gnome3.nautilus
-    go2nix
+    # go2nix
     google-chrome
     # gnome3.file-roller
     # jetbrains.idea-community
