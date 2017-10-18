@@ -30,7 +30,6 @@ mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
 -- pinned user env pkgs
 nixpkgsPinFile = ".config/nixpkgs/pin.nix"
-envPackages = ["cicd-shell", "albert", "vcsh"]
 
 data MrRepo
   = MrRepo
@@ -52,6 +51,7 @@ data BoxConfig
   , _wallpaper       :: LText
   , _console         :: Console
   , _additionalRepos :: Vector MrRepo
+  , _envPackages    :: Vector LText
   } deriving (Generic, Show)
 
 makeLenses ''Console
@@ -236,16 +236,17 @@ configureConsole = do
              , format fp link_name
              ] empty
 
-installEnvPackages :: (MonadIO m, MonadReader ScriptEnv m) => [Text] -> m ()
-installEnvPackages px = do
+installEnvPackages :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installEnvPackages = do
   homedir <- asks (view homeDir)
+  px <- asks $ toListOf (boxConfig.envPackages.traverse.strict)
   sh $ do
-      p <- select px
-      proc "nix-env" [ "-i", p
-                     , "-f" , format fp (homedir </> nixpkgsPinFile)
-                     ] empty >>= \case
-        ExitSuccess   -> ppSuccess $ ppText p <> "\n"
-        ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
+    p <- select px
+    proc "nix-env" [ "-iA", p
+                   , "-f" , format fp (homedir </> nixpkgsPinFile)
+                   ] empty >>= \case
+      ExitSuccess   -> ppSuccess $ ppText p <> "\n"
+      ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
 
 main :: IO ()
 main = do
@@ -259,7 +260,7 @@ main = do
            , configureGit
            , configureWallpaper
            , configureConsole
-           , installEnvPackages envPackages
+           , installEnvPackages
            , installDoc
            , installEclipsePlugins
            ]
@@ -268,6 +269,7 @@ main = do
       pure [ installPkKeys
            , installMrRepos
            , configureGit
+           , installEnvPackages
            , configureWallpaper
            , configureConsole
            ]

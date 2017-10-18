@@ -10,6 +10,7 @@ Box configuration file
                     mr repo is a record with two fields. e.g: { path     = "$HOME/.config/vcsh/repo.d/local.git"
                                                               , checkout = "vcsh clone git@github.com:PierreR/devbox-dotfiles.git local"
                                                               }
+  envPackages    : List of packages to be installed in the user env and pinned with a specific nixpkgs pointer
 -}
 
 { userName        = ""
@@ -22,4 +23,7 @@ Box configuration file
 , wallpaper       = "devbox.jpg"
 , console         = { color = "light" }
 , additionalRepos = [ ] : List { path : Text, checkout : Text }
-}
+, envPackages    = [ "cicd-shell"
+				   , "albert"
+				   , "vcsh"
+				   ]
