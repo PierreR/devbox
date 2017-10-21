@@ -31,6 +31,8 @@
     # openssl
     # pandoc
     # parcellite
+    # rxvt_unicode-with-plugins
+    tmux
     # vscode
   ];
 

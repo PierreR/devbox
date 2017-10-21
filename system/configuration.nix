@@ -185,10 +185,8 @@
     stalonetray
     taffybar
     termite
-    tmux
     tree
     unzip
-    rxvt_unicode-with-plugins
     wget
     which
     xdg_utils
