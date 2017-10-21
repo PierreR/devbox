@@ -26,7 +26,7 @@
     # jetbrains.idea-ultimate
     # haskellPackages.xmobar
     jdk
-    # maven
+    maven
     # nodePackages.tern
     # openssl
     # pandoc

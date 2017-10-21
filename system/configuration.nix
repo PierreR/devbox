@@ -114,7 +114,6 @@
     iputils
     jq
     libnotify
-    maven
     mr
     nettools
     ( neovim.override {
