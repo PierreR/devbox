@@ -27,10 +27,14 @@
     # haskellPackages.xmobar
     jdk
     maven
+    nix-repl
+    nodejs
     # nodePackages.tern
     # openssl
     # pandoc
     # parcellite
+    python
+    # ruby
     # rxvt_unicode-with-plugins
     tmux
     # vscode

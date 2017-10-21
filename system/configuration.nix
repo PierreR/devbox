@@ -166,10 +166,8 @@
         };
     })
     netcat
-    nix-repl
     nix-prefetch-git
     nfs-utils
-    nodejs
     numix-gtk-theme
     numix-icon-theme
     rsync
@@ -178,7 +176,6 @@
     paper-icon-theme
     parallel
     psmisc
-    python
     shared_mime_info
     shellcheck
     silver-searcher
