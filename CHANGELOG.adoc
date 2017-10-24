@@ -8,8 +8,9 @@ include::meta.adoc[]
 
 ## {latest_revision}
 - Add `envPackages` to the box configuration
+- Move some optional packages to local-configuration.nix
 
-CAUTION: You need to change your `ROOT_DIR/config/box.dhall` according to https://github.com/CIRB/devbox/blob/master/user/config/box.dhall#L26[its template] !
+CAUTION: If you upgrade using `vagrant provision`, you will need to change your `ROOT_DIR/config/box.dhall` according to https://github.com/CIRB/devbox/blob/master/user/config/box.dhall#L26[its template] !
 
 ## v3.4, 03/10/2017
 - mr reposities have been renamed to match `Bitbucket` structure. For instance:
