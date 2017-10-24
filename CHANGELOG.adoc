@@ -6,10 +6,10 @@ endif::env-github[]
 
 include::meta.adoc[]
 
-## TBR
+## {latest_revision}
 - Add `envPackages` to the box configuration
 
-## {latest_revision}
+## v3.4, 03/10/2017
 - mr reposities have been renamed to match `Bitbucket` structure. For instance:
 +
 ```

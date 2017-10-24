@@ -24,6 +24,6 @@ Box configuration file
 , console         = { color = "light" }
 , additionalRepos = [ ] : List { path : Text, checkout : Text }
 , envPackages    = [ "cicd-shell"
-				   , "albert"
-				   , "vcsh"
-				   ]
+                   , "albert"
+                   , "vcsh"
+                   ]
