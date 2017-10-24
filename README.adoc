@@ -43,7 +43,7 @@ image::devbox.png[]
 ## Software requirements
 
 - Virtualbox 5.1.x (tested with 5.1.26)
-- Vagrant 1.9.x (tested with 1.9.1)
+- Vagrant 1.9.x (tested with 1.9.8)
 
 Please do update if you have older version(s).
 
