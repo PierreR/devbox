@@ -36,15 +36,32 @@
     python
     # ruby
     # rxvt_unicode-with-plugins
-    tmux
+    # tmux
     # vscode
   ];
 
-  # Uncomment these lines if you want to launch virtualbox from its UI
+  # Uncomment the paragraph below if you want to launch virtualbox from its UI
   #fileSystems."/vagrant" = {
   #  fsType = "vboxsf";
   #  device = "vagrant";
   #  options = [ "rw" ];
   #};
 
+  # Uncomment the paragraph below if you want to set up a postgresql server
+  # services.postgresql = {
+  #   enable = true;
+  # #  authentication = ''
+  # #    local saltstack salt trust
+  # #  '';
+  # #   initialScript = /vagrant/initdb.sql;
+  # };
+
+  # Uncomment the paragraph below if you want to play with salt locally
+  # networking.extraHosts = ''
+  #   127.0.0.1 salt
+  # '';
+  # services.salt.master = {
+  #   enable = true;
+  # };
+  # services.salt.minion.enable = true;
 }
