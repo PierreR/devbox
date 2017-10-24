@@ -45,13 +45,18 @@ image::devbox.png[]
 - Virtualbox 5.1.x (tested with 5.1.26)
 - Vagrant 1.9.x (tested with 1.9.1)
 
-Please do update if you have older release(s).
+Please do update if you have older version(s).
 
 <<<
 
 ## First time setup
 
 ### preparation
+
+[TIP]
+====
+- You can install https://git-scm.com/download/win[Git for windows] in order to get a terminal console on Windows.
+====
 
 1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
 +
@@ -63,8 +68,8 @@ We will use the term `ROOT_DIR` to refer to this folder throughout the rest of t
 +
 ```
 mkdir config
-curl -o config/box https://raw.githubusercontent.com/CIRB/devbox/3.4.2/user/config/box.dhall
-curl -o config/shell https://raw.githubusercontent.com/CIRB/devbox/3.4.2/user/config/shell.dhall
+curl -o config/box.dhall https://raw.githubusercontent.com/CIRB/devbox/3.4.2/user/config/box.dhall
+curl -o config/shell.dhall https://raw.githubusercontent.com/CIRB/devbox/3.4.2/user/config/shell.dhall
 ```
 +
 WARNING: If you create the file manually, make sure you keep a `unix` file encoding.
@@ -82,7 +87,7 @@ devbox-{latest_version}
    ├── config
    │      ├── box.dhall
    │      ├── shell.dhall
-   ├── ssh_keys
+   ├── ssh-keys
    │      ├── cirb_rsa
    │      ├── cirb_rsa.pub
    │      ├── cirb_github_rsa
