@@ -27,3 +27,4 @@ Box configuration file
                    , "albert"
                    , "vcsh"
                    ]
+}
