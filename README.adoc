@@ -5,6 +5,7 @@ include::meta.adoc[]
 {latest_revision}
 endif::env-github[]
 :page-layout: docs
+:toc-title:
 :toc: left
 :toclevels: 2
 :numbered:
