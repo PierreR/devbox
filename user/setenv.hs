@@ -23,6 +23,7 @@ import           Turtle                       hiding (strict, view)
 
 import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
+
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.6.2"
 
@@ -83,7 +84,7 @@ installPkKeys :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installPkKeys = do
   printf "\nSynchronizing ssh keys\n"
   testdir "/vagrant/ssh-keys" >>= \case
-    False -> die "ERROR: no ssh-keys directory found. User provisioning aborted."
+    False -> ppFailure "No ssh-keys directory found. You won't be able to push anything to 'stash.cirb.lan'."
     True -> do
       homedir <- asks (view homeDir)
       let ssh_guestdir = homedir </> ".ssh/"
