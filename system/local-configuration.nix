@@ -9,7 +9,7 @@
   '';
   environment.systemPackages = with pkgs; [
     # atom
-    bundix
+    # bundix
     cabal2nix
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-46;
@@ -27,8 +27,8 @@
     # haskellPackages.xmobar
     jdk
     maven
-    nix-repl
-    nodejs
+    # nix-repl
+    # nodejs
     # nodePackages.tern
     # openssl
     # pandoc
