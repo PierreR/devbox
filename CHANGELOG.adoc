@@ -7,6 +7,11 @@ endif::env-github[]
 include::meta.adoc[]
 
 ## {latest_revision}
+
+- `language-puppet` updated to `1.3.13`
+
+## v3.5, 24/10/2017
+
 - Add `envPackages` to the box configuration
 - Move some optional packages to local-configuration.nix
 

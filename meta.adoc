@@ -1,2 +1,2 @@
-:latest_version: 3.5
-:latest_revision: v{latest_version}, 24/10/2017
+:latest_version: 3.6
+:latest_revision: v{latest_version}, 04/01/2018
