@@ -364,10 +364,19 @@ TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/
 
 You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L9[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
 
-TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of `ROOT_DIR/config/box` points to such a workflow as an example.
+TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L9-L12[ROOT_DIR/config/box] points to such a workflow as an example.
 
 WARNING: `additionalRepos` is meant as a static setting. It is only taken into account the first time you create a box. This is unlike `repos` for which the list of activated repositories is refreshed each time you provision.
 
+
+#### Storing the box configuration file
+
+You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `ROOT_DIR/config/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
+
+.ROOT_DIR/config/box.dhall
+```
+https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
+```
 
 ## Life cycle
 
