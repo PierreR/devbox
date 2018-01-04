@@ -9,6 +9,7 @@ include::meta.adoc[]
 ## {latest_revision}
 
 - `language-puppet` updated to `1.3.13`
+- Increase the disk size of the box from 40 to 50G
 
 ## v3.5, 24/10/2017
 
