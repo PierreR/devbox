@@ -278,6 +278,13 @@ You can use https://github.com/wting/autojump[`autojump`] to quickly navigate fr
 
 You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
 
+### application launcher (albert)
+
+https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[<Control><space>]. Use it to:
+
+- open any application, file or directory in Nautilus by typing its name (or type 'File' to open the file browser application)
+- shutdown/reboot the vm
+- search the internet with `gg`
 
 ### projects (mr)
 
