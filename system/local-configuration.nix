@@ -37,6 +37,7 @@
     python
     # ruby
     # rxvt_unicode-with-plugins
+    # sublime3
     # tmux
     # vscode
   ];
