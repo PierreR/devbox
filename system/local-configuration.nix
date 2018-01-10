@@ -8,6 +8,7 @@
     export BROWSER=google-chrome-stable
   '';
   environment.systemPackages = with pkgs; [
+    # ansible
     # atom
     # bundix
     cabal2nix
