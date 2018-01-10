@@ -6,7 +6,6 @@
     export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
     export DESKTOP_SESSION=gnome
     export BROWSER=google-chrome-stable
-    export XDG_CURRENT_DESKTOP=X-Generic
   '';
   environment.systemPackages = with pkgs; [
     # atom

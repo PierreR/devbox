@@ -282,7 +282,7 @@ You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. N
 
 https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[<Control><space>]. Use it to:
 
-- open any application, file or directory in Nautilus by typing its name (or type 'File' to open the file browser application)
+- open any application, directory or file by typing its name (type 'File' to open `Nautilus`)
 - shutdown/reboot the vm
 - search the internet with `gg`
 

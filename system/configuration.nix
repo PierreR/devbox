@@ -108,6 +108,7 @@
     gnome3.dconf
     gnupg
     gnumake
+    gvfs # needed by xdg-mime (albert)
     haskellPackages.shake
     htop
     iotop
