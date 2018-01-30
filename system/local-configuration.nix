@@ -10,6 +10,7 @@
   environment.systemPackages = with pkgs; [
     # ansible
     # atom
+    bind
     # bundix
     cabal2nix
     (eclipses.eclipseWithPlugins {
