@@ -76,7 +76,7 @@ scriptEnv =
    ScriptEnv <$> Dhall.input auto "/vagrant/config/box.dhall"
              <*> home
   where
-    auto ::  Interpret a => Type a
+    auto ::  Interpret a => Dhall.Type a
     auto = autoWith
       ( defaultInterpretOptions { fieldModifier = Text.Lazy.dropWhile (== '_') })
 
@@ -273,6 +273,7 @@ main = do
            , installEnvPackages
            , configureWallpaper
            , configureConsole
+           , installDoc
            ]
     _ -> die "Unrecognized option. Exit."
   runReaderT (sequence_ actions) =<< scriptEnv
