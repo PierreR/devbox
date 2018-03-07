@@ -1,6 +1,6 @@
 .PHONY: clean user system cicd-shell
 
-nixpkgs-config := 1.3.9
+nixpkgs-config := 1.3.10
 
 bootstrap:
 	@mkdir -p ${PWD}/nixpkgs
