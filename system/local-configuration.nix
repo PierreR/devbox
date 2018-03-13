@@ -15,7 +15,7 @@
     cabal2nix
     docker_compose
     (eclipses.eclipseWithPlugins {
-       eclipse = eclipses.eclipse-sdk-46;
+       eclipse = eclipses.eclipse-sdk-47;
        plugins = with eclipses.plugins; [ jdt yedit testng ];
      })
     # firefox
