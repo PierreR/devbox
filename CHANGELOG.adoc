@@ -8,6 +8,19 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
+- remove the `geppetto` eclipse plugin
+- Eclipse updated to v4.7 (Oxygen)
+- `language-puppet` updated to `1.3.16`
+
+[NOTE]
+====
+The http://puppetlabs.github.io/geppetto/faq.html[Geppetto] eclipse plugin has been removed. The download link is dead. The project has been inactive since 2016.
+
+As an alternative, you might want to use https://code.visualstudio.com[visual source code] which is now included in the box by default.
+====
+
+## v3.6, 04/01/2018
+
 - `language-puppet` updated to `1.3.13`
 - Increase the disk size of the box from 40 to 50G
 - `Albert` launcher improvements:
