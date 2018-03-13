@@ -102,7 +102,6 @@
     desktop_file_utils
     dnsmasq
     docker
-    docker_compose
     findutils
     gitFull
     gnome3.dconf
@@ -189,7 +188,6 @@
     which
     xdg_utils
     xsel
-    zeal
     zip
     zsh
     zsh-completions

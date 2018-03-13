@@ -13,6 +13,7 @@
     bind
     # bundix
     cabal2nix
+    docker_compose
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-46;
        plugins = with eclipses.plugins; [ jdt yedit testng geppetto ];
@@ -41,6 +42,7 @@
     # sublime3
     # tmux
     # vscode
+    zeal
   ];
 
   # Uncomment the paragraph below if you want to launch virtualbox from its UI
