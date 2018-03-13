@@ -30,6 +30,7 @@
     # haskellPackages.xmobar
     jdk
     maven
+    # nix-prefetch-git
     # nix-repl
     # nodejs
     # nodePackages.tern
@@ -41,7 +42,7 @@
     # rxvt_unicode-with-plugins
     # sublime3
     # tmux
-    # vscode
+    vscode
     zeal
   ];
 

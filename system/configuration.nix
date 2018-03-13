@@ -166,7 +166,6 @@
         };
     })
     netcat
-    nix-prefetch-git
     nfs-utils
     numix-gtk-theme
     numix-icon-theme
