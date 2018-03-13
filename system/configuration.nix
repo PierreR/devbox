@@ -294,12 +294,12 @@
           puppetdb-dns = self.buildGoPackage rec {
             name = "puppetdb-dns-${version}";
             version = "20161124-${self.stdenv.lib.strings.substring 0 7 rev}";
-            rev = "66e9343db2d6f5991767d36ba96e0121b6d6f04b";
+            rev = "1ff4b5fe9f45c66da0fba4ab3ec0f833a241dd57";
             goPackagePath = "github.com/jfroche/puppetdb-dns";
             src = self.fetchgit {
               inherit rev;
               url = "https://github.com/jfroche/puppetdb-dns";
-              sha256 = "0v5azn6gx8a8pjbfd7gh5q7azbf48yb97xd8pwv3qyr1sask68vs";
+              sha256 = "11ba2f1985z7z2iwycvjkpky957v7b5s9n124yd26dqbfksx1rjs";
             };
             goDeps = /etc/cicd/puppetdb-dns/deps.nix;
           };
