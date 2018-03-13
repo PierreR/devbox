@@ -289,14 +289,6 @@
     allowUnfree = true;
     packageOverrides = super:
       let self = super.pkgs;
-          geppetto = self.eclipses.plugins.buildEclipseUpdateSite rec {
-           name = "geppetto-4.3.1";
-           version = "4.3.1-R201501182354";
-           src = pkgs.fetchurl {
-             url = "https://downloads.puppetlabs.com/geppetto/4.x/geppetto-linux.gtk.x86_64-${version}.zip";
-             sha256= "1nlj47486ic4vj692wy83aba6h82q4ax3nfmmk79vvcalwg2yp9w";
-           };
-          };
           salt = super.salt.override {
             extraInputs = [super.python2Packages.psycopg2];
           };
@@ -312,7 +304,7 @@
             };
             goDeps = /etc/cicd/puppetdb-dns/deps.nix;
           };
-      in { inherit puppetdb-dns geppetto salt; };
+      in { inherit puppetdb-dns salt; };
   };
   systemd.services.puppetdb-dns = {
     description = "Puppetdb DNS service";
