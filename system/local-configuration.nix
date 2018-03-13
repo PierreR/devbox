@@ -16,7 +16,7 @@
     docker_compose
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-46;
-       plugins = with eclipses.plugins; [ jdt yedit testng geppetto ];
+       plugins = with eclipses.plugins; [ jdt yedit testng ];
      })
     # firefox
     # geany
