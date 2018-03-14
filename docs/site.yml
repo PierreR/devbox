@@ -3,6 +3,7 @@ site:
 content:
   sources:
   - url: https://github.com/CIRB/devbox.git
+    branches: master
     start_path: docs
 ui:
   bundle:
