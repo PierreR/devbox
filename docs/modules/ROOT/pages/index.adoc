@@ -1,24 +1,13 @@
-# DEVBOX
-ifndef::env-github[]
-include::meta.adoc[]
-:env-devbox:
-{latest_revision}
-endif::env-github[]
+# A development box that persists every configuration
 :page-layout: docs
-:toc-title:
-:toc: left
-:toclevels: 2
 :numbered:
 :sectnumlevels: 1
-:imagesdir: res
 :nofooter:
 :icons: font
-:docinfo1:
 :source-language: bash
-:source-highlighter: pygments
 :experimental:
 ifdef::env-github[]
-:toc-placement: preamble
+:imagesdir: res
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
@@ -26,38 +15,28 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::env-github[]
 
-
-toc::[]
-
-ifndef::env-github[]
-[.text-right]
-icon:print[link="file:///home/vagrant/.local/share/doc/devbox.pdf"]
-endif::env-github[]
-
-
-TIP: Have a quick look at the <<Troubleshooting>> section before to get started.
+:latest_version: 0.0
 
 ## Overview
 
 image::devbox.png[]
 
-## Software requirements
+### Software requirements
 
 - Virtualbox 5.2.x (tested with 5.2.8)
 - Vagrant 2.x (tested with 2.0.2)
 
 Please do update if you have older version(s).
 
-<<<
-
 ## First time setup
-
-### preparation
 
 [TIP]
 ====
+- Have a quick look at the <<_troubleshooting>> section before to get started.
 - You can install https://git-scm.com/download/win[Git for windows] in order to get a terminal console on Windows.
 ====
+
+### Preparation
 
 1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
 +
@@ -97,7 +76,7 @@ devbox-{latest_version}
    └── Vagrantfile
 -----
 
-### box import
+### Box import
 
 Open a terminal in the `ROOT_DIR`. You might want to use 'Git bash here' if you have a git client on your Windows host.
 
@@ -129,7 +108,7 @@ vagrant reload
 WARNING: If you want to start the `devbox` from the Virtualbox UI, you should first uncomment https://github.com/CIRB/devbox/blob/058fd956c62e890a775b3c8ce709a855e7b0c758/system/local-configuration.nix#L20-L24[these lines] from local-configuration.nix. Otherwise the shared folder (/vagrant) won't be mounted. On the other hand the command line (`vagrant up`) will always mount the shared folder.
 
 ifdef::backend-pdf[<<<]
-### vagrant
+### Vagrant
 
 [subs=attributes+]
 ```
@@ -150,7 +129,7 @@ vagrant box remove devbox-{latest_version}
 
 ```
 
-#### provisioning
+#### Provisioning
 
 The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring the new features listed in the <<_changelog>>. In case of a major version bump  a new devbox needs to be downloaded as described in <<_life_cycle>>.
 
@@ -173,7 +152,7 @@ Given the personal settings defined in https://github.com/CIRB/devbox/blob/maste
 * install/update the cicd shell
 * install all required packages for working with the puppet stacks
 
-### operating system (nixos)
+### Operating system (nixos)
 
 The devbox is based on https://nixos.org/[NixOS] version 17.03. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
@@ -187,7 +166,7 @@ By using `nixos` we are striving for a system that we can destroy and re-create 
 
 The whole system setup is declared in the https://github.com/CIRB/devbox/blob/master/system/configuration.nix[/etc/nixos/configuration.nix] file. In the same file you will find the https://github.com/CIRB/devbox/blob/master/system/configuration.nix#L99-L209[list] of all the system packages installed.
 
-#### useful command
+#### Useful command
 
 ```
 # rebuild nixos after changing the system configuration file
@@ -204,7 +183,7 @@ The whole system setup is declared in the https://github.com/CIRB/devbox/blob/ma
 
 ```
 
-### windows manager (xmonad)
+### Windows manager (xmonad)
 
 The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tiling windows manager] called http://xmonad.org/[xmonad]. Such a minimal approach has been chosen for 3 reasons:
 
@@ -212,7 +191,7 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 * Simplicity: the window manager is basic but yet quite flexible
 * Practicality: the desktop is distraction free.
 
-#### minimal cheat sheet
+#### Minimal cheat sheet
 
 |======
 |Command |Description
@@ -231,26 +210,25 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 | kbd:[F 1] |Open this README in a browser
 |======
 
-#### layout
+#### Layout
 
 The active layout is displayed on the status bar:
 
-image::layout-indicator.png[float="right"]
+image::layout-indicator.png[]
 
-[width="35%", float="left"]
-|=====
+[width="35%"]
+|=======
 |Symbol |Name
-
-| ≡ | horizontal
-| ⊤ | horizontal tiled
-| ∥ | vertical
-| □ | full (stack)
-| ⊢ | vertical tiled
-|=====
+| ≡     | horizontal
+| ⊤     | horizontal tiled
+| ∥     | vertical
+| □     | full (stack)
+| ⊢     | vertical tiled
+|=======
 
 TIP: You can also change layout by clicking on the symbol in the status bar.
 
-### terminal emulator (termite)
+### Terminal emulator (termite)
 
 The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite`] terminal.
 
@@ -278,7 +256,7 @@ You can use https://github.com/wting/autojump[`autojump`] to quickly navigate fr
 
 You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
 
-### application launcher (albert)
+### Application launcher (albert)
 
 https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[<Control><space>]. Use it to:
 
@@ -286,7 +264,7 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 - shutdown/reboot the vm
 - search the internet with `gg`
 
-### projects (mr)
+### Projects (mr)
 
 The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called  https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[vcsh_mr_template] .
 
@@ -306,7 +284,7 @@ You can ask a `git status` of all your repositories with
 → mr st
 ```
 
-### cicd
+### Cicd
 
 You can use a semantic name as a `dns` to lookup any machine known by `puppetdb`. The pattern to use is: #$subgroup.$role.$hostgroup.zone.cicd#.
 
@@ -326,7 +304,7 @@ For puppet help, go to the <<_puppet>> dedicated section.
 The customization of the devbox operates at different levels and makes sure every configuration - personal or shared - survives a `vagrant destroy`.
 ====
 
-### system
+### System
 
 You can add some specific configuration by editing `/etc/nixos/local-configuration.nix`.
 For instance if you want to install the `geany` package, just uncomment the adhoc line in `local-configuration.nix`.
@@ -338,9 +316,9 @@ To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/l
 TIP: If you wish to change the desktop or window manager you should change the `/etc/nixos/desktop-configuration.nix` file. Alike `local-configuratin.nix`, you then copy the file to ROOT_DIR to retain such config across `vagrant destroy`.
 
 
-### user
+### User
 
-#### install local packages
+#### Install local packages
 
 To install a package, just do:
 
@@ -353,7 +331,7 @@ This imperative approach is quite useful for testing but the change is not recor
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
-#### available mr repositories
+#### Available mr repositories
 
 The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[in the mr CIRB template repository].
 
@@ -361,13 +339,13 @@ For instance, let say you want to propose some eclipse (or geany, atom, ...) set
 
 As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/master/user/config/box#L5[`repos`] in `ROOT_DIR/config/box`.
 
-#### generic dotfiles
+#### Generic dotfiles
 
 The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
 
 TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/workspace` as your workspace location at first boot.
 
-#### personal mr repositories
+#### Personal mr repositories
 
 You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L9[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
 
@@ -422,7 +400,6 @@ If it is not available, please submit an issue.
 If you want to use the Virtualbox UI instead of the vagrant commands, you will need to uncomment the https://github.com/CIRB/devbox/blob/master/system/local-configuration.nix#L24-L28[following lines] in your ROOT_DIR/local-configuration.nix file.
 
 
-[[Troubleshooting]]
 ## Troubleshooting
 
 Ssh-key with passphrase::
@@ -480,18 +457,3 @@ vagrant package --output devbox-x.x.x --vagrantfile Vagrantfile
 ```
 
 The size of the repackaged vagrant box is ~ 2G.
-
-
-ifndef::env-github[]
-
-:leveloffset: +1
-
-include::puppet.adoc[]
-
-include::cicd-shell.adoc[]
-
-include::CHANGELOG.adoc[]
-
-:leveloffset: -1
-
-endif::env-github[]

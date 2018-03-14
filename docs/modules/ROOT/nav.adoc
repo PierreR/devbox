@@ -1,0 +1,8 @@
+* xref:index.adoc#_overview[Overview]
+* xref:index.adoc#_first_time_setup[Setup]
+* xref:index.adoc#_usage[Usage]
+* xref:index.adoc#_customization[Customization]
+* xref:index.adoc#_life_cycle[Life cycle]
+* xref:index.adoc#_faq[FAQ]
+* xref:index.adoc#_troubleshouting[Troubleshooting]
+* xref:index.adoc#_how_is_the_box_generated[How is the box generated]

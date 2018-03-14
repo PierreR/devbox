@@ -1,3 +1,5 @@
 name: devbox
 title: Devbox
-version: latest
+version: master
+nav:
+- modules/ROOT/nav.adoc
