@@ -28,6 +28,7 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 eclipseVersion = "4.6.2"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
+docRepoPath = "docs/modules/ROOT/pages/index.adoc"
 
 -- pinned user env pkgs
 nixpkgsPinFile = ".config/nixpkgs/pin.nix"
@@ -154,7 +155,7 @@ installMrRepos =  do
 
 installDoc :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installDoc = do
-  inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/puppet-shared-scripts/raw/README.adoc?at=refs/heads/master"] empty
+  inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/puppet-shared-scripts/raw/" <> docRepoPath <> "?at=refs/heads/master"] empty
     & output "puppet.adoc"
   inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/cicd-shell/raw/README.adoc?at=refs/heads/master"] empty
     & output "cicd-shell.adoc"
