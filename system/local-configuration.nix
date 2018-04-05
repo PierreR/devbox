@@ -20,7 +20,7 @@
      })
     # firefox
     # geany
-    gitAndTools.tig
+    # gitAndTools.tig
     gnome3.nautilus
     # go2nix
     google-chrome
