@@ -25,7 +25,7 @@ import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 
 -- !! This needs to be changed when local-configuration.nix updates its version !!
-eclipseVersion = "4.6.2"
+eclipseVersion = "4.7.2"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 docRepoPath = "docs/modules/ROOT/pages/index.adoc"
@@ -176,8 +176,8 @@ installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
 installEclipsePlugins = do
     with_plugins <- asks $ view (boxConfig.eclipsePlugins)
     when with_plugins $ do
-      install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/mars/" "org.eclipse.egit.feature.group"
-      install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/mars/" "org.eclipse.m2e.feature.feature.group"
+      install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.egit.feature.group"
+      install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.m2e.feature.feature.group"
   where
     install_plugin full_name repository installIU = do
       homedir <- ask $ view homeDir
