@@ -8,16 +8,30 @@ include::meta.adoc[]
 
 ## {latest_revision}
 
-- remove the `geppetto` eclipse plugin
-- Eclipse updated to v4.7 (Oxygen)
-- `language-puppet` updated to `1.3.16`
+- nixos update to `18.03`
++
+[WARNING]
+====
+`vagrant provision` won't update nixos for you. You should re-create a devbox or manually update the nixos channel:
 
+```
+root@nixos> nix-channel --add https://nixos.org/channels/nixos-18.03 nixos
+root@nixos> nixos-rebuild switch --upgrade
+```
+====
+
+- remove the `geppetto` eclipse plugin
++
 [NOTE]
 ====
 The http://puppetlabs.github.io/geppetto/faq.html[Geppetto] eclipse plugin has been removed. The download link is dead. The project has been inactive since 2016.
 
 As an alternative, you might want to use https://code.visualstudio.com[visual source code] which is now included in the box by default.
 ====
+
+- Eclipse updated to v4.7 (Oxygen)
+- `language-puppet` updated to `1.3.16`
+
 
 ## v3.6, 04/01/2018
 
