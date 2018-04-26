@@ -10,7 +10,8 @@ include::meta.adoc[]
 
 [CAUTION,caption=Breaking changes]
 ====
-The update to `cicd-shell` to 2.0 requires a change to the box/shell.dhall config file.
+- The `desktop-configuration.nix` file now contains the complete displayManager configuration.
+- The update to `cicd-shell` to 2.0 requires a change to the box/shell.dhall config file.
 ====
 
 The https://projectlombok.org[lombok] plugin can be easily installed by uncommenting the relevant line in your local-configuration.nix file.
