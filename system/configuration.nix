@@ -50,23 +50,10 @@
   };
 
   services.xserver = {
+    videoDriver = "virtualbox";
     enable = true;
     layout = "be";
     xkbOptions = "caps:escape";
-    displayManager = {
-      lightdm = {
-        enable = true;
-        autoLogin.user= "vagrant";
-        autoLogin.enable= true;
-      };
-      sessionCommands = ''
-        ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
-        ${pkgs.numlockx}/bin/numlockx on
-        ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg" &
-        ${pkgs.taffybar}/bin/taffybar &
-        # ${pkgs.dunst}/bin/dunst -cto 4 -nto 2 -lto 1 -config ${config.users.extraUsers.vagrant.home}/.dunstrc &
-      '';
-    };
   };
   virtualisation.docker.enable = true;
   virtualisation.docker.extraOptions = "--insecure-registry docker.cirb.lan --insecure-registry docker.sandbox.srv.cirb.lan";
