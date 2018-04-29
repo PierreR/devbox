@@ -16,7 +16,7 @@
     docker_compose
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-47;
-       # jvmArgs = [ "-javaagent:${pkgs.lombok.out}/share/java/lombok.jar" ];
+       jvmArgs = [ "-javaagent:${pkgs.lombok.out}/share/java/lombok.jar" ];
        plugins = with eclipses.plugins; [ jdt yedit testng ];
      })
     # firefox
