@@ -32,7 +32,6 @@
     jdk
     maven
     # nix-prefetch-git
-    # nix-repl
     # nodejs
     # nodePackages.tern
     # openssl
