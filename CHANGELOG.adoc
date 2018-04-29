@@ -14,7 +14,7 @@ include::meta.adoc[]
 - The update to `cicd-shell` to 2.0 requires a change to the https://github.com/CIRB/devbox/blob/master/user/config/shell.dhall[config/shell.dhall] config file.
 ====
 
-The https://projectlombok.org[lombok] plugin can be easily installed by uncommenting the relevant line in your local-configuration.nix file.
+The https://projectlombok.org[lombok] plugin is readily installed with Eclipse.
 
 ## v3.7, 14/03/2018
 
