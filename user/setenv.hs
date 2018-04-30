@@ -24,6 +24,7 @@ import           Turtle                       hiding (strict, view)
 import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 
+
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.7.2"
 
@@ -48,6 +49,7 @@ data BoxConfig
   = BoxConfig
   { _userName        :: LText
   , _userEmail       :: LText
+  , _loginId         :: LText
   , _repos           :: Vector LText
   , _eclipsePlugins  :: Bool
   , _wallpaper       :: LText
@@ -72,6 +74,8 @@ data ScriptEnv
 
 makeLenses ''ScriptEnv
 
+type App = ReaderT ScriptEnv IO ()
+
 scriptEnv :: IO ScriptEnv
 scriptEnv =
    ScriptEnv <$> Dhall.input auto "/vagrant/config/box.dhall"
@@ -81,7 +85,7 @@ scriptEnv =
     auto = autoWith
       ( defaultInterpretOptions { fieldModifier = Text.Lazy.dropWhile (== '_') })
 
-installPkKeys :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installPkKeys :: App
 installPkKeys = do
   printf "\nSynchronizing ssh keys\n"
   testdir "/vagrant/ssh-keys" >>= \case
@@ -106,7 +110,7 @@ installPkKeys = do
                     , format fp guestdir] empty
       printf ("Synchronize "%fp%" \n") pk
 
-installMrRepos :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installMrRepos :: App
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- asks (view homeDir)
@@ -153,7 +157,7 @@ installMrRepos =  do
         procs "ln" [ "-sf", link_target, link_name] empty
         printf ("Activate "%s%"\n") r
 
-installDoc :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installDoc :: App
 installDoc = do
   inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/puppet-shared-scripts/raw/" <> docRepoPath <> "?at=refs/heads/master"] empty
     & output "puppet.adoc"
@@ -172,7 +176,7 @@ installDoc = do
           proc "cp" ["-r", "doc", format fp docdir] empty
           ppSuccess "documentation\n"
 
-installEclipsePlugins :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installEclipsePlugins :: App
 installEclipsePlugins = do
     with_plugins <- asks $ view (boxConfig.eclipsePlugins)
     when with_plugins $ do
@@ -205,7 +209,7 @@ installEclipsePlugins = do
           ExitFailure _ -> ppFailure ("Eclipse plugin" <+> ppText full_name <+> "won't installed\n")
           ExitSuccess -> ppSuccess ("Eclipse plugin" <+> ppText full_name <+> "\n")
 
-configureGit :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+configureGit :: App
 configureGit = do
   printf "Configuring git\n\n"
   user_name <- asks $ view (boxConfig.userName.strict)
@@ -213,7 +217,7 @@ configureGit = do
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
   unless (Text.null user_email) $ procs "git" [ "config", "--global", "user.email", user_email] empty
 
-configureWallpaper :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+configureWallpaper :: App
 configureWallpaper = do
   printf "Configuring wallpaper\n\n"
   homedir <- asks (view homeDir)
@@ -225,7 +229,7 @@ configureWallpaper = do
              , format fp link_name
              ] empty
 
-configureConsole :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+configureConsole :: App
 configureConsole = do
   printf "Configuring console\n\n"
   homedir <- asks (view homeDir)
@@ -238,7 +242,7 @@ configureConsole = do
              , format fp link_name
              ] empty
 
-installEnvPackages :: (MonadIO m, MonadReader ScriptEnv m) => m ()
+installEnvPackages :: App
 installEnvPackages = do
   homedir <- asks (view homeDir)
   px <- asks $ toListOf (boxConfig.envPackages.traverse.strict)
@@ -249,6 +253,19 @@ installEnvPackages = do
                    ] empty >>= \case
       ExitSuccess   -> ppSuccess $ ppText p <> "\n"
       ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
+
+
+setLoginIdEnv :: App
+setLoginIdEnv = do
+  homedir <- asks (view homeDir)
+  loginid <- asks $ view (boxConfig.loginId.strict)
+  let
+    zshenv = homedir </> ".zshenv"
+    appendline = "export LOGINID='" <> loginid <> "'"
+  not_found <- fold (grep (text appendline) (input zshenv)) Fold.null
+  when not_found $ do
+    printf "Appending LOGINID env variable to .zshenv\n"
+    append (homedir </> ".zshenv") (select [unsafeTextToLine appendline])
 
 main :: IO ()
 main = do
@@ -265,6 +282,7 @@ main = do
            , installEnvPackages
            , installDoc
            , installEclipsePlugins
+           , setLoginIdEnv
            ]
     ["--sync"] -> do
       printf "\n> Sync user configuration\n"
@@ -275,6 +293,7 @@ main = do
            , configureWallpaper
            , configureConsole
            , installDoc
+           , setLoginIdEnv
            ]
     _ -> die "Unrecognized option. Exit."
   runReaderT (sequence_ actions) =<< scriptEnv
