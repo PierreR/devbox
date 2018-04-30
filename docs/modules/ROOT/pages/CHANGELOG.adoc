@@ -6,7 +6,9 @@ include::_attributes.adoc[]
 [CAUTION,caption=Breaking changes]
 ====
 - The `desktop-configuration.nix` file now contains the complete displayManager configuration.
-- The update to `cicd-shell` to 2.0 requires a change to the https://github.com/CIRB/devbox/blob/master/user/config/shell.dhall[config/shell.dhall] config file.
+- Both `config/shell.dhall` and `config/box.dhall` needs to be modified according to the provided templates:
+* https://github.com/CIRB/devbox/blob/master/user/config/shell.dhall[config/shell.dhall]
+* https://github.com/CIRB/devbox/blob/master/user/config/box.dhall#L18[config/box.dhall]
 ====
 
 - The https://projectlombok.org[lombok] plugin is readily installed with Eclipse.
