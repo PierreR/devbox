@@ -26,7 +26,6 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::env-github[]
 
-
 toc::[]
 
 ifndef::env-github[]
@@ -490,7 +489,7 @@ include::puppet.adoc[]
 
 include::cicd-shell.adoc[]
 
-include::CHANGELOG.adoc[]
+include::CHANGELOG[]
 
 :leveloffset: -1
 

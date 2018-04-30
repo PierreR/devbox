@@ -1,6 +1,7 @@
 .PHONY: clean user system cicd-shell
 
 nixpkgs-config := 1.5.0
+docdir := docs/local
 
 bootstrap:
 	@mkdir -p ${PWD}/nixpkgs
@@ -19,19 +20,21 @@ sync-user:
 system:
 	@./system/setenv.sh
 
-doc: doc/devbox.html doc/devbox.pdf doc/res/devbox.png doc/res/layout-indicator.png
+doc: $(docdir)/devbox.html $(docdir)/devbox.pdf $(docdir)/res/devbox.png $(docdir)/res/layout-indicator.png
 
-doc/devbox.html: README.adoc CHANGELOG.adoc meta.adoc cicd-shell.adoc puppet.adoc
+$(docdir):
+	mkdir $(docdir)
+$(docdir)/devbox.html: README.adoc CHANGELOG meta.adoc cicd-shell.adoc puppet.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor $< -o $@"
 
-doc/devbox.pdf: README.adoc meta.adoc cicd-shell.adoc puppet.adoc
+$(docdir)/devbox.pdf: README.adoc meta.adoc cicd-shell.adoc puppet.adoc
 	@nix-shell -p asciidoctor --command "asciidoctor -r asciidoctor-pdf -b pdf $< -o $@"
 
-doc/res/%.png:
-	cp -r res doc/
+$(docdir)/res/%.png:
+	@cp -r res $(docdir)/
 
 clean:
-	rm -rf doc/
+	rm -rf $(docdir)
 	rm -f build/*.*
 	rm -f bootrelease
 	rm -rf nixpkgs
