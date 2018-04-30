@@ -1,4 +1,9 @@
 # A development box that persists every configuration
+ifndef::site-gen-antora[]
+:toc:
+ifdef::backend-html5,backend-docbook5[]
+:toc-title:
+endif::[]
 :page-layout: docs
 :numbered:
 :sectnumlevels: 1
@@ -6,6 +11,8 @@
 :icons: font
 :source-language: bash
 :experimental:
+endif::site-gen-antora[]
+
 ifdef::env-github[]
 :imagesdir: res
 :tip-caption: :bulb:
@@ -15,7 +22,9 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::env-github[]
 
+ifdef::site-gen-antora[]
 include::_attributes.adoc[]
+endif::site-gen-antora[]
 
 ## Overview
 
