@@ -265,7 +265,7 @@ setLoginIdEnv = do
   not_found <- fold (grep (text appendline) (input zshenv)) Fold.null
   when not_found $ do
     printf "Appending LOGINID env variable to .zshenv\n"
-    append (homedir </> ".zshenv") (select [unsafeTextToLine appendline])
+    append zshenv (pure $ unsafeTextToLine appendline)
 
 main :: IO ()
 main = do
