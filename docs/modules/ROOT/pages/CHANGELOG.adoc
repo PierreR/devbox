@@ -1,3 +1,4 @@
+# CHANGELOG
 include::_attributes.adoc[]
 
 ## {latest_revision}
