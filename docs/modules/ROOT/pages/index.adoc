@@ -15,7 +15,7 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::env-github[]
 
-:latest_version: 0.0
+include::_attributes.adoc[]
 
 ## Overview
 

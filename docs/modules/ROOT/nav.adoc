@@ -6,4 +6,4 @@
 * xref:index.adoc#_faq[FAQ]
 * xref:index.adoc#_troubleshouting[Troubleshooting]
 * xref:index.adoc#_how_is_the_box_generated[How is the box generated]
-* xref:CHANGELOG.adoc#[Changelog]
+* xref:CHANGELOG.adoc[Changelog]
