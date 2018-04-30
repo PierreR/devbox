@@ -15,6 +15,7 @@ Box configuration file
 
 { userName        = ""
 , userEmail       = ""
+, loginId = (./shell.dhall).loginId
 , repos         = [ "nixpkgs-config.mr" -- don't remove
                   , "xmonad.vcsh"       -- don't remove
                   , "puppet-bos.mr"
