@@ -24,6 +24,8 @@ cp --verbose "./system/configuration.nix" "/etc/nixos/configuration.nix";
 
 sync_extra_config "local-configuration.nix"
 sync_extra_config "desktop-configuration.nix"
+sync_extra_config "desktop-gnome-configuration.nix"
+
 
 # Sync system custom nixpkgs files
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
