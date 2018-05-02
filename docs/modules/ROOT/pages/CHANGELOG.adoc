@@ -12,7 +12,7 @@ include::_attributes.adoc[]
 ====
 
 - The https://projectlombok.org[lombok] plugin is readily installed with Eclipse.
-- Add `desktop-gnome3-configuration.nix`
+- Add `desktop-gnome-configuration.nix`
 - `language-puppet` updated to `1.3.17`
 - `cicd-shell` updated to `2.0.9`
 
