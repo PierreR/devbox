@@ -1,6 +1,6 @@
 # All the ui manager required for the ui configuration
 # such as desktopManager, windowManager and displayManager
-{ ... }:
+{pkgs, config, ... }:
 
 {
   services.xserver = {
