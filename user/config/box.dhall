@@ -27,5 +27,6 @@ Box configuration file
 , envPackages    = [ "cicd-shell"
                    , "albert"
                    , "vcsh"
+		-- , "keystore-explorer"
                    ]
 }
