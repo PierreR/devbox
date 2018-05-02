@@ -1,7 +1,10 @@
 # A development box that persists every configuration
+:docroot: docs/modules/ROOT
 ifndef::site-gen-antora[]
-:toc:
 ifndef::env-github[]
+include::{docroot}/pages/_attributes.adoc[]
+{latest_revision}
+:toc:
 :toc: left
 endif::env-github[]
 ifdef::backend-html5,backend-docbook5[]
@@ -15,7 +18,7 @@ endif::[]
 :icons: font
 :source-language: bash
 :experimental:
-:imagesdir: docs/modules/ROOT/assets/images
+:imagesdir: {docroot}/assets/images
 endif::site-gen-antora[]
 
 ifdef::env-github[]
