@@ -15,4 +15,3 @@ last_run.log
 dist/
 bootrelease
 nixpkgs/
-docs/local

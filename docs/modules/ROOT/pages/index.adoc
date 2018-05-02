@@ -1,8 +1,12 @@
 # A development box that persists every configuration
 ifndef::site-gen-antora[]
 :toc:
+ifndef::env-github[]
+:toc: left
+endif::env-github[]
 ifdef::backend-html5,backend-docbook5[]
 :toc-title:
+:docinfo1:
 endif::[]
 :page-layout: docs
 :numbered:
@@ -11,10 +15,10 @@ endif::[]
 :icons: font
 :source-language: bash
 :experimental:
+:imagesdir: docs/modules/ROOT/assets/images
 endif::site-gen-antora[]
 
 ifdef::env-github[]
-:imagesdir: res
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
@@ -253,7 +257,7 @@ The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite
 The default shell is `zsh` which allows for predictable history and completion.
 You can revert to using `bash` as your default shell if you wish by removing all zsh related lines in the `/etc/nixos/local-configuration.nix` file.
 
-You can use https://github.com/wting/autojump[`autojump`] to quickly navigate from one directory to another using the `j` shortcut:
+You can use https://github.com/wting/autojump[`autojump`] to quickly navigate from one directory to another using the #j# shortcut:
 ```
 # Go to your directory (you can omit the `cd`)
 → cd projects/cicd/puppet/bos
@@ -264,6 +268,8 @@ You can use https://github.com/wting/autojump[`autojump`] to quickly navigate fr
 ```
 
 You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
+
+Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/cirb_rsa $LOGINID@$1`.
 
 ### Application launcher (albert)
 
@@ -482,3 +488,17 @@ vagrant package --output devbox-x.x.x --vagrantfile Vagrantfile
 ```
 
 The size of the repackaged vagrant box is ~ 2G.
+
+ifndef::env-github+site-gen-antora[]
+
+:leveloffset: +1
+
+include::puppet.adoc[]
+
+include::cicd-shell.adoc[]
+
+include::docs/modules/ROOT/pages/CHANGELOG.adoc[]
+
+:leveloffset: -1
+
+endif::[]

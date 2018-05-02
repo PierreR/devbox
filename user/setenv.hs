@@ -159,22 +159,15 @@ installMrRepos =  do
 
 installDoc :: App
 installDoc = do
-  inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/puppet-shared-scripts/raw/" <> docRepoPath <> "?at=refs/heads/master"] empty
-    & output "puppet.adoc"
-  inproc "curl" ["-s", "http://stash.cirb.lan/projects/CICD/repos/cicd-shell/raw/README.adoc?at=refs/heads/master"] empty
-    & output "cicd-shell.adoc"
-  isFileEmpty "puppet.adoc" ||^ isFileEmpty "cicd-shell.adoc" >>= \case
-    True -> ppFailure "cannot fetch extra documentation from stash: documentation not installed"
-    False -> do
-      exitcode <- shell "make doc > /dev/null" empty
-      case exitcode of
-        ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
-        ExitSuccess   -> do
-          homedir <- asks (view homeDir)
-          let docdir = homedir </> ".local/share/"
-          mktree docdir
-          proc "cp" ["-r", "doc", format fp docdir] empty
-          ppSuccess "documentation\n"
+  exitcode <- shell "make doc > /dev/null" empty
+  case exitcode of
+    ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
+    ExitSuccess   -> do
+      homedir <- asks (view homeDir)
+      let docdir = homedir </> ".local/share/"
+      mktree docdir
+      proc "cp" ["-r", "doc", format fp docdir] empty
+      ppSuccess "documentation\n"
 
 installEclipsePlugins :: App
 installEclipsePlugins = do
