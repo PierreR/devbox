@@ -2,7 +2,7 @@ include docs/Makefile
 
 .PHONY: clean user system cicd-shell
 
-nixpkgs-config := 1.5.1
+nixpkgs-config := 1.5.2
 
 bootstrap:
 	@mkdir -p ${PWD}/nixpkgs
