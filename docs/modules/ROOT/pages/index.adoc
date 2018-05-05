@@ -325,7 +325,7 @@ You can use a semantic name as a `dns` to lookup any machine known by `puppetdb`
 For instance if you want to connect through ssh to the `bos` jenkins slave, you can (inside the devbox) use:
 
 ```
-→  ssh -i ~/.cirb_rsa username@jenkins.slave.bos.prod.cicd
+→  sshi jenkins.slave.bos.prod.cicd
 ```
 
 In general you don't need to connect to nodes to manage, query or orchestrate them. Have a look at the <<_cicd_shell>> section to learn how to use the `cicd` command line utility.
