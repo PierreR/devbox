@@ -1,4 +1,5 @@
-* xref:index.adoc[Overview]
+* xref:index.adoc[ ]
+* xref:index.adoc#_overview[Overview]
 * xref:index.adoc#_first_time_setup[Setup]
 * xref:index.adoc#_usage[Usage]
 ** xref:index.adoc#_vagrant[vagrant]
