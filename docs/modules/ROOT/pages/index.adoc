@@ -1,25 +1,30 @@
 # A development box that persists every configuration
 :docroot: docs/modules/ROOT
+:experimental:
+:source-language: bash
+
 ifndef::site-gen-antora[]
-ifndef::env-github[]
-include::{docroot}/pages/_attributes.adoc[]
-{latest_revision}
-:toc:
-:toc: left
-endif::env-github[]
-ifdef::backend-html5,backend-docbook5[]
-:toc-title:
-:docinfo1:
-endif::[]
+
 :page-layout: docs
 :numbered:
 :sectnumlevels: 1
 :nofooter:
 :icons: font
-:source-language: bash
-:experimental:
 :imagesdir: {docroot}/assets/images
-endif::site-gen-antora[]
+
+ifndef::env-github[]
+include::{docroot}/pages/_attributes.adoc[]
+{latest_revision}
+:toc:
+:toc: left
+endif::[]
+
+ifdef::backend-html5,backend-docbook5[]
+:toc-title:
+:docinfo1:
+endif::[]
+
+endif::[]
 
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -27,11 +32,11 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::env-github[]
+endif::[]
 
 ifdef::site-gen-antora[]
 include::_attributes.adoc[]
-endif::site-gen-antora[]
+endif::[]
 
 ## Overview
 
@@ -212,17 +217,17 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 |======
 |Command |Description
 
-| kbd:[<Ctrl> Space] |Open app launcher
-| kbd:[<Super> t] |New terminal
-| kbd:[<Super> 1..9] |Go to nth desktop
-| kbd:[<Super> <Right>] | Go to next desktop
-| kbd:[<Super> <Left>] | Go to previous desktop
-| kbd:[<Super> <Shift> 1..9] |Switch to nth desktop
-| kbd:[<Super> Space] |Change between horizontal, vertical and stack layout
-| kbd:[<Super> Tab] |In stack layout, switch the stacked window
-| kbd:[<Super> q] |Close current window
-| kbd:[<Super> m] kbd:[<Super> h] |Resize windows
-| kbd:[<Super> w] |Put window back into tiling
+| kbd:[Ctrl,Space] |Open app launcher
+| kbd:[Super, t] |New terminal
+| kbd:[Super, 1..9] |Go to nth desktop
+| kbd:[Super, Right] | Go to next desktop
+| kbd:[Super, Left] | Go to previous desktop
+| kbd:[Super, Shift, 1..9] |Switch to nth desktop
+| kbd:[Super,Space] |Change between horizontal, vertical and stack layout
+| kbd:[Super,Tab] |In stack layout, switch the stacked window
+| kbd:[Super,q] |Close current window
+| kbd:[Super,m] , kbd:[Super, h] |Resize windows
+| kbd:[Super,w] |Put window back into tiling
 | kbd:[F 1] |Open this README in a browser
 |======
 
@@ -251,10 +256,10 @@ The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite
 |=====
 |Command | Description
 
-|kbd:[<Control><Shift> c/v] | Copy/paste to/from clipboard
-|kbd:[<Control><Shift> {plus}/-/=] |Increase/Decrease/Reset font size
-|kbd:[<Control><tab>] |Start scrollback completion
-|kbd:[<Control><Shift><space>] |Start selection mode
+|kbd:[Control,Shift, c/v] | Copy/paste to/from clipboard
+|kbd:[Control,Shift, {plus}/-/=] |Increase/Decrease/Reset font size
+|kbd:[Control,Tab] |Start scrollback completion
+|kbd:[Control,Shift,Space] |Start selection mode
 |=====
 
 The default shell is `zsh` which allows for predictable history and completion.
@@ -276,7 +281,7 @@ Another useful shortcut is #sshi# to quickly log to a remote machine. It is the 
 
 ### Application launcher (albert)
 
-https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[<Control><space>]. Use it to:
+https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]. Use it to:
 
 - open any application, directory or file by typing its name (type 'File' to open `Nautilus`)
 - shutdown/reboot the vm
@@ -492,8 +497,8 @@ vagrant package --output devbox-x.x.x --vagrantfile Vagrantfile
 
 The size of the repackaged vagrant box is ~ 2G.
 
-ifndef::env-github+site-gen-antora[]
-
+ifndef::site-gen-antora[]
+ifndef::env-github[]
 :leveloffset: +1
 
 include::puppet.adoc[]
@@ -504,4 +509,5 @@ include::docs/modules/ROOT/pages/CHANGELOG.adoc[]
 
 :leveloffset: -1
 
+endif::[]
 endif::[]
