@@ -1,10 +1,11 @@
-{-# LANGUAGE DeriveGeneric      #-}
-{-# LANGUAGE FlexibleContexts   #-}
-{-# LANGUAGE LambdaCase         #-}
-{-# LANGUAGE NoImplicitPrelude  #-}
-{-# LANGUAGE OverloadedStrings  #-}
-{-# LANGUAGE StrictData         #-}
-{-# LANGUAGE TemplateHaskell    #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase                 #-}
+{-# LANGUAGE NoImplicitPrelude          #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE StrictData                 #-}
+{-# LANGUAGE TemplateHaskell            #-}
 
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
@@ -24,12 +25,10 @@ import           Turtle                       hiding (strict, view)
 import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 
-
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.7.2"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
-docRepoPath = "docs/modules/ROOT/pages/index.adoc"
 
 -- pinned user env pkgs
 nixpkgsPinFile = ".config/nixpkgs/pin.nix"
@@ -55,7 +54,7 @@ data BoxConfig
   , _wallpaper       :: LText
   , _console         :: Console
   , _additionalRepos :: Vector MrRepo
-  , _envPackages    :: Vector LText
+  , _envPackages     :: Vector LText
   } deriving (Generic, Show)
 
 makeLenses ''Console
@@ -74,7 +73,12 @@ data ScriptEnv
 
 makeLenses ''ScriptEnv
 
-type App = ReaderT ScriptEnv IO ()
+-- The Application Monad. A simple wrapper around ReaderT
+newtype AppM a =
+  AppM {
+    unAppM :: ReaderT ScriptEnv IO a
+  } deriving (Functor, Applicative, Monad, MonadIO, MonadReader ScriptEnv)
+
 
 scriptEnv :: IO ScriptEnv
 scriptEnv =
@@ -85,7 +89,7 @@ scriptEnv =
     auto = autoWith
       ( defaultInterpretOptions { fieldModifier = Text.Lazy.dropWhile (== '_') })
 
-installPkKeys :: App
+installPkKeys :: AppM ()
 installPkKeys = do
   printf "\nSynchronizing ssh keys\n"
   testdir "/vagrant/ssh-keys" >>= \case
@@ -110,7 +114,7 @@ installPkKeys = do
                     , format fp guestdir] empty
       printf ("Synchronize "%fp%" \n") pk
 
-installMrRepos :: App
+installMrRepos :: AppM ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- asks (view homeDir)
@@ -157,7 +161,7 @@ installMrRepos =  do
         procs "ln" [ "-sf", link_target, link_name] empty
         printf ("Activate "%s%"\n") r
 
-installDoc :: App
+installDoc :: AppM ()
 installDoc = do
   exitcode <- shell "make doc > /dev/null" empty
   case exitcode of
@@ -169,7 +173,7 @@ installDoc = do
       proc "cp" ["-r", "doc", format fp docdir] empty
       ppSuccess "documentation\n"
 
-installEclipsePlugins :: App
+installEclipsePlugins :: AppM ()
 installEclipsePlugins = do
     with_plugins <- asks $ view (boxConfig.eclipsePlugins)
     when with_plugins $ do
@@ -202,7 +206,7 @@ installEclipsePlugins = do
           ExitFailure _ -> ppFailure ("Eclipse plugin" <+> ppText full_name <+> "won't installed\n")
           ExitSuccess -> ppSuccess ("Eclipse plugin" <+> ppText full_name <+> "\n")
 
-configureGit :: App
+configureGit :: AppM ()
 configureGit = do
   printf "Configuring git\n\n"
   user_name <- asks $ view (boxConfig.userName.strict)
@@ -210,7 +214,7 @@ configureGit = do
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
   unless (Text.null user_email) $ procs "git" [ "config", "--global", "user.email", user_email] empty
 
-configureWallpaper :: App
+configureWallpaper :: AppM ()
 configureWallpaper = do
   printf "Configuring wallpaper\n\n"
   homedir <- asks (view homeDir)
@@ -222,7 +226,7 @@ configureWallpaper = do
              , format fp link_name
              ] empty
 
-configureConsole :: App
+configureConsole :: AppM ()
 configureConsole = do
   printf "Configuring console\n\n"
   homedir <- asks (view homeDir)
@@ -235,7 +239,7 @@ configureConsole = do
              , format fp link_name
              ] empty
 
-installEnvPackages :: App
+installEnvPackages :: AppM ()
 installEnvPackages = do
   homedir <- asks (view homeDir)
   px <- asks $ toListOf (boxConfig.envPackages.traverse.strict)
@@ -248,7 +252,7 @@ installEnvPackages = do
       ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
 
 
-setLoginIdEnv :: App
+setLoginIdEnv :: AppM ()
 setLoginIdEnv = do
   homedir <- asks (view homeDir)
   loginid <- asks $ view (boxConfig.loginId.strict)
@@ -289,8 +293,10 @@ main = do
            , setLoginIdEnv
            ]
     _ -> die "Unrecognized option. Exit."
-  runReaderT (sequence_ actions) =<< scriptEnv
+  runApp (sequence_ actions) =<< scriptEnv
   printf "< User configuration completed\n"
+  where
+    runApp = runReaderT . unAppM
 
 -- UTILS
 ppText = PP.text . Text.unpack
