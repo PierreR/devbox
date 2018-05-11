@@ -89,6 +89,7 @@
     desktop_file_utils
     dnsmasq
     docker
+    feh
     findutils
     gitFull
     gnome3.dconf
