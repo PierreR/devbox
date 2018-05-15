@@ -22,7 +22,6 @@ in
       henv
       pinned.cicd-shell
       pinned.albert
-      pinned.haskellPackages.language-puppet
       pkgs.puppet-env
     ];
   };
