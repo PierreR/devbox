@@ -2,30 +2,25 @@
 :docroot: docs/modules/ROOT
 :experimental:
 :source-language: bash
-
 ifndef::site-gen-antora[]
-
+:toc:
+:toclevels: 2
 :page-layout: docs
 :numbered:
 :sectnumlevels: 1
 :nofooter:
 :icons: font
 :imagesdir: {docroot}/assets/images
-
 ifndef::env-github[]
 include::{docroot}/pages/_attributes.adoc[]
 {latest_revision}
-:toc:
 :toc: left
 endif::[]
-
 ifdef::backend-html5,backend-docbook5[]
 :toc-title:
 :docinfo1:
 endif::[]
-
 endif::[]
-
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -33,7 +28,6 @@ ifdef::env-github[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
-
 ifdef::site-gen-antora[]
 include::_attributes.adoc[]
 endif::[]
