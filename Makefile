@@ -4,11 +4,7 @@ include docs/Makefile
 
 overlays := ${PWD}/nixpkgs/overlays
 
-.$(overlays):
-	echo "Pulling overlays submodule"
-	git submodule update --init
-
-bootrelease: ${PWD}/nixpkgs
+bootrelease:
 	@echo -e "Downloading all required packages.\nHold on. It will take several minutes."
 	@nix-shell -A trigger release.nix --run "touch bootrelease" -I nixpkgs-overlays=$(overlays) > /vagrant/user_boot.log 2>&1
 

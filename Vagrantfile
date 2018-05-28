@@ -65,7 +65,8 @@ Vagrant.configure("2") do |config|
     pushd /tmp/user > /dev/null;
     if [[ ! -d "${configdir}" ]]; then
       echo "Fetching ${version} configuration from ${scm_uri}";
-      curl -s -L ${scm_uri}/archive/${version}.tar.gz | tar xz;
+      git clone --depth 1  --branch ${version} ${scm_uri};
+      git submodule update --init
       pushd ${configdir} > /dev/null; make user; popd > /dev/null;
     else
       pushd ${configdir} > /dev/null; make sync-user; popd > /dev/null;
