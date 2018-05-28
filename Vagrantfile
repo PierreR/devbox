@@ -64,8 +64,8 @@ Vagrant.configure("2") do |config|
     [[ -d "/tmp/user" ]] || mkdir /tmp/user
     pushd /tmp/user > /dev/null;
     if [[ ! -d "${configdir}" ]]; then
-      echo "Fetching ${version} configuration from ${scm_uri}";
-      git clone --depth 1 --branch ${version} ${scm_uri} ${configdir};
+      echo "Cloning ${version} configuration from ${scm_uri}";
+      git clone --depth 1 --branch ${version} ${scm_uri} ${configdir} > /dev/null 2>&1;
       pushd ${configdir} > /dev/null;
       git submodule update --init;
       make user;
