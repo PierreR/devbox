@@ -3,6 +3,12 @@ include::_attributes.adoc[]
 
 ## {latest_revision}
 
+- `cicd-shell` updated to `2.3.1`
+- Remove the `OS upgrade` step from `vagrant provision`.
+- [Bug fix] Only install Albert when using the default desktop config
+
+## v4.0, 11/05/2018
+
 [CAUTION,caption=Breaking changes]
 ====
 - Both `config/shell.dhall` and `config/box.dhall` needs to be modified according to the provided templates:

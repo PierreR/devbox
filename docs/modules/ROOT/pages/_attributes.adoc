@@ -1,2 +1,2 @@
-:latest_version: 4.0
-:latest_revision: v{latest_version}, 11/05/2018
+:latest_version: 4.1
+:latest_revision: v{latest_version}, 28/05/2018
