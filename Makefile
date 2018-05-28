@@ -2,13 +2,7 @@ include docs/Makefile
 
 .PHONY: clean user system cicd-shell
 
-nixpkgs-config := 1.5.2
-
-bootstrap:
-	@mkdir -p ${PWD}/nixpkgs
-	curl -s -L https://api.github.com/repos/CIRB/nixpkgs-config/tarball/$(nixpkgs-config) | tar xz -C ${PWD}/nixpkgs --strip-component=1
-
-bootrelease: bootstrap
+bootrelease:
 	@echo -e "Downloading all required packages.\nHold on. It will take several minutes."
 	@nix-shell -A trigger release.nix --run "touch bootrelease" -I nixpkgs-overlays=${PWD}/nixpkgs/overlays > /vagrant/user_boot.log 2>&1
 
