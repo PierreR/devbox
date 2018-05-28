@@ -21,7 +21,6 @@ in
     buildInputs = [
       henv
       pinned.cicd-shell
-      pinned.albert
       pkgs.puppet-env
     ];
   };

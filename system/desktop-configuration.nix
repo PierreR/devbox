@@ -29,4 +29,7 @@
       '';
     };
   };
+  environment.systemPackages = with pkgs; [
+    albert
+  ];
 }
