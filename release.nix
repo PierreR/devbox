@@ -20,7 +20,6 @@ in
     name = "trigger";
     buildInputs = [
       henv
-      pinned.cicd-shell
       pkgs.puppet-env
     ];
   };
