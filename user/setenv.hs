@@ -281,17 +281,6 @@ main = do
            , installEclipsePlugins
            , setLoginIdEnv
            ]
-    ["--sync"] -> do
-      printf "\n> Sync user configuration\n"
-      pure [ installPkKeys
-           , installMrRepos
-           , configureGit
-           , installEnvPackages
-           , configureWallpaper
-           , configureConsole
-           , installDoc
-           , setLoginIdEnv
-           ]
     _ -> die "Unrecognized option. Exit."
   runApp (sequence_ actions) =<< scriptEnv
   printf "< User configuration completed\n"

@@ -15,12 +15,4 @@ in
       pkgs.curl
     ];
   };
-  # This is just to trigger all deps downloads in one place
-  trigger = pkgs.stdenv.mkDerivation {
-    name = "trigger";
-    buildInputs = [
-      henv
-      pkgs.puppet-env
-    ];
-  };
 }
