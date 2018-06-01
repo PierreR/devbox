@@ -245,7 +245,8 @@ installEnvPackages = do
   px <- asks $ toListOf (boxConfig.envPackages.traverse.strict)
   sh $ do
     p <- select px
-    proc "nix-env" [ "-iA", p
+    proc "nix-env" [ "--quiet"
+                   , "-iA", p
                    , "-f" , format fp (homedir </> nixpkgsPinFile)
                    ] empty >>= \case
       ExitSuccess   -> ppSuccess $ ppText p <> "\n"
