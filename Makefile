@@ -6,7 +6,7 @@ overlays := ${PWD}/nixpkgs/overlays
 
 user:
 	@echo -e "Starting user configuration.\nHold on. It will take several minutes."
-	@nix-shell --quiet -A user release.nix --run 'runghc user/setenv.hs' -I nixpkgs-overlays=$(overlays) | tee /vagrant/user_lastrun.log
+	@nix-shell --quiet -Q -A user release.nix --run 'runghc user/setenv.hs' -I nixpkgs-overlays=$(overlays) | tee /vagrant/user_lastrun.log
 
 system:
 	@./system/setenv.sh
