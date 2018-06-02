@@ -35,26 +35,26 @@ nixpkgsPinFile = ".config/nixpkgs/pin.nix"
 
 data MrRepo
   = MrRepo
-  { _path     :: LText
-  , _checkout :: LText
+  { _path     :: Text
+  , _checkout :: Text
   } deriving (Generic, Show)
 
 data Console
   = Console
-  { _color :: LText
+  { _color :: Text
   } deriving (Generic, Show)
 
 data BoxConfig
   = BoxConfig
-  { _userName        :: LText
-  , _userEmail       :: LText
-  , _loginId         :: LText
-  , _repos           :: Vector LText
+  { _userName        :: Text
+  , _userEmail       :: Text
+  , _loginId         :: Text
+  , _repos           :: Vector Text
   , _eclipsePlugins  :: Bool
-  , _wallpaper       :: LText
+  , _wallpaper       :: Text
   , _console         :: Console
   , _additionalRepos :: Vector MrRepo
-  , _envPackages     :: Vector LText
+  , _envPackages     :: Vector Text
   } deriving (Generic, Show)
 
 makeLenses ''Console
@@ -141,10 +141,10 @@ installMrRepos =  do
            die "Aborting user configuration"
          ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
     add_repo_to_mr rx = sh $ do
-      r <- select (rx^..traverse)
+      r <- select rx
       let
-        path' = r^.path.strict
-        checkout' = r^.checkout.strict
+        path' = r^.path
+        checkout' = r^.checkout
       proc "mr" [ "config"
                  , path'
                  , "checkout = " <> checkout'
@@ -154,7 +154,7 @@ installMrRepos =  do
            die "Aborting user configuration"
          ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
     activate_repos home_dir rx = sh $ do
-      r <- select (rx^..traverse.strict)
+      r <- select rx
       unless (Text.null r) $ do
         let link_target = format ("../available.d/"%s) r
             link_name = format (fp%"/.config/mr/config.d/"%s) home_dir r
@@ -209,8 +209,8 @@ installEclipsePlugins = do
 configureGit :: AppM ()
 configureGit = do
   printf "Configuring git\n\n"
-  user_name <- asks $ view (boxConfig.userName.strict)
-  user_email <- asks $ view (boxConfig.userEmail.strict)
+  user_name <- asks $ view (boxConfig.userName)
+  user_email <- asks $ view (boxConfig.userEmail)
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
   unless (Text.null user_email) $ procs "git" [ "config", "--global", "user.email", user_email] empty
 
@@ -218,7 +218,7 @@ configureWallpaper :: AppM ()
 configureWallpaper = do
   printf "Configuring wallpaper\n\n"
   homedir <- asks (view homeDir)
-  filename <- asks $ view (boxConfig.wallpaper.strict)
+  filename <- asks $ view (boxConfig.wallpaper)
   let link_target = homedir </> ".wallpaper" </> fromText filename
       link_name = homedir </> ".wallpaper.jpg"
   procs "ln" [ "-sf"
@@ -230,7 +230,7 @@ configureConsole :: AppM ()
 configureConsole = do
   printf "Configuring console\n\n"
   homedir <- asks (view homeDir)
-  color <- asks $ view (boxConfig.console.color.strict)
+  color <- asks $ view (boxConfig.console.color)
   let color_fp = homedir </> ".config/termite"
       link_target = color_fp </> fromText color
       link_name = color_fp </> "config"
@@ -242,7 +242,7 @@ configureConsole = do
 installEnvPackages :: AppM ()
 installEnvPackages = do
   homedir <- asks (view homeDir)
-  px <- asks $ toListOf (boxConfig.envPackages.traverse.strict)
+  px <- asks $ view (boxConfig.envPackages)
   sh $ do
     p <- select px
     proc "nix-env" [ "-Q"
@@ -256,7 +256,7 @@ installEnvPackages = do
 setLoginIdEnv :: AppM ()
 setLoginIdEnv = do
   homedir <- asks (view homeDir)
-  loginid <- asks $ view (boxConfig.loginId.strict)
+  loginid <- asks $ view (boxConfig.loginId)
   let
     zshenv = homedir </> ".zshenv"
     appendline = "export LOGINID='" <> loginid <> "'"
