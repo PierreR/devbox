@@ -298,6 +298,8 @@ You can easily switch to gnome by replacing https://github.com/CIRB/devbox/blob/
     ];
 ```
 
+As the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
+
 ### Projects (mr)
 
 The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called  https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[vcsh_mr_template] .
