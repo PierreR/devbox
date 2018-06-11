@@ -298,7 +298,7 @@ You can easily switch to gnome by replacing https://github.com/CIRB/devbox/blob/
     ];
 ```
 
-As the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
+After the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
 
 ### Projects (mr)
 
