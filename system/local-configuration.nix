@@ -46,6 +46,9 @@
     zeal
   ];
 
+  # Uncomment to enable the puppetdb dns service
+  # services.puppetdb-dns.enable = true;
+
   # Uncomment the paragraph below if you want to launch virtualbox from its UI
   #fileSystems."/vagrant" = {
   #  fsType = "vboxsf";

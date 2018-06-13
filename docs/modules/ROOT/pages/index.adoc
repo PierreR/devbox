@@ -322,7 +322,7 @@ You can ask a `git status` of all your repositories with
 
 ### Cicd
 
-You can use a semantic name as a `dns` to lookup any machine known by `puppetdb`. The pattern to use is: #$subgroup.$role.$hostgroup.zone.cicd#.
+After enabling the `puppetdb-dns` service in your `/etc/nixos/local-configuration.nix` file, you can use a semantic name as a `dns` to lookup any machine known by `puppetdb`. The pattern to use is: #$subgroup.$role.$hostgroup.zone.cicd#.
 
 For instance if you want to connect through ssh to the `bos` jenkins slave, you can (inside the devbox) use:
 
