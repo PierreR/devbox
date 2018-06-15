@@ -80,6 +80,9 @@
   #   enable = true;
   #   package = pkgs.elasticsearch6;
   # };
-  # services.kibana.enable = true;
+  # services.kibana = {
+  #   enable = true;
+  #   package = pkgs.kibana6;
+  # };
 
 }
