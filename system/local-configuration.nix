@@ -46,17 +46,17 @@
     zeal
   ];
 
-  # Uncomment to enable the puppetdb dns service
-  # services.puppetdb-dns.enable = true;
-
-  # Uncomment the paragraph below if you want to launch virtualbox from its UI
+  # Launch virtualbox from its UI and get the /vagrant shared folder
   #fileSystems."/vagrant" = {
   #  fsType = "vboxsf";
   #  device = "vagrant";
   #  options = [ "rw" ];
   #};
 
-  # Uncomment the paragraph below if you want to set up a postgresql server
+  # Enable the puppetdb dns service
+  # services.puppetdb-dns.enable = true;
+
+  # Postgresql server
   # services.postgresql = {
   #   enable = true;
   # #  authentication = ''
@@ -65,7 +65,7 @@
   # #   initialScript = /vagrant/initdb.sql;
   # };
 
-  # Uncomment the paragraph below if you want to play with salt locally
+  # Salt server
   # networking.extraHosts = ''
   #   127.0.0.1 salt
   # '';
@@ -73,4 +73,13 @@
   #   enable = true;
   # };
   # services.salt.minion.enable = true;
+
+  # Elasticsearch with Kibana
+  # services.rsyslogd.enable = true;
+  # services.elasticsearch = {
+  #   enable = true;
+  #   package = pkgs.elasticsearch6;
+  # };
+  # services.kibana.enable = true;
+
 }
