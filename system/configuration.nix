@@ -27,6 +27,7 @@
     gc-keep-derivations = true
   '';
   nix.gc.automatic = true;
+  nix.trustedUsers = [ "root" "vagrant"];
 
   i18n = {
     consoleFont = "Lat2-Terminus16";
