@@ -55,7 +55,7 @@
     xkbOptions = "caps:escape";
   };
   virtualisation.docker.enable = true;
-  virtualisation.docker.extraOptions = "--insecure-registry docker.cirb.lan --insecure-registry docker.sandbox.srv.cirb.lan";
+  virtualisation.docker.extraOptions = "--insecure-registry docker.cirb.lan";
 
   fonts = {
     enableDefaultFonts = true;
