@@ -293,10 +293,11 @@ You can easily switch to gnome by replacing https://github.com/CIRB/devbox/blob/
   imports =
     [
       ./hardware-configuration.nix
-      *./desktop-gnome-configuration.nix*
+      *./desktop-gnome-configuration.nix* <1>
       ./local-configuration.nix
     ];
 ```
+<1> ./desktop-kde-configuration.nix is also available
 
 After the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
 
