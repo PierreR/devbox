@@ -154,6 +154,9 @@ installMrRepos =  do
            die "Aborting user configuration"
          ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
     activate_repos home_dir rx = sh $ do
+      let mrconfigd = home_dir </> ".config/mr/config.d"
+      printf ("Want to delete "%fp%"\n") mrconfigd
+      procs "find" [ format fp mrconfigd, "-type", "l", "-delete" ] empty
       r <- select rx
       unless (Text.null r) $ do
         let link_target = format ("../available.d/"%s) r
@@ -280,6 +283,17 @@ main = do
            , installEnvPackages
            , installDoc
            , installEclipsePlugins
+           , setLoginIdEnv
+           ]
+    ["--sync"] -> do
+      printf "\n> Sync user configuration\n"
+      pure [ installPkKeys
+           , installMrRepos
+           , configureGit
+           , installEnvPackages
+           , configureWallpaper
+           , configureConsole
+           , installDoc
            , setLoginIdEnv
            ]
     _ -> die "Unrecognized option. Exit."
