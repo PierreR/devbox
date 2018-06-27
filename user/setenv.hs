@@ -155,8 +155,9 @@ installMrRepos =  do
          ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
     activate_repos home_dir rx = sh $ do
       let mrconfigd = home_dir </> ".config/mr/config.d"
-      printf ("Want to delete "%fp%"\n") mrconfigd
-      procs "find" [ format fp mrconfigd, "-type", "l", "-delete" ] empty
+      -- delete all mr links to achieve some synchronization with the box.dhall configuration
+      -- don't delete other links such as vcsh links !
+      procs "find" [ format (fp%"/*.mr") mrconfigd, "-type", "l", "-delete" ] empty
       r <- select rx
       unless (Text.null r) $ do
         let link_target = format ("../available.d/"%s) r
