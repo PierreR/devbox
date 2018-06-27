@@ -157,7 +157,7 @@ installMrRepos =  do
       let mrconfigd = home_dir </> ".config/mr/config.d"
       -- delete all mr links to achieve some synchronization with the box.dhall configuration
       -- don't delete other links such as vcsh links !
-      procs "find" [ format (fp%"/*.mr") mrconfigd, "-type", "l", "-delete" ] empty
+      proc "find" [ format (fp%"/*.mr") mrconfigd, "-type", "l", "-delete" ] empty
       r <- select rx
       unless (Text.null r) $ do
         let link_target = format ("../available.d/"%s) r
