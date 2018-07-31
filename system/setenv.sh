@@ -1,5 +1,11 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
+
+# OUTPUT-COLORING
+red='\e[0;31m'
+green='\e[0;32m'
+NC='\e[0m' # No Color
+
 # This script assumes it will be run as root from the ROOT_DIR on the devbox
 # Don't call it directly, use the make system target
 # When testing the script on the devbox itself, you might use: sudo su - -p -c 'make system'
@@ -32,4 +38,10 @@ sync_extra_config "desktop-gnome-configuration.nix"
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
-/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log 2>&1 && echo "System configuration completed"
+set +e
+/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log 2>&1
+if [ $? = 0 ]; then
+    echo -e "${green}Done${NC}: system configuration completed."
+else
+    echo -e "${red}Error${NC}: system configuration failure, check system_boot.log in your ROOT_DIR."
+fi
