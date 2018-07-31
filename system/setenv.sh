@@ -35,7 +35,7 @@ sync_extra_config "desktop-gnome-configuration.nix"
 
 
 # Sync system custom nixpkgs files
-rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
+rsync -qav --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
 set +e
