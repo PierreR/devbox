@@ -12,8 +12,8 @@
     # atom
     bind
     # bundix
-    cabal2nix
-    docker_compose
+    # cabal2nix
+    # docker_compose
     (eclipses.eclipseWithPlugins {
        eclipse = eclipses.eclipse-sdk-47;
        jvmArgs = [ "-javaagent:${pkgs.lombok.out}/share/java/lombok.jar" ];
@@ -22,7 +22,7 @@
     # firefox
     # geany
     # gitAndTools.tig
-    gnome3.nautilus
+    # gnome3.nautilus
     # go2nix
     google-chrome
     # gnome3.file-roller
@@ -30,7 +30,7 @@
     # jetbrains.idea-ultimate
     # haskellPackages.xmobar
     jdk
-    maven
+    # maven
     # nix-prefetch-git
     # nodejs
     # nodePackages.tern
@@ -42,8 +42,8 @@
     # rxvt_unicode-with-plugins
     # sublime3
     # tmux
-    vscode
-    zeal
+    # vscode
+    # zeal
   ];
 
   # Launch virtualbox from its UI and get the /vagrant shared folder
