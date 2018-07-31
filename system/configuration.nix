@@ -165,8 +165,6 @@
     shared_mime_info
     shellcheck
     silver-searcher
-    stalonetray
-    taffybar
     termite
     tree
     unzip
