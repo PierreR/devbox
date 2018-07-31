@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
 # This script assumes it will be run as root from the ROOT_DIR on the devbox
 # Don't call it directly, use the make system target
 # When testing the script on the devbox itself, you might use: sudo su - -p -c 'make system'
@@ -32,4 +32,5 @@ sync_extra_config "desktop-gnome-configuration.nix"
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
-/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log 2>&1 && echo "System configuration completed"
+/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log 2>&1 && "System configuration completed"
+trap 'err=$?; echo "System configuration failed on error $err ! Please check the system_boot.log file in your ROOT_DIR"; exit $err' ERR
