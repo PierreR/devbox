@@ -32,4 +32,4 @@ sync_extra_config "desktop-gnome-configuration.nix"
 rsync -av --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
-/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log && echo "System configuration completed"
+/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log 2>&1 && echo "System configuration completed"
