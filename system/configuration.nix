@@ -22,12 +22,23 @@
 
   networking.enableIPv6 = false;
 
-  nix.extraOptions = ''
-    gc-keep-outputs = true
-    gc-keep-derivations = true
-  '';
-  nix.gc.automatic = true;
-  nix.trustedUsers = [ "root" "vagrant"];
+  nix = {
+    extraOptions = ''
+      gc-keep-outputs = true
+      gc-keep-derivations = true
+    '';
+    gc.automatic = true;
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://cicd-shell.cachix.org"
+      "https://language-puppet.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "cicd-shell.cachix.org-1:ajBUZoJNroJ5ldybYoXgXyl2YWuPJ4NJ8Qx3/ksxVEw="
+      "language-puppet.cachix.org-1:nyTkkiphUF+s5HO4aDqGXBHD7rGiqz6ygvGYnJQ2feA="
+    ];
+    trustedUsers = [ "root" "vagrant"];
+  };
 
   i18n = {
     consoleFont = "Lat2-Terminus16";

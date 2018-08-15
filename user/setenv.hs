@@ -13,7 +13,6 @@ module Main where
 import qualified Control.Foldl                as Fold
 import           Control.Lens                 hiding (noneOf)
 import qualified Data.Text                    as Text
-import qualified Data.Text.Lazy               as Text.Lazy
 import           Dhall                        hiding (Text, auto, input, text)
 import qualified Dhall
 import qualified System.IO                    as System
@@ -27,6 +26,9 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 
 -- !! This needs to be changed when local-configuration.nix updates its version !!
 eclipseVersion = "4.7.2"
+
+-- version 2.4.2
+cicdshellCommit = "22f804994fe4233d875e792458fcda9a12e35faa"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
@@ -87,7 +89,7 @@ scriptEnv =
   where
     auto ::  Interpret a => Dhall.Type a
     auto = autoWith
-      ( defaultInterpretOptions { fieldModifier = Text.Lazy.dropWhile (== '_') })
+      ( defaultInterpretOptions { fieldModifier = Text.dropWhile (== '_') })
 
 installPkKeys :: AppM ()
 installPkKeys = do
@@ -269,34 +271,35 @@ setLoginIdEnv = do
     printf "Appending LOGINID env variable to .zshenv\n"
     append zshenv (pure $ unsafeTextToLine appendline)
 
+installCicdshell :: AppM ()
+installCicdshell = do
+    proc "nix-env" [ "-i"
+                   , "-f" , "https://github.com/CIRB/cicd-shell/tarball/" <> cicdshellCommit
+                   ] empty >>= \case
+      ExitSuccess   -> ppSuccess "cicd-shell\n"
+      ExitFailure _ -> ppFailure $ "enable to install the cicd-shell\n"
+
 main :: IO ()
 main = do
   args <- getArgs
   System.hSetBuffering System.stdout System.LineBuffering
+  let actions = [ installPkKeys
+                , installMrRepos
+                , configureGit
+                , configureWallpaper
+                , configureConsole
+                , installEnvPackages
+                , installDoc
+                , installCicdshell
+                , setLoginIdEnv
+                ]
   actions <- case args of
     [] -> do
       printf "\n> Starting user configuration\n"
-      pure [ installPkKeys
-           , installMrRepos
-           , configureGit
-           , configureWallpaper
-           , configureConsole
-           , installEnvPackages
-           , installDoc
-           , installEclipsePlugins
-           , setLoginIdEnv
-           ]
+      pure $ actions <> [ installEclipsePlugins ]
     ["--sync"] -> do
       printf "\n> Sync user configuration\n"
-      pure [ installPkKeys
-           , installMrRepos
-           , configureGit
-           , installEnvPackages
-           , configureWallpaper
-           , configureConsole
-           , installDoc
-           , setLoginIdEnv
-           ]
+      pure actions
     _ -> die "Unrecognized option. Exit."
   runApp (sequence_ actions) =<< scriptEnv
   printf "< User configuration completed\n"

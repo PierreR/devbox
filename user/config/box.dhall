@@ -24,8 +24,7 @@ Box configuration file
 , wallpaper       = "devbox.jpg"
 , console         = { color = "light" }
 , additionalRepos = [ ] : List { path : Text, checkout : Text }
-, envPackages    = [ "cicd-shell"
-                   , "vcsh"
+, envPackages    = [ "vcsh"
 		-- , "keystore-explorer"
                    ]
 }

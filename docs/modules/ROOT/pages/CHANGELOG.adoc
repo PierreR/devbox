@@ -2,7 +2,12 @@
 include::_attributes.adoc[]
 
 ## {latest_revision}
+- Use https://cachix.org[cachix] to deploy the cicd-shell & puppet unit tests framework via a nix binary cache
+- `cicd-shell` updated to `2.4.2`
+- `language-puppet` updated to `1.3.20`
+- [Bug fix] Only install Taffybar when using the default desktop config
 
+## v4.1, 28/05/2018
 - `cicd-shell` updated to `2.3.1`
 - Remove the `OS upgrade` step from `vagrant provision`.
 - [Bug fix] Only install Albert when using the default desktop config

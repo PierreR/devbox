@@ -1,6 +1,6 @@
 let
   pkgs = import <nixpkgs> {};
-  pinned = import ./nixpkgs/pin.nix;
+  pinned = import ./nixpkgs/pin.nix {};
   henv = pinned.haskellPackages.ghcWithPackages (p: with p; [dhall protolude turtle ]);
 in
 {
