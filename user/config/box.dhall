@@ -15,16 +15,16 @@ Box configuration file
 
 { userName        = ""
 , userEmail       = ""
-, loginId = (./shell.dhall).loginId
-, repos         = [ "nixpkgs-config.mr" -- don't remove
-                  , "xmonad.vcsh"       -- don't remove
-                  , "puppet-bos.mr"
-                  ]
+, loginId         = (./shell.dhall).loginId
+, repos           = [ "nixpkgs-config.mr" -- don't remove
+                    , "xmonad.vcsh"       -- don't remove
+                    , "puppet-bos.mr"
+                    ]
 , eclipsePlugins  = True
 , wallpaper       = "devbox.jpg"
 , console         = { color = "light" }
 , additionalRepos = [ ] : List { path : Text, checkout : Text }
 , envPackages    = [ "vcsh"
-		-- , "keystore-explorer"
+		           -- , "keystore-explorer"
                    ]
 }

@@ -39,7 +39,7 @@ rsync -qav --chmod=644 ./system/pkgs/ /etc/cicd/
 
 echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
 set +e
-/usr/bin/env time -f "Done after %E" nixos-rebuild switch > /vagrant/system_boot.log 2>&1
+/usr/bin/env time -f "Completed after %E min" nixos-rebuild switch > /vagrant/system_boot.log 2>&1
 if [ $? = 0 ]; then
     echo -e "${green}Done${NC}: system configuration completed."
 else

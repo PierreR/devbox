@@ -6,7 +6,7 @@ overlays := ${PWD}/nixpkgs/overlays
 
 user:
 	@echo -e "Starting user configuration.\nHold on. It will take several minutes."
-	@nix-shell --quiet -Q -A user release.nix --run 'runghc user/setenv.hs' -I nixpkgs-overlays=$(overlays) | tee /vagrant/user_lastrun.log
+	@nix-shell --quiet -Q -A user release.nix --run '/usr/bin/env time -f "Completed after %E min" runghc user/setenv.hs' -I nixpkgs-overlays=$(overlays) | tee /vagrant/user_lastrun.log
 
 sync-user:
 	@nix-shell --quiet -Q -A user release.nix --run 'runghc user/setenv.hs --sync' -I nixpkgs-overlays=$(overlays)

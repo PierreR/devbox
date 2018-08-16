@@ -273,7 +273,8 @@ setLoginIdEnv = do
 
 installCicdshell :: AppM ()
 installCicdshell = do
-    proc "nix-env" [ "-i"
+    proc "nix-env" [ "-Q"
+                   , "-i"
                    , "-f" , "https://github.com/CIRB/cicd-shell/tarball/" <> cicdshellCommit
                    ] empty >>= \case
       ExitSuccess   -> ppSuccess "cicd-shell\n"
