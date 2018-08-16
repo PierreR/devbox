@@ -1,5 +1,5 @@
-name:                user-env
-version:             0.1.0.0
+name:                devbox-user
+version:             0.1.0
 license:             BSD3
 maintainer:          example@example.com
 copyright:           2017 Author name here
@@ -7,7 +7,7 @@ category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
 
-executable user-env
+executable setenv
   main-is:             setenv.hs
   ghc-options:         -Wno-missing-signatures -threaded -rtsopts -with-rtsopts=-N -fdefer-type-errors
   build-depends:       base
