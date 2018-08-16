@@ -13,4 +13,4 @@ build/
 cicd-shell.adoc
 last_run.log
 dist/
-bootrelease
+result
