@@ -16,5 +16,4 @@ system:
 
 clean: clean-doc
 	rm -f build/*.*
-	rm -f bootrelease
-	rm -rf nixpkgs
+  rm result
