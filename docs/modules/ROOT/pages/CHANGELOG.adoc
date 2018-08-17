@@ -4,13 +4,16 @@ include::_attributes.adoc[]
 ## {latest_revision}
 [CAUTION,caption=Breaking changes]
 ====
-- Please remove `cicd-shell` from `envPackages` in the `config/box.dhall` file.
+- In the `config/box.dhall` file, please:
+* rename `eclipsePlugins` with `eclipse`
+* remove `cicd-shell` from `envPackages` in the `config/box.dhall` file.
 +
-Check https://github.com/CIRB/devbox/blob/master/user/config/box.dhall#L18[config/box.dhall] if you are unsure.
+Check https://github.com/CIRB/devbox/blob/master/user/config/box.dhall[config/box.dhall] if you are unsure.
+
 - Remove the `eclipse` entry from your local-configuration.nix
 ====
 - Eclipse is now completely defined in user space
-- Use https://cachix.org[cachix] to deploy the cicd-shell & puppet unit tests framework via a nix binary cache
+- Creating a box is faster thanks to the use of https://cachix.org[cachix] binary cache
 - `cicd-shell` updated to `2.4.2`
 - `language-puppet` updated to `1.3.20`
 - [Bug fix] Only install Taffybar when using the default desktop config

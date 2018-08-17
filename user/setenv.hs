@@ -52,7 +52,7 @@ data BoxConfig
   , _userEmail       :: Text
   , _loginId         :: Text
   , _repos           :: Vector Text
-  , _eclipsePlugins  :: Bool
+  , _eclipse         :: Bool
   , _wallpaper       :: Text
   , _console         :: Console
   , _additionalRepos :: Vector MrRepo
@@ -181,8 +181,8 @@ installDoc = do
 
 installEclipse :: AppM ()
 installEclipse = do
-    with_plugins <- asks $ view (boxConfig.eclipsePlugins)
-    when with_plugins install_eclipse
+    eclipse <- asks $ view (boxConfig.eclipse)
+    when eclipse install_eclipse
   where
     install_eclipse = do
       let tag = Text.concat (Text.splitOn "." eclipseVersion)
