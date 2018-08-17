@@ -426,15 +426,13 @@ Question, support, discussion are handled in the slack `#devbox` channel.
 
 ## FAQ
 
-### Eclipse: how to add plugins ?
-
-You can add any https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/eclipse/plugins.nix[available] eclipse plugins to https://github.com/CIRB/devbox/blob/master/system/local-configuration.nix#L9[this list] in your ROOT_DIR/local-configuration.nix.
-
-If it is not available, please submit an issue.
-
 ### Vagrant: using Virtualbox UI
 
 If you want to use the Virtualbox UI instead of the vagrant commands, you will need to uncomment the https://github.com/CIRB/devbox/blob/master/system/local-configuration.nix#L24-L28[following lines] in your ROOT_DIR/local-configuration.nix file.
+
+### Eclipse: how to add plugins ?
+
+Eclipse plugins can easily be added. Please make a request to #devbox or https://github.com/CIRB/devbox/issues
 
 
 ## Troubleshooting
