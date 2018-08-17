@@ -16,4 +16,4 @@ system:
 
 clean: clean-doc
 	rm -f build/*.*
-  rm result
+	rm result

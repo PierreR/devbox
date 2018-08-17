@@ -24,8 +24,8 @@ import           Turtle                       hiding (strict, view)
 import           Protolude                    hiding (FilePath, die, find, fold,
                                                (%))
 
--- !! This needs to be changed when local-configuration.nix updates its version !!
-eclipseVersion = "4.7.2"
+eclipseVersion = "4.7"
+eclipseFullVersion = eclipseVersion <> ".3"
 
 -- version 2.4.2
 cicdshellCommit = "22f804994fe4233d875e792458fcda9a12e35faa"
@@ -179,17 +179,27 @@ installDoc = do
       proc "cp" ["-r", "doc", format fp docdir] empty
       ppSuccess "documentation\n"
 
-installEclipsePlugins :: AppM ()
-installEclipsePlugins = do
+installEclipse :: AppM ()
+installEclipse = do
     with_plugins <- asks $ view (boxConfig.eclipsePlugins)
-    when with_plugins $ do
-      install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.egit.feature.group"
-      install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.m2e.feature.feature.group"
+    when with_plugins install_eclipse
   where
+    install_eclipse = do
+      let tag = Text.concat (Text.splitOn "." eclipseVersion)
+      proc "nix-env" [ "-Q"
+                     , "-f" , "https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz"
+                     , "-i"
+                     , "-E", "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk-" <> tag <> "; jvmArgs = [ \"-javaagent:${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ jdt yedit testng ]; }"
+                     ] empty >>= \case
+        ExitSuccess   -> do
+          ppSuccess $ "eclipse" <> "\n"
+          install_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.egit.feature.group"
+          install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.m2e.feature.feature.group"
+        ExitFailure _ -> ppFailure $ "enable to install" <+> "eclipse" <+> "\n"
     install_plugin full_name repository installIU = do
       homedir <- ask $ view homeDir
       let localdir = homedir </> ".eclipse"
-          installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseVersion)
+          installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseFullVersion)
           prefix_fp = installPath </> "plugins" </> fromText full_name
       not_installed <- testdir installPath >>= \case
         True -> fold (find (prefix (text (format fp prefix_fp))) installPath) Fold.null
@@ -297,7 +307,7 @@ main = do
   actions <- case args of
     [] -> do
       printf "\n> Starting user configuration\n"
-      pure $ actions <> [ installEclipsePlugins ]
+      pure $ actions <> [ installEclipse ]
     ["--sync"] -> do
       printf "\n> Sync user configuration\n"
       pure actions
