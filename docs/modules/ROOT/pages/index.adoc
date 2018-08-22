@@ -40,7 +40,7 @@ image::devbox.png[]
 ### Software requirements
 
 - Virtualbox 5.2.x (tested with 5.2.8)
-- Vagrant 2.x (tested with 2.0.2)
+- Vagrant 2.x (tested with 2.1.2)
 
 Please do update if you have older version(s).
 
@@ -190,9 +190,6 @@ The whole system setup is declared in the https://github.com/CIRB/devbox/blob/ma
 
 # install a package in user space
 → nix-env -i atom
-
-# search for a package
-→ nq docker
 
 # clean-up the store (whenever the disk usage is too high)
 → sudo nix-collect-garbage -d
@@ -384,7 +381,7 @@ TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/
 
 #### Personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L9[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision --provision-with user`.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L9[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision`.
 
 TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L9-L12[ROOT_DIR/config/box] points to such a workflow as an example.
 

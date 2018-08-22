@@ -27,8 +27,7 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
 
--- version 2.4.2
-cicdshellCommit = "22f804994fe4233d875e792458fcda9a12e35faa"
+version =  "2.5.3"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
@@ -285,7 +284,7 @@ installCicdshell :: AppM ()
 installCicdshell = do
     proc "nix-env" [ "-Q"
                    , "-i"
-                   , "-f" , "https://github.com/CIRB/cicd-shell/tarball/" <> cicdshellCommit
+                   , "-f" , "https://github.com/CIRB/cicd-shell/tarball/" <> version <> ".tar.gz"
                    ] empty >>= \case
       ExitSuccess   -> ppSuccess "cicd-shell\n"
       ExitFailure _ -> ppFailure $ "enable to install the cicd-shell\n"
