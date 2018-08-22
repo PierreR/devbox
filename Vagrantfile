@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
       git clone --depth 1 --branch ${version} ${scm_uri} ${configdir} > /dev/null 2>&1;
       pushd ${configdir} > /dev/null;
       git submodule update --init;
-      make user;
+      make version=$version user ;
       popd > /dev/null;
     else
       pushd ${configdir} > /dev/null; make sync-user; popd > /dev/null;
