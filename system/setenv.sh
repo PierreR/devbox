@@ -37,7 +37,7 @@ sync_extra_config "desktop-gnome-configuration.nix"
 # Sync system custom nixpkgs files
 rsync -qav --chmod=644 ./system/pkgs/ /etc/cicd/
 
-echo "Updating the system. Hold on. It might take a while (usually from 5 to 20 minutes)";
+echo "Updating the system. Hold on. It might take a while (usually from 5 to 10 minutes)";
 set +e
 /usr/bin/env time -f "Completed after %E min" nixos-rebuild switch > /vagrant/system_boot.log 2>&1
 if [ $? = 0 ]; then
