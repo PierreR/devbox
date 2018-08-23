@@ -15,6 +15,7 @@ import           Control.Lens                 hiding (noneOf)
 import qualified Data.Text                    as Text
 import           Dhall                        hiding (Text, auto, input, text)
 import qualified Dhall
+import qualified Paths_devbox_user
 import qualified System.IO                    as System
 import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red,
                                                (<+>))
@@ -32,7 +33,10 @@ cicdshellTag =  "v2.5.4"
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
 -- pinned user env pkgs
-nixpkgsPinFile = ".config/nixpkgs/pin.nix"
+nixpkgsPinFile :: IO [Char]
+nixpkgsPinFile = do
+  datadir <- Paths_devbox_user.getDataDir
+  pure $ datadir <> "/share/pin.nix"
 
 data MrRepo
   = MrRepo
@@ -184,10 +188,10 @@ installEclipse = do
   when eclipse install_eclipse
   where
     install_eclipse = do
-      homedir <- asks (view homeDir)
+      pin <- liftIO nixpkgsPinFile
       let tag = Text.concat (Text.splitOn "." eclipseVersion)
       proc "nix-env" [ "-Q", "--quiet"
-                     , "-f" , format fp (homedir </> nixpkgsPinFile)
+                     , "-f" , toS pin
                      , "-i"
                      , "-E", "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk-" <> tag <> "; jvmArgs = [ \"-javaagent:${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ jdt yedit testng ]; }"
                      ] empty >>= \case
@@ -257,13 +261,13 @@ configureConsole = do
 
 installEnvPackages :: AppM ()
 installEnvPackages = do
-  homedir <- asks (view homeDir)
+  pin <- liftIO nixpkgsPinFile
   px <- asks $ view (boxConfig.envPackages)
   sh $ do
     p <- select px
     proc "nix-env" [ "-Q", "--quiet"
                    , "-iA", p
-                   , "-f" , format fp (homedir </> nixpkgsPinFile)
+                   , "-f" , toS pin
                    ] empty >>= \case
       ExitSuccess   -> ppSuccess $ ppText p <> "\n"
       ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"

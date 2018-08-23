@@ -6,12 +6,8 @@
 #     $ nix-build -A exec release.nix
 #
 let
-  nixpkgs = builtins.fromJSON (builtins.readFile ./.nixpkgs.json);
   pkgs = import <nixpkgs> {};
-  pinned = import (fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
-      inherit (nixpkgs) sha256;
-    }){ };
+  pinned = import ./share/pin.nix {};
 
   filter =  path: type:
     type != "symlink" && baseNameOf path != ".stack-work"
