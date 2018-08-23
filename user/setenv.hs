@@ -309,6 +309,7 @@ main = do
                 , setLoginIdEnv
                 , installEclipse
                 ]
+  printf "\n> Setup user configuration\n"
   runApp (sequence_ actions) =<< scriptEnv
   printf "< User configuration completed\n"
   where
