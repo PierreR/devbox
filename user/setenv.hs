@@ -27,6 +27,7 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 
 eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
+eclipsePluginList = ["jdt", "yedit", "testng"]
 
 cicdshellTag =  "v2.5.5"
 
@@ -193,7 +194,7 @@ installEclipse = do
       proc "nix-env" [ "-Q", "--quiet"
                      , "-f" , toS pin
                      , "-i"
-                     , "-E", "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk-" <> tag <> "; jvmArgs = [ \"-javaagent:${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ jdt yedit testng ]; }"
+                     , "-E", "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk-" <> tag <> "; jvmArgs = [ \"-javaagent:${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ " <> Text.unwords eclipsePluginList <> " ]; }"
                      ] empty >>= \case
         ExitSuccess   -> do
           ppSuccess $ "eclipse" <> "\n"
