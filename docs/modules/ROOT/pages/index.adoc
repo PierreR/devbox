@@ -105,7 +105,7 @@ vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box
 To initialize the box, in `ROOT_DIR` do:
 [subs=attributes+]
 ```
-vagrant init devbox-{latest_version} && vagrant up
+vagrant init --minimal devbox-{latest_version} && vagrant up
 ```
 
 [NOTE]
