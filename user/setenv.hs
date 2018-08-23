@@ -27,7 +27,6 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
 
-
 cicdshellTag =  "v2.5.4"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
@@ -181,13 +180,14 @@ installDoc = do
 
 installEclipse :: AppM ()
 installEclipse = do
-    eclipse <- asks $ view (boxConfig.eclipse)
-    when eclipse install_eclipse
+  eclipse <- asks $ view (boxConfig.eclipse)
+  when eclipse install_eclipse
   where
     install_eclipse = do
+      homedir <- asks (view homeDir)
       let tag = Text.concat (Text.splitOn "." eclipseVersion)
-      proc "nix-env" [ "-Q"
-                     , "-f" , "https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz"
+      proc "nix-env" [ "-Q", "--quiet"
+                     , "-f" , format fp (homedir </> nixpkgsPinFile)
                      , "-i"
                      , "-E", "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk-" <> tag <> "; jvmArgs = [ \"-javaagent:${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ jdt yedit testng ]; }"
                      ] empty >>= \case
@@ -261,7 +261,7 @@ installEnvPackages = do
   px <- asks $ view (boxConfig.envPackages)
   sh $ do
     p <- select px
-    proc "nix-env" [ "-Q"
+    proc "nix-env" [ "-Q", "--quiet"
                    , "-iA", p
                    , "-f" , format fp (homedir </> nixpkgsPinFile)
                    ] empty >>= \case
