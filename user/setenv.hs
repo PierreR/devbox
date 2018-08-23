@@ -28,7 +28,7 @@ import           Protolude                    hiding (FilePath, die, find, fold,
 eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
 
-cicdshellTag =  "v2.5.4"
+cicdshellTag =  "v2.5.5"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
