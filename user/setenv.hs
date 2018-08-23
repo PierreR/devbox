@@ -297,7 +297,6 @@ installCicdshell = do
 
 main :: IO ()
 main = do
-  args <- getArgs
   System.hSetBuffering System.stdout System.LineBuffering
   let actions = [ installPkKeys
                 , installMrRepos
@@ -308,15 +307,8 @@ main = do
                 , installDoc
                 , installCicdshell
                 , setLoginIdEnv
+                , installEclipse
                 ]
-  actions <- case args of
-    [] -> do
-      printf "\n> Starting user configuration\n"
-      pure $ actions <> [ installEclipse ]
-    ["--sync"] -> do
-      printf "\n> Sync user configuration\n"
-      pure actions
-    _ -> die "Unrecognized option. Exit."
   runApp (sequence_ actions) =<< scriptEnv
   printf "< User configuration completed\n"
   where

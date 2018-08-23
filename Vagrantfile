@@ -66,13 +66,10 @@ Vagrant.configure("2") do |config|
     if [[ ! -d "${configdir}" ]]; then
       echo "Cloning ${version} configuration from ${scm_uri}";
       git clone --depth 1 --branch ${version} ${scm_uri} ${configdir} > /dev/null 2>&1;
-      pushd ${configdir} > /dev/null;
-      git submodule update --init;
-      make version=$version user ;
-      popd > /dev/null;
-    else
-      pushd ${configdir} > /dev/null; make sync-user; popd > /dev/null;
     fi
+    pushd ${configdir} > /dev/null;
+    make version=$version user ;
+    popd > /dev/null;
     popd > /dev/null;
   SHELL
 
