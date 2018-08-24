@@ -10,20 +10,21 @@
 -- | This script assumes it is started from the ROOT_DIR of the devbox
 module Main where
 
-import qualified Control.Foldl                as Fold
-import           Control.Lens                 hiding (noneOf)
-import qualified Data.Text                    as Text
-import           Dhall                        hiding (Text, auto, input, text)
+import qualified Control.Foldl                             as Fold
+import           Control.Lens                              hiding (noneOf)
+import qualified Data.Text                                 as Text
+import           Data.Text.Prettyprint.Doc                 (Doc, pretty, (<+>), annotate, line)
+import qualified Data.Text.Prettyprint.Doc.Render.Terminal as PP
+import           Dhall                                     hiding (Text, auto,
+                                                            input, text)
 import qualified Dhall
 import qualified Paths_devbox_user
-import qualified System.IO                    as System
-import           Text.PrettyPrint.ANSI.Leijen (dullgreen, line, putDoc, red,
-                                               (<+>))
-import qualified Text.PrettyPrint.ANSI.Leijen as PP
-import           Turtle                       hiding (strict, view)
+import qualified System.IO                                 as System
+import           Turtle                                    hiding (strict, view)
 
-import           Protolude                    hiding (FilePath, die, find, fold,
-                                               (%))
+import           Protolude                                 hiding (FilePath,
+                                                            die, find, fold,
+                                                            (%))
 
 eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
@@ -142,9 +143,9 @@ installMrRepos =  do
                   , url
                   , "mr"] empty >>= \case
          ExitFailure _ -> do
-           ppFailure ("Unable to clone mr" <+> ppText url <> "\n")
+           ppFailure ("Unable to clone mr" <+> pretty url <> "\n")
            die "Aborting user configuration"
-         ExitSuccess   -> ppSuccess ("Clone mr" <+> ppText url <> "\n")
+         ExitSuccess   -> ppSuccess ("Clone mr" <+> pretty url <> "\n")
     add_repo_to_mr rx = sh $ do
       r <- select rx
       let
@@ -155,7 +156,7 @@ installMrRepos =  do
                  , "checkout = " <> checkout'
                 ] empty >>= \case
          ExitFailure _ -> do
-           ppFailure ("Unable to add" <+> ppText checkout' <+> "to mr\n")
+           ppFailure ("Unable to add" <+> pretty checkout' <+> "to mr\n")
            die "Aborting user configuration"
          ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
     activate_repos home_dir rx = sh $ do
@@ -223,8 +224,8 @@ installEclipse = do
                                    , "-nosplash"
                                    ] empty
         case exitcode of
-          ExitFailure _ -> ppFailure ("Eclipse plugin" <+> ppText full_name <+> "won't installed\n")
-          ExitSuccess -> ppSuccess ("Eclipse plugin" <+> ppText full_name <+> "\n")
+          ExitFailure _ -> ppFailure ("Eclipse plugin" <+> pretty full_name <+> "won't installed\n")
+          ExitSuccess -> ppSuccess ("Eclipse plugin" <+> pretty full_name <+> "\n")
 
 configureGit :: AppM ()
 configureGit = do
@@ -269,8 +270,8 @@ installEnvPackages = do
                    , "-iA", p
                    , "-f" , toS pin
                    ] empty >>= \case
-      ExitSuccess   -> ppSuccess $ ppText p <> "\n"
-      ExitFailure _ -> ppFailure $ "enable to install" <+> ppText p <+> "\n"
+      ExitSuccess   -> ppSuccess $ pretty p <> "\n"
+      ExitFailure _ -> ppFailure $ "enable to install" <+> pretty p <+> "\n"
 
 
 setLoginIdEnv :: AppM ()
@@ -315,13 +316,12 @@ main = do
     runApp = runReaderT . unAppM
 
 -- UTILS
-ppText = PP.text . Text.unpack
 
-ppFailure :: MonadIO io => PP.Doc -> io ()
-ppFailure msg = liftIO $ putDoc $ (red "FAILURE:" <+> msg) <> line
+ppFailure :: MonadIO io => Doc PP.AnsiStyle -> io ()
+ppFailure msg = liftIO $ PP.putDoc $ (annotate (PP.color PP.Red) "FAILURE:" <+> msg) <> line
 
-ppSuccess :: MonadIO io => PP.Doc -> io ()
-ppSuccess msg = liftIO $ putDoc $ (dullgreen "Done with" <+> msg) <> line
+ppSuccess :: MonadIO io => Doc PP.AnsiStyle -> io ()
+ppSuccess msg = liftIO $ PP.putDoc $ (annotate (PP.colorDull PP.Green) "Done with" <+> msg) <> line
 
 isFileEmpty :: MonadIO io => FilePath -> io Bool
 isFileEmpty path =

@@ -1,5 +1,5 @@
 name:                devbox-user
-version:             1.2.1
+version:             1.2.2
 license:             BSD3
 maintainer:          pradermecker@cirb.brussels
 category:            Script
@@ -14,7 +14,8 @@ executable setenv
   main-is:             setenv.hs
   ghc-options:         -Wno-missing-signatures -threaded -rtsopts -with-rtsopts=-N -fdefer-type-errors
   build-depends:       base
-                     , ansi-wl-pprint >= 0.6
+                     , prettyprinter
+                     , prettyprinter-ansi-terminal
                      , dhall >= 1.15
                      , foldl >= 1.2
                      , neat-interpolation >= 0.3
