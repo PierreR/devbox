@@ -315,6 +315,7 @@ main = do
   where
     runApp = runReaderT . unAppM
 
+
 -- UTILS
 
 ppFailure :: MonadIO io => Doc PP.AnsiStyle -> io ()
@@ -322,7 +323,3 @@ ppFailure msg = liftIO $ PP.putDoc $ (annotate (PP.color PP.Red) "FAILURE:" <+> 
 
 ppSuccess :: MonadIO io => Doc PP.AnsiStyle -> io ()
 ppSuccess msg = liftIO $ PP.putDoc $ (annotate (PP.colorDull PP.Green) "Done with" <+> msg) <> line
-
-isFileEmpty :: MonadIO io => FilePath -> io Bool
-isFileEmpty path =
-  fold (input path) Fold.null
