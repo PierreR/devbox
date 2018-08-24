@@ -85,7 +85,6 @@ newtype AppM a =
     unAppM :: ReaderT ScriptEnv IO a
   } deriving (Functor, Applicative, Monad, MonadIO, MonadReader ScriptEnv)
 
-
 scriptEnv :: IO ScriptEnv
 scriptEnv =
    ScriptEnv <$> Dhall.input auto "/vagrant/config/box.dhall"
@@ -101,7 +100,7 @@ installPkKeys = do
   testdir "/vagrant/ssh-keys" >>= \case
     False -> ppFailure "No ssh-keys directory found. You won't be able to push anything to 'stash.cirb.lan'."
     True -> do
-      homedir <- asks (view homeDir)
+      homedir <- view homeDir
       let ssh_guestdir = homedir </> ".ssh/"
           ssh_hostdir = "/vagrant/ssh-keys"
       cp "user/ssh-config" (ssh_guestdir </> "config")
@@ -123,9 +122,9 @@ installPkKeys = do
 installMrRepos :: AppM ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
-  homedir <- asks (view homeDir)
-  add_rx <- asks $ view (boxConfig.additionalRepos)
-  rx <- asks $ view (boxConfig.repos)
+  homedir <- view homeDir
+  add_rx <- view (boxConfig.additionalRepos)
+  rx <- view (boxConfig.repos)
   bootstrap <- not <$> testfile (homedir </> ".mrconfig")
   when bootstrap $ do
     clone_mr mrRepoUrl
@@ -177,7 +176,7 @@ installDoc = do
   case exitcode of
     ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
     ExitSuccess   -> do
-      homedir <- asks (view homeDir)
+      homedir <- view homeDir
       let docdir = homedir </> ".local/share/"
       mktree docdir
       proc "cp" ["-r", "doc", format fp docdir] empty
@@ -185,7 +184,7 @@ installDoc = do
 
 installEclipse :: AppM ()
 installEclipse = do
-  eclipse <- asks $ view (boxConfig.eclipse)
+  eclipse <- view (boxConfig.eclipse)
   when eclipse install_eclipse
   where
     install_eclipse = do
@@ -202,7 +201,7 @@ installEclipse = do
           install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.m2e.feature.feature.group"
         ExitFailure _ -> ppFailure $ "enable to install" <+> "eclipse" <+> "\n"
     install_plugin full_name repository installIU = do
-      homedir <- ask $ view homeDir
+      homedir <- view homeDir
       let localdir = homedir </> ".eclipse"
           installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseFullVersion)
           prefix_fp = installPath </> "plugins" </> fromText full_name
@@ -230,16 +229,16 @@ installEclipse = do
 configureGit :: AppM ()
 configureGit = do
   printf "Configuring git\n\n"
-  user_name <- asks $ view (boxConfig.userName)
-  user_email <- asks $ view (boxConfig.userEmail)
+  user_name <- view (boxConfig.userName)
+  user_email <- view (boxConfig.userEmail)
   unless (Text.null user_name) $ procs "git" [ "config", "--global", "user.name", user_name] empty
   unless (Text.null user_email) $ procs "git" [ "config", "--global", "user.email", user_email] empty
 
 configureWallpaper :: AppM ()
 configureWallpaper = do
   printf "Configuring wallpaper\n\n"
-  homedir <- asks (view homeDir)
-  filename <- asks $ view (boxConfig.wallpaper)
+  homedir <- view homeDir
+  filename <- view (boxConfig.wallpaper)
   let link_target = homedir </> ".wallpaper" </> fromText filename
       link_name = homedir </> ".wallpaper.jpg"
   procs "ln" [ "-sf"
@@ -250,8 +249,8 @@ configureWallpaper = do
 configureConsole :: AppM ()
 configureConsole = do
   printf "Configuring console\n\n"
-  homedir <- asks (view homeDir)
-  color <- asks $ view (boxConfig.console.color)
+  homedir <- view homeDir
+  color <- view (boxConfig.console.color)
   let color_fp = homedir </> ".config/termite"
       link_target = color_fp </> fromText color
       link_name = color_fp </> "config"
@@ -263,7 +262,7 @@ configureConsole = do
 installEnvPackages :: AppM ()
 installEnvPackages = do
   pin <- liftIO nixpkgsPinFile
-  px <- asks $ view (boxConfig.envPackages)
+  px <- view (boxConfig.envPackages)
   sh $ do
     p <- select px
     proc "nix-env" [ "-Q", "--quiet"
@@ -276,8 +275,8 @@ installEnvPackages = do
 
 setLoginIdEnv :: AppM ()
 setLoginIdEnv = do
-  homedir <- asks (view homeDir)
-  loginid <- asks $ view (boxConfig.loginId)
+  homedir <- view homeDir
+  loginid <- view (boxConfig.loginId)
   let
     zshenv = homedir </> ".zshenv"
     appendline = "export LOGINID='" <> loginid <> "'"
