@@ -30,7 +30,7 @@ eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
 eclipsePluginList = ["jdt", "yedit", "testng"]
 
-cicdshellTag =  "v2.5.5"
+cicdshellTag =  "v2.5.6"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
@@ -314,7 +314,6 @@ main = do
   printf "< User configuration completed\n"
   where
     runApp = runReaderT . unAppM
-
 
 -- UTILS
 
