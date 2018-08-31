@@ -3,7 +3,7 @@ include docs/Makefile
 .PHONY: clean user system
 
 overlays := ${PWD}/nixpkgs/overlays
-version ?= '4.2.6'
+version ?= '4.2.8'
 
 user:
 	@echo -e "Starting user configuration (version: $(version)).\nHold on. It will take several minutes."
