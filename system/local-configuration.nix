@@ -9,10 +9,12 @@
   '';
   environment.systemPackages = with pkgs; [
     # ansible
+    asciidoctor
     # atom
     bind
     # bundix
     # cabal2nix
+    # dnsmasq
     # docker_compose
     # firefox
     # geany
@@ -23,6 +25,7 @@
     # gnome3.file-roller
     # jetbrains.idea-community
     # jetbrains.idea-ultimate
+    haskellPackages.shake
     # haskellPackages.xmobar
     jdk
     # maven
@@ -31,12 +34,14 @@
     # nodePackages.tern
     # openssl
     # pandoc
+    parallel
     # parcellite
     python
     # taskwarrior
     # terraform
     # ruby
     # rxvt_unicode-with-plugins
+    shellcheck
     # sublime3
     # tmux
     vscode

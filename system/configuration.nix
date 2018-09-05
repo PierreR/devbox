@@ -92,23 +92,19 @@
   environment.pathsToLink = [ "/share" ];
 
   environment.systemPackages = with pkgs; [
-    asciidoctor
     aspell
     aspellDicts.en
     aspellDicts.fr
     autojump
     curl
     desktop_file_utils
-    dnsmasq
     docker
-    feh
     findutils
     gitFull
     gnome3.dconf
     gnupg
     gnumake
     gvfs # needed by xdg-mime (albert)
-    haskellPackages.shake
     htop
     iotop
     iputils
@@ -173,10 +169,8 @@
     oh-my-zsh
     paper-gtk-theme
     paper-icon-theme
-    parallel
     psmisc
     shared_mime_info
-    shellcheck
     silver-searcher
     termite
     tree
