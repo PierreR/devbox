@@ -33,6 +33,8 @@
     # pandoc
     # parcellite
     python
+    # taskwarrior
+    # terraform
     # ruby
     # rxvt_unicode-with-plugins
     # sublime3
