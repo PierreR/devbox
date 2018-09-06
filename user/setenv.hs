@@ -124,13 +124,13 @@ installMrRepos :: AppM ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
   homedir <- view homeDir
-  add_rx <- view (boxConfig.additionalRepos)
-  rx <- view (boxConfig.repos)
   bootstrap <- not <$> testfile (homedir </> ".mrconfig")
   when bootstrap $ do
     clone_mr mrRepoUrl
-    add_repo_to_mr add_rx
-  activate_repos homedir rx
+    add_repo_to_mr =<< view (boxConfig.additionalRepos)
+  let mrconfigd = (homedir </> ".config/mr/config.d")
+  delete_mr_links mrconfigd
+  activate_repos mrconfigd =<< view (boxConfig.repos)
   let mr_args = [ "-d", format fp homedir
                 , "up", "-q"
                 ]
@@ -159,15 +159,14 @@ installMrRepos =  do
            ppFailure ("Unable to add" <+> pretty checkout' <+> "to mr\n")
            die "Aborting user configuration"
          ExitSuccess   -> printf ("Add "%s%" to mr\n") checkout'
-    activate_repos home_dir rx = sh $ do
-      let mrconfigd = home_dir </> ".config/mr/config.d"
-      -- delete all mr links to achieve some synchronization with the box.dhall configuration
+    delete_mr_links dir = do
       -- don't delete other links such as vcsh links !
-      proc "find" [ format (fp%"/*.mr") mrconfigd, "-type", "l", "-delete" ] empty
+      sh $ find (suffix ".mr") dir >>= rm
+    activate_repos configdir rx = sh $ do
       r <- select rx
       unless (Text.null r) $ do
         let link_target = format ("../available.d/"%s) r
-            link_name = format (fp%"/.config/mr/config.d/"%s) home_dir r
+            link_name = format fp (configdir </> fromText r)
         procs "ln" [ "-sf", link_target, link_name] empty
         printf ("Activate "%s%"\n") r
 
