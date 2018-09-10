@@ -101,9 +101,8 @@ installPkKeys = do
   testdir "/vagrant/ssh-keys" >>= \case
     False -> ppFailure "No ssh-keys directory found. You won't be able to push anything to 'stash.cirb.lan'."
     True -> do
-      homedir <- view homeDir
-      let ssh_guestdir = homedir </> ".ssh/"
-          ssh_hostdir = "/vagrant/ssh-keys"
+      ssh_guestdir <- prefixHome ".ssh/"
+      let ssh_hostdir = "/vagrant/ssh-keys"
       cp "user/ssh-config" (ssh_guestdir </> "config")
       sync_pubkeys ssh_hostdir ssh_guestdir
       sync_privatekeys ssh_hostdir ssh_guestdir
@@ -123,20 +122,14 @@ installPkKeys = do
 installMrRepos :: AppM ()
 installMrRepos =  do
   printf "\nInstalling mr repos\n"
-  homedir <- view homeDir
-  bootstrap <- not <$> testfile (homedir </> ".mrconfig")
+  bootstrap <- not <$> (prefixHome >=> testfile) ".mrconfig"
   when bootstrap $ do
     clone_mr mrRepoUrl
     add_repo_to_mr =<< view (boxConfig.additionalRepos)
-  let mrconfigd = (homedir </> ".config/mr/config.d")
+  mrconfigd <- prefixHome ".config/mr/config.d"
   delete_mr_links mrconfigd
   activate_repos mrconfigd =<< view (boxConfig.repos)
-  let mr_args = [ "-d", format fp homedir
-                , "up", "-q"
-                ]
-  proc "mr" (if bootstrap then "-f" : mr_args else mr_args) empty >>= \case
-    ExitFailure _ -> ppFailure "Unable to update all mr repositories\n"
-    ExitSuccess   -> ppSuccess "mr repositories\n"
+  update_repos bootstrap
   where
     clone_mr url = do
       proc "vcsh" ["clone"
@@ -169,15 +162,21 @@ installMrRepos =  do
             link_name = format fp (configdir </> fromText r)
         procs "ln" [ "-sf", link_target, link_name] empty
         printf ("Activate "%s%"\n") r
-
+    update_repos bootstrap = do
+      homedir <- view homeDir
+      let mr_args = [ "-d", format fp homedir
+                    ,  "up", "-q"
+                    ]
+      proc "mr" (if bootstrap then "-f" : mr_args else mr_args) empty >>= \case
+        ExitFailure _ -> ppFailure "Unable to update all mr repositories\n"
+        ExitSuccess   -> ppSuccess "mr repositories\n"
 installDoc :: AppM ()
 installDoc = do
   exitcode <- shell "make doc > /dev/null" empty
   case exitcode of
     ExitFailure _ -> ppFailure "documentation not installed successfully.\n"
     ExitSuccess   -> do
-      homedir <- view homeDir
-      let docdir = homedir </> ".local/share/"
+      docdir <- prefixHome ".local/share"
       mktree docdir
       proc "cp" ["-r", "doc", format fp docdir] empty
       ppSuccess "documentation\n"
@@ -201,9 +200,8 @@ installEclipse = do
           install_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/oxygen/" "org.eclipse.m2e.feature.feature.group"
         ExitFailure _ -> ppFailure $ "enable to install" <+> "eclipse" <+> "\n"
     install_plugin full_name repository installIU = do
-      homedir <- view homeDir
-      let localdir = homedir </> ".eclipse"
-          installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseFullVersion)
+      localdir <- prefixHome ".eclipse"
+      let installPath = localdir </> fromText ("org.eclipse.platform_" <> eclipseFullVersion)
           prefix_fp = installPath </> "plugins" </> fromText full_name
       not_installed <- testdir installPath >>= \case
         True -> fold (find (prefix (text (format fp prefix_fp))) installPath) Fold.null
@@ -237,10 +235,9 @@ configureGit = do
 configureWallpaper :: AppM ()
 configureWallpaper = do
   printf "Configuring wallpaper\n\n"
-  homedir <- view homeDir
   filename <- view (boxConfig.wallpaper)
-  let link_target = homedir </> ".wallpaper" </> fromText filename
-      link_name = homedir </> ".wallpaper.jpg"
+  link_target <- prefixHome (".wallpaper" </> fromText filename)
+  link_name <- prefixHome ".wallpaper.jpg"
   procs "ln" [ "-sf"
              , format fp link_target
              , format fp link_name
@@ -249,10 +246,9 @@ configureWallpaper = do
 configureConsole :: AppM ()
 configureConsole = do
   printf "Configuring console\n\n"
-  homedir <- view homeDir
   color <- view (boxConfig.console.color)
-  let color_fp = homedir </> ".config/termite"
-      link_target = color_fp </> fromText color
+  color_fp <- prefixHome ".config/termite"
+  let link_target = color_fp </> fromText color
       link_name = color_fp </> "config"
   procs "ln" [ "-sf"
              , format fp link_target
@@ -275,11 +271,9 @@ installEnvPackages = do
 
 setLoginIdEnv :: AppM ()
 setLoginIdEnv = do
-  homedir <- view homeDir
   loginid <- view (boxConfig.loginId)
-  let
-    zshenv = homedir </> ".zshenv"
-    appendline = "export LOGINID='" <> loginid <> "'"
+  let appendline = "export LOGINID='" <> loginid <> "'"
+  zshenv <- prefixHome ".zshenv"
   not_found <- fold (grep (text appendline) (input zshenv)) Fold.null
   when not_found $ do
     printf "Appending LOGINID env variable to .zshenv\n"
@@ -321,3 +315,8 @@ ppFailure msg = liftIO $ PP.putDoc $ (annotate (PP.color PP.Red) "FAILURE:" <+> 
 
 ppSuccess :: MonadIO io => Doc PP.AnsiStyle -> io ()
 ppSuccess msg = liftIO $ PP.putDoc $ (annotate (PP.colorDull PP.Green) "Done with" <+> msg) <> line
+
+prefixHome :: FilePath -> AppM FilePath
+prefixHome fp = do
+  when (absolute fp) $ panic "FilePath should be relative"
+  (</> fp) <$> view homeDir
