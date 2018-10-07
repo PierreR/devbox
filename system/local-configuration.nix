@@ -49,11 +49,11 @@
   ];
 
   # Launch virtualbox from its UI and get the /vagrant shared folder
-  #fileSystems."/vagrant" = {
-  #  fsType = "vboxsf";
-  #  device = "vagrant";
-  #  options = [ "rw" ];
-  #};
+  fileSystems."/vagrant" = {
+    fsType = "vboxsf";
+    device = "vagrant";
+    options = [ "rw" ];
+  };
 
   # Enable the puppetdb dns service
   # services.puppetdb-dns.enable = true;
