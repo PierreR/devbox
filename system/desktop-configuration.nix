@@ -2,6 +2,13 @@
 # such as desktopManager, windowManager and displayManager
 {pkgs, config, ... }:
 
+let
+  taffybar = import (fetchTarball {
+    url = "https://github.com/pierrer/taffybar/tarball/20584dafc952fbe5ee36136e0492500749ea7faa";
+    sha256 = "1l9llchl46ipvrn4vjcpyxsvmmdx98qx08w8frabfibf51vr6v2k";
+  }) {};
+in
+
 {
   services.xserver = {
     desktopManager.default = "none";
@@ -24,7 +31,7 @@
         ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
         ${pkgs.numlockx}/bin/numlockx on
         ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg" &
-        ${pkgs.taffybar}/bin/taffybar &
+        ${taffybar}/bin/taffybar &
         # ${pkgs.dunst}/bin/dunst -cto 4 -nto 2 -lto 1 -config ${config.users.extraUsers.vagrant.home}/.dunstrc &
       '';
     };
