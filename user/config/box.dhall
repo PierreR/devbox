@@ -21,7 +21,7 @@ Box configuration file
                     , "puppet-bos.mr"
                     ]
 , eclipse         = True
-, wallpaper       = "devbox.jpg"
+, wallpaper       = "mountain.jpg"
 , console         = { color = "light" }
 , additionalRepos = [ ] : List { path : Text, checkout : Text }
 , envPackages    = [ "vcsh"
