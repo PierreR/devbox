@@ -242,7 +242,6 @@
 
     export HISTCONTROL=ignoreboth
 
-    #. $(autojump-share)/autojump.bash
   '';
 
   programs.zsh.enable = true;
