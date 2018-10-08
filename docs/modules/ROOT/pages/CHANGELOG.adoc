@@ -2,6 +2,19 @@
 include::_attributes.adoc[]
 
 ## {latest_revision}
+
+- Update nixos to `18.09`
++
+[CAUTION,caption=Breaking changes]
+====
+To get the new os version, you will need to re-create a new devbox.
+
+`vagrant provision` won't upgrade to a major devbox release.
+====
+
+- Update status bar (taffybar-3.x)
+
+## v4.1, 17/08/2018
 [CAUTION,caption=Breaking changes]
 ====
 - In the `config/box.dhall` file, please:
