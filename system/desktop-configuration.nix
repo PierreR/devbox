@@ -30,8 +30,8 @@ in
       sessionCommands = ''
         ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
         ${pkgs.numlockx}/bin/numlockx on
-        ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg" &
         ${taffybar}/bin/taffybar &
+        ${pkgs.feh}/bin/feh --bg-scale "$HOME/.wallpaper.jpg" &
         # ${pkgs.dunst}/bin/dunst -cto 4 -nto 2 -lto 1 -config ${config.users.extraUsers.vagrant.home}/.dunstrc &
       '';
     };
