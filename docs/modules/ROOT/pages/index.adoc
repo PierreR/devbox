@@ -279,23 +279,6 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 - shutdown/reboot the vm
 - search the internet with `gg`
 
-### Alternative desktop manager
-
-Instead of the minimal xmonad tiling windows manager, you might prefer using a complete desktop manager such as gnome or kde.
-You can easily switch to kde or gnome by choosing to uncomment another line from your local configuration:
-
-./etc/nixos/local-configuration.nix
-[subs=+quotes]
-```nix
-  imports = [
-    ./desktop-tiling-configuration.nix
-    # ./desktop-gnome-configuration.nix
-    # ./desktop-kde-configuration.nix
-  ];
-```
-
-After the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
-
 ### Projects (mr)
 
 The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called  https://github.com/CIRB/vcsh_mr_template/tree/master/.config/mr/available.d[vcsh_mr_template] .
@@ -347,6 +330,23 @@ To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/l
 
 TIP: If you wish to change the desktop or window manager you should change the `/etc/nixos/desktop-configuration.nix` file. Alike `local-configuratin.nix`, you then copy the file to ROOT_DIR to retain such config across `vagrant destroy`.
 
+#### Alternative desktop manager
+
+Instead of the minimal xmonad tiling windows manager, you might prefer using a complete desktop manager such as gnome or kde.
+You can easily switch to kde or gnome by choosing to uncomment another line from your local configuration:
+
+./etc/nixos/local-configuration.nix
+[subs=+quotes]
+```nix
+  imports = [
+    ./desktop-tiling-configuration.nix
+    # ./desktop-gnome-configuration.nix
+    # ./desktop-kde-configuration.nix
+  ];
+```
+
+After the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
+
 
 ### User
 
@@ -369,7 +369,7 @@ The devbox allows to quickly share any configuration across users. This is done 
 
 For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
 
-As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/master/user/config/box#L5[`repos`] in `ROOT_DIR/config/box`.
+As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L18[`repos`] in `ROOT_DIR/config/box.dhall`.
 
 #### Generic dotfiles
 
@@ -379,9 +379,9 @@ TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/
 
 #### Personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/master/user/config/box#L9[`additionalRepos`] in `ROOT_DIR/config/box`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision`.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L25[`additionalRepos`] in `ROOT_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with `vagrant provision`.
 
-TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L9-L12[ROOT_DIR/config/box] points to such a workflow as an example.
+TIP: You can use `additionalRepos` to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L9-L12[ROOT_DIR/config/box.dhall] points to such a workflow as an example.
 
 WARNING: `additionalRepos` is meant as a static setting. It is only taken into account the first time you create a box. This is unlike `repos` for which the list of activated repositories is refreshed each time you provision.
 

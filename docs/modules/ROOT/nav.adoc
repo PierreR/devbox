@@ -10,6 +10,8 @@
 ** xref:index.adoc#_projects_mr[mr]
 ** xref:index.adoc#_cicd[cicd]
 * xref:index.adoc#_customization[Customization]
+** xref:index.adoc#_system[System]
+** xref:index.adoc#_user[User]
 * xref:index.adoc#_life_cycle[Life cycle]
 * xref:index.adoc#_faq[FAQ]
 * xref:index.adoc#_troubleshooting[Troubleshooting]
