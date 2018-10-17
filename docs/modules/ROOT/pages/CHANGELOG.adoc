@@ -3,13 +3,26 @@ include::_attributes.adoc[]
 
 ## {latest_revision}
 
-- Update nixos to `18.09`
-+
 [CAUTION,caption=Breaking changes]
 ====
-To get the new os version, you will need to re-create a new devbox.
-
+- This version updates nixos to `18.09`. You will need to re-create a new devbox.
++
 `vagrant provision` won't upgrade to a major devbox release.
+- Choice of desktop has been moved to the local configuration. This is to allow the setting to survive across destroy.
++
+If you persist your local system configuration, you need to modify it.
++
+Please check https://github.com/CIRB/devbox/blob/5.1.0b/system/local-configuration.nix#L7-L13
++
+./etc/nixos/local-configuration.nix
+[subs=+quotes]
+```nix
+  imports = [
+    ./desktop-tiling-configuration.nix
+    # ./desktop-gnome-configuration.nix
+    # ./desktop-kde-configuration.nix
+  ];
+```
 ====
 
 - Update status bar (taffybar-3.x)

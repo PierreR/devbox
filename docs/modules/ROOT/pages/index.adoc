@@ -282,19 +282,17 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 ### Alternative desktop manager
 
 Instead of the minimal xmonad tiling windows manager, you might prefer using a complete desktop manager such as gnome or kde.
-You can easily switch to gnome by replacing https://github.com/CIRB/devbox/blob/24ee8bbc3c695491938309cca26d434940892c68/system/configuration.nix#L7[this line] with :
+You can easily switch to kde or gnome by choosing to uncomment another line from your local configuration:
 
-./etc/nixos/configuration.nix
+./etc/nixos/local-configuration.nix
 [subs=+quotes]
 ```nix
-  imports =
-    [
-      ./hardware-configuration.nix
-      *./desktop-gnome-configuration.nix* <1>
-      ./local-configuration.nix
-    ];
+  imports = [
+    ./desktop-tiling-configuration.nix
+    # ./desktop-gnome-configuration.nix
+    # ./desktop-kde-configuration.nix
+  ];
 ```
-<1> ./desktop-kde-configuration.nix is also available
 
 After the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
 
