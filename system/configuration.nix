@@ -4,7 +4,6 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./desktop-configuration.nix
       ./local-configuration.nix
       ./puppetdb-dns.nix
     ];
