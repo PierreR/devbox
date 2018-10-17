@@ -32,6 +32,7 @@ cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
 sync_extra_config "local-configuration.nix"
 sync_extra_config "desktop-configuration.nix"
 sync_extra_config "desktop-gnome-configuration.nix"
+sync_extra_config "desktop-kde-configuration.nix"
 
 
 # Sync system custom nixpkgs files
