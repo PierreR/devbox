@@ -7,7 +7,7 @@
   # Only one desktop should be uncommented.
   # Feel free to try another one.
   imports = [
-    ./desktop-configuration.nix
+    ./desktop-tiling-configuration.nix
     # ./desktop-gnome-configuration.nix
     # ./desktop-kde-configuration.nix
   ];
