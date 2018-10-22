@@ -31,7 +31,6 @@ cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
 
 sync_extra_config "local-configuration.nix"
 sync_extra_config "desktop-tiling-configuration.nix"
-ln -s /etc/nixos/desktop-tiling-configuration.nix /etc/nixos/desktop-configuration.nix
 sync_extra_config "desktop-gnome-configuration.nix"
 sync_extra_config "desktop-kde-configuration.nix"
 
