@@ -26,6 +26,7 @@
     # cabal2nix
     # dnsmasq
     # docker_compose
+    # filebeat
     # firefox
     # geany
     # gitAndTools.tig
