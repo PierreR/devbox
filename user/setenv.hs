@@ -30,7 +30,7 @@ eclipseVersion = "4.7"
 eclipseFullVersion = eclipseVersion <> ".3"
 eclipsePluginList = ["jdt", "yedit", "testng"]
 
-cicdshellTag =  "v2.5.7"
+cicdshellTag =  "v2.5.10"
 
 mrRepoUrl = "git://github.com/CIRB/vcsh_mr_template.git"
 
