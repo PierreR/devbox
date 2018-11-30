@@ -21,17 +21,22 @@ Box configuration file
 , userEmail =
     ""
 , loginId =
-   ""
+    (./shell.dhall).loginId
 , eclipse =
-    False
+    True
 , wallpaper =
     "mountain.jpg"
 , console =
     { color = "light" }
 , mr =
-    { config = [] : List Text
-    , templateUrl = ""
-    , repos = [] : List Text
+    { config =
+        [] : List Text
+    , templateUrl =
+        "git://github.com/CIRB/vcsh_mr_template.git"
+    , repos =
+        [ "nixpkgs-config.mr", "xmonad.vcsh" ]
     }
-, nix-env = [] : List Text
+, nix-env =
+    , "-f https://github.com/CIRB/cicd-shell/archive/v2.5.11.tar.gz"
+    ]
 }

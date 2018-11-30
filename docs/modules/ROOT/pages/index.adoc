@@ -35,6 +35,17 @@ endif::[]
 
 ## Overview
 
+The devbox provides a virtualbox linux operating system that would typically run on top of a Windows host.
+The box is based on https://nixos.org[NixOS] and make sure any setting can be persisted.
+
+Customizations are possible on two levels:
+
+- *system* through changes on your `local-configuration.nix`
+- *user* through changes on your `config/box.dhall` configuration file.
+
+As a user of the devbox, you can easily layer customizations tailored for your organization, your team or your personal interest.
+
+
 image::devbox.png[]
 
 ### Software requirements

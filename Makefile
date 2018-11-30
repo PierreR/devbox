@@ -2,19 +2,12 @@ include docs/Makefile
 
 .PHONY: clean user system
 
-overlays := ${PWD}/nixpkgs/overlays
-version ?= '4.2.9'
-
 user:
-	@echo -e "Starting user configuration (version: $(version)).\nHold on. It will take several minutes."
-	@nix-shell -Q --quiet -A user https://github.com/CIRB/devbox/tarball/$(version) --run '/usr/bin/env time -f "Completed after %E min" setenv' | tee /vagrant/user_lastrun.log
-
-# deprecated: left for a while for Vagrantfile compatibility sake
-sync-user: user
+	@echo -e "Starting user configuration.\nHold on. It will take several minutes.\n"
+	@nix-shell -p dhall-bash --quiet --run '/usr/bin/env time -f "Completed after %E min" ./user/setenv.sh /vagrant/config/box.dhall' | tee /vagrant/user_lastrun.log
 
 system:
 	@./system/setenv.sh
 
 clean: clean-doc
 	rm -f build/*.*
-	rm result
