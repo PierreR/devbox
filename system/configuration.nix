@@ -178,6 +178,7 @@
     termite
     tree
     unzip
+    vcsh
     wget
     which
     xdg_utils

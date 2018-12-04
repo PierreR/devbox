@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "user", args: [scm_uri, scm_api], type: "shell" , name: "configure-user", privileged: false, inline: <<-SHELL
     ping -c1 8.8.8.8 > /dev/null
     if [[ $? -ne 0 ]]; then
-      echo "No internet connexion. Exit";
+      echo "No internet connexion.\n ABORTING user configuration.";
       exit 1;
     fi
     scm_uri=$1
@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
       git clone --depth 1 --branch ${version} ${scm_uri} ${configdir} > /dev/null 2>&1;
     fi
     pushd ${configdir} > /dev/null;
-    make version=$version user ;
+    make user;
     popd > /dev/null;
     popd > /dev/null;
   SHELL

@@ -1,19 +1,33 @@
-#! /usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p vcsh dhall-bash
 set -eu
 
-NORMAL=$(tput sgr0)
-GREEN=$(tput setaf 2)
-RED=$(tput setaf 1)
+if [ -t 0 ]
+then
+    NORMAL=$(tput sgr0)
+fi
 
 # Utils
 _append () {
     grep -qF -- "$1" "$2" || ( echo "Appending ${1} in ${2}"; echo "$1" >> "$2" )
 }
 _success () {
-    echo -e "${GREEN}Done with $1 ${NORMAL}\n"
+    if [ -t 0 ]
+    then
+        local GREEN=$(tput setaf 2)
+        echo -e "${GREEN}Done with $1 ${NORMAL}\n"
+    else
+        printf "Done with $1 \n"
+    fi
 }
 _failure () {
-    echo -e "${RED}FAILURE: $1 ${NORMAL}\n"
+    if [ -t 0 ]
+    then
+        local RED=$(tput setaf 1)
+        echo -e "${RED}FAILURE: $1 ${NORMAL}\n"
+    else
+        printf "FAILURE: $1 \n"
+    fi
 }
 
 config_file=$1
@@ -50,7 +64,7 @@ configure_git () {
 configure_wallpaper () {
     printf 'Configuring wallpaper\n'
     eval $(dhall-to-bash --declare filename <<< "($config_file).wallpaper")
-    ln -sf "${HOME}/.wallpaper/${filename}" "$HOME/.wallaper.jpg"
+    ln -sf "${HOME}/.wallpaper/${filename}" "$HOME/.wallpaper.jpg"
 }
 
 configure_console () {
@@ -71,11 +85,11 @@ install_mr_repos () {
     set +e
     printf 'Installing mr repos\n'
     declare bootstrap=false
-    if [ -f "$HOME/.mrconfig" ]; then
+    if [ ! -f "$HOME/.mrconfig" ]; then
         bootstrap=true
         # bootstrap: vcsh clone of the mr remplate url
         eval $(dhall-to-bash --declare template_url <<< "($config_file).mr.templateUrl")
-        if [ ! -z "$template_url" ]
+        if [ -z "$template_url" ]
         then
             printf 'mr.templateUrl is empty. You won\"t not be able to activate pre-defined mr repositories.\n'
         else
@@ -103,10 +117,15 @@ install_mr_repos () {
 
     eval $(dhall-to-bash --declare repos <<< "($config_file).mr.repos")
     local mrconfigd="$HOME/.config/mr/config.d"
-    find $mrconfigd -type l -name "*.mr" -exec rm {} \;
-    for repo in "${repos[@]}"; do
-        ln -sf "../available.d/${repo}" "${mrconfigd}/${repo}"
-    done
+    if [ -d "$mrconfigd" ]; then
+        find $mrconfigd -type l -name "*.mr" -exec rm {} \;
+        for repo in "${repos[@]}"; do
+            ln -sf "../available.d/${repo}" "${mrconfigd}/${repo}"
+        done
+    else
+        printf 'No ${mrconfigd] directory. No predefined mr repo will be activated.\n'
+    fi
+
     if $bootstrap
     then
         mr -f -d "$HOME" up -q
@@ -118,6 +137,7 @@ install_mr_repos () {
 }
 
 install_env_packages () {
+    printf 'Installing user packages (nix-env).\n'
     set +e
     eval $(dhall-to-bash --declare specs <<< "($config_file).nix-env")
     for spec in "${specs[@]}"
@@ -148,13 +168,14 @@ install_doc () {
 }
 
 # Main
-configure_git
+install_ssh_keys
+install_env_packages
+install_mr_repos
+# These needs to be after because they depends on the vcsh bootstrap that fetch the dotfiles.
 configure_wallpaper
 configure_console
+configure_git
 set_login_id
-install_ssh_keys
-install_mr_repos
-install_env_packages
 install_doc
 
 eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
