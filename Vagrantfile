@@ -3,10 +3,10 @@
 
 Vagrant.configure("2") do |config|
 
-  scm_uri = "https://github.com/CIRB/devbox"
-  scm_api = "https://api.github.com/repos/CIRB/devbox/releases"
+  scm_uri = "https://github.com/pierrer/devbox"
+  scm_api = "https://api.github.com/repos/pierrer/devbox/releases"
 
-  config.vm.box = "devbox-4.3.1-pre"
+  config.vm.box = "devbox-5.1-pre"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
