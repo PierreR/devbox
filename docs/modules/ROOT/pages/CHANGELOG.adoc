@@ -5,6 +5,18 @@ include::_attributes.adoc[]
 
 [CAUTION,caption=Breaking changes]
 ====
+- You will need to update your `/vagrant/config/box.dhall` according to the `config/box-cirb.dhall` template.
+====
+
+- Update Eclipse to the 4.8 photon release.
+- `cicd-shell` updated to `2.6`.
+- Personal  mr config can now be changed on the fly. Use `vagrant provision` to update your configuration.
+- The user `setenv` script has been converted to a bash script.
+
+## v5.0, 09/10/2018
+
+[CAUTION,caption=Breaking changes]
+====
 - This version updates nixos to `18.09`. You will need to re-create a new devbox.
 +
 `vagrant provision` won't upgrade to a major devbox release.
