@@ -166,8 +166,8 @@ install_doc () {
     if make doc >/dev/null 2>&1
     then
         local filepath="$HOME/.local/share"
-        mkdir -p filepath
-        cp -r doc filepath
+        mkdir -p $filepath
+        cp -r doc $filepath
         _success "documentation."
     else
         _failure "documentation not installed successfully."
