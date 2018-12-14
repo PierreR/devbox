@@ -236,10 +236,6 @@
         readlink -f $(which "$1")
     }
 
-    nqattr () {
-        nix-env -qaPf '<nixpkgs>' -A $1
-    }
-
   '';
   programs.zsh.shellAliases = {
     la = " ls -alh";
