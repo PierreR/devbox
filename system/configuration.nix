@@ -5,7 +5,6 @@
     [
       ./hardware-configuration.nix
       ./local-configuration.nix
-      ./puppetdb-dns.nix
     ];
 
   boot.loader.timeout = 1;
