@@ -33,14 +33,14 @@ _failure () {
 config_file=$1
 
 if [ ! -f "$config_file" ]; then
-    _failure "please pass a valid configuration as first argument. Can't find ${config_file}."
+    _failure "please pass the path to a valid dhall configuration file as first argument. Can't find ${config_file}."
     exit 1
 fi
 
 
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
-    local ssh_hostdir="/vagrant/ssh-keys"
+    eval $(dhall-to-bash --declare ssh_hostdir <<< "($config_file).sshkeysDir")
     local guestdir="$HOME/.ssh/"
     if [ -d "$ssh_hostdir" ]; then
         cp user/ssh-config "${guestdir}/config"
