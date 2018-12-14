@@ -12,6 +12,22 @@
     # ./desktop-kde-configuration.nix
   ];
 
+  nix = {
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://cicd-shell.cachix.org"
+      "https://language-puppet.cachix.org"
+      "https://puppet-unit-test.cachix.org"
+      "https://taffybar.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "cicd-shell.cachix.org-1:ajBUZoJNroJ5ldybYoXgXyl2YWuPJ4NJ8Qx3/ksxVEw="
+      "language-puppet.cachix.org-1:nyTkkiphUF+s5HO4aDqGXBHD7rGiqz6ygvGYnJQ2feA="
+      "puppet-unit-test.cachix.org-1:DcfU2u/QnYWzfTFpjIPEQi1/Nq//yd1lhgORL5+Uf84="
+      "taffybar.cachix.org-1:beZotJ1nVEsAnJxa3lWn0zwzZM7oeXmGh4ADRpHeeIo="
+    ];
+  };
+
   environment.extraInit = ''
     export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
     export DESKTOP_SESSION=gnome

@@ -27,21 +27,6 @@
       gc-keep-derivations = true
     '';
     gc.automatic = true;
-    binaryCaches = [
-      "https://cache.nixos.org/"
-      "https://cicd-shell.cachix.org"
-      "https://language-puppet.cachix.org"
-      "https://devbox.cachix.org"
-      "https://puppet-unit-test.cachix.org"
-      "https://taffybar.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      "cicd-shell.cachix.org-1:ajBUZoJNroJ5ldybYoXgXyl2YWuPJ4NJ8Qx3/ksxVEw="
-      "language-puppet.cachix.org-1:nyTkkiphUF+s5HO4aDqGXBHD7rGiqz6ygvGYnJQ2feA="
-      "devbox.cachix.org-1:GkmN7av3Ed3+8dLR7+uhbqJ9gp4eJOqQcdJ9xE6rHdE="
-      "puppet-unit-test.cachix.org-1:DcfU2u/QnYWzfTFpjIPEQi1/Nq//yd1lhgORL5+Uf84="
-      "taffybar.cachix.org-1:beZotJ1nVEsAnJxa3lWn0zwzZM7oeXmGh4ADRpHeeIo="
-    ];
     trustedUsers = [ "root" "vagrant"];
   };
 
@@ -71,7 +56,6 @@
     xkbOptions = "caps:escape";
   };
   virtualisation.docker.enable = true;
-  virtualisation.docker.extraOptions = "--insecure-registry docker.cirb.lan";
 
   fonts = {
     enableDefaultFonts = true;
