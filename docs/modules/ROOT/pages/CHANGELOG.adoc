@@ -3,6 +3,11 @@ include::_attributes.adoc[]
 
 ## {latest_revision}
 
+A default bigger box is now generated from packer.
+Re-packaging will provision the system (with the specific local-configuration) and the user.
+
+## v5.1, 09/12/2018
+
 [CAUTION,caption=Breaking changes]
 ====
 - You will need to update your `/vagrant/config/box.dhall` according to the `config/box-cirb.dhall` template.

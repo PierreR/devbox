@@ -25,8 +25,8 @@ sync_extra_config () {
     fi
 }
 
-# Always override the main system configuration file
-cp --verbose "./system/configuration.nix" "/etc/nixos/configuration.nix";
+# Always override the packer custom-configuration file
+cp --verbose "./system/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
 cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
 
 sync_extra_config "local-configuration.nix"

@@ -31,8 +31,11 @@
   };
   environment.systemPackages = with pkgs; [
     albert
-    feh
-    stalonetray
     compton
+    feh
+    gvfs # needed by xdg-mime (albert)
+    numix-gtk-theme
+    numix-icon-theme
+    stalonetray
   ];
 }
