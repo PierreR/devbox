@@ -47,6 +47,7 @@
     aspellDicts.en
     aspellDicts.fr
     bind
+    binutils
     curl
     desktop_file_utils
     gitFull
