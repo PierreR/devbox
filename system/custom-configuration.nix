@@ -10,6 +10,17 @@
   boot.loader.timeout = 1;
   boot.plymouth.enable = true;
 
+  networking.enableIPv6 = false;
+
+  nix = {
+    extraOptions = ''
+      gc-keep-outputs = true
+      gc-keep-derivations = true
+    '';
+    gc.automatic = true;
+    trustedUsers = [ "root" "vagrant"];
+  };
+
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "be-latin1";
@@ -37,6 +48,7 @@
     aspellDicts.fr
     bind
     curl
+    desktop_file_utils
     gitFull
     ( neovim.override {
         vimAlias = true;
