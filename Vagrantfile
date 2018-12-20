@@ -42,8 +42,13 @@ Vagrant.configure("2") do |config|
       pushd ${configdir} > /dev/null;
       make system
       popd > /dev/null;
+      popd > /dev/null;
+    else
+      pushd ${configdir} > /dev/null;
+      make sync-system
+      popd > /dev/null;
+      popd > /dev/null;
     fi
-    popd > /dev/null;
   SHELL
 
   config.vm.provision "user", args: [scm_uri, scm_api], type: "shell" , name: "configure-user", privileged: false, inline: <<-SHELL

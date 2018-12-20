@@ -1,5 +1,20 @@
 #! /usr/bin/env bash
+
+if [ "$1" == 'sync' ]
+then
+    sync=true
+else
+    sync=false
+fi
+
 set -euo pipefail
+
+
+if ! $sync
+then
+    cp --verbose "./system/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
+    cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
+fi
 
 # OUTPUT-COLORING
 red='\e[0;31m'
@@ -13,21 +28,27 @@ NC='\e[0m' # No Color
 # sync config file located in /vagrant
 sync_extra_config () {
     local config_file=$1
-    if [[ -f "/etc/nixos/${config_file}" ]]; then
-        cp --verbose "/etc/nixos/${config_file}" "/etc/nixos/${config_file}.back"
-    fi
     if [[ -f "/vagrant/${config_file}" ]]; then
+        if [[ -f "/etc/nixos/${config_file}" ]]; then
+            cp --verbose "/etc/nixos/${config_file}" "/etc/nixos/${config_file}.back"
+        fi
         echo "Overridding ${config_file} using your personal configuration from the ROOT_DIR"
         cp --verbose "/vagrant/${config_file}" "/etc/nixos/${config_file}"
     else
-        echo "No personal configuration found. Overridding ${config_file} using the devbox source repository"
-        cp --verbose "./system/${config_file}" "/etc/nixos/${config_file}"
+        if ! $sync
+        then
+            echo "No personal configuration found. Overridding ${config_file} using the devbox source repository"
+            cp --verbose "./system/${config_file}" "/etc/nixos/${config_file}"
+        fi
     fi
 }
 
 # Always override the packer custom-configuration file
-cp --verbose "./system/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
-cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
+if ! sync
+then
+  cp --verbose "./system/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
+  cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
+fi
 
 sync_extra_config "local-configuration.nix"
 sync_extra_config "desktop-tiling-configuration.nix"

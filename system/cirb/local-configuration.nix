@@ -42,6 +42,7 @@
     # bundix
     # cabal2nix
     # dnsmasq
+    docker
     # docker_compose
     # filebeat
     # firefox
@@ -124,7 +125,7 @@
     options = [ "rw" ];
   };
 
-
+  virtualisation.docker.enable = true;
   # Enable the puppetdb dns service
   # services.puppetdb-dns.enable = true;
 
