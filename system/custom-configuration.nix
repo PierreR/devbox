@@ -127,4 +127,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  users.users.vagrant.extraGroups = [ "docker" ];
 }
