@@ -26,6 +26,8 @@ in  { userName =
         ""
     , loginId =
         ""
+    , mountDir =
+        "${mountDir}"
     , sshkeysDir =
         "${mountDir}/ssh-keys"
     , eclipse =
