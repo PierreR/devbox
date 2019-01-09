@@ -36,7 +36,7 @@ sync_extra_config () {
         if [[ -f "/etc/nixos/${config}" ]]; then
             cp --verbose "/etc/nixos/${config}" "/etc/nixos/${config}.back"
         fi
-        echo "Overridding ${config} using your personal configuration from the ROOT_DIR"
+        echo "Overridding ${config} using your personal configuration from ${mount_dir}"
         cp --verbose "${mount_dir}/${config}" "/etc/nixos/${config}"
     else
         if ! $sync
