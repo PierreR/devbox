@@ -1,52 +1,29 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p vcsh dhall-bash
-set -eu
-
-if [ -t 0 ]
-then
-    NORMAL=$(tput sgr0)
-fi
-
-# Utils
-_append () {
-    grep -qF -- "$1" "$2" || ( echo "Appending ${1} in ${2}"; echo "$1" >> "$2" )
-}
-_success () {
-    if [ -t 0 ]
-    then
-        local GREEN=$(tput setaf 2)
-        echo -e "${GREEN}Done with $1 ${NORMAL}\n"
-    else
-        printf "Done with $1 \n"
-    fi
-}
-_failure () {
-    if [ -t 0 ]
-    then
-        local RED=$(tput setaf 1)
-        echo -e "${RED}FAILURE: $1 ${NORMAL}\n"
-    else
-        printf "FAILURE: $1 \n"
-    fi
-}
 
 config_file=$1
-
 if [ ! -f "$config_file" ]; then
     _failure "please pass the path to a valid dhall configuration file as first argument. Can't find ${config_file}."
     exit 1
 fi
 
+eval $(dhall-to-bash --declare mount_dir <<< "($config_file).mountDir")
+
+{
+
+source utils.sh
+
+set -eu
 
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
     eval $(dhall-to-bash --declare ssh_hostdir <<< "($config_file).sshkeysDir")
-    local guestdir="$HOME/.ssh/"
+    local guestdir="$HOME/.ssh"
     if [ -d "$ssh_hostdir" ]; then
-        cp user/ssh-config "${guestdir}/config"
         # rsync -i --chmod=644 ${ssh_hostdir}/*.pub "$guestdir"
-        find "$ssh_hostdir" -type f -name "*.*" -exec rsync -ai --chmod=644 {} "$guestdir" \;
-        find "$ssh_hostdir" -type f ! -name "*.*" -exec rsync -ai --chmod=600 {} "$guestdir" \;
+        find "$ssh_hostdir" -type f -name "*.*" -exec rsync -ai --chmod=644 {} "$guestdir/" \;
+        find "$ssh_hostdir" -type f ! -name "*.*" -exec rsync -ai --chmod=600 {} "$guestdir/" \;
+        cp user/ssh-config "${guestdir}/config"
         _success "install ssh keys"
     else
         _failure "no ssh-keys directory found. You won't be able to push anything to stash.cirb.lan."
@@ -191,3 +168,5 @@ if "$eclipse"
 then
     ./user/eclipse.sh
 fi
+
+} | tee "${mount_dir}/user_lastrun.log"

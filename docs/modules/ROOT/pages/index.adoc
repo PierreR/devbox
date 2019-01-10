@@ -95,10 +95,10 @@ devbox-{latest_version}
    │      ├── box.dhall
    │      ├── shell.dhall
    ├── ssh-keys
-   │      ├── cirb_rsa
-   │      ├── cirb_rsa.pub
-   │      ├── cirb_github_rsa
-   │      └── cirb_github_rsa.pub
+   │      ├── xxxx_rsa
+   │      ├── xxxx_rsa.pub
+   │      ├── xxxx_github_rsa
+   │      └── xxxx_github_rsa.pub
    ├── local-configuration.nix
    └── Vagrantfile
 -----
@@ -280,7 +280,7 @@ You can use https://github.com/wting/autojump[`autojump`] to quickly navigate fr
 
 You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
 
-Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/cirb_rsa $LOGINID@$1`.
+Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/xxxx_rsa $LOGINID@$1`.
 
 ### Application launcher (albert)
 
@@ -428,6 +428,19 @@ Here are the steps to migrate:
 TIP: You might prefer to keep the old devbox around and create a new one to be 100% sure not to lose anything.
 
 Question, support, discussion are handled in the slack `#devbox` channel.
+
+## Without vagrant or virtualbox
+
+It is possible to use the devbox without the use of Vagrant or Virtualbox for instance within a Nixos linux or a vmware nixos guest.
+
+====
+[lowerroman]
+. mount your configuration into your nixos box, for instance `/mnt/shared`
+. clone this repo for instance in `~/tmp/devbox`
+. `sudo make sync-system config_file=/mnt/shared/config/box.dhall`
+. `make user config_file=/mnt/shared/config/box.dhall`
+====
+
 
 ## FAQ
 

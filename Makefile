@@ -5,11 +5,11 @@ include docs/Makefile
 config_file ?= /vagrant/config/box.dhall
 
 user:
-	@echo -e "Starting user configuration in ${PWD}.\nHold on.\n"
-	@time -f "Completed after %E min" ./user/setenv.sh $(config_file) | tee /vagrant/user_lastrun.log
+	@echo -e "Starting user configuration from ${PWD}.\nHold on.\n"
+	@time -f "Completed after %E min" ./user/setenv.sh $(config_file)
 
 system:
-	@echo -e "Starting system configuration in ${PWD}.\nHold on.\n"
+	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
 	./system/setenv.sh $(config_file)
 
 sync-system:

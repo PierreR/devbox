@@ -6,6 +6,12 @@ then
 fi
 
 # Utils
+
+# ex: _append "hello world" "$HOME/test.txt"
+_append () {
+    grep -qF -- "$1" "$2" || ( echo "Appending ${1} in ${2}"; echo "$1" >> "$2" )
+}
+
 _success () {
     if [ -t 0 ]
     then
