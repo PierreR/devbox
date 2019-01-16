@@ -126,6 +126,8 @@
   };
 
   virtualisation.docker.enable = true;
+  users.users.vagrant.extraGroups = [ "docker" ];
+
   # Enable the puppetdb dns service
   # services.puppetdb-dns.enable = true;
 
