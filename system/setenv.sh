@@ -18,12 +18,6 @@ fi
 
 set -euo pipefail
 
-if ! $sync
-then
-    cp --verbose "./system/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
-    cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
-fi
-
 # This script assumes it will be run as root from the ROOT_DIR on the devbox
 # Don't call it directly, use the make system target
 # When testing the script on the devbox itself, you might use: sudo su - -p -c 'make system'
