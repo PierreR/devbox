@@ -71,12 +71,12 @@ Please do update if you have older version(s).
 We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
 ====
 
-2. In `ROOT_DIR`, create a new config folder and copy the two files from the  https://github.com/CIRB/devbox/blob/master/user/config[config folder]. Modify them to match your personal settings:
+2. In `ROOT_DIR`, create a new config folder and copy the two files from the https://github.com/PierreR/devbox/tree/master/config[config folder]. Modify them to match your personal settings:
 +
 ```
 mkdir config
-curl -o config/box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/user/config/box.dhall
-curl -o config/shell.dhall https://raw.githubusercontent.com/CIRB/devbox/master/user/config/shell.dhall
+curl -o config/box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/box.dhall
+curl -o config/shell.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/shell.dhall
 ```
 +
 WARNING: If you create the file manually, make sure you keep a `unix` file encoding.
