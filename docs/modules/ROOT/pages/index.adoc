@@ -436,7 +436,7 @@ It is possible to use the devbox without the use of Vagrant or Virtualbox for in
 ====
 [lowerroman]
 . mount your configuration into your nixos box, for instance `/mnt/shared`
-. clone this repo for instance in `~/tmp/devbox`
+. clone this repo for instance in `~/bootstrap/devbox`
 . `sudo make sync-system config_file=/mnt/shared/config/box.dhall`
 . `make user config_file=/mnt/shared/config/box.dhall`
 ====

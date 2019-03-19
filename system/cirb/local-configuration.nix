@@ -72,6 +72,7 @@
     # taskwarrior
     # terraform
     # ruby
+    # rustup
     # rxvt_unicode-with-plugins
     silver-searcher
     shellcheck
