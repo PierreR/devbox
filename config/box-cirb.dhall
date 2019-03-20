@@ -15,28 +15,32 @@ Box configuration file
   nix-env         : List of specs for the nix-env --install command
 -}
 
+let mountDir = "/vagrant"
 
-{ userName =
-    ""
-, userEmail =
-    ""
-, loginId =
-    (./shell.dhall).loginId
-, eclipse =
-    True
-, wallpaper =
-    "mountain.jpg"
-, console =
-    { color = "light" }
-, mr =
-    { config =
-        [] : List Text
-    , templateUrl =
-        "git://github.com/CIRB/vcsh_mr_template.git"
-    , repos =
-        [ "nixpkgs-config.mr", "xmonad.vcsh" ]
+in  { userName =
+        ""
+    , userEmail =
+        ""
+    , loginId =
+        ""
+    , mountDir =
+        "${mountDir}"
+    , sshkeysDir =
+        "${mountDir}/ssh-keys"
+    , eclipse =
+        True
+    , wallpaper =
+        "mountain.jpg"
+    , console =
+        { color = "light" }
+    , mr =
+        { config =
+            [] : List Text
+        , templateUrl =
+            "git://github.com/CIRB/vcsh_mr_template.git"
+        , repos =
+            [ "nixpkgs-config.mr", "xmonad.vcsh" ]
+        }
+    , nix-env =
+        [ "-f https://github.com/CIRB/cicd-shell/archive/v2.5.11.tar.gz" ]
     }
-, nix-env =
-    , "-f https://github.com/CIRB/cicd-shell/archive/v2.5.11.tar.gz"
-    ]
-}
