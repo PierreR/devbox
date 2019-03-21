@@ -137,6 +137,22 @@ install_env_packages () {
     set -e
 }
 
+tweak_taffybar () {
+    set +e
+    eval $(dhall-to-bash --declare netw <<< "($config_file).netw")
+    local target_str='enp0s3'
+    if [ "$netw" != "$target_str" ]; then
+        local file="$HOME/.config/taffybar/taffybar.hs"
+        grep -q $target_str $file
+        if [ $? -eq 0 ]
+        then
+            sed -i "s/$target_str/$netw/" $file
+            _success "set taffybar wireless interface to ${netw}."
+        fi
+    fi
+    set -e
+}
+
 install_doc () {
     printf 'Installing doc.\n'
     set +e
@@ -161,12 +177,18 @@ configure_wallpaper
 configure_console
 configure_git
 set_login_id
-install_doc
+tweak_taffybar
 
 eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
 if "$eclipse"
 then
     ./user/eclipse.sh
+fi
+
+eval $(dhall-to-bash --declare install_doc <<< "($config_file).installDoc")
+if "$install_doc"
+then
+    install_doc
 fi
 
 } | tee "${mount_dir}/user_lastrun.log"
