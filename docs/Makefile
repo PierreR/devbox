@@ -2,7 +2,7 @@ srcdir := docs/modules/ROOT/pages/index.adoc
 assetdir := docs/modules/ROOT/assets/images
 outdir := doc
 
-doc: $(outdir)/devbox.html $(outdir)/devbox.pdf
+doc: $(outdir)/devbox.html $(outdir)/devbox.pdf ## Generate documentation both in html and pdf
 
 $(outdir)/devbox.html: README.adoc build/$(assetdir)/devbox.png $(assetdir)/layout-indicator.png
 	@nix-shell -p asciidoctor --command "asciidoctor $< -o $@"

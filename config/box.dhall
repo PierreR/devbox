@@ -12,6 +12,7 @@ Box configuration file
   wallpaper       : An image file in ~/.wallpaper that will be used as wallpaper.
 					see https://github.com/CIRB/devbox-dotfiles/.wallpaper
   console.color   : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
+  netw            : Name of the network interface to be displayed by Taffybar.
   mr.config       : List of additional personal mr repositories you might want to add to your mrconfig file.
   mr.templateUrl  : Url of a mr_template repository to be cloned by vcsh. This repo describes a set of available pre-defined mr repositories.
   mr.repos        : List of repositories to activate from the available set defined above.
@@ -23,23 +24,25 @@ let mountDir = "/vagrant"
 let theme = https://raw.githubusercontent.com/PierreR/devbox/master/config/theme
 
 in  { userName =
-		""
-	, userEmail =
-		""
-	, loginId =
-		""
-	, mountDir =
-		"${mountDir}"
-	, sshkeysDir =
-		"${mountDir}/ssh-keys"
-	, eclipse =
-		False
-	, wallpaper =
-		"mountain.jpg"
-	, console =
-		{ color = theme.light }
-	, mr =
-		{ config = [] : List Text, templateUrl = "", repos = [] : List Text }
-	, nix-env =
-		[] : List Text
-	}
+        ""
+    , userEmail =
+        ""
+    , loginId =
+        ""
+    , mountDir =
+        "${mountDir}"
+    , sshkeysDir =
+        "${mountDir}/ssh-keys"
+    , eclipse =
+        False
+    , wallpaper =
+        "mountain.jpg"
+    , console =
+        { color = theme.light }
+    , netw =
+        "enp0s3"
+    , mr =
+        { config = [] : List Text, templateUrl = "", repos = [] : List Text }
+    , nix-env =
+        [] : List Text
+    }

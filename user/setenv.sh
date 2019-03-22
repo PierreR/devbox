@@ -185,10 +185,4 @@ then
     ./user/eclipse.sh
 fi
 
-eval $(dhall-to-bash --declare install_doc <<< "($config_file).installDoc")
-if "$install_doc"
-then
-    install_doc
-fi
-
 } | tee "${mount_dir}/user_lastrun.log"

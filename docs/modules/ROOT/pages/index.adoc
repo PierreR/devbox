@@ -59,6 +59,7 @@ Please do update if you have older version(s).
 
 [TIP]
 ====
+- You can generate this help (html and pdf) with `make doc`.
 - Have a quick look at the <<_troubleshooting>> section before to get started.
 - You can install https://git-scm.com/download/win[Git for windows] in order to get a terminal console on Windows.
 ====
