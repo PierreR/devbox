@@ -42,10 +42,12 @@ sync_extra_config () {
 }
 
 # Always override the packer custom-configuration file
-if ! sync
+if ! $sync
 then
   cp --verbose "./system/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
   cp --verbose "./system/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
+else
+  echo "About to sync files."
 fi
 
 sync_extra_config "local-configuration.nix"

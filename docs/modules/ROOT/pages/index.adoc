@@ -492,8 +492,8 @@ There are known critical issues with Virtualbox and VPN clients on `macosx`.
 
 The box (of about 2G) is generated with packer (currently with packer-1.3.3):
 
-. On the host (Windows), clone the https://github.com/nix-community/nixbox[nixbox repository]
-. Copy `custom-configuration.nix`, `local-configuration.nix` and the default desktop config file to the `scripts` folder.
+. On  a linux host, clone the https://github.com/nix-community/nixbox[nixbox repository]
+. At the end of `nixos-x86_64.json`, remove the 'vagrant-cloud' post-processor.
 . Execute the following commands:
 +
 ```
