@@ -27,10 +27,6 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  # Enable guest additions.
-  virtualisation.hypervGuest.enable = false;
-  virtualisation.virtualbox.guest.enable = true;
-
   time.timeZone = "Europe/Amsterdam";
   security.sudo.wheelNeedsPassword = false;
 
