@@ -494,6 +494,12 @@ The box (of about 2G) is generated with packer (currently with packer-1.3.3):
 
 . On the host (Windows), clone the https://github.com/nix-community/nixbox[nixbox repository]
 . Copy `custom-configuration.nix`, `local-configuration.nix` and the default desktop config file to the `scripts` folder.
+. Tweak `scripts/install.sh` to include these two lines:
++
+```
+curl -sf "$packer_http/local-configuration.nix" > /mnt/etc/nixos/local-configuration.nix
+curl -sf "$packer_http/desktop-tiling-configuration.nix" > /mnt/etc/nixos/desktop-tiling-configuration.nix
+```
 . Execute the following commands:
 +
 ```
