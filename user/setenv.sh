@@ -153,6 +153,21 @@ tweak_taffybar () {
     set -e
 }
 
+install_doc () {
+    printf 'Installing doc.\n'
+    set +e
+    if make doc >/dev/null 2>&1
+    then
+        local filepath="$HOME/.local/share"
+        mkdir -p $filepath
+        cp -r doc $filepath
+        _success "documentation."
+    else
+        _failure "documentation not installed successfully."
+    fi
+    set -e
+}
+
 # Main
 install_ssh_keys
 install_env_packages
@@ -163,6 +178,7 @@ configure_console
 configure_git
 set_login_id
 tweak_taffybar
+install_doc
 
 eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
 if "$eclipse"
