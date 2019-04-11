@@ -76,7 +76,7 @@ We will use the term `ROOT_DIR` to refer to this folder throughout the rest of t
 +
 ```
 mkdir config
-curl -o config/box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/box.dhall
+curl -o config/box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/box-cirb.dhall
 curl -o config/shell.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/shell.dhall
 ```
 +
