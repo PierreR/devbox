@@ -3,8 +3,16 @@ include::_attributes.adoc[]
 
 ## {latest_revision}
 
-A default bigger box is now generated from packer.
-Re-packaging will provision the system (with the specific local-configuration) and the user.
+[CAUTION,caption=Breaking changes]
+====
+- The new `config/box.dhall` comes with quite a lot of changes.
+It is probably more convenient to fetch it with `curl` again and apply back your customization.
+====
+
+- Upgrade NixOS to `19.03`
+- Upgrade versioning scheme to match the underline OS.
+- Add support for vmware workstation (without vagrant).
+
 
 ## v5.1, 09/12/2018
 

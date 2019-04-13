@@ -128,11 +128,11 @@
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
   # Launch virtualbox from its UI and get the /vagrant shared folder
-  # fileSystems."/vagrant" = {
-  #   fsType = "vboxsf";
-  #   device = "vagrant";
-  #   options = [ "rw" ];
-  # };
+  fileSystems."/vagrant" = {
+    fsType = "vboxsf";
+    device = "vagrant";
+    options = [ "rw" ];
+  };
 
   # Launch vmware Workstation from its UI and get the /mnt shared folder
   # fileSystems."/mnt" =
