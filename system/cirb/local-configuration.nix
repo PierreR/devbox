@@ -50,14 +50,20 @@
     # gitAndTools.tig
     gnome3.nautilus
     # go2nix
+    # gcc
+    # ghc
     google-chrome
     gnupg
     # gnome3.file-roller
     htop
     # jetbrains.idea-community
     # jetbrains.idea-ultimate
+    # haskellPackages.hlint
+    # haskellPackages.cabal-plan
     # haskellPackages.shake
+    # haskellPackages.stylish-haskell
     jdk
+    # kubectl
     # maven
     # nix-prefetch-git
     # nodejs
@@ -69,16 +75,18 @@
     parallel
     # parcellite
     python
-    # taskwarrior
-    # terraform
     # ruby
     # rustup
     # rxvt_unicode-with-plugins
     silver-searcher
     shellcheck
+    # stack
+    # stack2nix
     # sublime3
-    tree
+    # taskwarrior
+    # terraform
     # tmux
+    tree
     unzip
     vscode
     # zeal
