@@ -13,11 +13,11 @@ user: ## Update your user configuration [config_file]
 
 system: ## Update your system configuration [config_file]
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
-	./system/setenv.sh $(config_file)
+	$(CURDIR)/system/setenv.sh $(config_file)
 
 sync-system:
 	@echo -e "Synchronize local system configuration from ${PWD}.\nHold on.\n"
-	./system/setenv.sh $(config_file) sync
+	$(CURDIR)/system/setenv.sh $(config_file) sync
 
 clean: clean-doc
 	rm -f build/*.*
