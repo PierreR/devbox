@@ -3,7 +3,7 @@
 
 config_file=$1
 if [ ! -f "$config_file" ]; then
-    _failure "please pass the path to a valid dhall configuration file as first argument. Can't find ${config_file}."
+    echo "Please pass the path to a valid dhall configuration file as first argument. Can't find ${config_file}."
     exit 1
 fi
 
