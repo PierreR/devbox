@@ -4,7 +4,7 @@
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
-source "$script_dir/utils.sh"
+source "$script_dir/../utils.sh"
 
 config_file=$1
 if [ ! -f "$config_file" ]; then
