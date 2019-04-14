@@ -1,4 +1,4 @@
-# Place here any custom configuration specific to your organisation (locale, hypervisor, ...)
+# Place here any custom configuration specific to your organisation (locale, terminal, ...)
 # if you want it to be part of the packer base image to be used with vagrant.
 { config, pkgs, ... }:
 
@@ -47,6 +47,7 @@
     curl
     desktop_file_utils
     gitFull
+    htop
     ( neovim.override {
         vimAlias = true;
         configure = {
@@ -99,10 +100,46 @@
     psmisc
     shared_mime_info
     termite
+    tree
     vcsh
     wget
     which
+    zsh
+    zsh-completions
   ];
+
+  # zsh config
+  programs.zsh = {
+    enable = true;
+    ohMyZsh.enable = true;
+    ohMyZsh.custom = "$HOME/.zsh_custom";
+    ohMyZsh.theme = "lambda-mod";
+    ohMyZsh.plugins = [ "cicd" "autosuggestion"];
+    interactiveShellInit = ''
+      setopt globdots
+      nlink () {
+          readlink -f $(which "$1")
+      }
+    '';
+    shellAliases = {
+      la = " ls -alh";
+      ls = " ls --color=tty";
+      ll = "ls -lh";
+      duh = " du -h --max-depth=1";
+      df = " df -h";
+      ag = "ag --color-line-number=3";
+      vi = "vim";
+      chrome = "google-chrome-stable";
+      see = "./bin/check_role.sh";
+      heyaml = "./bin/eyaml.sh $@";
+      fixlint = "./bin/fix-lint.sh";
+      nixreb = "sudo nixos-rebuild switch";
+      ldir = "ls -ladh (.*|*)(/,@)";
+      lfile = "ls -lah *(.)";
+    };
+  };
+
+  users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
   fonts = {
     enableDefaultFonts = true;
