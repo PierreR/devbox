@@ -1,9 +1,10 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p rsync vcsh dhall-bash
 
-scriptDir="$(dirname -- "$(readlink -f -- "$0")")"
 
-source "$scriptDir/../utils.sh"
+script_dir="$(dirname -- "$(readlink -f -- "$0")")"
+
+source "$script_dir/utils.sh"
 
 config_file=$1
 if [ ! -f "$config_file" ]; then
@@ -34,7 +35,7 @@ sync_extra_config () {
         if ! $sync
         then
             echo "No personal configuration found. Overridding ${config} using the devbox source repository"
-            cp --verbose "${scriptDir}/${config}" "/etc/nixos/${config}"
+            cp --verbose "${script_dir}/${config}" "/etc/nixos/${config}"
         fi
     fi
 }
@@ -42,8 +43,8 @@ sync_extra_config () {
 # Always override the packer custom-configuration file
 if ! $sync
 then
-  cp --verbose "${scriptDir}/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
-  cp --verbose "${scriptDir}/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
+  cp --verbose "${script_dir}/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
+  cp --verbose "${script_dir}/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
 else
   echo "About to sync files."
 fi
@@ -59,7 +60,7 @@ rm -f /etc/nixos/desktop-configuration.nix
 ln -s /etc/nixos/desktop-tiling-configuration.nix /etc/nixos/desktop-configuration.nix
 
 # Sync system custom nixpkgs files
-rsync -qav --chmod=644 "${scriptDir}/pkgs/" /etc/cicd/
+rsync -qav --chmod=644 "${script_dir}/pkgs/" /etc/cicd/
 
 set +e
 echo "Updating ..."

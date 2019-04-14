@@ -495,7 +495,7 @@ The second step applies some customization to produce a more heavy tailored box 
 
 ### Stage 1
 
-. On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], clone the https://github.com/nix-community/nixbox[nixbox repository]
+. On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository] within the shared directory.
 . Execute the following commands:
 +
 ```
