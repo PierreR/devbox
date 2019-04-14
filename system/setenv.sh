@@ -12,13 +12,6 @@ if [ ! -f "$config_file" ]; then
     exit 1
 fi
 
-if [ "$2" == 'sync' ]
-then
-    sync=true
-else
-    sync=false
-fi
-
 set -euo pipefail
 
 eval $(dhall-to-bash --declare mount_dir <<< "($config_file).mountDir")
@@ -32,27 +25,17 @@ sync_extra_config () {
         echo "Overridding ${config} using your personal configuration from ${mount_dir}"
         cp --verbose "${mount_dir}/${config}" "/etc/nixos/${config}"
     else
-        if ! $sync
-        then
-            echo "No personal configuration found. Overridding ${config} using the devbox source repository"
-            cp --verbose "${script_dir}/${config}" "/etc/nixos/${config}"
-        fi
+        echo "No personal configuration found. Syncing ${config} using the devbox source repository"
+        rsync -ai --chmod=644 "${script_dir}/${config}" "/etc/nixos/${config}"
     fi
 }
 
-# Always override the packer custom-configuration file
-if ! $sync
-then
-  cp --verbose "${script_dir}/custom-configuration.nix" "/etc/nixos/custom-configuration.nix";
-  cp --verbose "${script_dir}/puppetdb-dns.nix" "/etc/nixos/puppetdb-dns.nix";
-else
-  echo "About to sync files."
-fi
-
+sync_extra_config "custom-configuration.nix"
 sync_extra_config "local-configuration.nix"
 sync_extra_config "desktop-tiling-configuration.nix"
 sync_extra_config "desktop-gnome-configuration.nix"
 sync_extra_config "desktop-kde-configuration.nix"
+sync_extra_config "puppetdb-dns.nix"
 
 # Create a symbolic link to ensure compatibility with older version temporary
 # first remove the old desktop-configuration.nix file

@@ -15,9 +15,5 @@ system: ## Update your system configuration [config_file]
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
 	$(CURDIR)/system/setenv.sh $(config_file)
 
-sync-system:
-	@echo -e "Synchronize local system configuration from ${PWD}.\nHold on.\n"
-	$(CURDIR)/system/setenv.sh $(config_file) sync
-
 clean: clean-doc
 	rm -f build/*.*

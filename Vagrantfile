@@ -39,16 +39,11 @@ Vagrant.configure("2") do |config|
     if [[ ! -d "${configdir}" ]]; then
       echo "Fetching ${version} configuration from ${scm_uri}";
       curl -s -L ${scm_uri}/archive/${version}.tar.gz | tar xz;
-      pushd ${configdir} > /dev/null;
-      make system
-      popd > /dev/null;
-      popd > /dev/null;
-    else
-      pushd ${configdir} > /dev/null;
-      make sync-system
-      popd > /dev/null;
-      popd > /dev/null;
     fi
+    pushd ${configdir} > /dev/null;
+    make system
+    popd > /dev/null;
+    popd > /dev/null;
   SHELL
 
   config.vm.provision "user", args: [scm_uri, scm_api], type: "shell" , name: "configure-user", privileged: false, inline: <<-SHELL
