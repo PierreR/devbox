@@ -43,7 +43,7 @@ in  { userName =
         { config =
             [] : List Text
         , templateUrl =
-            "git://github.com/CIRB/vcsh_mr_template.git"
+            "http://stash.cirb.lan/scm/cicd/vcsh_mr_template.git"
         , repos =
             [ "nixpkgs-config.mr", "xmonad.vcsh" ]
         }

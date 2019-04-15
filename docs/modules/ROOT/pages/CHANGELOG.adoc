@@ -13,6 +13,7 @@ It is probably more convenient to fetch it with `curl` again and apply back your
 - Update Eclipse to `2018-12`.
 - Upgrade versioning scheme to match the underline OS.
 - Add support for vmware workstation (without vagrant).
+- Move mr repository on bitbucket.
 
 
 ## v5.1, 09/12/2018
