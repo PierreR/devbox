@@ -1,18 +1,15 @@
 #! /usr/bin/env bash
-# !! This needs to be changed when local-configuration.nix updates its version !!
 set -u
 
-version="4.8"
-version_name="photon"
-version_tag="48"
+version_name="2018-12"
 plugins="jdt yedit testng"
-pin="https://github.com/NixOS/nixpkgs/archive/32340793aafec24dcef95fee46a21e634dd63457.tar.gz"
+pin="https://github.com/NixOS/nixpkgs/archive/5c52b25283a6cccca443ffb7a358de6fe14b4a81.tar.gz"
 
 install_eclipse () {
-    printf "About to install Eclipse %s. Hold on.\n" "$version"
+    printf "About to install Eclipse %s. Hold on.\n" "$version_name"
     nix-env -Q --quiet -i \
             -f "${pin}" \
-            -E "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk-${version_tag}; jvmArgs = [ \"-javaagent:\${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ ${plugins} ];}"
+            -E "pkgs: with pkgs {}; eclipses.eclipseWithPlugins { eclipse = eclipses.eclipse-sdk; jvmArgs = [ \"-javaagent:\${lombok.out}/share/java/lombok.jar\" ];plugins = with eclipses.plugins; [ ${plugins} ];}"
     if [ $? -eq 0 ]
     then
         extra_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/${version_name}/" "org.eclipse.egit.feature.group"
