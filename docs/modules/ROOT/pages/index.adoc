@@ -134,7 +134,42 @@ vagrant reload
 ## Usage
 
 ifdef::backend-pdf[<<<]
-### Vagrant
+
+### Provisioning and Update
+
+The provisioning is done automatically the first time `vagrant up` is executed.
+
+Provisioning is separated into two steps:
+
+- `vagrant provision --provision-with system`:
++
+Update and (re)configure the system synchronizing the 'ROOT_DIR/local-configuration.nix'.
+
+- `vagrant provision --provision-with user`:
++
+(Re)configuring the user is usually a quick task.
+Given the personal settings defined in https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box], it will:
++
+* setup your git config
+* synchronize the `ROOT_DIR/ssh-keys` folder
+* update all declared `mr` repositories including the https://github.com/CIRB/devbox-dotfiles[dotfiles repo]
+* install/update the cicd shell
+* install all required packages for working with the puppet stacks
+
+Provisioning also brings the new features listed in the <<_changelog>>.
+As long as no major devbox version is released, it is a safe operation that can be executed on a regular basis.
+On the other hand, if a new devbox major version has been released, it is best to create a new devbox as described in <<_life_cycle>>.
+
+You can also directly synchronize your customization changes on the guest box with:
+
+```
+→ updateUser
+→ updateSystem
+```
+
+This is always a safe operation because it takes its souce from a clone to the devbox in the `$HOME/bootstrap` directory.
+
+### Vagrant cheatsheet
 
 [subs=attributes+]
 ```
@@ -155,32 +190,9 @@ vagrant box remove devbox-{latest_version}
 
 ```
 
-#### Provisioning
-
-The provisioning is done automatically the first time `vagrant up` is executed. It is safe to provision on a regular basis using the `vagrant provision` command on the host. This will bring the new features listed in the <<_changelog>>. In case of a major version bump  a new devbox needs to be downloaded as described in <<_life_cycle>>.
-
-Provisioning is separated into two steps:
-
-- `vagrant provision --provision-with system`:
-+
-Update and (re)configure the system synchronizing the 'ROOT_DIR/local-configuration.nix'.
-+
-Updating the system takes a while and even more so if it is not done regularly.
-
-- `vagrant provision --provision-with user`:
-+
-(Re)configuring the user is usually a quick task.
-Given the personal settings defined in https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box], it will:
-+
-* setup your git config
-* synchronize the `ROOT_DIR/ssh-keys` folder
-* update all declared `mr` repositories including the https://github.com/CIRB/devbox-dotfiles[dotfiles repo]
-* install/update the cicd shell
-* install all required packages for working with the puppet stacks
-
 ### Operating system (nixos)
 
-The devbox is based on https://nixos.org/[NixOS] version 17.03. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
+The devbox is based on https://nixos.org/[NixOS] version 19.03. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
 Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
 
