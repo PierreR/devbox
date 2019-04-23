@@ -450,7 +450,7 @@ If you have a nixbox linux up and running, follow these steps:
 [lowerroman]
 . mount your configuration into your nixos box, for instance `/mnt/shared`
 . clone this repo for instance in `~/bootstrap/devbox`
-. `sudo make sync-system config_file=/mnt/shared/config/box.dhall`
+. `sudo make system config_file=/mnt/shared/config/box.dhall`
 . `make user config_file=/mnt/shared/config/box.dhall`
 ====
 
@@ -497,6 +497,10 @@ NOTE: The only use of hyper-v we have detected so far is by the latest version o
 For Mac users::
 +
 There are known critical issues with Virtualbox and VPN clients on `macosx`.
+
+For VMWare users::
++
+Please checkout https://bugzilla.redhat.com/show_bug.cgi?id=1624437[this issue] about OpenSSH.
 
 
 ## How is the box generated ?
