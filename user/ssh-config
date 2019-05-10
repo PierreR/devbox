@@ -1,6 +1,7 @@
 Host *
   StrictHostKeyChecking no
   PreferredAuthentications publickey
+  IPQoS lowdelay throughput
 
 Host stash.cirb.lan
   IdentityFile ~/.ssh/cirb_rsa
