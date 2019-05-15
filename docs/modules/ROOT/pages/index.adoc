@@ -384,6 +384,14 @@ This imperative approach is quite useful for testing but the change is not recor
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
+#### Open a shell
+
+You can open a shell with the `nix-shell` commmand. For instance to open a shell that have `JAVA_HOME` set:
+
+```
+→ nix-shell -p jdk11
+```
+
 #### Available mr repositories
 
 The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/CICD/repos/vcsh_mr_template/browse/.config/mr/available.d[in the mr CIRB template repository].
