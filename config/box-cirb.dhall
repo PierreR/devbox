@@ -48,5 +48,5 @@ in  { userName =
             [ "nixpkgs-config.mr", "xmonad.vcsh", "devbox.mr" ]
         }
     , nix-env =
-        [ "-f https://github.com/CIRB/cicd-shell/archive/v2.6.2.tar.gz" ]
+        [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
     }
