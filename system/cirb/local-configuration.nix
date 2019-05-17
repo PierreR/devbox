@@ -13,6 +13,8 @@
     # ./desktop-kde-configuration.nix
   ];
 
+  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ];
+
   nix = {
     binaryCaches = [
       "https://cache.nixos.org/"
