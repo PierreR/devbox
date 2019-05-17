@@ -82,6 +82,7 @@
             set undofile
             set undodir=/tmp
             set wildignore+=*.pyc,*.jar,*.pdf,*.class,/tmp/*.*,.git,*.o,*.obj,*.png,*.jpeg,*.gif,*.orig,target/*,*.6,*.a,*.out,*.hi
+            colorscheme slate
             hi CursorLine cterm=NONE ctermbg=254
           '';
           vam.pluginDictionaries = [
