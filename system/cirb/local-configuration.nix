@@ -41,6 +41,7 @@
     bind
     # bundix
     # cabal2nix
+    direnv
     # dnsmasq
     docker
     # docker_compose
@@ -146,4 +147,10 @@
   #   addons.dashboard.enable = true;
   # };
 
+  # Activate direnv for zsh
+  # programs = {
+  #   zsh.interactiveShellInit = ''
+  #     eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
+  #   '';
+  # };
 }
