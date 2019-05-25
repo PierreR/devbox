@@ -78,7 +78,6 @@
     # ruby
     # rustup
     # rxvt_unicode-with-plugins
-    silver-searcher
     # shellcheck
     # stack
     # stack2nix
@@ -86,10 +85,8 @@
     # taskwarrior
     # terraform
     # tmux
-    unzip
     vscode
     # zeal
-    zip
   ];
 
   # Launch virtualbox from its UI and get the /vagrant shared folder
