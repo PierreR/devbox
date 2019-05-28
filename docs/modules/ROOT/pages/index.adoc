@@ -303,7 +303,7 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 
 ### Projects (mr)
 
-The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called http://stash.cirb.lan/scm/cicd/vcsh_mr_template.git[vcsh_mr_template].
+The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called http://stash.cirb.lan/scm/devb/vcsh_mr_template.git[vcsh_mr_template].
 
 You can activate any available repositories by setting `repos` in 'ROOT_DIR/config/box'.
 
@@ -394,7 +394,7 @@ You can open a shell with the `nix-shell` commmand. For instance to open a shell
 
 #### Available mr repositories
 
-The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/CICD/repos/vcsh_mr_template/browse/.config/mr/available.d[in the mr CIRB template repository].
+The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/DEVB/repos/vcsh_mr_template/browse/.config/mr/available.d[in the mr CIRB template repository].
 
 For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
 
