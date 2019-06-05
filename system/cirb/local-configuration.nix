@@ -38,6 +38,7 @@
     # ansible
     # asciidoctor
     # atom
+    # bazel
     bind
     # bundix
     # cabal2nix
@@ -69,16 +70,19 @@
     # nodejs
     # nodePackages.tern
     # openssl
+    # openshift
     # pandoc
     paper-gtk-theme
     paper-icon-theme
     parallel
     # parcellite
+    # podman
     python
     # ruby
     # rustup
     # rxvt_unicode-with-plugins
     # shellcheck
+    # skopeo
     # stack
     # stack2nix
     # sublime3
