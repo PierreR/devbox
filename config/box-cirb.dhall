@@ -43,7 +43,7 @@ in  { userName =
         { config =
             [] : List Text
         , templateUrl =
-            "http://stash.cirb.lan/scm/devb/vcsh_mr_template.git"
+            "ssh://git@stash.cirb.lan:7999/devb/vcsh_mr_template.git"
         , repos =
             [ "nixpkgs-config.mr", "xmonad.vcsh", "devbox.mr" ]
         }
