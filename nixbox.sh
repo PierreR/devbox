@@ -1,17 +1,14 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p dhall-bash
+#! /usr/bin/env bash
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
 source "$script_dir/utils.sh"
 
-config_file=$1
-if [ ! -f "$config_file" ]; then
-    _failure "please pass the path to a valid dhall configuration file as first argument. Can't find ${config_file}."
+mount_dir=$1
+if [ ! -d "$mount_dir" ]; then
+    _failure "please pass the path to a valid mounted shared directory."
     exit 1
 fi
-
-eval $(dhall-to-bash --declare mount_dir <<< "($config_file).mountDir")
 
 dest_dir="${mount_dir}/nixbox"
 if [ ! -d "$dest_dir"  ]; then

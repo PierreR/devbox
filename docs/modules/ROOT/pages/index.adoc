@@ -457,7 +457,7 @@ If you have a nixbox linux up and running, follow these steps:
 ====
 [lowerroman]
 . mount your configuration into your nixos box, for instance `/mnt/shared`
-. clone this repo for instance in `~/bootstrap/devbox`
+. `git clone https://github.com/CIRB/devbox.git bootstrap`
 . `sudo make system config_file=/mnt/shared/config/box.dhall`
 . `make user config_file=/mnt/shared/config/box.dhall`
 ====
