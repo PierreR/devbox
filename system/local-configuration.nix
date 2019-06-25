@@ -21,7 +21,7 @@
   # };
 
   # Launch vmware Workstation from its UI and get the /mnt shared folder
-  # fileSystems."/mnt" =
+  # fileSystems."/vagrant" =
   # { device = ".host:/";
   #   fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
   #   options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults"];
