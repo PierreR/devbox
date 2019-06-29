@@ -43,9 +43,6 @@ sync_extra_config "desktop-gnome-configuration.nix"
 sync_extra_config "desktop-kde-configuration.nix"
 sync_extra_config "puppetdb-dns.nix"
 
-# TODO: change this to use an API
-sync_extra_config "CIRB_CIBG_ROOT_PKI.crt"
-
 # Create a symbolic link to ensure compatibility with older version temporary
 # first remove the old desktop-configuration.nix file
 rm -f /etc/nixos/desktop-configuration.nix
