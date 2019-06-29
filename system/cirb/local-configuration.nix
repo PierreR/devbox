@@ -93,19 +93,22 @@
     # zeal
   ];
 
-  # Launch virtualbox from its UI and get the /vagrant shared folder
-  fileSystems."/vagrant" = {
-    fsType = "vboxsf";
-    device = "vagrant";
-    options = [ "rw" ];
-  };
-
-  # Launch vmware Workstation from its UI and get the /mnt shared folder
-  # fileSystems."/vagrant" =
-  # { device = ".host:/";
-  #   fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
-  #   options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults"];
-  # };
+  # Setup shared directory
+  fileSystems."/vagrant" =
+    if config.virtualisation.virtualbox.guest.enable then
+      {
+        fsType = "vboxsf";
+        device = "vagrant";
+        options = [ "rw" ];
+      }
+    else if config.virtualisation.vmware.guest.enable then
+      {
+        fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+        device = ".host:/";
+        options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults"];
+      }
+    else
+      throw "Unsupported builder";
 
   virtualisation.docker.enable = true;
   users.users.vagrant.extraGroups = [ "docker" ];
