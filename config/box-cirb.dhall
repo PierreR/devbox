@@ -29,6 +29,8 @@ in  { userName =
         ""
     , mountDir =
         "${mountDir}"
+    , profile =
+        "cirb"
     , sshkeysDir =
         "${mountDir}/ssh-keys"
     , eclipse =

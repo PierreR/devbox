@@ -1,7 +1,6 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p rsync vcsh dhall-bash
 
-
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
 source "$script_dir/../utils.sh"
@@ -14,6 +13,7 @@ fi
 
 set -euo pipefail
 
+eval $(dhall-to-bash --declare profile <<< "($config_file).profile")
 eval $(dhall-to-bash --declare mount_dir <<< "($config_file).mountDir")
 
 sync_extra_config () {
@@ -25,8 +25,14 @@ sync_extra_config () {
         echo "Overridding ${config} using your personal configuration from ${mount_dir}"
         cp --verbose "${mount_dir}/${config}" "/etc/nixos/${config}"
     else
-        echo "No personal configuration found. Syncing ${config} using the devbox source repository"
-        rsync -ai --chmod=644 "${script_dir}/${config}" "/etc/nixos/${config}"
+        profile_config="${script_dir}/${profile}/${config}"
+        if [[ -n "$profile" ]] && [[ -f "$profile_config" ]]; then
+            sync_config="${profile_config}"
+        else
+            sync_config="${script_dir}/${config}"
+        fi
+        echo "No personal configuration found. Syncing ${sync_config}"
+        rsync -ai --chmod=644 "${sync_config}" "/etc/nixos/${config}"
     fi
 }
 
