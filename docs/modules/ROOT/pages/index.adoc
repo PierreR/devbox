@@ -456,10 +456,10 @@ It is possible to use the devbox without the use of Vagrant or Virtualbox for in
 If you have a nixbox linux up and running, follow these steps:
 ====
 [lowerroman]
-. mount your configuration into your nixos box, for instance `/mnt/shared`
+. mount your configuration into your nixos box, for instance `/vagrant/shared`
 . `git clone https://github.com/CIRB/devbox.git bootstrap`
-. `sudo make system config_file=/mnt/shared/config/box.dhall`
-. `make user config_file=/mnt/shared/config/box.dhall`
+. `sudo make system config_file=/vagrant/shared/config/box.dhall`
+. `make user config_file=/vagrant/shared/config/box.dhall`
 ====
 
 If you want to use vmware workstation, we can provide an up-to-dated  vmdk image. You still need to choose a ROOT_DIR to host your configuration files as explain in the <<_preparation, preparation paragraph>>.
