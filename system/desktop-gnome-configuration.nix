@@ -4,6 +4,7 @@
 
 {
   services.xserver = {
+    enable = true;
     desktopManager = {
       gnome3.enable = true;
     };

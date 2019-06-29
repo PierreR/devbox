@@ -3,7 +3,9 @@
 {pkgs, config, ... }:
 
 {
+
   services.xserver = {
+    enable = true;
     desktopManager.default = "none";
     windowManager = {
       xmonad.enable = true;

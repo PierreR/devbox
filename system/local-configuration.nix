@@ -5,7 +5,9 @@
 {
 
   imports = [
-      ./desktop-kde-configuration.nix
+    # ./desktop-tiling-configuration.nix
+    # ./desktop-gnome-configuration.nix
+    # ./desktop-kde-configuration.nix
   ];
 
 }

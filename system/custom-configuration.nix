@@ -12,6 +12,8 @@
 
   networking.enableIPv6 = false;
 
+  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ];
+
   nix = {
     extraOptions = ''
       gc-keep-outputs = true
@@ -19,6 +21,17 @@
     '';
     gc.automatic = true;
     trustedUsers = [ "root" "vagrant"];
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://cicd-shell.cachix.org"
+      "https://language-puppet.cachix.org"
+      "https://puppet-unit-test.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "cicd-shell.cachix.org-1:ajBUZoJNroJ5ldybYoXgXyl2YWuPJ4NJ8Qx3/ksxVEw="
+      "language-puppet.cachix.org-1:nyTkkiphUF+s5HO4aDqGXBHD7rGiqz6ygvGYnJQ2feA="
+      "puppet-unit-test.cachix.org-1:DcfU2u/QnYWzfTFpjIPEQi1/Nq//yd1lhgORL5+Uf84="
+    ];
   };
 
   i18n = {
@@ -31,7 +44,6 @@
   security.sudo.wheelNeedsPassword = false;
 
   services.xserver = {
-    enable = true;
     layout = "be";
     xkbOptions = "caps:escape";
   };
@@ -42,10 +54,11 @@
     aspell
     aspellDicts.en
     aspellDicts.fr
-    bind
     binutils
+    bind
     curl
     desktop_file_utils
+    direnv
     gitFull
     htop
     ( neovim.override {
@@ -98,6 +111,8 @@
         };
     })
     mr
+    paper-gtk-theme
+    paper-icon-theme
     psmisc
     silver-searcher
     shared_mime_info
@@ -163,7 +178,23 @@
     };
   };
 
+  # Setup shared directory
+  fileSystems."/vagrant" =
+    if config.virtualisation.virtualbox.guest.enable then
+      {
+        fsType = "vboxsf";
+        device = "vagrant";
+        options = [ "rw" ];
+      }
+    else if config.virtualisation.vmware.guest.enable then
+      {
+        fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+        device = ".host:/";
+        options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults"];
+      }
+    else
+      throw "Unsupported builder";
+
   nixpkgs.config.allowUnfree = true;
 
-  users.users.vagrant.extraGroups = [ "docker" ];
 }

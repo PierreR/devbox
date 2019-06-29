@@ -1,5 +1,5 @@
 # Local customization that won't be overridden by vagrant provision
-# To activate your changes, type 'nixreb' in a terminal after saving your file.
+# To activate your changes, type 'updateSystem' in a terminal after saving your file.
 { config, lib, pkgs, ... }:
 
 {
@@ -13,22 +13,6 @@
     # ./desktop-kde-configuration.nix
   ];
 
-  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ];
-
-  nix = {
-    binaryCaches = [
-      "https://cache.nixos.org/"
-      "https://cicd-shell.cachix.org"
-      "https://language-puppet.cachix.org"
-      "https://puppet-unit-test.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      "cicd-shell.cachix.org-1:ajBUZoJNroJ5ldybYoXgXyl2YWuPJ4NJ8Qx3/ksxVEw="
-      "language-puppet.cachix.org-1:nyTkkiphUF+s5HO4aDqGXBHD7rGiqz6ygvGYnJQ2feA="
-      "puppet-unit-test.cachix.org-1:DcfU2u/QnYWzfTFpjIPEQi1/Nq//yd1lhgORL5+Uf84="
-    ];
-  };
-
   environment.extraInit = ''
     export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
     export DESKTOP_SESSION=gnome
@@ -39,10 +23,8 @@
     # asciidoctor
     # atom
     # bazel
-    bind
     # bundix
     # cabal2nix
-    direnv
     # dnsmasq
     docker
     # docker_compose
@@ -63,7 +45,8 @@
     # haskellPackages.cabal-plan
     # haskellPackages.shake
     # haskellPackages.stylish-haskell
-    jdk
+    # jdk
+    # jdk11
     # kubectl
     # maven
     # nix-prefetch-git
@@ -72,12 +55,10 @@
     # openssl
     # openshift
     # pandoc
-    paper-gtk-theme
-    paper-icon-theme
-    parallel
+    # parallel
     # parcellite
     # podman
-    python
+    # python
     # ruby
     # rustup
     # rxvt_unicode-with-plugins
@@ -92,23 +73,6 @@
     vscode
     # zeal
   ];
-
-  # Setup shared directory
-  fileSystems."/vagrant" =
-    if config.virtualisation.virtualbox.guest.enable then
-      {
-        fsType = "vboxsf";
-        device = "vagrant";
-        options = [ "rw" ];
-      }
-    else if config.virtualisation.vmware.guest.enable then
-      {
-        fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
-        device = ".host:/";
-        options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults"];
-      }
-    else
-      throw "Unsupported builder";
 
   virtualisation.docker.enable = true;
   users.users.vagrant.extraGroups = [ "docker" ];
