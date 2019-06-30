@@ -13,7 +13,9 @@ user: ## Update your user configuration [config_file]
 
 system: ## Update your system configuration [config_file]
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
-	$(CURDIR)/system/setenv.sh $(config_file)
+	sudo $(CURDIR)/system/setenv.sh $(config_file)
+
+update: system user
 
 clean: clean-doc
 	rm -f build/*.*
