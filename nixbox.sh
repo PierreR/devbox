@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+version="19.03.9"
+scm_uri="https://github.com/pierrer/devbox/archive/${version}.tar.gz"
+
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
 source "$script_dir/utils.sh"
@@ -21,10 +24,12 @@ cp "${script_dir}/system/custom-configuration.nix" "$dest_script_dir"
 cp "${script_dir}/system/local-configuration.nix" "$dest_script_dir"
 cp "${script_dir}/system/CIRB_CIBG_ROOT_PKI.crt" "$dest_script_dir"
 
+bootstrap="curl -sL ${scm_uri} | tar xz -C /mnt/etc"
 append=\
 'curl -sf "$packer_http/local-configuration.nix" > /mnt/etc/nixos/local-configuration.nix \
-curl -sf "$packer_http/CIRB_CIBG_ROOT_PKI.crt" > /mnt/etc/nixos/CIRB_CIBG_ROOT_PKI.crt
+curl -sf "$packer_http/CIRB_CIBG_ROOT_PKI.crt" > /mnt/etc/nixos/CIRB_CIBG_ROOT_PKI.crt \
 '
+append+=$bootstrap
 
 dest_install_script="${dest_script_dir}/install.sh"
 if ! grep -q "local-configuration" "$dest_install_script";  then
