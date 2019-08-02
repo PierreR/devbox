@@ -66,13 +66,19 @@ Please do update if you have older version(s).
 
 ### Preparation
 
-1. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
+. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
 +
 ====
 We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
 ====
 
-2. In `ROOT_DIR`, create a new config folder and copy the two files from the https://github.com/PierreR/devbox/tree/master/config[config folder]. Modify them to match your personal settings:
+. In `ROOT_DIR`, copy the system configuration of your organization:
++
+```
+curl -o local-configuration.nix https://raw.githubusercontent.com/CIRB/devbox/master/system/cirb/local-configuration.nix
+```
+
+. In `ROOT_DIR`, create a new config folder and copy the two files from the https://github.com/PierreR/devbox/tree/master/config[config folder]. Modify them to match your personal settings:
 +
 ```
 mkdir config
