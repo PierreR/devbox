@@ -42,6 +42,7 @@ sync_extra_config "desktop-tiling-configuration.nix"
 sync_extra_config "desktop-gnome-configuration.nix"
 sync_extra_config "desktop-kde-configuration.nix"
 sync_extra_config "puppetdb-dns.nix"
+sync_extra_config "lorri.nix"
 
 # Create a symbolic link to ensure compatibility with older version temporary
 # first remove the old desktop-configuration.nix file
