@@ -185,10 +185,6 @@ vagrant up
 vagrant halt
 # update system and user configuration
 vagrant provision
-# update user configuration only
-vagrant provision --provision-with user
-# update system configuration only
-vagrant provision --provision-with system
 # destroy the box (all local state is lost but the imported box remains)
 vagrant destroy
 # remove the imported box (necessary in case of a major version bump)

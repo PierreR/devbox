@@ -3,6 +3,17 @@ include::_attributes.adoc[]
 
 ## {latest_revision}
 
+
+[CAUTION,caption=Breaking changes]
+====
+
+====
+
+- Upgrade NixOS to `19.09`.
+- Eclipse install in box.dhall for CIRB is now set to `False` as a default
+
+## v19.03, 17/04/2019
+
 [CAUTION,caption=Breaking changes]
 ====
 - The new `config/box.dhall` comes with quite a lot of changes.

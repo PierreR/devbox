@@ -34,7 +34,7 @@ in  { userName =
     , sshkeysDir =
         "${mountDir}/ssh-keys"
     , eclipse =
-        True
+        False
     , wallpaper =
         "mountain.jpg"
     , netw =

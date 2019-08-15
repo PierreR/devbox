@@ -1,2 +1,2 @@
-:latest_version: 19.03
-:latest_revision: v{latest_version}, 17/04/2019
+:latest_version: 19.09
+:latest_revision: v{latest_version}, xx/10/2019
