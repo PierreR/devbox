@@ -256,6 +256,7 @@ image::layout-indicator.png[]
 [width="35%"]
 |=======
 |Symbol |Name
+
 | ≡     | horizontal
 | ⊤     | horizontal tiled
 | ∥     | vertical
