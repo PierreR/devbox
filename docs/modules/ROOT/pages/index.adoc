@@ -411,9 +411,9 @@ TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/
 
 #### Personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/ec1d45bbff552b62fb8196fe19d806670eea6a64/config/box-cirb.dhall#L44[#mr.config#] in `ROOT_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `ROOT_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
 
-TIP: You can use `mr.config` to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/master/user/config/box-cirb.dhall#L17[ROOT_DIR/config/box-cirb.dhall] points to such a workflow as an example.
+TIP: You can use #mr.config# to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L17[ROOT_DIR/config/box-cirb.dhall] points to such a workflow as an example.
 
 
 #### Storing the box configuration file
