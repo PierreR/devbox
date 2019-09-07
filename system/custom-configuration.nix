@@ -61,6 +61,7 @@
     direnv
     gitFull
     htop
+    home-manager
     ( neovim.override {
         vimAlias = true;
         configure = {
@@ -126,37 +127,6 @@
     zsh
     zsh-completions
   ];
-
-  # zsh config
-  programs.zsh = {
-    enable = true;
-    ohMyZsh.enable = true;
-    ohMyZsh.custom = "$HOME/.zsh_custom";
-    ohMyZsh.theme = "lambda-mod";
-    ohMyZsh.plugins = [ "cicd" "autosuggestion"];
-    interactiveShellInit = ''
-      setopt globdots
-      nlink () {
-          readlink -f $(which "$1")
-      }
-    '';
-    shellAliases = {
-      la = " ls -alh";
-      ls = " ls --color=tty";
-      ll = "ls -lh";
-      duh = " du -h --max-depth=1";
-      df = " df -h";
-      ag = "ag --color-line-number=3";
-      vi = "vim";
-      chrome = "google-chrome-stable";
-      see = "./bin/check_role.sh";
-      heyaml = "./bin/eyaml.sh $@";
-      fixlint = "./bin/fix-lint.sh";
-      nixreb = "sudo nixos-rebuild switch";
-      ldir = "ls -ladh (.*|*)(/,@)";
-      lfile = "ls -lah *(.)";
-    };
-  };
 
   users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
