@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-version="19.03.9"
+version="19.09.1"
 scm_uri="https://github.com/pierrer/devbox/archive/${version}.tar.gz"
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"

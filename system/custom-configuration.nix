@@ -22,6 +22,7 @@
     gc.automatic = true;
     trustedUsers = [ "root" "vagrant"];
     binaryCaches = [
+      "https://repository.irisnet.be/artifactory/nix/"
       "https://cache.nixos.org/"
       "https://cicd-shell.cachix.org"
       "https://language-puppet.cachix.org"
