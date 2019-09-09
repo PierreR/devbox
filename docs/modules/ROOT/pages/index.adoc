@@ -50,8 +50,7 @@ image::devbox.png[]
 
 ### Software requirements
 
-- Virtualbox 5.2.x (tested with 5.2.26)
-- Vagrant 2.x (tested with 2.1.2)
+- Virtualbox 6.0.x (tested with 6.0.8)
 
 Please do update if you have older version(s).
 
@@ -106,36 +105,15 @@ devbox-{latest_version}
    │      ├── xxxx_rsa.pub
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
-   ├── local-configuration.nix
-   └── Vagrantfile
+   └── local-configuration.nix
 -----
 
 ### Box import
 
-Open a terminal in the `ROOT_DIR`. You might want to use 'Git bash here' if you have a git client on your Windows host.
+[upperroman]
+. Import the `ovf` image file using the Virtualbox UI.
+. Add your shared directory folder.
 
-To download the base box from our CIRB repository:
-[subs=attributes+]
-```
-vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box
-```
-
-To initialize the box, in `ROOT_DIR` do:
-[subs=attributes+]
-```
-vagrant init --minimal devbox-{latest_version} && vagrant up
-```
-
-[NOTE]
-====
-- Do not interrupt the process. The first time it takes a while to update and fetch all the required components. Check for io and network activity by looking at the icons at the bottom right corner of the virtualbox ui.
-- In case any issue arises, please use the `#devbox` slack channel and ask for help.
-====
-
-When `vagrant up` terminates, restart your box in order to finalize your first time setup using:
-```
-vagrant reload
-```
 
 ## Usage
 
@@ -143,15 +121,13 @@ ifdef::backend-pdf[<<<]
 
 ### Provisioning and Update
 
-The provisioning is done automatically the first time `vagrant up` is executed.
-
 Provisioning is separated into two steps:
 
-- `vagrant provision --provision-with system`:
+- `updateSystem`:
 +
 Update and (re)configure the system synchronizing the 'ROOT_DIR/local-configuration.nix'.
 
-- `vagrant provision --provision-with user`:
+- `updateUser`:
 +
 (Re)configuring the user is usually a quick task.
 Given the personal settings defined in https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box], it will:
@@ -165,32 +141,6 @@ Given the personal settings defined in https://github.com/CIRB/devbox/blob/maste
 Provisioning also brings the new features listed in the <<_changelog>>.
 As long as no major devbox version is released, it is a safe operation that can be executed on a regular basis.
 On the other hand, if a new devbox major version has been released, it is best to create a new devbox as described in <<_life_cycle>>.
-
-You can also directly synchronize your customization changes on the guest box with:
-
-```
-→ updateUser
-→ updateSystem
-```
-
-This is always a safe operation because it takes its souce from a clone to the devbox in the `$HOME/bootstrap` directory.
-
-### Vagrant cheatsheet
-
-[subs=attributes+]
-```
-# boot the vm
-vagrant up
-# shutdown the vm
-vagrant halt
-# update system and user configuration
-vagrant provision
-# destroy the box (all local state is lost but the imported box remains)
-vagrant destroy
-# remove the imported box (necessary in case of a major version bump)
-vagrant box remove devbox-{latest_version}
-
-```
 
 ### Operating system (nixos)
 
@@ -341,7 +291,7 @@ For puppet help, go to the <<_puppet>> dedicated section.
 ## Customization
 
 ====
-The customization of the devbox operates at different levels and makes sure every configuration - personal or shared - survives a `vagrant destroy`.
+The customization of the devbox operates at different levels and makes sure every configuration - personal or shared - survives the destruction of the box.
 ====
 
 ### System
@@ -351,7 +301,7 @@ For instance if you want to install the `geany` package, just uncomment the adho
 
 After changing the `local-configuration.nix` file, rebuild `nixos` with `nixos-rebuild switch` as root.
 
-To avoid losing your customization after a `vagrant destroy`, copy `/etc/nixos/local-configuration.nix` into the ROOT_DIR folder. When such a file exists, it is used at the first boot and is synchronized at each provisioning.
+To avoid losing your customization, copy `/etc/nixos/local-configuration.nix` into the ROOT_DIR folder. When such a file exists, it is used at the first boot and is synchronized at each provisioning.
 
 #### Alternative desktop manager
 
@@ -368,9 +318,8 @@ You can easily switch to kde or gnome by choosing to uncomment another line from
   ];
 ```
 
-After the change, rebuild nixos using `nixreb` (an alias for `sudo nixos-rebuild switch`) and reboot the devbox.
+After the change, rebuild nixos using `updateSystem`.
 
-NOTE: Alike `local-configuration.nix`, any change in those files can survive a `vagrant destroy` if you copy the file to your ROOT_DIR.
 
 ### User
 
@@ -383,7 +332,7 @@ To install a package, just do:
 ```
 <1> install the `geany` package for the vagrant user. The suffix _env_ expresses the fact that only the user environment is affected.
 
-This imperative approach is quite useful for testing but the change is not recorded and won't survive a `vagrant destroy`. When you settle down on a list of packages, please add them to `local-configuration.nix` to gain persistence.
+This imperative approach is quite useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `local-configuration.nix` to gain persistence.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
@@ -437,16 +386,7 @@ The versioning scheme follows the one of NixOS. For instance `19.03.buildnumber`
 When a new version is released, it is expected to entail some incompatible changes together with a new version of the OS.
 As a result, the box need to be destroy and re-create again. You should look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README to know more about breaking changes in configuration files.
 
-Here are the steps to migrate:
-
-====
-[lowerroman]
-. add the new box to vagrant: `vagrant box add devbox-{latest_version} http://repo.irisnet.be/boxes/devbox.box`
-. initialize the new box: `vagrant init devbox-{latest_version} && vagrant up`
-. (after a while using the new version) check if you need to save anything from the previous box
-. destroy the old box (all data will be lost)footnote:[The README describes several tricks to keep/store your customization.] : `vagrant destroy`
-. remove the old box: `vagrant box remove devbox-{latest_version}`
-====
+TIP: Keep the old box and the new one for a while and make sure you haven't lost any customization.
 
 Question, support, discussion are handled in the team `#cicd` channel.
 
@@ -480,11 +420,6 @@ Eclipse plugins can easily be added. Please make a request to #devbox or https:/
 Ssh-key with passphrase::
 +
 Using cirb ssh-keys with a passphrase will currently cause difficulties with `mr`, a tool we use to handle git repositories in a declarative way. It will prevent some of the automation to go through (nothing critical though). If possible, please regenerate a pair of keys with no passphrase and register them in stash.cirb.lanfootnote:[We will improve the situation in a future release if it is tagged as a major concern.].
-
-Virtualbox 5.0.x::
-+
-For some host OS, Vagrant does not start its network interface. You will need to manually go to menu:Machine[Configuration > Network] and ensure the box "Cable Connected" is checked.
-This issue has also been encountered with virtualbox 5.1.2
 
 For Windows 10 users::
 +
@@ -524,7 +459,6 @@ The second step applies some customization to produce a more heavy tailored box 
 +
 ```
 packer.exe build nixos-x86_64.json --only virtualbox-iso
-vagrant box add devbox-x.x-pre packer_virtualbox-iso_virtualbox.box
 ```
 
 ### Stage 2
@@ -535,10 +469,8 @@ vagrant box add devbox-x.x-pre packer_virtualbox-iso_virtualbox.box
 - Vagrantfile file
 - config/box.dhall & config/shell.dhall
 - the local-configuration.nix file for your organization.
-. Modify `Vagrantfile` to use the new registered box.
-. Execute `vagrant up` and wait for the provisioning to complete.
-. Reload and check the box: `vagrant reload`
-. `vagrant package --output devbox-x.x.x.box --vagrantfile Vagrantfile`
+. Import the `ovf` image file using the Virtualbox UI.
+. Add your shared directory folder using the Virtualbox UI and change the vm configuration if necessary.
 . Push the output to a mirror site.
 
 
