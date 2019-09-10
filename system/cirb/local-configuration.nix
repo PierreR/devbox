@@ -13,65 +13,11 @@
     # ./desktop-kde-configuration.nix
   ];
 
-  environment.extraInit = ''
-    export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
-    export DESKTOP_SESSION=gnome
-    export BROWSER=google-chrome-stable
-  '';
   environment.systemPackages = with pkgs; [
-    # ansible
-    # asciidoctor
-    # atom
-    # bazel
-    # bundix
-    # cabal2nix
-    # dnsmasq
     docker
-    # docker_compose
-    # filebeat
-    # firefox
-    # geany
-    # gitAndTools.tig
-    gnome3.nautilus
-    # go2nix
-    # gcc
-    # ghc
     google-chrome
-    gnupg
-    # gnome3.file-roller
-    # jetbrains.idea-community
-    # jetbrains.idea-ultimate
-    # haskellPackages.hlint
-    # haskellPackages.cabal-plan
-    # haskellPackages.shake
-    # haskellPackages.stylish-haskell
-    # jdk
-    # jdk11
-    # kubectl
-    # maven
-    # nix-prefetch-git
-    # nodejs
-    # nodePackages.tern
-    # openssl
-    # openshift
-    # pandoc
-    # parallel
-    # parcellite
-    # podman
-    # python
-    # ruby
-    # rustup
-    # rxvt_unicode-with-plugins
-    # shellcheck
-    # skopeo
-    # stack
-    # stack2nix
-    # sublime3
-    # taskwarrior
-    # terraform
     # tmux
     vscode
-    # zeal
   ];
 
   virtualisation.docker.enable = true;

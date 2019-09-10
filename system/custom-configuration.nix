@@ -49,6 +49,12 @@
     xkbOptions = "caps:escape";
   };
 
+  environment.extraInit = ''
+    export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
+    export DESKTOP_SESSION=gnome
+    export BROWSER=google-chrome-stable
+  '';
+
   environment.pathsToLink = [ "/share" ];
   environment.systemPackages = with pkgs; [
     autojump
@@ -61,8 +67,8 @@
     desktop_file_utils
     direnv
     gitFull
+    gnupg
     htop
-    home-manager
     ( neovim.override {
         vimAlias = true;
         configure = {
