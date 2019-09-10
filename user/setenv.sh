@@ -53,18 +53,6 @@ configure_console () {
     fi
 }
 
-set_login_id () {
-    printf 'Configuring the LOGINID environment variable.\n'
-    eval $(dhall-to-bash --declare login_id <<< "($config_file).loginId")
-    if [ -n "$login_id" ]
-    then
-        _append "export LOGINID='$login_id'" "$HOME/.zshenv"
-    else
-        printf '\nCommandline tool that requires AD authentication (such as the cicd-shell) expects a LOGINID environment variable.\n'
-        _failure "cannot set your AD loginId. Is it empty in the box.dhall configuration ?"
-    fi
-}
-
 install_mr_repos () {
     set +e
     printf 'Installing mr repos\n'
@@ -176,7 +164,6 @@ install_mr_repos
 configure_wallpaper
 configure_console
 configure_git
-set_login_id
 tweak_taffybar
 install_doc
 
