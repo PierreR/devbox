@@ -131,11 +131,9 @@
     wget
     which
     zip
-    zsh
-    zsh-completions
   ];
 
-  users.defaultUserShell = "/run/current-system/sw/bin/zsh";
+  users.users.vagrant.shell = pkgs.zsh;
 
   fonts = {
     enableDefaultFonts = true;
