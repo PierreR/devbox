@@ -21,9 +21,8 @@ system: ## Update your system configuration [config_file]
 	sudo $(CURDIR)/system/setenv.sh $(config_file)
 
 update-release:
-	rm -rf /etc/devbox-*
 	echo "Installing $(devbox_release) release in /etc"
-	curl -sL https://github.com/pierrer/devbox/archive/$(devbox_release).tar.gz | tar xz -C /etc
+	curl -sL https://github.com/pierrer/devbox/archive/$(devbox_release).tar.gz | sudo tar xz -C /etc
 
 update: system user
 

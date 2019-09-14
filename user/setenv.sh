@@ -65,20 +65,12 @@ install_mr_repos () {
         then
             printf 'mr.templateUrl is empty. You won\"t not be able to activate pre-defined mr repositories.\n'
         else
-            if vcsh clone "$template_url" mr
+            if vcsh clone "$template_url" dotfiles
             then
                 _success "clone mr ${template_url}\n"
             else
                 printf '\n'
                 _failure "vcsh bootstrap has failed ! Unable to clone ${template_url}.\nAborting mr configuration."
-                return 1
-            fi
-            if nix-shell '<home-manager>' -A install
-            then
-                _success "Home-manager installed.\n"
-            else
-                printf '\n'
-                _failure "Unable to install the home-manager."
                 return 1
             fi
         fi
@@ -109,6 +101,14 @@ install_mr_repos () {
     if $bootstrap
     then
         mr -f -d "$HOME" up -q
+        if nix-shell '<home-manager>' -A install
+        then
+            _success "Home-manager installed.\n"
+        else
+            printf '\n'
+            _failure "Unable to install the home-manager."
+            return 1
+        fi
     else
         mr -d "$HOME" up -q
     fi
