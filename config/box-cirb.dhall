@@ -48,7 +48,7 @@ in  { userName =
         , templateUrl =
             "ssh://git@stash.cirb.lan:7999/devb/vcsh_mr_template.git"
         , repos =
-            [ "nixpkgs-config.mr", "xmonad.vcsh", "devbox.mr" ]
+            [ "devbox" ]
         }
     , nix-env =
         [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]

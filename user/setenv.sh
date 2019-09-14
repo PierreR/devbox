@@ -73,6 +73,14 @@ install_mr_repos () {
                 _failure "vcsh bootstrap has failed ! Unable to clone ${template_url}.\nAborting mr configuration."
                 return 1
             fi
+            if nix-shell '<home-manager>' -A install
+            then
+                _success "Home-manager installed.\n"
+            else
+                printf '\n'
+                _failure "Unable to install the home-manager."
+                return 1
+            fi
         fi
     fi
     # mrconfig
