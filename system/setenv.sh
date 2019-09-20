@@ -42,12 +42,9 @@ sync_extra_config "desktop-tiling-configuration.nix"
 sync_extra_config "desktop-gnome-configuration.nix"
 sync_extra_config "desktop-kde-configuration.nix"
 sync_extra_config "puppetdb-dns.nix"
-sync_extra_config "lorri.nix"
 
-# Create a symbolic link to ensure compatibility with older version temporary
-# first remove the old desktop-configuration.nix file
-rm -f /etc/nixos/desktop-configuration.nix
-ln -s /etc/nixos/desktop-tiling-configuration.nix /etc/nixos/desktop-configuration.nix
+rsync -ai --chmod=644 "{script/dir/nix}/" /etc/nixos/
+rsync -ai --chmod=644 "${script_dir}/lorri.nix" /etc/nixos/lorri.nix
 
 # Sync system custom nixpkgs files
 rsync -qav --chmod=644 "${script_dir}/pkgs/" /etc/cicd/
