@@ -43,7 +43,7 @@ sync_extra_config "desktop-gnome-configuration.nix"
 sync_extra_config "desktop-kde-configuration.nix"
 sync_extra_config "puppetdb-dns.nix"
 
-rsync -ai --chmod=644 "{script/dir/nix}/" /etc/nixos/
+rsync -qav --chmod=644 "${script_dir}/nix/" /etc/nixos/
 rsync -ai --chmod=644 "${script_dir}/lorri.nix" /etc/nixos/lorri.nix
 
 # Sync system custom nixpkgs files

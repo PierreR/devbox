@@ -11,11 +11,13 @@
     ./desktop-tiling-configuration.nix
     # ./desktop-gnome-configuration.nix
     # ./desktop-kde-configuration.nix
+    ./lorri.nix
   ];
 
   environment.systemPackages = with pkgs; [
     docker
     google-chrome
+    openshift
     # tmux
     vscode
   ];
