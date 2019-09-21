@@ -171,7 +171,6 @@ install_mr_repos
 # These needs to be after because they depends on the vcsh bootstrap that fetch the dotfiles.
 configure_wallpaper
 configure_console
-configure_git
 tweak_taffybar
 install_doc
 
