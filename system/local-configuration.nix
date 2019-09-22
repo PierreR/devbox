@@ -18,6 +18,7 @@
     docker
     google-chrome
     openshift
+    shellcheck
     # tmux
     vscode
   ];
