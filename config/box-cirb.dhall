@@ -49,7 +49,7 @@ in  { userName =
         { config =
             [] : List Text
         , templateUrl =
-            "ssh://git@stash.cirb.lan:7999/devb/vcsh_mr_template.git"
+            "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
         , repos =
             [ "devbox" ]
         }
