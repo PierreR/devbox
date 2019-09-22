@@ -248,7 +248,7 @@ Another useful shortcut is #sshi# to quickly log to a remote machine. It is the 
 
 ### Application launcher (albert)
 
-https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]. Use it to:
+https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]footnote:[you can change the hotkey in the box.dhall configuration file.]. Use it to:
 
 - open any application, directory or file by typing its name (type 'File' to open `Nautilus`)
 - shutdown/reboot the vm
@@ -390,9 +390,9 @@ TIP: Keep the old box and the new one for a while and make sure you haven't lost
 
 Question, support, discussion are handled in the team `#cicd` channel.
 
-## Without vagrant or virtualbox
+## Without virtualbox
 
-It is possible to use the devbox without the use of Vagrant or Virtualbox for instance within a Nixos linux or a vmware nixos guest.
+It is possible to use the devbox without the use of Virtualbox for instance within a Nixos linux or a vmware nixos guest.
 
 If you have a nixbox linux up and running, follow these steps:
 ====
@@ -403,17 +403,6 @@ If you have a nixbox linux up and running, follow these steps:
 ====
 
 If you want to use vmware workstation, we can provide an up-to-dated  vmdk image. You still need to choose a ROOT_DIR to host your configuration files as explain in the <<_preparation, preparation paragraph>>.
-
-## FAQ
-
-### Vagrant: using Virtualbox UI
-
-If you want to use the Virtualbox UI instead of the vagrant commands, you will need to uncomment the https://github.com/CIRB/devbox/blob/master/system/local-configuration.nix#L24-L28[following lines] in your ROOT_DIR/local-configuration.nix file.
-
-### Eclipse: how to add plugins ?
-
-Eclipse plugins can easily be added. Please make a request to #devbox or https://github.com/CIRB/devbox/issues
-
 
 ## Troubleshooting
 
@@ -445,6 +434,11 @@ For VMWare users::
 +
 Please checkout https://bugzilla.redhat.com/show_bug.cgi?id=1624437[this issue] about OpenSSH.
 
+## FAQ
+
+### Eclipse: how to add plugins ?
+
+Eclipse plugins can easily be added. Please make a request to #devbox or https://github.com/CIRB/devbox/issues
 
 ## How is the box generated ?
 
@@ -466,7 +460,6 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 . Create a ROOT_DIR
 . With `curl`, retrieve from this repository:
 +
-- Vagrantfile file
 - config/box.dhall & config/shell.dhall
 - the local-configuration.nix file for your organization.
 . Import the `ovf` image file using the Virtualbox UI.
