@@ -38,20 +38,6 @@ configure_git () {
     if [ -n "${user_email}" ]; then git config --global user.email "${user_email}"; fi
 }
 
-configure_wallpaper () {
-    printf 'Configuring wallpaper\n'
-    eval $(dhall-to-bash --declare filename <<< "($config_file).wallpaper")
-    ln -sf "${HOME}/.wallpaper/${filename}" "$HOME/.wallpaper.jpg"
-}
-
-configure_console () {
-    printf 'Configuring console\n'
-    local filepath="$HOME/.config/termite"
-    eval $(dhall-to-bash --declare color <<< "($config_file).console.color")
-    if [ -f "${filepath}/${color}" ]; then
-        ln -sf "${filepath}/${color}" "${filepath}/config"
-    fi
-}
 
 install_mr_repos () {
     set +e
@@ -169,8 +155,6 @@ install_ssh_keys
 install_env_packages
 install_mr_repos
 # These needs to be after because they depends on the vcsh bootstrap that fetch the dotfiles.
-configure_wallpaper
-configure_console
 tweak_taffybar
 install_doc
 
