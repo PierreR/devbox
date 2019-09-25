@@ -38,10 +38,6 @@ sync_extra_config () {
 
 sync_extra_config "custom-configuration.nix"
 sync_extra_config "local-configuration.nix"
-sync_extra_config "desktop-tiling-configuration.nix"
-sync_extra_config "desktop-gnome-configuration.nix"
-sync_extra_config "desktop-kde-configuration.nix"
-sync_extra_config "puppetdb-dns.nix"
 
 rsync -qav --chmod=644 "${script_dir}/nix/" /etc/nixos/
 rsync -ai --chmod=644 "${script_dir}/lorri.nix" /etc/nixos/lorri.nix
