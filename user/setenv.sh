@@ -30,14 +30,6 @@ install_ssh_keys () {
     fi
 }
 
-configure_git () {
-    printf 'Configurating git\n'
-    eval $(dhall-to-bash --declare user_name <<< "($config_file).userName")
-    eval $(dhall-to-bash --declare user_email <<< "($config_file).userEmail")
-    if [ -n "${user_name}" ]; then git config --global user.name "${user_name}"; fi
-    if [ -n "${user_email}" ]; then git config --global user.email "${user_email}"; fi
-}
-
 
 install_mr_repos () {
     set +e
