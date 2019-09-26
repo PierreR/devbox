@@ -8,10 +8,10 @@ Box configuration file
                       Typically the guest location of a windows shared folder or a usb device.
   sshkeysDir        : The ssh-keys folder path. All keys in that directory will be synchronized within your $HOME/.ssh folder
   eclipse           : Do you want to install a statically defined Eclipse version that is known to work
-					(see user/eclipse.sh for more detail)
+                      (see user/eclipse.sh for more detail)
   appLauncherHotkey : Application launcher (Albert) hotkey.
   wallpaper         : An image file in ~/.wallpaper that will be used as wallpaper.
-					see https://github.com/CIRB/devbox-dotfiles/.wallpaper
+                      see https://github.com/CIRB/devbox-dotfiles/.wallpaper
   console.color     : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
   netw              : Name of the network interface to be displayed by Taffybar.
   mr.config         : List of additional personal mr repositories you might want to add to your mrconfig file.
@@ -51,7 +51,7 @@ in  { userName =
         , templateUrl =
             "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
         , repos =
-            [ "devbox" ]
+            [ "devbox.mr" ]
         }
     , nix-env =
         [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
