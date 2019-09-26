@@ -79,9 +79,10 @@ install_mr_repos () {
     if $bootstrap
     then
         mr -f -d "$HOME" up -q
+        _success "mr"
         if nix-shell '<home-manager>' -A install
         then
-            _success "Home-manager installed.\n"
+            _success "home-manager installed.\n"
         else
             printf '\n'
             _failure "Unable to install the home-manager."
@@ -89,9 +90,15 @@ install_mr_repos () {
         fi
     else
         mr -d "$HOME" up -q
+        _success "mr"
+        if home-manager switch >/dev/null 2>&1
+        then
+            _success "home-manager switch"
+        else
+            _failure "home-manager switch"
+        fi
     fi
     set -e
-    _success "mr"
 }
 
 install_env_packages () {
