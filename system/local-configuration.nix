@@ -5,7 +5,6 @@
 {
 
   imports = [
-    # ./puppetdb-dns.nix
     ./lorri.nix
   ];
 
