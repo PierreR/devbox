@@ -118,22 +118,6 @@ install_env_packages () {
     set -e
 }
 
-tweak_taffybar () {
-    set +e
-    eval $(dhall-to-bash --declare netw <<< "($config_file).netw")
-    local target_str='enp0s3'
-    if [ "$netw" != "$target_str" ]; then
-        local file="$HOME/.config/taffybar/taffybar.hs"
-        grep -q $target_str $file
-        if [ $? -eq 0 ]
-        then
-            sed -i "s/$target_str/$netw/" $file
-            _success "set taffybar wireless interface to ${netw}."
-        fi
-    fi
-    set -e
-}
-
 install_doc () {
     printf 'Installing doc.\n'
     set +e
@@ -154,7 +138,6 @@ install_ssh_keys
 install_env_packages
 install_mr_repos
 # These needs to be after because they depends on the vcsh bootstrap that fetch the dotfiles.
-tweak_taffybar
 install_doc
 
 eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
