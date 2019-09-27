@@ -305,21 +305,7 @@ To avoid losing your customization, copy `/etc/nixos/local-configuration.nix` in
 
 #### Alternative desktop manager
 
-Instead of the minimal xmonad tiling windows manager, you might prefer using a complete desktop manager such as gnome or kde.
-You can easily switch to kde or gnome by choosing to uncomment another line from your local configuration:
-
-./etc/nixos/local-configuration.nix
-[subs=+quotes]
-```nix
-  imports = [
-    ./desktop-tiling-configuration.nix
-    # ./desktop-gnome-configuration.nix
-    # ./desktop-kde-configuration.nix
-  ];
-```
-
-After the change, rebuild nixos using `updateSystem`.
-
+:TODO:
 
 ### User
 
@@ -462,8 +448,14 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 +
 - config/box.dhall & config/shell.dhall
 - the local-configuration.nix file for your organization.
-. Import the `ovf` image file using the Virtualbox UI.
-. Add your shared directory folder using the Virtualbox UI and change the vm configuration if necessary.
+. Import the `ova` image file using the Virtualbox UI.
+. Start the imported vm, login as `vagrant`
+.. cd into `/etc/devbox-x.x.x`
+.. make system
+.. make home-manager
+.. logout/login as vagrant
+.. make user
+. Export the vm
 . Push the output to a mirror site.
 
 
