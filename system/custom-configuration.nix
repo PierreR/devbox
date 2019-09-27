@@ -3,9 +3,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./local-configuration.nix
-  ];
 
   boot.loader.timeout = 1;
   boot.plymouth.enable = true;
@@ -75,8 +72,9 @@
     curl
     desktop_file_utils
     direnv
+    docker
     gitFull
-    gnupg
+    google-chrome
     htop
     ( neovim.override {
         vimAlias = true;
@@ -128,6 +126,7 @@
         };
     })
     mr
+    openshift
     paper-gtk-theme
     paper-icon-theme
     psmisc
@@ -143,6 +142,9 @@
   ];
 
   users.users.vagrant.shell = pkgs.zsh;
+  users.users.vagrant.extraGroups = [ "docker" ];
+  
+  virtualisation.docker.enable = true;
 
   fonts = {
     enableDefaultFonts = true;

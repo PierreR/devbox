@@ -38,13 +38,7 @@ endif::[]
 The devbox provides a virtualbox linux operating system that would typically run on top of a Windows host.
 The box is based on https://nixos.org[NixOS] and make sure any setting can be persisted.
 
-Customizations are possible on two levels:
-
-- *system* through changes on your `local-configuration.nix`
-- *user* through changes on your `config/box.dhall` configuration file.
-
-As a user of the devbox, you can easily layer customizations tailored for your organization, your team or your personal interest.
-
+Customizations are done through changes on your `config/box.dhall` configuration file.
 
 image::devbox.png[]
 
@@ -70,12 +64,6 @@ Please do update if you have older version(s).
 ====
 We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
 ====
-
-. In `ROOT_DIR`, copy the system configuration of your organization:
-+
-```
-curl -o local-configuration.nix https://raw.githubusercontent.com/CIRB/devbox/master/system/local-configuration.nix
-```
 
 . In `ROOT_DIR`, create a new config folder and copy the two files from the https://github.com/PierreR/devbox/tree/master/config[config folder]. Modify them to match your personal settings:
 +
@@ -105,7 +93,7 @@ devbox-{latest_version}
    │      ├── xxxx_rsa.pub
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
-   └── local-configuration.nix
+   └── [custom-configuration.nix]
 -----
 
 ### Box import
@@ -125,7 +113,7 @@ Provisioning is separated into two steps:
 
 - `updateSystem`:
 +
-Update and (re)configure the system synchronizing the 'ROOT_DIR/local-configuration.nix'.
+Update and (re)configure the system synchronizing 'ROOT_DIR/custom-configuration.nix' if present.
 
 - `updateUser`:
 +
@@ -229,8 +217,7 @@ The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite
 |kbd:[Control,Shift,Space] |Start selection mode
 |=====
 
-The default shell is `zsh` which allows for predictable history and completion.
-You can revert to using `bash` as your default shell if you wish by removing all zsh related lines in the `/etc/nixos/local-configuration.nix` file.
+The default user shell is `zsh` which allows for predictable history and completion.
 
 You can use https://github.com/wting/autojump[`autojump`] to quickly navigate from one directory to another using the #j# shortcut:
 ```
@@ -276,16 +263,6 @@ You can ask a `git status` of all your repositories with
 
 ### Cicd
 
-After enabling the `puppetdb-dns` service in your `/etc/nixos/local-configuration.nix` file, you can use a semantic name as a `dns` to lookup any machine known by `puppetdb`. The pattern to use is: #$subgroup.$role.$hostgroup.zone.cicd#.
-
-For instance if you want to connect through ssh to the `bos` jenkins slave, you can (inside the devbox) use:
-
-```
-→  sshi jenkins.slave.bos.prod.cicd
-```
-
-In general you don't need to connect to nodes to manage, query or orchestrate them. Have a look at the <<_cicd_shell>> section to learn how to use the `cicd` command line utility.
-
 For puppet help, go to the <<_puppet>> dedicated section.
 
 ## Customization
@@ -296,12 +273,8 @@ The customization of the devbox operates at different levels and makes sure ever
 
 ### System
 
-You can add some specific configuration by editing `/etc/nixos/local-configuration.nix`.
-For instance if you want to install the `geany` package, just uncomment the adhoc line in `local-configuration.nix`.
-
-After changing the `local-configuration.nix` file, rebuild `nixos` with `nixos-rebuild switch` as root.
-
-To avoid losing your customization, copy `/etc/nixos/local-configuration.nix` into the ROOT_DIR folder. When such a file exists, it is used at the first boot and is synchronized at each provisioning.
+The general advice is to avoid system configuration. You should be able to configuration the box through the user configuration only.
+If you really want to adjust the system, you can copy (or `curl`) https://github.com/CIRB/devbox/blob/master/system/configuration.nix[custom-configuration.nix] into your ROOTDIR and add your configuration into it.
 
 #### Alternative desktop manager
 
@@ -318,7 +291,7 @@ To install a package, just do:
 ```
 <1> install the `geany` package for the vagrant user. The suffix _env_ expresses the fact that only the user environment is affected.
 
-This imperative approach is quite useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `local-configuration.nix` to gain persistence.
+This imperative approach is quite useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `home.nix` to gain persistence.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
@@ -444,10 +417,7 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 ### Stage 2
 
 . Create a ROOT_DIR
-. With `curl`, retrieve from this repository:
-+
-- config/box.dhall & config/shell.dhall
-- the local-configuration.nix file for your organization.
+. With `curl`, retrieve from this repository `config/box.dhall` & `config/shell.dhall`
 . Import the `ova` image file using the Virtualbox UI.
 . Start the imported vm, login as `vagrant`
 .. cd into `/etc/devbox-x.x.x`

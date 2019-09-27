@@ -31,7 +31,6 @@ sync_extra_config () {
 }
 
 sync_extra_config "custom-configuration.nix"
-sync_extra_config "local-configuration.nix"
 
 rsync -qav --chmod=644 "${script_dir}/nix/" /etc/nixos/
 rsync -ai --chmod=644 "${script_dir}/lorri.nix" /etc/nixos/lorri.nix
