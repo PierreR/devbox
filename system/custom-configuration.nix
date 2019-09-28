@@ -71,7 +71,6 @@
     bind
     curl
     desktop_file_utils
-    direnv
     docker
     gitFull
     google-chrome
