@@ -135,6 +135,7 @@
     tree
     unzip
     vcsh
+    vscode
     wget
     which
     zip
