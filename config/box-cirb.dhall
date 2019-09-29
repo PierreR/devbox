@@ -13,7 +13,7 @@ Box configuration file
   wallpaper         : An image file in ~/.wallpaper that will be used as wallpaper.
                       see https://github.com/CIRB/devbox-dotfiles/.wallpaper
   console.color     : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
-  netw              : Name of the network interface to be displayed by Taffybar.
+  netw              : Name of the network interface to be displayed by Taffybar (to be changed if you use vmware workstation)
   mr.config         : List of additional personal mr repositories you might want to add to your mrconfig file.
                       Ex: config = [ ".config/vcsh/repo.d/local.git checkout='vcsh clone git@mygithub.com:PierreR/devbox-dotfiles.git local'"]
   mr.templateUrl    : Url of a mr_template repository to be cloned by vcsh. This repo describes a set of available pre-defined mr repositories.
@@ -23,33 +23,20 @@ Box configuration file
 
 let mountDir = "/vagrant"
 
-in  { userName =
-        ""
-    , userEmail =
-        ""
-    , loginId =
-        ""
-    , mountDir =
-        "${mountDir}"
-    , sshkeysDir =
-        "${mountDir}/ssh-keys"
-    , eclipse =
-        False
-    , appLauncherHotkey =
-        "Ctrl+Space"
-    , wallpaper =
-        "mountain.jpg"
-    , netw =
-        "enp0s3"
-    , console =
-        { color = "light" }
+in  { userName = ""
+    , userEmail = ""
+    , loginId = ""
+    , mountDir = "${mountDir}"
+    , sshkeysDir = "${mountDir}/ssh-keys"
+    , eclipse = False
+    , appLauncherHotkey = "Ctrl+Space"
+    , wallpaper = "mountain.jpg"
+    , netw = "enp0s3"
+    , console = { color = "light" }
     , mr =
-        { config =
-            [] : List Text
-        , templateUrl =
-            "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
-        , repos =
-            [ "devbox.mr" ]
+        { config = [] : List Text
+        , templateUrl = "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
+        , repos = [] : List Text
         }
     , nix-env =
         [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
