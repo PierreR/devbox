@@ -9,6 +9,7 @@ Box configuration file
   sshkeysDir        : The ssh-keys folder path. All keys in that directory will be synchronized within your $HOME/.ssh folder
   eclipse           : Do you want to install a statically defined Eclipse version that is known to work
                       (see user/eclipse.sh for more detail)
+  lorri             : Enable lorri (https://github.com/target/lorri/)
   appLauncherHotkey : Application launcher (Albert) hotkey.
   wallpaper         : An image file in ~/.wallpaper that will be used as wallpaper.
                       see https://github.com/CIRB/devbox-dotfiles/.wallpaper
@@ -29,6 +30,7 @@ in  { userName = ""
     , mountDir = "${mountDir}"
     , sshkeysDir = "${mountDir}/ssh-keys"
     , eclipse = False
+    , lorri = False
     , appLauncherHotkey = "Ctrl+Space"
     , wallpaper = "mountain.jpg"
     , netw = "enp0s3"
