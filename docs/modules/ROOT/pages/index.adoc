@@ -44,7 +44,7 @@ image::devbox.png[]
 
 ### Software requirements
 
-- Virtualbox 6.0.x (tested with 6.0.8)
+- Virtualbox 6.0.x (tested with 6.0.12)
 
 Please do update if you have older version(s).
 
@@ -93,42 +93,46 @@ devbox-{latest_version}
    │      ├── xxxx_rsa.pub
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
+   ├── [local-configuration.nix] 
    └── [custom-configuration.nix]
 -----
 
 ### Box import
 
 [upperroman]
-. Import the `ovf` image file using the Virtualbox UI.
+. Import the `ova` image file using the Virtualbox UI.
 . Add your shared directory folder.
-
 
 ## Usage
 
 ifdef::backend-pdf[<<<]
 
-### Provisioning and Update
+### User provisioning
 
-Provisioning is separated into two steps:
+The most common operation is to modify your user configuration through the `box.dhall` of your ROOT_DIR.
+To publish these changes, you execute the command `updateUser` in a console.
 
-- `updateSystem`:
-+
-Update and (re)configure the system synchronizing 'ROOT_DIR/custom-configuration.nix' if present.
+You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager].
+Such more advanced and optional configuration is done by editing the `local-home.nix` file of your ROOT_DIR.
+The user configuration involves:
 
-- `updateUser`:
-+
-(Re)configuring the user is usually a quick task.
-Given the personal settings defined in https://github.com/CIRB/devbox/blob/master/user/config/box[user/config/box], it will:
-+
-* setup your git config
-* synchronize the `ROOT_DIR/ssh-keys` folder
-* update all declared `mr` repositories including the https://github.com/CIRB/devbox-dotfiles[dotfiles repo]
-* install/update the cicd shell
-* install all required packages for working with the puppet stacks
+### Devbox update
 
-Provisioning also brings the new features listed in the <<_changelog>>.
-As long as no major devbox version is released, it is a safe operation that can be executed on a regular basis.
-On the other hand, if a new devbox major version has been released, it is best to create a new devbox as described in <<_life_cycle>>.
+If you wish to bring new features listed in the <<_changelog>>, you will need to update the input of your devbox.
+This is done by (git) pulling from the `~/bootstrap` directory of the devbox.
+
+To upgrade to the newest devbox release, please read the <<_changelog>> and re-create a brand new box.
+See <<_life_cycle>>.
+
+### Advanced system provisioning
+
+The advanced user might want to update the system configuration.
+This is useful to setup a postgresql database, an elk cluster, ...
+If you want to go into this level of configuration, first import in your ROOT_DIR the example configuration file:
+```
+curl -o local-configuration.nix https://raw.githubusercontent.com/CIRB/devbox/master/system/local-configuration.nix
+```
+To publish your system configuration change, you execute the command `updateSystem` in a console.
 
 ### Operating system (nixos)
 
@@ -265,24 +269,21 @@ You can ask a `git status` of all your repositories with
 
 For puppet help, go to the <<_puppet>> dedicated section.
 
-## Customization
+## Tips & Tricks
 
 ====
-The customization of the devbox operates at different levels and makes sure every configuration - personal or shared - survives the destruction of the box.
+The customization of the devbox operates at different levels and ensure configuration - personal or shared - survives the destruction of the box.
 ====
 
-### System
+### Available mr repositories
 
-The general advice is to avoid system configuration. You should be able to configuration the box through the user configuration only.
-If you really want to adjust the system, you can copy (or `curl`) https://github.com/CIRB/devbox/blob/master/system/configuration.nix[custom-configuration.nix] into your ROOTDIR and add your configuration into it.
+The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/DEVB/repos/vcsh_mr_template/browse/.config/mr/available.d[in the mr CIRB template repository].
 
-#### Alternative desktop manager
+For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
 
-:TODO:
+As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L18[`repos`] in `ROOT_DIR/config/box.dhall`.
 
-### User
-
-#### Install local packages
+### Install local packages
 
 To install a package, just do:
 
@@ -295,7 +296,7 @@ This imperative approach is quite useful for testing but the change is not persi
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
-#### Open a shell
+### Open a shell
 
 You can open a shell with the `nix-shell` commmand. For instance to open a shell that have `JAVA_HOME` set:
 
@@ -303,28 +304,20 @@ You can open a shell with the `nix-shell` commmand. For instance to open a shell
 → nix-shell -p jdk11
 ```
 
-#### Available mr repositories
+### Generic dotfiles
 
-The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/DEVB/repos/vcsh_mr_template/browse/.config/mr/available.d[in the mr CIRB template repository].
-
-For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
-
-As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L18[`repos`] in `ROOT_DIR/config/box.dhall`.
-
-#### Generic dotfiles
-
-The standard https://github.com/CIRB/devbox-dotfiles[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
+The standard https://github.com/CIRB/dotfiles[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
 
 TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/workspace` as your workspace location at first boot.
 
-#### Personal mr repositories
+### Personal mr repositories
 
 You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `ROOT_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
 
 TIP: You can use #mr.config# to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L17[ROOT_DIR/config/box-cirb.dhall] points to such a workflow as an example.
 
 
-#### Storing the box configuration file
+### Storing the box configuration file
 
 You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `ROOT_DIR/config/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
 
