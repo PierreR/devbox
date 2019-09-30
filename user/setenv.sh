@@ -9,7 +9,7 @@ if [ ! -d "$mount_dir" ]; then
     exit 1
 fi
 
-config_file="${mount_dir}/config/box.dhall"
+config_file="${mount_dir}/box.dhall"
 if [ ! -f "$config_file" ]; then
     echo "Add empty configuration in ${config_file}. Please fill in ${config_file} with your personal data."
     cp --verbose config/box-cirb.dhall "$config_file"
