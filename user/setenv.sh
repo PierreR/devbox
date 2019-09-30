@@ -12,7 +12,7 @@ fi
 config_file="${mount_dir}/config/box.dhall"
 if [ ! -f "$config_file" ]; then
     echo "Add empty configuration in ${config_file}. Please fill in ${config_file} with your personal data."
-    cp --verbose config/box.dhall "$config_file"
+    cp --verbose config/box-cirb.dhall "$config_file"
 fi
 
 local_config="${mount_dir}/local-home.nix"
