@@ -4,9 +4,6 @@ Box configuration file
   userEmail         : Email address e.g "jdoe@cirb.brussels" (used in git)
   loginId           : LoginId is typically a username used by external services as a identification id.
                       The box just stores this value in an env variable called 'LOGINID' that can then be used by other programs.
-  mountDir          : ROOT_DIR folder mount point. Location of a folder mounted within your host to hold external files.
-                      Typically the guest location of a windows shared folder or a usb device.
-  sshkeysDir        : The ssh-keys folder path. All keys in that directory will be synchronized within your $HOME/.ssh folder
   eclipse           : Do you want to install a statically defined Eclipse version that is known to work
                       (see user/eclipse.sh for more detail)
   lorri             : Enable lorri (https://github.com/target/lorri/)
@@ -22,24 +19,19 @@ Box configuration file
   nix-env           : List of specs for the nix-env --install command
 -}
 
-let mountDir = "/vagrant"
-
-in  { userName = ""
-    , userEmail = ""
-    , loginId = ""
-    , mountDir = "${mountDir}"
-    , sshkeysDir = "${mountDir}/ssh-keys"
-    , eclipse = False
-    , lorri = False
-    , appLauncherHotkey = "Ctrl+Space"
-    , wallpaper = "mountain.jpg"
-    , netw = "enp0s3"
-    , console = { color = "light" }
-    , mr =
-        { config = [] : List Text
-        , templateUrl = "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
-        , repos = [] : List Text
-        }
-    , nix-env =
-        [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
+{ userName = ""
+, userEmail = ""
+, loginId = ""
+, eclipse = False
+, lorri = False
+, appLauncherHotkey = "Ctrl+Space"
+, wallpaper = "mountain.jpg"
+, netw = "enp0s3"
+, console = { color = "light" }
+, mr =
+    { config = [] : List Text
+    , templateUrl = "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
+    , repos = [] : List Text
     }
+, nix-env = [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
+}

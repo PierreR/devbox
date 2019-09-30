@@ -3,6 +3,9 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./local-configuration.nix
+  ];
 
   boot.loader.timeout = 1;
   boot.plymouth.enable = true;

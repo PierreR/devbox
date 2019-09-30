@@ -30,3 +30,7 @@ _failure () {
         printf "FAILURE: $1 \n"
     fi
 }
+
+_sync() {
+    rsync -aib --chmod=644 "${1}" "${2}"
+}

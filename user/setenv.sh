@@ -1,13 +1,25 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p vcsh dhall-bash
 
-config_file=$1
-if [ ! -f "$config_file" ]; then
-    echo "Please pass the path to a valid dhall configuration file as first argument. Can't find ${config_file}."
+script_dir="$(dirname -- "$(readlink -f -- "$0")")"
+
+mount_dir=$1
+if [ ! -d "$mount_dir" ]; then
+    _failure "${mount_dir} is not a directory. Please pass a valid ROOT_DIR"
     exit 1
 fi
 
-eval $(dhall-to-bash --declare mount_dir <<< "($config_file).mountDir")
+config_file="${mount_dir}/config/box.dhall"
+if [ ! -f "$config_file" ]; then
+    echo "Add empty configuration in ${config_file}. Please fill in ${config_file} with your personal data."
+    cp --verbose config/box.dhall "$config_file"
+fi
+
+local_config="${mount_dir}/local-home.nix"
+if [ !  -f "$local_config" ]; then
+    echo "Add ${local_config}. You might want to customize this user configuration file later."
+    cp --verbose "${script_dir}/local-home.nix" "$local_config"
+fi
 
 {
 
@@ -17,7 +29,7 @@ set -eu
 
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
-    eval $(dhall-to-bash --declare ssh_hostdir <<< "($config_file).sshkeysDir")
+    local ssh_hostdir="${mount_dir}/ssh-keys"
     local guestdir="$HOME/.ssh"
     if [ -d "$ssh_hostdir" ]; then
         # rsync -i --chmod=644 ${ssh_hostdir}/*.pub "$guestdir"

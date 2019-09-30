@@ -1,6 +1,6 @@
 .PHONY: clean user system update bootstrap update-release
 
-config_file ?= /vagrant/config/box.dhall
+mount_dir ?= /vagrant
 devbox_release := $(shell curl --silent "https://api.github.com/repos/pierrer/devbox/releases/latest" | jq -r '.tag_name')
 
 help:  ## Display this help
@@ -14,11 +14,11 @@ home-manager:
 
 user: ## Update your user configuration [config_file]
 	@echo -e "Starting user configuration from ${PWD}.\nHold on.\n"
-	@time -f "Completed after %E min" ./user/setenv.sh $(config_file)
+	@time -f "Completed after %E min" ./user/setenv.sh $(mount_dir)
 
 system: ## Update your system configuration [config_file]
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
-	sudo $(CURDIR)/system/setenv.sh $(config_file)
+	sudo $(CURDIR)/system/setenv.sh $(mount_dir)
 
 update-release:
 	echo "Installing $(devbox_release) release in /etc"
