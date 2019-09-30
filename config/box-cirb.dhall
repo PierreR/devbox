@@ -23,7 +23,7 @@ Box configuration file
 , userEmail = ""
 , loginId = ""
 , eclipse = False
-, lorri = False
+, lorri = True
 , appLauncherHotkey = "Ctrl+Space"
 , wallpaper = "mountain.jpg"
 , netw = "enp0s3"
