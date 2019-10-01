@@ -33,7 +33,7 @@ Box configuration file
 , console = { color = "light" }
 , mr =
     { config = [] : List Text
-    , templateUrl = "ssh://git@stash.cirb.lan:7999/devb/dotfiles.git"
+    , templateUrl = "http://stash.cirb.lan/scm/devb/dotfiles.git"
     , repos = [] : List Text
     }
 , nix-env = [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
