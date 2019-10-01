@@ -68,9 +68,7 @@ We will use the term `ROOT_DIR` to refer to this folder throughout the rest of t
 . In `ROOT_DIR`, create a new config folder and copy the two files from the https://github.com/PierreR/devbox/tree/master/config[config folder]. Modify them to match your personal settings:
 +
 ```
-mkdir config
-curl -o config/box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/box-cirb.dhall
-curl -o config/shell.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/shell.dhall
+curl -o box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/box-cirb.dhall
 ```
 +
 WARNING: If you create the file manually, make sure you keep a `unix` file encoding.
@@ -85,14 +83,13 @@ WARNING: If you create the file manually, make sure you keep a `unix` file encod
 .typical ROOT_DIR folder
 -----
 devbox-{latest_version}
-   ├── config
-   │      ├── box.dhall
-   │      ├── shell.dhall
    ├── ssh-keys
    │      ├── xxxx_rsa
    │      ├── xxxx_rsa.pub
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
+   ├── box.dhall
+   ├── local-home.nix 
    ├── [local-configuration.nix] 
    └── [custom-configuration.nix]
 -----
@@ -410,7 +407,7 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 ### Stage 2
 
 . Create a ROOT_DIR
-. With `curl`, retrieve from this repository `config/box.dhall` & `config/shell.dhall`
+. With `curl`, retrieve from this repository `config/box.dhall`
 . Import the `ova` image file using the Virtualbox UI.
 . Start the imported vm, login as `vagrant`
 .. cd into `/etc/devbox-x.x.x`

@@ -4,7 +4,8 @@ Box configuration file
   userEmail         : Email address e.g "jdoe@cirb.brussels" (used in git)
   loginId           : LoginId is typically a username used by external services as a identification id.
                       The box just stores this value in an env variable called 'LOGINID' that can then be used by other programs.
-  eclipse           : Do you want to install a statically defined Eclipse version that is known to work
+  eclipse           : Do you want to install a statically defined Eclipse version that is known to work.
+  defaultStacks     : List of stack to use by default for tools such as the cicd shell.
                       (see user/eclipse.sh for more detail)
   lorri             : Enable lorri (https://github.com/target/lorri/)
   appLauncherHotkey : Application launcher (Albert) hotkey.
@@ -19,9 +20,11 @@ Box configuration file
   nix-env           : List of specs for the nix-env --install command
 -}
 
+
 { userName = ""
 , userEmail = ""
 , loginId = ""
+, defaultStacks = [ "cicd" , "ci"]
 , eclipse = False
 , lorri = True
 , appLauncherHotkey = "Ctrl+Space"
