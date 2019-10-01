@@ -52,71 +52,76 @@ Please do update if you have older version(s).
 
 [TIP]
 ====
-- You can generate this help (html and pdf) with `make doc`.
 - Have a quick look at the <<_troubleshooting>> section before to get started.
 - You can install https://git-scm.com/download/win[Git for windows] in order to get a terminal console on Windows.
 ====
 
 ### Preparation
 
-. Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox.
-+
+Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox. This will be your shared folder between the host (Windows) and the guest (the linux box).
+
 ====
-We will use the term `ROOT_DIR` to refer to this folder throughout the rest of the guide.
+We will use the term `SHARED_DIR` to refer to this folder throughout the rest of the guide.
 ====
 
-. In `ROOT_DIR`, create a new config folder and copy the two files from the https://github.com/PierreR/devbox/tree/master/config[config folder]. Modify them to match your personal settings:
-+
-```
-curl -o box.dhall https://raw.githubusercontent.com/CIRB/devbox/master/config/box-cirb.dhall
-```
-+
-WARNING: If you create the file manually, make sure you keep a `unix` file encoding.
-
-### ssh keys
-
-1. in the `ROOT_DIR`, create a directory `ssh-keys`.
-2. in this ssh-keys subfolder, copy your `Bitbucket` key pair, rename them 'cirb_rsa' and 'cirb_rsa.pub' respectively if the filename differs.
-3. in the ssh-keys subfolder, copy your `Github` key pair, rename them 'cirb_github_rsa' and 'cirb_github_rsa.pub'. If you use the same key pair, copy the previous pair and rename accordingly.
+The `SHARED_DIR` contains personal configuration files.
 
 [subs=attributes+]
-.typical ROOT_DIR folder
+.typical SHARED_DIR folder
 -----
 devbox-{latest_version}
-   ├── ssh-keys
+   ├── [ssh-keys] <1>
    │      ├── xxxx_rsa
    │      ├── xxxx_rsa.pub
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
-   ├── box.dhall
+   ├── box.dhall <2>
    ├── local-home.nix 
-   ├── [local-configuration.nix] 
+   ├── [local-configuration.nix] <3>
    └── [custom-configuration.nix]
 -----
+<1> ssh-keys folder
+<2> user configuration
+<3> optional system configuration
+
+WARNING: When editing files from the SHARED_DIR, maintain the `unix` file encoding.
+
+You don't need to create any of the user or system configuration files. If a file is not yet present in the SHARED_DIR, it will create there at the first boot.
+You would then edit the template to fill in the requested informationfootnote:[a comment section is present at the top.].
+
+### ssh keys
+
+Without your personal ssh key pairs you won't be able to pull or push to bitbucket repositories.
+
+1. in the `SHARED_DIR`, create a directory `ssh-keys`.
+2. in this ssh-keys subfolder, copy your `Bitbucket` key pair, rename them 'cirb_rsa' and 'cirb_rsa.pub' respectively if the filename differs.
+3. in the ssh-keys subfolder, copy your `Github` key pair, rename them 'cirb_github_rsa' and 'cirb_github_rsa.pub'. If you use the same key pair, copy the previous pair and rename accordingly.
 
 ### Box import
 
-[upperroman]
-. Import the `ova` image file using the Virtualbox UI.
-. Add your shared directory folder.
-
-## Usage
+To import the `ova` image file, just click on the file. The virtualbox UI will pop up.
 
 ifdef::backend-pdf[<<<]
 
+## Usage
+
 ### User provisioning
 
-The most common operation is to modify your user configuration through the `box.dhall` of your ROOT_DIR.
+The most common operation is to modify your user configuration through the `box.dhall` of your SHARED_DIR.
 To publish these changes, you execute the command `updateUser` in a console.
 
 You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager].
-Such more advanced and optional configuration is done by editing the `local-home.nix` file of your ROOT_DIR.
-The user configuration involves:
+Such more advanced and optional configuration is done by editing the `local-home.nix` file which also sits in your SHARED_DIR.
 
 ### Devbox update
 
 If you wish to bring new features listed in the <<_changelog>>, you will need to update the input of your devbox.
-This is done by (git) pulling from the `~/bootstrap` directory of the devbox.
+This is done by pulling from the `~/bootstrap` directory of the devbox:
+
+```
+→ cd ~/bootstrap
+→ git pull
+```
 
 To upgrade to the newest devbox release, please read the <<_changelog>> and re-create a brand new box.
 See <<_life_cycle>>.
@@ -125,7 +130,7 @@ See <<_life_cycle>>.
 
 The advanced user might want to update the system configuration.
 This is useful to setup a postgresql database, an elk cluster, ...
-If you want to go into this level of configuration, first import in your ROOT_DIR the example configuration file:
+If you want to go into this level of configuration, first import in your SHARED_DIR the example configuration file:
 ```
 curl -o local-configuration.nix https://raw.githubusercontent.com/CIRB/devbox/master/system/local-configuration.nix
 ```
@@ -246,7 +251,7 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 
 The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called http://stash.cirb.lan/scm/devb/vcsh_mr_template.git[vcsh_mr_template].
 
-You can activate any available repositories by setting `repos` in 'ROOT_DIR/config/box'.
+You can activate any available repositories by setting `repos` in 'SHARED_DIR/config/box'.
 
 The enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `repos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and enter `make` on the command line.
 
@@ -274,11 +279,11 @@ The customization of the devbox operates at different levels and ensure configur
 
 ### Available mr repositories
 
-The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/DEVB/repos/vcsh_mr_template/browse/.config/mr/available.d[in the mr CIRB template repository].
+The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d[in the mr CIRB template repository].
 
 For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
 
-As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L18[`repos`] in `ROOT_DIR/config/box.dhall`.
+As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L18[`repos`] in `SHARED_DIR/config/box.dhall`.
 
 ### Install local packages
 
@@ -309,16 +314,16 @@ TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/
 
 ### Personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `ROOT_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `SHARED_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
 
-TIP: You can use #mr.config# to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L17[ROOT_DIR/config/box-cirb.dhall] points to such a workflow as an example.
+TIP: You can use #mr.config# to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L17[SHARED_DIR/config/box-cirb.dhall] points to such a workflow as an example.
 
 
 ### Storing the box configuration file
 
-You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `ROOT_DIR/config/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
+You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `SHARED_DIR/config/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
 
-.ROOT_DIR/config/box.dhall
+.SHARED_DIR/config/box.dhall
 ```
 https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
 ```
@@ -332,10 +337,12 @@ Two version are expected to be released every year in April and October followin
 
 The versioning scheme follows the one of NixOS. For instance `19.03.buildnumber`.
 
-When a new version is released, it is expected to entail some incompatible changes together with a new version of the OS.
-As a result, the box need to be destroy and re-create again. You should look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README to know more about breaking changes in configuration files.
+When a new major version is released, breaking changes are expected.
+It is required to destroy and re-create a box from scratch. An operation that take no longer than 5 minutes.
+Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
+You would commonly need to make some adjustements to your personal configuration file such as `dhall.box` or `local-configuration.nix` before importing them in the new SHARED_DIR.
 
-TIP: Keep the old box and the new one for a while and make sure you haven't lost any customization.
+TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
 
 Question, support, discussion are handled in the team `#cicd` channel.
 
@@ -351,7 +358,7 @@ If you have a nixbox linux up and running, follow these steps:
 . `make update config_file=/vagrant/shared/config/box.dhall`
 ====
 
-If you want to use vmware workstation, we can provide an up-to-dated  vmdk image. You still need to choose a ROOT_DIR to host your configuration files as explain in the <<_preparation, preparation paragraph>>.
+If you want to use vmware workstation, we can provide an up-to-dated  vmdk image. You still need to choose a SHARED_DIR to host your configuration files as explain in the <<_preparation, preparation paragraph>>.
 
 ## Troubleshooting
 
@@ -406,8 +413,7 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 
 ### Stage 2
 
-. Create a ROOT_DIR
-. With `curl`, retrieve from this repository `config/box.dhall`
+. Create a SHARED_DIR
 . Import the `ova` image file using the Virtualbox UI.
 . Start the imported vm, login as `vagrant`
 .. cd into `/etc/devbox-x.x.x`
