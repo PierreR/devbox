@@ -35,7 +35,6 @@ install_ssh_keys () {
         # rsync -i --chmod=644 ${ssh_hostdir}/*.pub "$guestdir"
         find "$ssh_hostdir" -type f -name "*.*" -exec rsync -ai --chmod=644 {} "$guestdir/" \;
         find "$ssh_hostdir" -type f ! -name "*.*" -exec rsync -ai --chmod=600 {} "$guestdir/" \;
-        cp user/ssh-config "${guestdir}/config"
         _success "install ssh keys"
     else
         _failure "no ssh-keys directory found. You won't be able to push anything to stash.cirb.lan."
