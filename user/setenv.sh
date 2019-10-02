@@ -54,9 +54,10 @@ install_mr_repos () {
         eval $(dhall-to-bash --declare template_url <<< "($config_file).mr.templateUrl")
         if [ -z "$template_url" ]
         then
-            printf 'mr.templateUrl is empty. You won\"t not be able to activate pre-defined mr repositories.\n'
+            _failure "In box.dhall, 'mr.templateUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
+            exit 1
         else
-            if git clone --separate-git-dir=$HOME/.config/dotfiles "$template_url" dotfiles
+            if vcsh clone "$template_url" dotfiles
             then
                 _success "clone mr ${template_url}\n"
             else

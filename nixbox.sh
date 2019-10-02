@@ -21,11 +21,12 @@ fi
 
 dest_script_dir="${dest_dir}/scripts"
 cp "${script_dir}/system/custom-configuration.nix" "$dest_script_dir"
+cp "${script_dir}/system/local-configuration.nix" "$dest_script_dir"
 cp "${script_dir}/system/CIRB_CIBG_ROOT_PKI.crt" "$dest_script_dir"
 
 bootstrap="curl -sL ${scm_uri} | tar xz -C /mnt/etc"
 append=\
-'
+'curl -sf "$packer_http/local-configuration.nix" > /mnt/etc/nixos/local-configuration.nix \
 curl -sf "$packer_http/CIRB_CIBG_ROOT_PKI.crt" > /mnt/etc/nixos/CIRB_CIBG_ROOT_PKI.crt \
 '
 append+=$bootstrap
