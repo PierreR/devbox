@@ -27,6 +27,8 @@ source utils.sh
 
 set -eu
 
+# We need to keep this out of the home-manager to succeed the bootstrap phase.
+# Bootrapping is currently handled with vcsh and a dotfiles repository pulled from ssh.
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
     local ssh_hostdir="${mount_dir}/ssh-keys"
@@ -54,7 +56,7 @@ install_mr_repos () {
         then
             printf 'mr.templateUrl is empty. You won\"t not be able to activate pre-defined mr repositories.\n'
         else
-            if vcsh clone "$template_url" dotfiles
+            if git clone --separate-git-dir=$HOME/.config/dotfiles "$template_url" dotfiles
             then
                 _success "clone mr ${template_url}\n"
             else
@@ -78,8 +80,8 @@ install_mr_repos () {
 
     eval $(dhall-to-bash --declare repos <<< "($config_file).mr.repos")
     local mrconfigd="$HOME/.config/mr/config.d"
-    if [ -d "$mrconfigd" ]; then
-        find $mrconfigd -type l -name "*.mr" -exec rm {} \;
+    if [ -d $mrconfigd ]; then
+        find "$mrconfigd" -type l -name "*.mr" -exec rm {} \;
         for repo in "${repos[@]}"; do
             ln -sf "../available.d/${repo}" "${mrconfigd}/${repo}"
         done
@@ -135,13 +137,37 @@ install_doc () {
     if make doc >/dev/null 2>&1
     then
         local filepath="$HOME/.local/share"
-        mkdir -p $filepath
-        cp -r doc $filepath
+        mkdir -p "$filepath"
+        cp -r doc "$filepath"
         _success "documentation."
     else
         _failure "documentation not installed successfully."
     fi
     set -e
+}
+
+# Install eclipse plugin that are not part of nixpkgs or home-manager
+install_extra_eclipse_plugin () {
+    full_name="$1"
+    repository="$2"
+    installUI="$3"
+    printf "About to download Eclipse plugin %s. Hold on.\\n" "$full_name"
+
+   eclipse -application "org.eclipse.equinox.p2.director" \
+           -repository "${repository}" \
+           -installIU "${installUI}" \
+           -profile "SDKProfile" \
+           -profileProperties "org.eclipse.update.install.features=true" \
+           -p2.os "linux" \
+           -p2.arch "x86" \
+           -roaming -nosplash \
+           >/dev/null 2>&1
+   if [ $? -eq 0 ]
+   then
+       printf 'Eclipse plugin %s has been successfully downloaded\n' "$full_name"
+   else
+       printf 'Failed to download Eclipse plugin %s \n' "$full_name"
+   fi
 }
 
 # Main
@@ -154,7 +180,9 @@ install_doc
 eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
 if "$eclipse"
 then
-    ./user/eclipse.sh
+    eclipse_version_name="2018-12"
+    install_extra_eclipse_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.egit.feature.group"
+    install_extra_eclipse_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.m2e.feature.feature.group"
 fi
 
 } | tee "${mount_dir}/user_lastrun.log"
