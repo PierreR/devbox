@@ -6,35 +6,33 @@ Box configuration file
                       The box just stores this value in an env variable called 'LOGINID' that can then be used by other programs.
   eclipse           : Do you want to install a statically defined Eclipse version that is known to work.
   defaultStacks     : List of stack to use by default for tools such as the cicd shell.
-                      (see user/eclipse.sh for more detail)
   lorri             : Enable lorri (https://github.com/target/lorri/)
   appLauncherHotkey : Application launcher (Albert) hotkey.
   wallpaper         : An image file in ~/.wallpaper that will be used as wallpaper.
-                      see https://github.com/CIRB/devbox-dotfiles/.wallpaper
+                      see https://github.com/CIRB/dotfiles/.wallpaper
   console.color     : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
-  netw              : Name of the network interface to be displayed by Taffybar (to be changed if you use vmware workstation)
   mr.config         : List of additional personal mr repositories you might want to add to your mrconfig file.
                       Ex: config = [ ".config/vcsh/repo.d/local.git checkout='vcsh clone git@mygithub.com:PierreR/devbox-dotfiles.git local'"]
-  mr.templateUrl    : Url of a mr_template repository to be cloned by vcsh. This repo describes a set of available pre-defined mr repositories.
   mr.repos          : List of repositories to activate from the available set defined above.
   nix-env           : List of specs for the nix-env --install command
+  netw              : Name of the network interface to be displayed by Taffybar (to be changed if you use vmware workstation)
+  dotfilesUrl       : Url of the user dotfiles repository. This repo will drive the whole user configuration.
 -}
-
 
 { userName = ""
 , userEmail = ""
 , loginId = ""
-, defaultStacks = [ "cicd" , "ci"]
+, defaultStacks = [ "ci" ]
 , eclipse = False
 , lorri = True
 , appLauncherHotkey = "Ctrl+Space"
 , wallpaper = "mountain.jpg"
-, netw = "enp0s3"
 , console = { color = "light" }
 , mr =
     { config = [] : List Text
-    , templateUrl = "http://stash.cirb.lan/scm/devb/dotfiles.git"
     , repos = [] : List Text
     }
 , nix-env = [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
+, netw = "enp0s3"
+, dotfilesUrl = "http://stash.cirb.lan/scm/devb/dotfiles.git"
 }

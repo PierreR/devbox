@@ -1,5 +1,5 @@
 #! /usr/bin/env nix-shell
-#! nix-shell -i bash -p vcsh dhall-bash
+#! nix-shell -i bash -p dhall-bash
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -27,6 +27,7 @@ source utils.sh
 
 set -eu
 
+
 # We need to keep this out of the home-manager to succeed the bootstrap phase.
 # Bootrapping is currently handled with vcsh and a dotfiles repository pulled from ssh.
 install_ssh_keys () {
@@ -43,6 +44,21 @@ install_ssh_keys () {
     fi
 }
 
+# Cloning dotfiles repo (in a none empty dir)
+# The clone will fail in case of file conflict
+_clone_dotfiles() {
+    local src_url="$1"
+    local tgt_dir="$2"
+    mkdir -p "${tgt_dir}/.config"
+    pushd $tgt_dir >/dev/null 2>&1
+    git init --separate-git-dir="${tgt_dir}/.config/dotfiles"
+    git remote add origin $src_url
+    git fetch --depth=1 origin master
+    git checkout -b master --track origin/master
+    git config core.excludesfile .gitignore.d/dotfiles
+    git update-index --skip-worktree .mrconfig
+    popd
+}
 
 install_mr_repos () {
     set +e
@@ -51,18 +67,18 @@ install_mr_repos () {
     if [ ! -f "$HOME/.mrconfig" ]; then
         bootstrap=true
         # bootstrap: vcsh clone of the mr remplate url
-        eval $(dhall-to-bash --declare template_url <<< "($config_file).mr.templateUrl")
-        if [ -z "$template_url" ]
+        eval $(dhall-to-bash --declare dotfiles_url <<< "($config_file).dotfilesUrl")
+        if [ -z "$dotfiles_url" ]
         then
-            _failure "In box.dhall, 'mr.templateUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
+            _failure "In box.dhall, 'dotfilesUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
             exit 1
         else
-            if vcsh clone "$template_url" dotfiles
+            if _clone_dotfiles "$dotfiles_url" $HOME
             then
-                _success "clone mr ${template_url}\n"
+                _success "clone mr ${dotfiles_url}\n"
             else
                 printf '\n'
-                _failure "vcsh bootstrap has failed ! Unable to clone ${template_url}.\nAborting mr configuration."
+                _failure "vcsh bootstrap has failed ! Unable to clone ${dotfiles_url}.\nAborting mr configuration."
                 return 1
             fi
         fi

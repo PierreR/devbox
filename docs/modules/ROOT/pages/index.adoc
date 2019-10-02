@@ -249,11 +249,13 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 
 ### Projects (mr)
 
-The mr files are pointers to repositories you want to clone. These are defined in a separate github repo called http://stash.cirb.lan/scm/devb/vcsh_mr_template.git[vcsh_mr_template].
+The https://myrepos.branchable.com[myrepos] project help you to automate the cloning of multiple git repositories. The usage of `mr` is entirely optional.
 
-You can activate any available repositories by setting `repos` in 'SHARED_DIR/config/box'.
+Mr files are pointers to repositories you want to clone. These are defined in the same http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
 
-The enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list of `repos`, you will find a `~/projects/cicd/puppet/bos` folder. In that case, the next step would be to go in that folder and enter `make` on the command line.
+To activate an available repository in your devbox, add the name of the file to the `mr.repos` list in 'SHARED_DIR/box.dhall'.
+
+As soon as you type `updateUser` on the command line, the enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list, you will find a `~/projects/bric/box/puppet-bos` folder. In that case, the next step would be to go in that folder and enter `make` on the command line.
 
 To update all registered mr repository, do
 ```
@@ -276,14 +278,6 @@ For puppet help, go to the <<_puppet>> dedicated section.
 ====
 The customization of the devbox operates at different levels and ensure configuration - personal or shared - survives the destruction of the box.
 ====
-
-### Available mr repositories
-
-The devbox allows to quickly share any configuration across users. This is done by first adding a new `mr` source repository to the list of available repos http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d[in the mr CIRB template repository].
-
-For instance, let say you want to propose some eclipse (or geany, atom, ...) setup as a base eclipse configuration for the CIRB. First create a git repository with the configuration files, then write a `.mr` file and propose it via  a pull request to the mr CIRB template repository.
-
-As soon as the PR is merged, any devbox user will be able to activate the new config by adding it to the list of its https://github.com/CIRB/devbox/blob/da7d4a1c38c0e0bd57806a486f3f42feb0492768/user/config/box.dhall#L18[`repos`] in `SHARED_DIR/config/box.dhall`.
 
 ### Install local packages
 

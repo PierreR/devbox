@@ -137,7 +137,6 @@
     termite
     tree
     unzip
-    vcsh
     vscode
     wget
     which
