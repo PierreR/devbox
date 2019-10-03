@@ -2,6 +2,9 @@
 # if you want it to be part of the packer base image to be used with vagrant.
 { config, pkgs, ... }:
 
+let isVmware = config.virtualisation.vmware.guest.enable;
+    isVirtualbox = config.virtualisation.virtualbox.guest.enable;
+in
 {
   imports = [
     ./local-configuration.nix
@@ -169,13 +172,13 @@
 
   # Setup shared directory
   fileSystems."/vagrant" =
-    if config.virtualisation.virtualbox.guest.enable then
+    if isVirtualbox then
       {
         fsType = "vboxsf";
         device = "vagrant";
         options = [ "rw" ];
       }
-    else if config.virtualisation.vmware.guest.enable then
+    else if isVmware then
       {
         fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
         device = ".host:/";
@@ -184,6 +187,9 @@
     else
       throw "Unsupported builder";
 
+   environment.sessionVariables = {
+     SHARED_DIR = if isVmware then "/vagrant/shared" else "/vagrant";
+   };
   nixpkgs.config.allowUnfree = true;
 
 }

@@ -1,6 +1,5 @@
 .PHONY: clean user system update bootstrap update-release
 
-shared_dir ?= /vagrant
 devbox_release := $(shell curl --silent "https://api.github.com/repos/pierrer/devbox/releases/latest" | jq -r '.tag_name')
 
 help:  ## Display this help
@@ -12,13 +11,13 @@ home-manager:
 	nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
 	nix-channel --update
 
-user: ## Update your user configuration [shared_dir]
+user: ## Update your user configuration
 	@echo -e "Starting user configuration from ${PWD}.\nHold on.\n"
-	@time -f "Completed after %E min" ./user/setenv.sh $(shared_dir)
+	@time -f "Completed after %E min" ./user/setenv.sh
 
-system: ## Update your system configuration [shared_dir]
+system: ## Update your system configuration
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
-	sudo $(CURDIR)/system/setenv.sh $(shared_dir)
+	sudo $(CURDIR)/system/setenv.sh
 
 update-release:
 	echo "Installing $(devbox_release) release in /etc"

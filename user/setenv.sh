@@ -3,7 +3,7 @@
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
-mount_dir=$1
+mount_dir="${1:-$SHARED_DIR}"
 if [ ! -d "$mount_dir" ]; then
     _failure "${mount_dir} is not a directory. Please pass a valid ROOT_DIR"
     exit 1
