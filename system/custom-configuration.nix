@@ -49,6 +49,7 @@
   services.xserver = {
     enable = true;
     layout = "be";
+    xkbOptions = "caps:escape";
     displayManager = {
       lightdm = {
         enable = true;
