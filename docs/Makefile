@@ -1,6 +1,6 @@
-srcdir := docs/modules/ROOT/pages/index.adoc
+srcfile := docs/modules/ROOT/pages/index.adoc
 assetdir := docs/modules/ROOT/assets/images
-outdir := doc
+outdir ?= dist
 
 doc: $(outdir)/devbox.html $(outdir)/devbox.pdf ## Generate documentation both in html and pdf
 

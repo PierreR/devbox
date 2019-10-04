@@ -1,16 +1,9 @@
-.vagrant
-ssh-keys/
 dotfiles/
 user/result
-doc/
 _site/
 *_brackets.html
-stack.yaml
-.stack-work/
 *.un~
-puppet.adoc
 build/
-cicd-shell.adoc
 last_run.log
 dist/
 result

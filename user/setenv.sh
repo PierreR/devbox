@@ -151,11 +151,8 @@ install_env_packages () {
 install_doc () {
     printf 'Installing doc.\n'
     set +e
-    if make doc >/dev/null 2>&1
+    if make doc outdir="$HOME/.local/share/devbox">/dev/null 2>&1
     then
-        local filepath="$HOME/.local/share"
-        mkdir -p "$filepath"
-        cp -r doc "$filepath"
         _success "documentation."
     else
         _failure "documentation not installed successfully."
@@ -187,11 +184,12 @@ install_extra_eclipse_plugin () {
    fi
 }
 
+
 # Main
+
 install_ssh_keys
 install_env_packages
 install_mr_repos
-# These needs to be after because they depends on the vcsh bootstrap that fetch the dotfiles.
 install_doc
 
 eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
