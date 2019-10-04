@@ -38,7 +38,7 @@ endif::[]
 The devbox provides a virtualbox linux operating system that would typically run on top of a Windows host.
 The box is based on https://nixos.org[NixOS] and make sure any setting can be persisted.
 
-Customizations are done through changes on your `config/box.dhall` configuration file.
+The main configuration file is `box.dhall`. It sits in your shared folder.
 
 image::devbox.png[]
 
@@ -308,14 +308,11 @@ TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/
 
 ### Personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `SHARED_DIR/config/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
-
-TIP: You can use #mr.config# to extend the CIRB dotfiles configuration with your files. The top help section of https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L17[SHARED_DIR/config/box-cirb.dhall] points to such a workflow as an example.
-
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `SHARED_DIR/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
 
 ### Storing the box configuration file
 
-You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `SHARED_DIR/config/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
+You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `SHARED_DIR/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
 
 .SHARED_DIR/config/box.dhall
 ```
@@ -347,9 +344,13 @@ It is possible to use the devbox without the use of Virtualbox for instance with
 If you have a nixbox linux up and running, follow these steps:
 ====
 [lowerroman]
-. mount your configuration into your nixos box, for instance `/vagrant/shared`
+. mount your configuration into your nixos box, for instance `/vagrant/shared`footnote:notrequired[not required if you don't want to configure anything]
+. add an env variable named `SHARED_DIR` that points to the mounted dirfootnote:notrequired[]
 . `git clone https://github.com/CIRB/devbox.git bootstrap`
-. `make update config_file=/vagrant/shared/config/box.dhall`
+. cd bootstrap
+. `make home-manager`
+. (logout/login)
+. `make user`
 ====
 
 If you want to use vmware workstation, we can provide an up-to-dated  vmdk image. You still need to choose a SHARED_DIR to host your configuration files as explain in the <<_preparation, preparation paragraph>>.

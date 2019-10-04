@@ -23,8 +23,6 @@ update-release:
 	echo "Installing $(devbox_release) release in /etc"
 	curl -sL https://github.com/pierrer/devbox/archive/$(devbox_release).tar.gz | sudo tar xz -C /etc
 
-update: system user
-
 bootstrap: home-manager update
 
 clean: clean-doc

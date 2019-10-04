@@ -12,7 +12,7 @@ Box configuration file
                       see https://github.com/CIRB/dotfiles/.wallpaper
   console.color     : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
   mr.config         : List of additional personal mr repositories you might want to add to your mrconfig file.
-                      Ex: config = [ ".config/vcsh/repo.d/local.git checkout='vcsh clone git@mygithub.com:PierreR/devbox-dotfiles.git local'"]
+                      Ex: config = [ "projects/pi3r/notebook checkout='git clone git@mygithub.com:PierreR/notebook.git notebook'"]
   mr.repos          : List of repositories to activate from the available set defined above.
   nix-env           : List of specs for the nix-env --install command
   netw              : Name of the network interface to be displayed by Taffybar (to be changed if you use vmware workstation)
