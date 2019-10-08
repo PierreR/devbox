@@ -14,7 +14,6 @@ Box configuration file
   mr.config         : List of additional personal mr repositories you might want to add to your mrconfig file.
                       Ex: config = [ "projects/pi3r/notebook checkout='git clone git@mygithub.com:PierreR/notebook.git notebook'"]
   mr.repos          : List of repositories to activate from the available set defined above.
-  nix-env           : List of specs for the nix-env --install command
   netw              : Name of the network interface to be displayed by Taffybar (to be changed if you use vmware workstation)
   dotfilesUrl       : Url of the user dotfiles repository. This repo will drive the whole user configuration.
 -}
@@ -32,7 +31,6 @@ Box configuration file
     { config = [] : List Text
     , repos = [] : List Text
     }
-, nix-env = [ "-f https://github.com/CIRB/cicd-shell/archive/v2.7.0.tar.gz" ]
 , netw = "enp0s3"
 , dotfilesUrl = "http://stash.cirb.lan/scm/devb/dotfiles.git"
 }

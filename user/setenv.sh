@@ -28,8 +28,6 @@ source utils.sh
 set -eu
 
 
-# We need to keep this out of the home-manager to succeed the bootstrap phase.
-# Bootrapping is currently handled with vcsh and a dotfiles repository pulled from ssh.
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
     local ssh_hostdir="${mount_dir}/ssh-keys"
@@ -66,7 +64,7 @@ install_mr_repos () {
     declare bootstrap=false
     if [ ! -f "$HOME/.mrconfig" ]; then
         bootstrap=true
-        # bootstrap: vcsh clone of the mr remplate url
+        # bootstrap: clone of the dotfiles repo in $HOME
         eval $(dhall-to-bash --declare dotfiles_url <<< "($config_file).dotfilesUrl")
         if [ -z "$dotfiles_url" ]
         then
@@ -78,7 +76,7 @@ install_mr_repos () {
                 _success "clone mr ${dotfiles_url}\n"
             else
                 printf '\n'
-                _failure "vcsh bootstrap has failed ! Unable to clone ${dotfiles_url}.\nAborting mr configuration."
+                _failure "Bootstrap has failed ! Unable to clone ${dotfiles_url}.\nAborting mr configuration."
                 return 1
             fi
         fi
@@ -121,6 +119,7 @@ install_mr_repos () {
     else
         mr -d "$HOME" up -q
         _success "mr"
+	printf 'Running the Home-manager ...\n'
         if home-manager switch >/dev/null 2>&1
         then
             _success "home-manager switch"
@@ -128,23 +127,6 @@ install_mr_repos () {
             _failure "home-manager switch"
         fi
     fi
-    set -e
-}
-
-install_env_packages () {
-    printf 'Installing user packages (nix-env).\n'
-    set +e
-    eval $(dhall-to-bash --declare specs <<< "($config_file).nix-env")
-    for spec in "${specs[@]}"
-    do
-        if nix-env -Q --quiet --install $spec
-        then
-            printf 'nix-env --install %s\n' "${spec}"
-        else
-            _failure "enable to install ${spec}"
-        fi
-    done
-    _success "nix-env"
     set -e
 }
 
@@ -188,7 +170,6 @@ install_extra_eclipse_plugin () {
 # Main
 
 install_ssh_keys
-install_env_packages
 install_mr_repos
 install_doc
 
