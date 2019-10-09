@@ -76,7 +76,7 @@ devbox-{latest_version}
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
    ├── box.dhall <2>
-   ├── local-home.nix 
+   ├── local-home.nix  <2>
    ├── [local-configuration.nix] <3>
    └── [custom-configuration.nix]
 -----
@@ -86,8 +86,8 @@ devbox-{latest_version}
 
 WARNING: When editing files from the SHARED_DIR, maintain the `unix` file encoding.
 
-You don't need to create any of the user or system configuration files. If a file is not yet present in the SHARED_DIR, it will create there at the first boot.
-You would then edit the template to fill in the requested informationfootnote:[a comment section is present at the top.].
+You don't need to create any of the user or system configuration files. If a file is not yet present in the SHARED_DIR, it will be created there at the first boot.
+You should then edit the template to fill in the requested informationfootnote:[a comment section is present at the top.].
 
 ### ssh keys
 
@@ -107,7 +107,7 @@ ifdef::backend-pdf[<<<]
 
 ### User provisioning
 
-The most common operation is to modify your user configuration through the `box.dhall` of your SHARED_DIR.
+The most common operation is to modify your user configuration through `box.dhall` in your SHARED_DIR.
 To publish these changes, you execute the command `updateUser` in a console.
 
 You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager].
@@ -148,16 +148,13 @@ Compare to more traditional distributions, NixOS favors declarative settings and
 
 By using `nixos` we are striving for a system that we can destroy and re-create at will without fuss.
 
-The whole system setup is declared in the https://github.com/CIRB/devbox/blob/master/system/configuration.nix[/etc/nixos/configuration.nix] file. In the same file you will find the https://github.com/CIRB/devbox/blob/master/system/configuration.nix#L99-L209[list] of all the system packages installed.
+The entry point for the system setup is the `/etc/nixos/configuration.nix` file.
 
 #### Useful command
 
 ```
 # rebuild nixos after changing the system configuration file
 → sudo nixos-rebuild switch
-
-# install a package in user space
-→ nix-env -i atom
 
 # clean-up the store (whenever the disk usage is too high)
 → sudo nix-collect-garbage -d
@@ -269,9 +266,6 @@ You can ask a `git status` of all your repositories with
 → mr st
 ```
 
-### Cicd
-
-For puppet help, go to the <<_puppet>> dedicated section.
 
 ## Tips & Tricks
 
