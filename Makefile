@@ -1,6 +1,6 @@
 .PHONY: clean user system update bootstrap update-release
 
-devbox_release := $(shell curl --silent "https://api.github.com/repos/pierrer/devbox/releases/latest" | jq -r '.tag_name')
+devbox_release := $(shell curl --silent "https://api.github.com/repos/cirb/devbox/releases/latest" | jq -r '.tag_name')
 
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)

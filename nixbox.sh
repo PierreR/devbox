@@ -16,7 +16,7 @@ fi
 dest_dir="${mount_dir}/nixbox"
 if [ ! -d "$dest_dir"  ]; then
   echo "Cloning nixbox."
-  git clone https://github.com/nix-community/nixbox.git "$dest_dir"
+  git clone -b 19.09 https://github.com/nix-community/nixbox.git "$dest_dir"
 fi
 
 dest_script_dir="${dest_dir}/scripts"
