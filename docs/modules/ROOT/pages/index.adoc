@@ -58,7 +58,10 @@ Please do update if you have older version(s).
 
 ### Preparation
 
-Within the host os (usually `Windows`), create a new folder of your choice. You might call it `devbox-x.x` where `x.x` is the major and minor version number of the devbox. This will be your shared folder between the host (Windows) and the guest (the linux box).
+Within the host os (usually `Windows`), create a folder `C:\Users\virtualbox\devbox-x.x` where 'x.x' is the major and minor version number of the devbox.
+You need to make sure your windows user has read/write permission on the folder (menu:Properties[Sharing]).
+
+This will be your shared folder between the host (Windows) and the guest (the linux box).
 
 ====
 We will use the term `SHARED_DIR` to refer to this folder throughout the rest of the guide.
@@ -67,9 +70,9 @@ We will use the term `SHARED_DIR` to refer to this folder throughout the rest of
 The `SHARED_DIR` contains personal configuration files.
 
 [subs=attributes+]
-.typical SHARED_DIR folder
+.typical SHARED_DIR
 -----
-devbox-{latest_version}
+C:\Users\virtualbox\devbox-{latest_version}
    ├── [ssh-keys] <1>
    │      ├── xxxx_rsa
    │      ├── xxxx_rsa.pub
@@ -84,10 +87,14 @@ devbox-{latest_version}
 <2> user configuration
 <3> optional system configuration
 
-WARNING: When editing files from the SHARED_DIR, maintain the `unix` file encoding.
+You don't need to create any of the user configuration files. If a file is not yet present in the SHARED_DIR, it will be created at the first boot.
+You should then edit the file and fill the requested informationfootnote:[a comment section is present at the top.].
 
-You don't need to create any of the user or system configuration files. If a file is not yet present in the SHARED_DIR, it will be created there at the first boot.
-You should then edit the template to fill in the requested informationfootnote:[a comment section is present at the top.].
+[WARNING]
+====
+- If you don't use this default location, you will need to manually change the setting of the shared folder in Virtualbox. 
+- When editing files from the SHARED_DIR, maintain the `unix` file encoding.
+====
 
 ### ssh keys
 
@@ -267,6 +274,11 @@ You can ask a `git status` of all your repositories with
 ```
 
 
+### Local environment (direnv & lorri)
+
+https://github.com/target/lorri[Lorri] removes the need to `nix-shell` into a project folder.
+It prevents the project derivation to be garbage collected as the dependency graph is rebuild whenever the project dependencies changes.
+
 ## Tips & Tricks
 
 ====
@@ -402,7 +414,7 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 
 ### Stage 2
 
-. Create a SHARED_DIR
+. Create the SHARED_DIR
 . Import the `ova` image file using the Virtualbox UI.
 . Start the imported vm, login as `vagrant`
 .. cd into `/etc/devbox-x.x.x`

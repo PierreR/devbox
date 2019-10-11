@@ -3,7 +3,6 @@
 {
   
   home.packages = with pkgs; [
-    # ansible
     # asciidoctor
     # atom
     # bazel
@@ -29,10 +28,10 @@
     # jdk
     # jdk11
     # maven
+    # nix-prefetch-git
     # nodejs
     # nodePackages.tern
     # openssl
-    # openshift
     # pandoc
     # parallel
     # parcellite
