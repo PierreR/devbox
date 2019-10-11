@@ -29,7 +29,7 @@ in
       "https://cache.dhall-lang.org"
       "https://cicd-shell.cachix.org"
       "https://language-puppet.cachix.org"
-      "https://repository.irisnet.be/artifactory/nix/"
+      # "https://repository.irisnet.be/artifactory/nix/"
       "https://puppet-unit-test.cachix.org"
     ];
     binaryCachePublicKeys = [
