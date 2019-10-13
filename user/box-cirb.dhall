@@ -31,7 +31,7 @@ Box configuration file
     }
 , defaultStacks = [ "ci" ]
 , eclipse = False
-, lorri = True
+, lorri = False
 , console = { color = "light" }
 , mr =
     { config = [] : List Text
