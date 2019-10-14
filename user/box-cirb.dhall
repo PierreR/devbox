@@ -10,6 +10,8 @@ Box configuration file
   defaultUI.wallpaper         : An image file in ~/.wallpaper that will be used as wallpaper.
                                 see https://github.com/CIRB/dotfiles/.wallpaper
   defaultUI.netw              : Name of the network interface to be displayed by Taffybar (to be changed if you use vmware workstation)
+  vscode.enable               : Enable vscode configuration via the home-manager
+  vscode.manageExtension      : Manage vscode via the home-manager
   eclipse                     : Do you want to install a statically defined Eclipse version that is known to work.
   defaultStacks               : List of stack to use by default for tools such as the cicd shell.
   lorri                       : Enable lorri (https://github.com/target/lorri/)
@@ -30,6 +32,10 @@ Box configuration file
     , wallpaper = "mountain.jpg"
     }
 , defaultStacks = [ "ci" ]
+, vscode =
+  { enable = True
+  , manageExtension = False
+  }
 , eclipse = False
 , lorri = False
 , console = { color = "light" }
