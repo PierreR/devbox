@@ -106,6 +106,8 @@ Without your personal ssh key pairs you won't be able to pull or push to bitbuck
 
 ### Box import
 
+Get the latest `devbox-x.x.x` file from https://repository.irisnet.be/artifactory/webapp/#/artifacts/browse/tree/General/cicd-devbox[Artifactory]
+
 To import the `ova` image file, just click on the file. The virtualbox UI will pop up.
 
 ifdef::backend-pdf[<<<]
