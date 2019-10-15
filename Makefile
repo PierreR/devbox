@@ -8,7 +8,7 @@ help:  ## Display this help
 include docs/Makefile
 
 home-manager:
-	nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
+	nix-channel --add https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager
 	nix-channel --update
 
 user: ## Update your user configuration
@@ -21,7 +21,7 @@ system: ## Update your system configuration
 
 update-release:
 	echo "Installing $(devbox_release) release in /etc"
-	curl -sL https://github.com/pierrer/devbox/archive/$(devbox_release).tar.gz | sudo tar xz -C /etc
+	curl -sL https://github.com/cirb/devbox/archive/$(devbox_release).tar.gz | sudo tar xz -C /etc
 
 bootstrap: home-manager update
 

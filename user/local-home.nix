@@ -5,14 +5,15 @@
   home.packages = with pkgs; [
     # asciidoctor
     # atom
+    # awscli
+    # aws-iam-authenticator
     # bazel
     # bundix
     # cabal2nix
-    # dnsmasq
-    # awscli
-    # aws-iam-authenticator
-    # du-dust
+    # (import (builtins.fetchTarball "https://cachix.org/api/v1/install") {}).cachix
     # docker_compose
+    # dnsmasq
+    # du-dust
     # filebeat
     # firefox
     # geany
@@ -20,6 +21,7 @@
     # gnome3.nautilus
     # go2nix
     # gcc
+    # (import (builtins.fetchTarball "https://github.com/hercules-ci/ghcide-nix/tarball/master") {}).ghcide-ghc865)
     # jetbrains.idea-community
     # jetbrains.idea-ultimate
     # haskellPackages.shake
