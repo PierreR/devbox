@@ -1,7 +1,6 @@
 #! /usr/bin/env bash
 
-version="19.09.1"
-scm_uri="http://stash.cirb.lan/rest/api/latest/projects/DEVB/repos/devbox/archive?format=tgz&at=${version}"
+source version.sh
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -23,7 +22,7 @@ fi
 dest_script_dir="${dest_dir}/scripts"
 cp "${script_dir}/system/CIRB_CIBG_ROOT_PKI.crt" "$dest_script_dir"
 
-bootstrap="curl -sL \"${scm_uri}\" | tar xz  --one-top-level=devbox-${version} -C /mnt/etc"
+bootstrap="curl -sL \"${scm_uri}\" | tar xz --one-top-level=devbox-${version} -C /mnt/etc"
 append=\
 'curl -sf "$packer_http/CIRB_CIBG_ROOT_PKI.crt" > /mnt/etc/nixos/CIRB_CIBG_ROOT_PKI.crt\
 '

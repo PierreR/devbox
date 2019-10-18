@@ -27,7 +27,7 @@ fi
 # shellcheck source=/home/vagrant/bootstrap/utils.sh
 source utils.sh
 
-set -eu
+set -u
 
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
@@ -51,18 +51,29 @@ _clone_dotfiles() {
     local src_url="$1"
     local tgt_dir="$2"
     mkdir -p "${tgt_dir}/.config"
-    pushd "$tgt_dir" >/dev/null 2>&1
+    pushd "$tgt_dir" >/dev/null 2>&1 || return
     git init --separate-git-dir="${tgt_dir}/.config/dotfiles"
     git remote add origin "$src_url"
     git fetch --depth=1 origin master
     git checkout -b master --track origin/master
     git config core.excludesfile .gitignore.d/dotfiles
     git update-index --skip-worktree .mrconfig
-    popd
+    popd || return
+}
+
+_clone () {
+    local url=$1
+    if hash vcsh >/dev/null 2>&1
+    then
+        echo "About to use vcsh to clone ${url}"
+        vcsh "$url" dotfiles
+    else
+        echo "Using cloning routine to clone ${url}"
+        _clone_dotfiles "$url" "$HOME"
+    fi
 }
 
 bootstrap_hm () {
-    set +e
 
     if [ ! -d "/home/vagrant/.config/vcsh/repo.d/dotfiles.git" ]; then # bootstrap: clone of the dotfiles repo in $HOME
         eval $(dhall-to-bash --declare DOTFILES_URL <<< "($config_file).dotfilesUrl")
@@ -71,15 +82,7 @@ bootstrap_hm () {
             _failure "In box.dhall, 'dotfilesUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
             exit 1
         else
-            if hash dhall-to-bash >/dev/null 2>&1
-            then
-                echo "About to use vcsh to clone ${DOTFILES_URL}"
-                rc=vcsh "$DOTFILES_URL" dotfiles
-            else
-                echo "Using cloning routine to clone ${DOTFILES_URL}"
-                rc=_clone_dotfiles "$DOTFILES_URL" "$HOME"
-
-            if [ $rc -eq 0 ]
+            if _clone "$DOTFILES_URL"
             then
                 _success "clone mr ${DOTFILES_URL}\n"
                 if nix-shell '<home-manager>' -A install
@@ -104,10 +107,6 @@ bootstrap_hm () {
             _failure "home-manager switch"
         fi
     fi
-
-
-
-    set -e
 }
 
 
@@ -122,14 +121,12 @@ install_mr_repos () {
 
 install_doc () {
     printf 'Installing doc.\n'
-    set +e
     if make doc outdir="$HOME/.local/share/devbox">/dev/null 2>&1
     then
         _success "documentation."
     else
         _failure "documentation not installed successfully."
     fi
-    set -e
 }
 
 # Install eclipse plugin that are not part of nixpkgs or home-manager
@@ -139,21 +136,20 @@ install_extra_eclipse_plugin () {
     installUI="$3"
     printf "About to download Eclipse plugin %s. Hold on.\\n" "$full_name"
 
-   eclipse -application "org.eclipse.equinox.p2.director" \
-           -repository "${repository}" \
-           -installIU "${installUI}" \
-           -profile "SDKProfile" \
-           -profileProperties "org.eclipse.update.install.features=true" \
-           -p2.os "linux" \
-           -p2.arch "x86" \
-           -roaming -nosplash \
-           >/dev/null 2>&1
-   if [ $? -eq 0 ]
-   then
-       printf 'Eclipse plugin %s has been successfully downloaded\n' "$full_name"
-   else
-       printf 'Failed to download Eclipse plugin %s \n' "$full_name"
-   fi
+    if eclipse -application "org.eclipse.equinox.p2.director" \
+               -repository "${repository}" \
+               -installIU "${installUI}" \
+               -profile "SDKProfile" \
+               -profileProperties "org.eclipse.update.install.features=true" \
+               -p2.os "linux" \
+               -p2.arch "x86" \
+               -roaming -nosplash \
+               >/dev/null 2>&1
+    then
+        printf 'Eclipse plugin %s has been successfully downloaded\n' "$full_name"
+    else
+        printf 'Failed to download Eclipse plugin %s \n' "$full_name"
+    fi
 }
 
 

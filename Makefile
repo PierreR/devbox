@@ -1,6 +1,6 @@
 .PHONY: clean user system update bootstrap update-release
 
-devbox_release := $(shell curl --silent "https://api.github.com/repos/cirb/devbox/releases/latest" | jq -r '.tag_name')
+include version.sh
 
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
@@ -20,8 +20,8 @@ system: ## Update your system configuration
 	sudo $(CURDIR)/system/setenv.sh
 
 update-release:
-	echo "Installing $(devbox_release) release in /etc"
-	curl -sL https://github.com/cirb/devbox/archive/$(devbox_release).tar.gz | sudo tar xz -C /etc
+	echo "Installing $(version) release in /etc"
+	curl -sL $(scm_uri) | sudo tar xz  --one-top-level=devbox-$(version) -C /etc
 
 bootstrap: home-manager update
 
