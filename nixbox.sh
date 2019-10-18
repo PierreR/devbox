@@ -5,6 +5,7 @@ scm_uri="http://stash.cirb.lan/rest/api/latest/projects/DEVB/repos/devbox/archiv
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
+# shellcheck source=/home/vagrant/bootstrap/utils.sh
 source "$script_dir/utils.sh"
 
 mount_dir=$1

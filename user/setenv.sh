@@ -1,5 +1,6 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p dhall-bash
+#! /usr/bin/env bash
+
+hash dhall-to-bash 2>/dev/null || { echo >&2 "The script requires dhall-to-bash but it's not installed.  Aborting."; exit 1; }
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -23,10 +24,10 @@ fi
 
 {
 
+# shellcheck source=/home/vagrant/bootstrap/utils.sh
 source utils.sh
 
 set -eu
-
 
 install_ssh_keys () {
     printf 'Synchronizing ssh keys\n'
@@ -48,9 +49,9 @@ _clone_dotfiles() {
     local src_url="$1"
     local tgt_dir="$2"
     mkdir -p "${tgt_dir}/.config"
-    pushd $tgt_dir >/dev/null 2>&1
+    pushd "$tgt_dir" >/dev/null 2>&1
     git init --separate-git-dir="${tgt_dir}/.config/dotfiles"
-    git remote add origin $src_url
+    git remote add origin "$src_url"
     git fetch --depth=1 origin master
     git checkout -b master --track origin/master
     git config core.excludesfile .gitignore.d/dotfiles
@@ -65,25 +66,25 @@ install_mr_repos () {
     if [ ! -f "$HOME/.mrconfig" ]; then
         bootstrap=true
         # bootstrap: clone of the dotfiles repo in $HOME
-        eval $(dhall-to-bash --declare dotfiles_url <<< "($config_file).dotfilesUrl")
-        if [ -z "$dotfiles_url" ]
+        eval $(dhall-to-bash --declare DOTFILES_URL <<< "($config_file).dotfilesUrl")
+        if [ -z "$DOTFILES_URL" ]
         then
             _failure "In box.dhall, 'dotfilesUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
             exit 1
         else
-            if _clone_dotfiles "$dotfiles_url" $HOME
+            if _clone_dotfiles "$DOTFILES_URL" "$HOME"
             then
-                _success "clone mr ${dotfiles_url}\n"
+                _success "clone mr ${DOTFILES_URL}\n"
             else
                 printf '\n'
-                _failure "Bootstrap has failed ! Unable to clone ${dotfiles_url}.\nAborting mr configuration."
+                _failure "Bootstrap has failed ! Unable to clone ${DOTFILES_URL}.\nAborting mr configuration."
                 return 1
             fi
         fi
     fi
     # mrconfig
-    eval $(dhall-to-bash --declare specs <<< "($config_file).mr.config")
-    for spec in "${specs[@]}"; do
+    eval $(dhall-to-bash --declare SPECS <<< "($config_file).mr.config")
+    for spec in "${SPECS[@]}"; do
         if eval mr config "$spec"
         then
             printf 'mr config %s\n' "${spec}"
@@ -93,15 +94,15 @@ install_mr_repos () {
         fi
     done
 
-    eval $(dhall-to-bash --declare repos <<< "($config_file).mr.repos")
+    eval $(dhall-to-bash --declare REPOS <<< "($config_file).mr.repos")
     local mrconfigd="$HOME/.config/mr/config.d"
-    if [ -d $mrconfigd ]; then
+    if [ -d "$mrconfigd" ]; then
         find "$mrconfigd" -type l -name "*.mr" -exec rm {} \;
-        for repo in "${repos[@]}"; do
+        for repo in "${REPOS[@]}"; do
             ln -sf "../available.d/${repo}" "${mrconfigd}/${repo}"
         done
     else
-        printf 'No ${mrconfigd] directory. No predefined mr repo will be activated.\n'
+        printf "No %s directory. No predefined mr repo will be activated.\n" "${mrconfigd}"
     fi
 
     if $bootstrap
@@ -173,8 +174,9 @@ install_ssh_keys
 install_mr_repos
 install_doc
 
-eval $(dhall-to-bash --declare eclipse <<< "($config_file).eclipse")
-if "$eclipse"
+with_eclipse=$(dhall-to-bash <<< "($config_file).eclipse")
+
+if "$with_eclipse"
 then
     eclipse_version_name="2018-12"
     install_extra_eclipse_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.egit.feature.group"

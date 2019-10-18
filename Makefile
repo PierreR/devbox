@@ -13,7 +13,7 @@ home-manager:
 
 user: ## Update your user configuration
 	@echo -e "Starting user configuration from ${PWD}.\nHold on.\n"
-	@time -f "Completed after %E min" ./user/setenv.sh
+	@time -f "Completed after %E min" nix-shell -p dhall-bash --run './user/setenv.sh'
 
 system: ## Update your system configuration
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
