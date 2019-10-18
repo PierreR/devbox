@@ -5,7 +5,7 @@ Box configuration file
   loginId                     : LoginId is typically a username used by external services as a identification id.
                                 The box just stores this value in an env variable called 'LOGINID' that can then be used by other programs.
   defaultUI.enable            : Enable the defaul  defaultUI: a minimal tiling windowManager
-                                Set the flag to False if you want to replace the tiling  defaultUI with a desktopManager such as Gnome, ... 
+                                Set the flag to False if you want to replace the tiling  defaultUI with a desktopManager such as Gnome, ...
   defaultUI.appLauncherHotkey : Application launcher (Albert) hotkey.
   defaultUI.wallpaper         : An image file in ~/.wallpaper that will be used as wallpaper.
                                 see https://github.com/CIRB/dotfiles/.wallpaper
@@ -19,13 +19,12 @@ Box configuration file
   mr.config                   : List of additional personal mr repositories you might want to add to your mrconfig file.
                                 Ex: config = [ "projects/pi3r/notebook checkout='git clone git@mygithub.com:PierreR/notebook.git notebook'"]
   mr.repos                    : List of repositories to activate from the available set defined above.
-  dotfilesUrl                 : Url of the user dotfiles repository. This repo will drive the whole user configuration.
 -}
 
 { userName = ""
 , userEmail = ""
 , loginId = ""
-, defaultUI = 
+, defaultUI =
     { enable = True
     , appLauncherHotkey = "Ctrl+Space"
     , netw = "enp0s3"
@@ -43,5 +42,4 @@ Box configuration file
     { config = [] : List Text
     , repos = [] : List Text
     }
-, dotfilesUrl = "http://stash.cirb.lan/scm/devb/dotfiles.git"
 }

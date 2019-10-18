@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-hash dhall-to-bash 2>/dev/null || { echo >&2 "The script requires dhall-to-bash but it's not installed.  Aborting."; exit 1; }
+dotfilesUrl="http://stash.cirb.lan/scm/devb/dotfiles.git"
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -66,7 +66,7 @@ _clone () {
     if hash vcsh >/dev/null 2>&1
     then
         echo "About to use vcsh to clone ${url}"
-        vcsh "$url" dotfiles
+        vcsh clone "$url" dotfiles
     else
         echo "Using cloning routine to clone ${url}"
         _clone_dotfiles "$url" "$HOME"
@@ -76,15 +76,14 @@ _clone () {
 bootstrap_hm () {
 
     if [ ! -d "/home/vagrant/.config/vcsh/repo.d/dotfiles.git" ]; then # bootstrap: clone of the dotfiles repo in $HOME
-        eval $(dhall-to-bash --declare DOTFILES_URL <<< "($config_file).dotfilesUrl")
-        if [ -z "$DOTFILES_URL" ]
+        if [ -z "$dotfilesUrl" ]
         then
             _failure "In box.dhall, 'dotfilesUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
             exit 1
         else
-            if _clone "$DOTFILES_URL"
+            if _clone "$dotfilesUrl"
             then
-                _success "clone mr ${DOTFILES_URL}\n"
+                _success "clone mr ${dotfilesUrl}\n"
                 if nix-shell '<home-manager>' -A install
                 then
                     _success "home-manager installed.\n"
@@ -94,8 +93,8 @@ bootstrap_hm () {
                 fi
             else
                 printf '\n'
-                _failure "Bootstrap has failed ! Unable to clone ${DOTFILES_URL}.\nAborting mr configuration."
-                return 1
+                _failure "Bootstrap has failed ! Unable to clone ${dotfilesUrl}.\nAborting user configuration."
+                exit 1
             fi
         fi
     else # No in bootstrap
@@ -160,6 +159,7 @@ bootstrap_hm
 install_mr_repos
 install_doc
 
+hash dhall-to-bash 2>/dev/null || { echo >&2 "Installation of egit & m2e plugins requires dhall-to-bash but it's not installed.  Aborting."; exit 1; }
 with_eclipse=$(dhall-to-bash <<< "($config_file).eclipse")
 
 if "$with_eclipse"
