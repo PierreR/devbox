@@ -45,6 +45,8 @@ install_ssh_keys () {
 
 # Cloning dotfiles repo (in a none empty dir)
 # The clone will fail in case of file conflict
+# We can fall back to this if vcsh causes issues
+# vcsh is safer in case we need to delete 'dotfiles' as a result of an unfortunate crash
 _clone_dotfiles() {
     local src_url="$1"
     local tgt_dir="$2"
@@ -62,14 +64,22 @@ _clone_dotfiles() {
 bootstrap_hm () {
     set +e
 
-    if [ ! -f "$HOME/.config/nixpkgs/home.nix" ]; then # bootstrap: clone of the dotfiles repo in $HOME
+    if [ ! -d "/home/vagrant/.config/vcsh/repo.d/dotfiles.git" ]; then # bootstrap: clone of the dotfiles repo in $HOME
         eval $(dhall-to-bash --declare DOTFILES_URL <<< "($config_file).dotfilesUrl")
         if [ -z "$DOTFILES_URL" ]
         then
             _failure "In box.dhall, 'dotfilesUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
             exit 1
         else
-            if _clone_dotfiles "$DOTFILES_URL" "$HOME"
+            if hash dhall-to-bash >/dev/null 2>&1
+            then
+                echo "About to use vcsh to clone ${DOTFILES_URL}"
+                rc=vcsh "$DOTFILES_URL" dotfiles
+            else
+                echo "Using cloning routine to clone ${DOTFILES_URL}"
+                rc=_clone_dotfiles "$DOTFILES_URL" "$HOME"
+
+            if [ $rc -eq 0 ]
             then
                 _success "clone mr ${DOTFILES_URL}\n"
                 if nix-shell '<home-manager>' -A install
