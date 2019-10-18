@@ -59,13 +59,10 @@ _clone_dotfiles() {
     popd
 }
 
-install_mr_repos () {
+bootstrap_hm () {
     set +e
-    printf 'Installing mr repos\n'
-    declare bootstrap=false
-    if [ ! -f "$HOME/.mrconfig" ]; then
-        bootstrap=true
-        # bootstrap: clone of the dotfiles repo in $HOME
+
+    if [ ! -f "$HOME/.config/nixpkgs/home.nix" ]; then # bootstrap: clone of the dotfiles repo in $HOME
         eval $(dhall-to-bash --declare DOTFILES_URL <<< "($config_file).dotfilesUrl")
         if [ -z "$DOTFILES_URL" ]
         then
@@ -75,52 +72,21 @@ install_mr_repos () {
             if _clone_dotfiles "$DOTFILES_URL" "$HOME"
             then
                 _success "clone mr ${DOTFILES_URL}\n"
+                if nix-shell '<home-manager>' -A install
+                then
+                    _success "home-manager installed.\n"
+                else
+                    _failure "Unable to install the home-manager."
+                    exit 1
+                fi
             else
                 printf '\n'
                 _failure "Bootstrap has failed ! Unable to clone ${DOTFILES_URL}.\nAborting mr configuration."
                 return 1
             fi
         fi
-    fi
-    # mrconfig
-    eval $(dhall-to-bash --declare SPECS <<< "($config_file).mr.config")
-    for spec in "${SPECS[@]}"; do
-        if eval mr config "$spec"
-        then
-            printf 'mr config %s\n' "${spec}"
-        else
-            _failure "mr configuration has failed for ${spec}"
-            exit 1
-        fi
-    done
-
-    eval $(dhall-to-bash --declare REPOS <<< "($config_file).mr.repos")
-    local mrconfigd="$HOME/.config/mr/config.d"
-    if [ -d "$mrconfigd" ]; then
-        find "$mrconfigd" -type l -name "*.mr" -exec rm {} \;
-        for repo in "${REPOS[@]}"; do
-            ln -sf "../available.d/${repo}" "${mrconfigd}/${repo}"
-        done
-    else
-        printf "No %s directory. No predefined mr repo will be activated.\n" "${mrconfigd}"
-    fi
-
-    if $bootstrap
-    then
-        mr -f -d "$HOME" up -q
-        _success "mr"
-        if nix-shell '<home-manager>' -A install
-        then
-            _success "home-manager installed.\n"
-        else
-            printf '\n'
-            _failure "Unable to install the home-manager."
-            return 1
-        fi
-    else
-        mr -d "$HOME" up -q
-        _success "mr"
-	printf 'Running the Home-manager ...\n'
+    else # No in bootstrap
+	    printf 'Running the Home-manager ...\n'
         if home-manager switch >/dev/null 2>&1
         then
             _success "home-manager switch"
@@ -128,7 +94,20 @@ install_mr_repos () {
             _failure "home-manager switch"
         fi
     fi
+
+
+
     set -e
+}
+
+
+install_mr_repos () {
+    if mr -d "$HOME" up -q
+    then
+        _success "mr"
+    else
+        _failure "mr"
+    fi
 }
 
 install_doc () {
@@ -171,6 +150,7 @@ install_extra_eclipse_plugin () {
 # Main
 
 install_ssh_keys
+bootstrap_hm
 install_mr_repos
 install_doc
 
