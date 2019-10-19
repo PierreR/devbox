@@ -164,7 +164,7 @@ with_eclipse=$(dhall-to-bash <<< "($config_file).eclipse")
 
 if "$with_eclipse"
 then
-    eclipse_version_name="2018-12"
+    eclipse_version_name="2019-06"
     install_extra_eclipse_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.egit.feature.group"
     install_extra_eclipse_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.m2e.feature.feature.group"
 fi
