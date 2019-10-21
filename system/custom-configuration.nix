@@ -150,7 +150,9 @@ in
 
   users.users.vagrant.shell = pkgs.zsh;
   users.users.vagrant.extraGroups = [ "docker" ];
-  
+  users.users.vagrant.subGidRanges = [ { startGid = 1001; count = 65535; } ];
+  users.users.vagrant.subUidRanges = [ { startUid = 1001; count = 65535; } ];
+
   virtualisation.docker.enable = true;
 
   fonts = {
@@ -188,9 +190,24 @@ in
     else
       throw "Unsupported builder";
 
-   environment.sessionVariables = {
-     SHARED_DIR = if isVmware then "/vagrant/shared" else "/vagrant";
-   };
+  environment.sessionVariables = {
+    SHARED_DIR = if isVmware then "/vagrant/shared" else "/vagrant";
+  };
+
+  environment.etc."containers/registries.conf".text = ''
+    [registries.search]
+    registries = ['docker.io', 'quay.io', 'registry.access.redhat.com']
+  '';
+  environment.etc."containers/policy.json".text = ''
+  {
+    "default": [
+        {
+            "type": "insecureAcceptAnything"
+        }
+    ]
+  }
+  '';
+
   nixpkgs.config.allowUnfree = true;
 
 }
