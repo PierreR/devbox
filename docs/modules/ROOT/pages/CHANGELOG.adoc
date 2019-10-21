@@ -7,21 +7,29 @@ include::_attributes.adoc[]
 [CAUTION,caption=Breaking changes]
 ====
 - This release incorporates the https://github.com/rycee/home-manager[home-manager].
-Many configurations has been moved to it: you should expect major changes.
-- The `box.dhall` configuration file has changed drastically ! It now sits at the root of the `SHARED_DIR`. 
-- Vagrant and `vcsh` has been removed.
+Many configurations has been moved to it: you should expect major changes from this release.
+- The `box.dhall` configuration file has changed drastically ! It now sits at the root of the `SHARED_DIR`.
+- Vagrant has been removed (use `UpdateUser` to activate configuration changes)
 - The `shell.dhall` configuration file is gone.
 ====
 
-- You can now start without any configuration at all; just a `SHARED_DIR` between the host and the devbox will do.
-- The user configuration is now the main configuration point (system configuration is reserved for middleware configuration).
-- The user configuration is now driven by the https://github.com/rycee/home-manager[home-manager]
-- All configurations have been merged into a single http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[dotfiles] repository
+- You can now start without any configuration at all.
+****
+The sole requirement is to defined on your host a `SHARED_DIR` in C:\Users\virtualbox\devbox-19.09
+****
+- The user configuration is now the main configuration point
++
+(system configuration is reserved for more advanced usage such as middleware configuration).
+- The user configuration is now driven by https://github.com/rycee/home-manager[home-manager].
+- All configurations have been merged into a single http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[dotfiles] repository.
 - Upgrade NixOS to `19.09`.
 - Add https://github.com/target/lorri[lorri].
-- Add customization for Albert launcher shortcut key in `box.dhall`
-- Support VirtualBox 6.0 by default
-- Eclipse install in box.dhall is now set to `False` by default
+- Add customization for the Albert launcher hotkey in `box.dhall`.
+- Support VirtualBox 6.0 by default.
+- Eclipse has been upgraded to `2019-06`. It is not installed by default (see eclipse key in box.dhall to enable it).
+- The devbox is using 2 source repositories (`devbox` and `dotfiles`). Both have been moved to our internal Bitbucket.
+- To get the devbox, you need to download its ova file which is hosted by https://repository.irisnet.be/artifactory/webapp/#/artifacts/browse/tree/General/cicd-devbox[Artifactory].
+- Add support for OpenShift.
 
 ## v19.03, 17/04/2019
 
@@ -38,41 +46,3 @@ It is probably more convenient to fetch it with `curl` again and apply back your
 - Add `updateSystem`/`updateUser` to synchronize customization directly from the devbox.
 - Move mr repository on bitbucket.
 
-
-## v5.1, 09/12/2018
-
-[CAUTION,caption=Breaking changes]
-====
-- You will need to update your `/vagrant/config/box.dhall` according to the `config/box-cirb.dhall` template.
-====
-
-- Update Eclipse to the 4.8 photon release.
-- `cicd-shell` updated to `2.6`.
-- Personal  mr config can now be changed on the fly. Use `vagrant provision` to update your configuration.
-- The user `setenv` script has been converted to a bash script.
-
-## v5.0, 09/10/2018
-
-[CAUTION,caption=Breaking changes]
-====
-- This version updates nixos to `18.09`. You will need to re-create a new devbox.
-+
-`vagrant provision` won't upgrade to a major devbox release.
-- Choice of desktop has been moved to the local configuration. This is to allow the setting to survive across destroy.
-+
-If you persist your local system configuration, you need to modify it.
-+
-Please check https://github.com/CIRB/devbox/blob/5.1.0b/system/local-configuration.nix#L7-L13
-+
-./etc/nixos/local-configuration.nix
-[subs=+quotes]
-```nix
-  imports = [
-    ./desktop-tiling-configuration.nix
-    # ./desktop-gnome-configuration.nix
-    # ./desktop-kde-configuration.nix
-  ];
-```
-====
-
-- Update status bar (taffybar-3.x)

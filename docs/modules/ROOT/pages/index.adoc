@@ -56,14 +56,17 @@ Please do update if you have older version(s).
 - You can install https://git-scm.com/download/win[Git for windows] in order to get a terminal console on Windows.
 ====
 
+ifdef::backend-pdf[<<<]
+
 ### Preparation
 
-Within the host os (usually `Windows`), create a folder `C:\Users\virtualbox\devbox-x.x` where 'x.x' is the major and minor version number of the devbox.
-You need to make sure your windows user has read/write permission on the folder (menu:Properties[Sharing]).
-
-This will be your shared folder between the host (Windows) and the guest (the linux box).
-
 ====
+Within the host os (usually `Windows`), create a folder #C:\Users\virtualbox\devbox-{latest_version}#.
+
+Make sure your windows user has read/write permission on the folder.
+On Windows, right-click on the folder and follow menu:Properties[Sharing].
+
+This will be your shared folder between the host (Windows) and the guest (/vagrant in the linux box).
 We will use the term `SHARED_DIR` to refer to this folder throughout the rest of the guide.
 ====
 
@@ -80,19 +83,22 @@ C:\Users\virtualbox\devbox-{latest_version}
    │      └── xxxx_github_rsa.pub
    ├── box.dhall <2>
    ├── local-home.nix  <2>
-   ├── [local-configuration.nix] <3>
-   └── [custom-configuration.nix]
+   └── [local-configuration.nix] <3>
 -----
 <1> ssh-keys folder
 <2> user configuration
 <3> optional system configuration
 
-You don't need to create any of the user configuration files. If a file is not yet present in the SHARED_DIR, it will be created at the first boot.
+You don't need to create any of the user configuration files.
+If the file is not yet present in the SHARED_DIR, it will be created by #updateConfig#.
 You should then edit the file and fill the requested informationfootnote:[a comment section is present at the top.].
+
+Type #updateConfig# again to activate those changes.
 
 [WARNING]
 ====
-- If you don't use this default location, you will need to manually change the setting of the shared folder in Virtualbox. 
+- If you don't use the default host location for the SHARED_DIR, you will need to manually change the setting using the Virtualbox UI.
+When doing so, please keep the name `vagrant` together with an empty mount point.
 - When editing files from the SHARED_DIR, maintain the `unix` file encoding.
 ====
 
@@ -106,48 +112,71 @@ Without your personal ssh key pairs you won't be able to pull or push to bitbuck
 
 ### Box import
 
-Get the latest `devbox-x.x.x` file from https://repository.irisnet.be/artifactory/webapp/#/artifacts/browse/tree/General/cicd-devbox[Artifactory]
+Get the latest `devbox-{latest_version}.x` file from https://repository.irisnet.be/artifactory/webapp/#/artifacts/browse/tree/General/cicd-devbox[Artifactory]
 
-To import the `ova` image file, just click on the file. The virtualbox UI will pop up.
+To import the `ova` image file, just click on the file. The virtualbox UI will pop up. You can accept all defaults.
 
-ifdef::backend-pdf[<<<]
 
 ## Usage
+
+The provisioning of the devbox is done by 2 repositories (both on Bitbucket):
+
+- http://stash.cirb.lan/projects/DEVB/repos/devbox/browse[devbox]
+- http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[dotfiles]
+
+The `devbox` repository is quite small. It holds the ignition files necessary to bootstrap a devbox. This repository will be automatically present in the devbox in the `~/bootstrap` folder.
+
+The `dotfiles` repository holds the user configuration files. The git repository is hidden from the user through the use of `vcsh`. The `vcsh` program is also helpful in case of crash to recover a clean user state.
 
 ### User provisioning
 
 The most common operation is to modify your user configuration through `box.dhall` in your SHARED_DIR.
-To publish these changes, you execute the command `updateUser` in a console.
 
 You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager].
 Such more advanced and optional configuration is done by editing the `local-home.nix` file which also sits in your SHARED_DIR.
 
+To activate these changes, you execute the command #updateConfig# in a console.
+
 ### Devbox update
 
-If you wish to bring new features listed in the <<_changelog>>, you will need to update the input of your devbox.
-This is done by pulling from the `~/bootstrap` directory of the devbox:
+If you wish to update the files that provision the devbox, you do so by pulling them from the `dotfiles` and `devbox` source repositories.
+
+The command #updateUser# defined in `~/.zsh_custom/fun.zsh` does this before activating the user configuration (#updateConfig# would only do the later).
+
+You can also do these steps in a more fine grain way. For instance to pull the changes from `dotfiles`:
 
 ```
 → cd ~/bootstrap
+→ git st <1>
 → git pull
 ```
+<1> get the status
 
-To upgrade to the newest devbox release, please read the <<_changelog>> and re-create a brand new box.
-See <<_life_cycle>>.
+Similarly for the `dotfiles`:
+
+```
+→ vcsh dotfiles
+→ git st
+→ git pull --ff-only
+→ exit <1>
+```
+<1> don't forget to exit the `vcsh` mode.
 
 ### Advanced system provisioning
 
 The advanced user might want to update the system configuration.
-This is useful to setup a postgresql database, an elk cluster, ...
+This is useful to enable middleware such as a postgresql database, an elk cluster or a minishift.
+
 If you want to go into this level of configuration, first import in your SHARED_DIR the example configuration file:
 ```
 curl -o local-configuration.nix https://raw.githubusercontent.com/CIRB/devbox/master/system/local-configuration.nix
 ```
-To publish your system configuration change, you execute the command `updateSystem` in a console.
+
+To publish your system configuration change, you execute the command #updateSystem# in a console.
 
 ### Operating system (nixos)
 
-The devbox is based on https://nixos.org/[NixOS] version 19.03. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
+The devbox is based on https://nixos.org/[NixOS] version {latest_version}. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
 
 Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
 
@@ -178,12 +207,15 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 * Simplicity: the window manager is basic but yet quite flexible
 * Practicality: the desktop is distraction free.
 
+If you want another UI, based on Gnome, KDE, i3wm or Pantheon, that's easy enough.
+Please ask for assistance on our #CICD Team channelfootnote:[If such request is popular, we will add an help section about it.]
+
 #### Minimal cheat sheet
 
 |======
 |Command |Description
 
-| kbd:[Ctrl,Space] |Open app launcher
+| kbd:[Ctrl,Space]footnote:[you can change this binding in box.dhall] |Open app launcher
 | kbd:[Super, t] |New terminal
 | kbd:[Super, 1..9] |Go to nth desktop
 | kbd:[Super, Right] | Go to next desktop
@@ -241,7 +273,7 @@ You can use https://github.com/wting/autojump[`autojump`] to quickly navigate fr
 → j bos
 ```
 
-You might also want to enable some `oh-my-zsh` plugins by updating your zshrc. None has been enabled by default to avoid unwanted intrusion. See https://github.com/PierreR/dotfiles/blob/a8e45029767a22998f7a68fdf114297255495d0e/.zshrc#L3[here] for one example.
+If you wish to add some plugins to `oh-my-zsh` the setting is http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/nixpkgs/modules/profiles/zsh.nix#36[here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
 
 Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/xxxx_rsa $LOGINID@$1`.
 
@@ -255,13 +287,13 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 
 ### Projects (mr)
 
-The https://myrepos.branchable.com[myrepos] project help you to automate the cloning of multiple git repositories. The usage of `mr` is entirely optional.
+The https://myrepos.branchable.com[myrepos] project help you to automate the cloning of multiple git repositories. The usage of `mr` is optional but quite useful when you work on dozens of repositories.
 
 Mr files are pointers to repositories you want to clone. These are defined in the same http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
 
 To activate an available repository in your devbox, add the name of the file to the `mr.repos` list in 'SHARED_DIR/box.dhall'.
 
-As soon as you type `updateUser` on the command line, the enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list, you will find a `~/projects/bric/box/puppet-bos` folder. In that case, the next step would be to go in that folder and enter `make` on the command line.
+As soon as you type #updateConfig# on the command line, the enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list, you will find a `~/projects/bric/box/puppet-bos` folder. In that case, the next step would be to go in that folder and enter #make# on the command line.
 
 To update all registered mr repository, do
 ```
@@ -296,7 +328,7 @@ To install a package, just do:
 ```
 <1> install the `geany` package for the vagrant user. The suffix _env_ expresses the fact that only the user environment is affected.
 
-This imperative approach is quite useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `home.nix` to gain persistence.
+This imperative approach is useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `local-home.nix` to gain persistence.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
@@ -310,9 +342,8 @@ You can open a shell with the `nix-shell` commmand. For instance to open a shell
 
 ### Generic dotfiles
 
-The standard https://github.com/CIRB/dotfiles[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
+The standard http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
 
-TIP: To get a pre-defined default configuration for *Eclipse*, choose `.eclipse/workspace` as your workspace location at first boot.
 
 ### Personal mr repositories
 
@@ -322,22 +353,20 @@ You can register any source repository by adding it to https://github.com/CIRB/d
 
 You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `SHARED_DIR/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
 
-.SHARED_DIR/config/box.dhall
+.SHARED_DIR/box.dhall
 ```
 https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
 ```
 
 ## Life cycle
 
-The https://github.com/CIRB/devbox/issues[issues] and the https://github.com/CIRB/devbox/milestones?direction=asc&sort=due_date&state=open[roadmap] are handled directly on Github.
-
 The devbox will be maintained continuously.
 Two version are expected to be released every year in April and October following the NixOS release cycle.
 
-The versioning scheme follows the one of NixOS. For instance `19.03.buildnumber`.
+The versioning scheme follows the one of NixOS. For instance `19.09.buildnumber`.
 
 When a new major version is released, breaking changes are expected.
-It is required to destroy and re-create a box from scratch. An operation that take no longer than 5 minutes.
+It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
 Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
 You would commonly need to make some adjustements to your personal configuration file such as `dhall.box` or `local-configuration.nix` before importing them in the new SHARED_DIR.
 
@@ -354,7 +383,7 @@ If you have a nixbox linux up and running, follow these steps:
 [lowerroman]
 . mount your configuration into your nixos box, for instance `/vagrant/shared`footnote:notrequired[not required if you don't want to configure anything]
 . add an env variable named `SHARED_DIR` that points to the mounted dirfootnote:notrequired[]
-. `git clone https://github.com/CIRB/devbox.git bootstrap`
+. `git clone ssh://git@stash.cirb.lan:7999/devb/devbox.git bootstrap`
 . cd bootstrap
 . `make home-manager`
 . (logout/login)
@@ -381,7 +410,7 @@ In the meanwhile, if you face such a issue you will have to disable hyper-v to g
 [lowerroman]
 . disable hyper-v
 . use virtualbox as hypervisor
-. install the docker tools based on a virtualbox machine.
+. Use the devbox for your docker need (docker is included out of the box) or install some docker tools based on virtualbox
 
 NOTE: The only use of hyper-v we have detected so far is by the latest version of *Docker for Windows*.
 
@@ -389,20 +418,21 @@ For Mac users::
 +
 There are known critical issues with Virtualbox and VPN clients on `macosx`.
 
-For VMWare users::
+For VMware users::
 +
-Please checkout https://bugzilla.redhat.com/show_bug.cgi?id=1624437[this issue] about OpenSSH.
+There is currently an issue with packer & VMware Workstation.
+If you want to use VMware, please ask for assistance.
 
 ## FAQ
 
 ### Eclipse: how to add plugins ?
 
-Eclipse plugins can easily be added. Please make a request to #devbox or https://github.com/CIRB/devbox/issues
+Eclipse plugins can easily be added. Please make a request to the #CICD Team channel.
 
 ## How is the box generated ?
 
-The box (of about 2G) is generated in two stages.
-The first step generates a minimal generic vagrant box file with packer (currently packer-1.3.5).
+The box (of about 4G) is generated in two stages.
+The first step generates a minimal generic vagrant box file with packer (currently packer-1.4.4).
 The second step applies some customization to produce a more heavy tailored box (desktop, ...).
 
 ### Stage 1
@@ -419,16 +449,14 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 . Create the SHARED_DIR
 . Import the `ova` image file using the Virtualbox UI.
 . Start the imported vm, login as `vagrant`
-.. cd into `/etc/devbox-x.x.x`
+.. cd into `/etc/devbox-{latest_version}.x`
 .. make system
 .. make home-manager
-.. logout/login as vagrant
+.. reboot
+.. cd into `/etc/devbox-{latest_version}.x`
 .. make user
 . Export the vm
-. Push the output to a mirror site.
-
-
-WARNING: Be careful of keeping the linux encoding when working on files that will end up in the  guest os.
+. Push the ova to a mirror site.
 
 ifndef::site-gen-antora[]
 ifndef::env-github[]
