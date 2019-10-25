@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
-  
+
 {
-  
+
   home.packages = with pkgs; [
     # asciidoctor
     # atom
@@ -9,6 +9,7 @@
     # aws-iam-authenticator
     # bazel
     # bundix
+    # cabal-install
     # cabal2nix
     # (import (builtins.fetchTarball "https://cachix.org/api/v1/install") {}).cachix
     # docker_compose
@@ -25,7 +26,6 @@
     # jetbrains.idea-community
     # jetbrains.idea-ultimate
     # haskellPackages.shake
-    # kubectl
     # kubernetes-helm
     # jdk
     # jdk11
