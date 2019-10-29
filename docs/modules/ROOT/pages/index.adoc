@@ -1,7 +1,7 @@
 # A development box that persists every configuration
-:docroot: docs/modules/ROOT
 :experimental:
 :source-language: bash
+include::_attributes.adoc[]
 ifndef::site-gen-antora[]
 :toc:
 :toclevels: 2
@@ -10,15 +10,13 @@ ifndef::site-gen-antora[]
 :sectnumlevels: 1
 :nofooter:
 :icons: font
-:imagesdir: {docroot}/assets/images
 ifndef::env-github[]
-include::{docroot}/pages/_attributes.adoc[]
 {latest_revision}
 :toc: left
 endif::[]
 ifdef::backend-html5,backend-docbook5[]
 :toc-title:
-:docinfo1:
+:docinfo: shared
 endif::[]
 endif::[]
 ifdef::env-github[]
@@ -28,9 +26,6 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
-ifdef::site-gen-antora[]
-include::_attributes.adoc[]
 endif::[]
 
 ## Overview
@@ -462,7 +457,7 @@ ifndef::site-gen-antora[]
 ifndef::env-github[]
 :leveloffset: +1
 
-include::docs/modules/ROOT/pages/CHANGELOG.adoc[]
+include::CHANGELOG.adoc[]
 
 :leveloffset: -1
 

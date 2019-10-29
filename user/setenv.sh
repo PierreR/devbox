@@ -119,15 +119,6 @@ install_mr_repos () {
     fi
 }
 
-install_doc () {
-    printf 'Installing doc.\n'
-    if make doc outdir="$HOME/.local/share/devbox">/dev/null 2>&1
-    then
-        _success "documentation."
-    else
-        _failure "documentation not installed successfully."
-    fi
-}
 
 # Install eclipse plugin that are not part of nixpkgs or home-manager
 install_extra_eclipse_plugin () {
@@ -158,7 +149,6 @@ install_extra_eclipse_plugin () {
 install_ssh_keys
 bootstrap_hm
 install_mr_repos
-install_doc
 
 hash dhall-to-bash 2>/dev/null || { echo >&2 "Installation of egit & m2e plugins requires dhall-to-bash but it's not installed.  Aborting."; exit 1; }
 with_eclipse=$(dhall-to-bash <<< "($config_file).eclipse")

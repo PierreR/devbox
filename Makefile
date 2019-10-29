@@ -1,11 +1,9 @@
-.PHONY: clean user system update bootstrap update-release
+.PHONY: clean user system bootstrap update-release home-manager
 
 include version.sh
 
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
-
-include docs/Makefile
 
 home-manager:
 	nix-channel --add https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager
@@ -24,6 +22,3 @@ update-release:
 	curl -sL $(scm_uri) | sudo tar xz  --one-top-level=devbox-$(version) -C /etc
 
 bootstrap: home-manager update
-
-clean: clean-doc
-	rm -f build/*.*
