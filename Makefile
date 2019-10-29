@@ -1,4 +1,4 @@
-.PHONY: clean user system bootstrap update-release home-manager
+.PHONY: clean user system update-release home-manager eclipse-extraplugins
 
 include version.sh
 
@@ -11,7 +11,7 @@ home-manager:
 
 user: ## Update your user configuration
 	@echo -e "Starting user configuration from ${PWD}.\nHold on.\n"
-	@time -f "Completed after %E min" nix-shell -p dhall-bash -p vcsh --run './user/setenv.sh'
+	@time -f "Completed after %E min" nix-shell -p vcsh --run './user/setenv.sh'
 
 system: ## Update your system configuration
 	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
@@ -21,4 +21,5 @@ update-release:
 	echo "Installing $(version) release in /etc"
 	curl -sL $(scm_uri) | sudo tar xz  --one-top-level=devbox-$(version) -C /etc
 
-bootstrap: home-manager update
+eclipse-extraplugins: ## Add egit & m2e to Eclipse
+	@time -f "Completed after %E min" nix-shell -p eclipses.eclipse-platform --run './user/eclipse-extraplugins.sh'

@@ -422,7 +422,15 @@ If you want to use VMware, please ask for assistance.
 
 ### Eclipse: how to add plugins ?
 
-Eclipse plugins can easily be added. Please make a request to the #CICD Team channel.
+If you enable `eclipse` in #$SHARED_DIR/box.dhall#, you might want to add the `egit` and `m2e` plugins.
+
+.enable egit and m2e
+```
+→ cd ~/bootstrap
+→ make eclipse-extraplugins
+```
+
+If you miss other plugins, let us know.
 
 ## How is the box generated ?
 

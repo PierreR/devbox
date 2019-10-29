@@ -119,45 +119,10 @@ install_mr_repos () {
     fi
 }
 
-
-# Install eclipse plugin that are not part of nixpkgs or home-manager
-install_extra_eclipse_plugin () {
-    full_name="$1"
-    repository="$2"
-    installUI="$3"
-    printf "About to download Eclipse plugin %s. Hold on.\\n" "$full_name"
-
-    if eclipse -application "org.eclipse.equinox.p2.director" \
-               -repository "${repository}" \
-               -installIU "${installUI}" \
-               -profile "SDKProfile" \
-               -profileProperties "org.eclipse.update.install.features=true" \
-               -p2.os "linux" \
-               -p2.arch "x86" \
-               -roaming -nosplash \
-               >/dev/null 2>&1
-    then
-        printf 'Eclipse plugin %s has been successfully downloaded\n' "$full_name"
-    else
-        printf 'Failed to download Eclipse plugin %s \n' "$full_name"
-    fi
-}
-
-
 # Main
 
 install_ssh_keys
 bootstrap_hm
 install_mr_repos
-
-hash dhall-to-bash 2>/dev/null || { echo >&2 "Installation of egit & m2e plugins requires dhall-to-bash but it's not installed.  Aborting."; exit 1; }
-with_eclipse=$(dhall-to-bash <<< "($config_file).eclipse")
-
-if "$with_eclipse"
-then
-    eclipse_version_name="2019-06"
-    install_extra_eclipse_plugin "org.eclipse.egit" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.egit.feature.group"
-    install_extra_eclipse_plugin "org.eclipse.m2e" "http://download.eclipse.org/releases/${eclipse_version_name}/" "org.eclipse.m2e.feature.feature.group"
-fi
 
 } | tee "${mount_dir}/user_lastrun.log"
