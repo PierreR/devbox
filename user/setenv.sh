@@ -103,7 +103,8 @@ bootstrap_hm () {
         then
             _success "home-manager switch"
         else
-            _failure "home-manager switch"
+            _failure "Type 'home-manager switch' to see what went wrong."
+            exit 1
         fi
     fi
 }

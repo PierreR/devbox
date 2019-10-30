@@ -17,11 +17,12 @@
     # du-dust
     # filebeat
     # firefox
+    # gcc
     # geany
     # gitAndTools.tig
     # gnome3.nautilus
     # go2nix
-    # gcc
+    # graphviz
     # (import (builtins.fetchTarball "https://github.com/hercules-ci/ghcide-nix/tarball/master") {}).ghcide-ghc865)
     # jetbrains.idea-community
     # jetbrains.idea-ultimate
@@ -30,6 +31,7 @@
     # jdk
     # jdk11
     # maven
+    # nix-du
     # nix-prefetch-git
     # nodejs
     # nodePackages.tern
