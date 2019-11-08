@@ -24,14 +24,6 @@ in
     '';
     gc.automatic = true;
     trustedUsers = [ "root" "vagrant"];
-    binaryCaches = [
-      "https://cache.nixos.org/"
-      "https://cache.dhall-lang.org"
-      "https://cicd-shell.cachix.org"
-      "https://language-puppet.cachix.org"
-      # "https://repository.irisnet.be/artifactory/nix/"
-      "https://puppet-unit-test.cachix.org"
-    ];
     binaryCachePublicKeys = [
       "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
       "cicd-shell.cachix.org-1:ajBUZoJNroJ5ldybYoXgXyl2YWuPJ4NJ8Qx3/ksxVEw="
