@@ -58,6 +58,7 @@ _clone_dotfiles() {
     git checkout -b master --track origin/master
     git config core.excludesfile .gitignore.d/dotfiles
     git update-index --skip-worktree .mrconfig
+    git submodule update --init
     popd || return
 }
 
@@ -67,6 +68,8 @@ _clone () {
     then
         echo "About to use vcsh to clone ${url}"
         vcsh clone "$url" dotfiles
+        vcsh dotfiles submodule update --init
+
     else
         echo "Using cloning routine to clone ${url}"
         _clone_dotfiles "$url" "$HOME"
