@@ -27,6 +27,9 @@ fi
 # shellcheck source=/home/vagrant/bootstrap/utils.sh
 source utils.sh
 
+# shellcheck source=/home/vagrant/bootstrap/version.sh
+source version.sh
+
 set -u
 
 install_ssh_keys () {
@@ -66,7 +69,7 @@ _clone () {
     if hash vcsh >/dev/null 2>&1
     then
         echo "About to use vcsh to clone ${url}"
-        vcsh clone "$url" dotfiles
+        vcsh clone -b "$version" "$url" dotfiles
     else
         echo "Using cloning routine to clone ${url}"
         _clone_dotfiles "$url" "$HOME"
