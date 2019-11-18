@@ -15,7 +15,7 @@ in
 
   networking.enableIPv6 = false;
 
-  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ];
+  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ./CIRB_CIBG_SERVER_CA.crt ];
 
   nix = {
     extraOptions = ''

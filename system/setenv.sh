@@ -25,6 +25,9 @@ sync_extra_config () {
 
 }
 
+# In devbox 20.03 this line can be moved to nixbos.sh
+_sync "${script_dir}/CIRB_CIBG_SERVER_CA.crt" "/etc/nixos"
+
 sync_extra_config "custom-configuration.nix"
 sync_extra_config "local-configuration.nix"
 
