@@ -66,6 +66,11 @@ _clone_dotfiles() {
 
 _clone () {
     local url=$1
+    if ! ping -c1 stash.cirb.lan > /dev/null
+    then
+        echo "No connexion to stash.\nBootstrap can't be realized. Abort user configuration."
+        exit 1
+    fi
     if hash vcsh >/dev/null 2>&1
     then
         echo "About to use vcsh to clone ${url}"
