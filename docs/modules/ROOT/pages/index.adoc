@@ -350,6 +350,7 @@ You can open a shell with the `nix-shell` commmand. For instance to open a shell
 
 The standard http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
 
+The repository pulls the http://stash.cirb.lan/projects/cicd/repos/nixpkgs/browse[CIRB nixpkgs repository] using `git substree`.
 
 ### Personal mr repositories
 
