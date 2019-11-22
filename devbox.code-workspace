@@ -4,7 +4,11 @@
 			"path": "."
 		},
 		{
-			"path": "/home/vagrant/.config/nixpkgs"
+			"path": "/home/vagrant/.config"
+		}
+		,
+		{
+			"path": "/vagrant"
 		}
 	],
 	"settings": {}
