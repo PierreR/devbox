@@ -302,7 +302,7 @@ In the home folder, use the following command:
 ```
 λ ~ → mr -f up <1>
 ```
-<1> you usually don't want to automatically update such repository on provisioning. That's the reason behind the `-f` (force) flag.
+<1> `-f` is forcing the update
 ====
 
 [NOTE]
