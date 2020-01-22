@@ -305,12 +305,14 @@ In the home folder, use the following command:
 <1> you usually don't want to automatically update such repository on provisioning. That's the reason behind the `-f` (force) flag.
 ====
 
+[NOTE]
+====
 You can ask a `git status` of all your repositories with
 
 ```
-→ mr st
+λ ~ → mr st
 ```
-
+====
 
 ### Local environment (direnv & lorri)
 
