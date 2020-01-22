@@ -290,11 +290,20 @@ To activate an available repository in your devbox, add the name of the file to 
 
 As soon as you type #updateConfig# on the command line, the enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list, you will find a `~/projects/bric/box/puppet-bos` folder. In that case, the next step would be to go in that folder and enter #make# on the command line.
 
-To update all registered mr repository, do
+[WARNING]
+====
+Some `mr` description files purposefully prevent the repository update by using the #skip# marker.
+For these repositories, #updateConfig# won't do anything (stdout output: `skipped`).
+In that case and more particularly when you first boot a new devbox, you might want to force the update.
+
+In the vagrant home user, use the following command:
+
+.force all mr repositories update
 ```
 → mr -f up <1>
 ```
 <1> you usually don't want to automatically update such repository on provisioning. That's the reason behind the `-f` (force) flag.
+====
 
 You can ask a `git status` of all your repositories with
 
@@ -342,7 +351,7 @@ The standard http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[CIRB dotf
 
 ### Personal mr repositories
 
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `SHARED_DIR/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateUser#.
+You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `SHARED_DIR/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateConfig#.
 
 ### Storing the box configuration file
 
