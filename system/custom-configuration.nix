@@ -14,6 +14,7 @@ in
   boot.plymouth.enable = true;
 
   networking.enableIPv6 = false;
+  networking.nameservers = [ "192.168.34.244" "172.28.131.10"];
 
   security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ./CIRB_CIBG_SERVER_CA.crt ];
 
