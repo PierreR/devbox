@@ -92,7 +92,7 @@ bootstrap_hm () {
             if _clone "$dotfilesUrl"
             then
                 _success "clone mr ${dotfilesUrl}\n"
-                if nix-shell '<home-manager>' -A install
+                if nix-shell '<home-manager>' -A install -I "home-manager=https://github.com/rycee/home-manager/archive/release-${release}.tar.gz"
                 then
                     _success "home-manager installed.\n"
                 else
