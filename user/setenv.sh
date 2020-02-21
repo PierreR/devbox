@@ -57,9 +57,12 @@ _clone_dotfiles() {
     pushd "$tgt_dir" >/dev/null 2>&1 || return
     git init --separate-git-dir="${tgt_dir}/.config/dotfiles"
     git remote add origin "$src_url"
+    git remote add nixpkgs ssh://git@stash.cirb.lan:7999/cicd/nixpkgs.git
     git fetch --depth=1 origin master
     git checkout -b master --track origin/master
     git config core.excludesfile .gitignore.d/dotfiles
+    git config alias.pull-nixpkgs "subtree pull --prefix .config/nixpkgs nixpkgs master --squash"
+    git config alias.push-nixpkgs "subtree push --prefix .config/nixpkgs nixpkgs master --squash"
     git update-index --skip-worktree .mrconfig
     popd || return
 }
