@@ -46,13 +46,6 @@ in
     enable = true;
     layout = "be";
     xkbOptions = "caps:escape";
-    displayManager = {
-      lightdm = {
-        enable = true;
-        autoLogin.user= "vagrant";
-        autoLogin.enable= true;
-      };
-    };
   };
 
   environment.extraInit = ''
