@@ -21,10 +21,12 @@ fi
 
 dest_script_dir="${dest_dir}/scripts"
 cp "${script_dir}/system/CIRB_CIBG_ROOT_PKI.crt" "$dest_script_dir"
+cp "${script_dir}/system/CIRB_CIBG_SERVER_CA.crt" "$dest_script_dir"
 
 bootstrap="curl -sL \"${scm_uri}\" | tar xz --one-top-level=devbox-${version} -C /mnt/etc"
 append=\
 'curl -sf "$packer_http/CIRB_CIBG_ROOT_PKI.crt" > /mnt/etc/nixos/CIRB_CIBG_ROOT_PKI.crt\
+curl -sf "$packer_http/CIRB_CIBG_SERVER_CA.crt" > /mnt/etc/nixos/CIRB_CIBG_SERVER_CA.crt\
 '
 append+=$bootstrap
 
