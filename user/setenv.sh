@@ -98,7 +98,7 @@ bootstrap_hm () {
                 if nix-shell '<home-manager>' -A install -I "home-manager=https://github.com/rycee/home-manager/archive/release-${release}.tar.gz"
                 then
                     _success "home-manager installed.\n"
-		    nix-channel --update
+                    nix-channel --update
                 else
                     _failure "Unable to install the home-manager."
                     exit 1
