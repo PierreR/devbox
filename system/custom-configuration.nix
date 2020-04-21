@@ -43,6 +43,22 @@ in
     enable = true;
     layout = "be";
     xkbOptions = "caps:escape";
+    desktopManager.session = [
+      {
+        name = "home-manager";
+        start = ''
+          ${pkgs.runtimeShell} $HOME/.hm-xsession &
+          waitPID=$!
+        '';
+      }
+    ];
+    displayManager = {
+      lightdm = {
+        enable = true;
+        autoLogin.user= "vagrant";
+        autoLogin.enable= true;
+      };
+    };
   };
 
   environment.extraInit = ''
@@ -99,6 +115,7 @@ in
             set undofile
             set undodir=/tmp
             set wildignore+=*.pyc,*.jar,*.pdf,*.class,/tmp/*.*,.git,*.o,*.obj,*.png,*.jpeg,*.gif,*.orig,target/*,*.6,*.a,*.out,*.hi
+            set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
             colorscheme slate
             hi CursorLine cterm=NONE ctermbg=254
           '';
