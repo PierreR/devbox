@@ -30,11 +30,9 @@ in
     ];
   };
 
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "be-latin1";
-    defaultLocale = "en_US.UTF-8";
-  };
+  console.font = "Lat2-Terminus16";
+  console.keyMap = "be-latin1";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   time.timeZone = "Europe/Amsterdam";
   security.sudo.wheelNeedsPassword = false;
