@@ -75,7 +75,6 @@ in
     bind
     curl
     desktop_file_utils
-    docker
     gitFull
     google-chrome
     htop
