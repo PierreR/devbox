@@ -39,7 +39,7 @@ image::devbox.png[]
 
 ### Software requirements
 
-- Virtualbox 6.0.x (tested with 6.0.12)
+- Virtualbox 6.1.x (tested with 6.1.6)
 
 Please do update if you have older version(s).
 
@@ -397,8 +397,6 @@ If you have a nixbox linux up and running, follow these steps:
 . `make user`
 ====
 
-If you want to use vmware workstation, we can provide an up-to-dated  vmdk image. You still need to choose a SHARED_DIR to host your configuration files as explain in the <<_preparation, preparation paragraph>>.
-
 ## Troubleshooting
 
 Ssh-key with passphrase::
@@ -428,7 +426,8 @@ There are known critical issues with Virtualbox and VPN clients on `macosx`.
 For VMware users::
 +
 There is currently an issue with packer & VMware Workstation.
-If you want to use VMware, please ask for assistance.
+Since 6.1, Virtualbox supports nested hardware-virtualization on Intel CPUs (starting with 5th generation Core i, codename Broadwell).
+Support for VMware Workstation is not provided.
 
 ## FAQ
 
