@@ -129,7 +129,6 @@ in
         };
     })
     mr
-    openshift
     paper-gtk-theme
     paper-icon-theme
     psmisc
