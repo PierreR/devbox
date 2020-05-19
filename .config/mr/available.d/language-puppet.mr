@@ -1,0 +1,6 @@
+[$HOME/projects/hub/language-puppet]
+checkout =
+    git clone git@github.com:PierreR/language-puppet.git language-puppet
+    cd language-puppet
+    git remote add upstream git@github.com:bartavelle/language-puppet.git
+    ln -fs $HOME/.dev/stack.yaml stack.yaml

@@ -1,0 +1,22 @@
+[$HOME/projects/bric/cicd/dhall]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/dhall.git
+
+[$HOME/projects/bric/cicd/nixpkgs-overlays]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/nixpkgs-overlays.git
+
+[$HOME/projects/bric/cicd/shell]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/cicd-shell.git shell
+    pushd shell
+    ln -s $HOME/.dev/stack.yaml stack.yaml
+    popd
+
+[$HOME/projects/bric/cicd/documentation]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/documentation.git documentation
+
+[$HOME/projects/bric/cicd/docs]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/docs.cicd.cirb.lan.git docs

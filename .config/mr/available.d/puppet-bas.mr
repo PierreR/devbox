@@ -1,0 +1,7 @@
+[$HOME/projects/bric/bas/puppet-stack-bas]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/bas/puppet-stack-bas.git
+    pushd $HOME/projects/bric/bas/puppet-stack-bas
+    git submodule update --init
+    popd
+skip = ([ "$1" = update ])

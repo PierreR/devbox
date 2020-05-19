@@ -1,0 +1,12 @@
+resolver: lts-14.14
+nix:
+  enable: true
+  packages:
+    - zlib.dev
+    - zlib.out
+    - gcc
+    - ruby
+    - pkgconfig
+extra-deps:
+system-ghc: true
+skip-ghc-check: true

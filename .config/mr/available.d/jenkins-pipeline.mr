@@ -1,0 +1,3 @@
+[$HOME/projects/bric/cicd/jenkins/pipeline]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/jenkins-pipeline-groovy.git pipeline

@@ -1,0 +1,33 @@
+[$HOME/projects/bric/elk/documentation]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/documentation.git
+
+[$HOME/projects/bric/elk/openshift]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/openshift.git
+
+[$HOME/projects/bric/elk/tf-config]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/tf-config.git
+
+[$HOME/projects/bric/elk/elk-tls]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/elk-tls.git
+
+[$HOME/projects/bric/elk/elastbric]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/elastbric.git
+
+[$HOME/projects/bric/elk/puppet-stack-elk]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/puppet-stack-elk.git
+    pushd $HOME/projects/bric/elk/puppet-stack-elk
+    git submodule update --init
+    popd
+
+[$HOME/projects/bric/elk/puppet-stack-kafka]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/puppet-stack-kafka.git
+    pushd $HOME/projects/bric/elk/puppet-stack-kafka
+    git submodule update --init
+    popd

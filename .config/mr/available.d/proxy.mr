@@ -1,0 +1,7 @@
+[$HOME/projects/bric/proxy/documentation]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/rp/documentation.git
+
+[$HOME/projects/bric/proxy/ansible-elk-proxy]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/rp/ansible-elk-proxy.git

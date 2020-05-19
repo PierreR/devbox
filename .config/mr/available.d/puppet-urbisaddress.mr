@@ -1,0 +1,8 @@
+[$HOME/projects/bric/best/puppet-stack-urbisaddress]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/bes/puppet-stack-urbisaddress.git
+    pushd $HOME/projects/bric/best/puppet-stack-urbisaddress
+    git submodule update --init
+    ln -s ../../bin/pre-push .git/hooks/pre-push
+    popd
+skip = ([ "$1" = update ])

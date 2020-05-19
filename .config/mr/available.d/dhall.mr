@@ -1,0 +1,3 @@
+[$HOME/projects/bric/cicd/dhall]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/dhall.git

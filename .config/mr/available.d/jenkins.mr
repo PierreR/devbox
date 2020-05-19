@@ -1,0 +1,14 @@
+[$HOME/projects/bric/jenkins/puppet]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/jen/puppet.git puppet
+    pushd $HOME/projects/bric/jenkins/puppet
+    git submodule update --init
+    ln -s ../../bin/pre-push .git/hooks/pre-push
+    make import-gpg-keys
+    popd
+
+[$HOME/projects/bric/jenkins/documentation]
+checkout = git clone ssh://git@stash.cirb.lan:7999/jen/documentation.git documentation
+
+[$HOME/projects/bric/jenkins/terraform]
+checkout = git clone ssh://git@stash.cirb.lan:7999/jen/terraform.git terraform

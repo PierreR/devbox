@@ -1,0 +1,20 @@
+[$HOME/projects/bric/cicd/puppet/cicd]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-stack-cicd.git cicd
+    pushd $HOME/projects/bric/cicd/puppet/cicd
+    git submodule update --init
+    popd
+
+[$HOME/projects/bric/cicd/puppet/shared]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-shared-scripts.git shared
+    pushd $HOME/projects/bric/cicd/puppet/shared
+    popd
+
+[$HOME/projects/bric/cicd/puppet/profile]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-profile.git profile
+
+[$HOME/projects/bric/cicd/puppet/unit-test]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-unit-test.git unit-test

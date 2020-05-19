@@ -1,0 +1,3 @@
+[$HOME/projects/bric/docker/docker-client-tls]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/dck/docker-client-tls.git

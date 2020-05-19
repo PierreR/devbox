@@ -1,0 +1,6 @@
+[$HOME/projects/bric/bos/puppet-stack-bosxchange]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/TXCHAN/puppet-stack-bosxchange.git
+    pushd $HOME/projects/bric/bos/puppet-stack-bosxchange
+    git submodule update --init
+    popd

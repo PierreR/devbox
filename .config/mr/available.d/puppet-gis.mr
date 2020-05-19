@@ -1,0 +1,8 @@
+[$HOME/projects/bric/gis/puppet-stack-gis]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/gis/puppet-stack-gis.git
+    pushd $HOME/projects/bric/gis/puppet-stack-gis
+    git submodule update --init
+    ln -s ../../bin/pre-push .git/hooks/pre-push
+    popd
+skip = ([ "$1" = update ])

@@ -1,0 +1,7 @@
+[$HOME/projects/bric/iam/bric-wso2is-custom]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/iam/bric-wso2is-custom.git bric-wso2is-custom
+    pushd $HOME/projects/bric/iam/bric-wso2is-custom
+    git submodule update --init
+    popd
+skip = ([ "$1" = update ])

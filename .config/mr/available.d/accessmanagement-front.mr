@@ -1,0 +1,7 @@
+[$HOME/projects/bric/iam/accessmanagement-front]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/iam/accessmanagement-front.git accessmanagement-front
+    pushd $HOME/projects/bric/iam/accessmanagement-front
+    git submodule update --init
+    popd
+skip = ([ "$1" = update ])

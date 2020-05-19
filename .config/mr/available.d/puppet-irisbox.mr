@@ -1,0 +1,8 @@
+[$HOME/projects/bric/irisbox/puppet-stack-irisbox]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/ir/puppet-stack-irisbox.git
+    pushd $HOME/projects/bric/irisbox/puppet-stack-irisbox
+    git submodule update --init
+    ln -s ../../bin/pre-push .git/hooks/pre-push
+    popd
+skip = ([ "$1" = update ])

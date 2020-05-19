@@ -1,0 +1,7 @@
+[$HOME/projects/bric/ansible/journalbeat]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/an/journalbeat.git
+
+[$HOME/projects/bric/ansible/filebeat]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/an/filebeat.git

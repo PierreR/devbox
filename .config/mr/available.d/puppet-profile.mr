@@ -1,0 +1,3 @@
+[$HOME/projects/bric/cicd/puppet/profile]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-profile.git profile

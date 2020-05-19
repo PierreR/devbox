@@ -1,0 +1,6 @@
+[$HOME/projects/bric/editoria/puppet-stack-editoria]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/editoria/puppet-stack-editoria.git
+    pushd $HOME/projects/bric/editoria/puppet-stack-editoria
+    git submodule update --init
+    popd

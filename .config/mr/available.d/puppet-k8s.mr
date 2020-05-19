@@ -1,0 +1,6 @@
+[$HOME/projects/bric/k8s/puppet-stack-k8s]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/k8s/puppet-stack-k8s.git
+    pushd $HOME/projects/bric/k8s/puppet-stack-k8s
+    git submodule update --init
+    popd

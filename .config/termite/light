@@ -1,0 +1,17 @@
+[options]
+font = Source Code Pro Medium 10
+scrollback_lines = 5000
+cursor_blink = off
+[colors]
+foreground = #657b83
+background = #fdf6e3
+# replace cyan with orange
+color14 = #fcaf3e
+# blue
+color4 = #3465A4
+color12 = #729FCF
+# purple
+color5 = #75507B
+color13 = #AD7FA8
+# replace yellow light with orange
+color11 = #fcaf3e

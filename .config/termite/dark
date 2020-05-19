@@ -1,0 +1,13 @@
+[options]
+font = Source Code Pro Semibold 10
+scrollback_lines = 5000
+cursor_blink = off
+[colors]
+background = #002b36
+foreground = #657b83
+# blue
+color4 = #3465A4
+color12 = #729FCF
+# purple
+color5 = #75507B
+color13 = #AD7FA8
