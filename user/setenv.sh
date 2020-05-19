@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
-
+export NIX_PATH="${NIX_PATH}:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz"
+rm -fr ~/.config/nixpkgs/overlays
 dotfilesUrl="http://stash.cirb.lan/scm/devb/dotfiles.git"
-overlaysUrl="ssh://git@stash.cirb.lan:7999/cicd/nixpkgs-overlays.git"
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -62,8 +62,6 @@ _clone_dotfiles() {
     git fetch --depth=1 origin master
     git checkout -b master --track origin/master
     git config core.excludesfile .gitignore.d/dotfiles
-    git config alias.pull-nixpkgs "subtree pull --prefix .config/nixpkgs/overlays nixpkgs master --squash"
-    git config alias.push-nixpkgs "subtree push --prefix .config/nixpkgs/overlays nixpkgs master --squash"
     git update-index --skip-worktree .mrconfig
     popd || return
 }
@@ -79,8 +77,6 @@ _clone () {
     then
         echo "About to use vcsh to clone ${url}"
         vcsh clone -b "$version" "$url" dotfiles
-        vcsh dotfiles remote add overlays "$overlaysUrl"
-        vcsh dotfiles config alias.pull-nixpkgs "subtree pull --prefix .config/nixpkgs/overlays overlays ${version} --squash"
     else
         echo "Using cloning routine to clone ${url}"
         _clone_dotfiles "$url" "$HOME"
