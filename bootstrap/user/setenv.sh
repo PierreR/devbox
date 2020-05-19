@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 export NIX_PATH="${NIX_PATH}:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz"
 rm -fr ~/.config/nixpkgs/overlays
-dotfilesUrl="http://stash.cirb.lan/scm/devb/dotfiles.git"
+devbox_url="http://stash.cirb.lan/scm/cicd/devbox.git"
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -26,10 +26,10 @@ fi
 {
 
 # shellcheck source=/home/vagrant/bootstrap/utils.sh
-source utils.sh
+source "$script_dir/../utils.sh"
 
 # shellcheck source=/home/vagrant/bootstrap/version.sh
-source version.sh
+source "$script_dir/../../version.sh"
 
 set -u
 
@@ -47,69 +47,39 @@ install_ssh_keys () {
     fi
 }
 
-# Cloning dotfiles repo (in a none empty dir)
-# The clone will fail in case of file conflict
-# We can fall back to this if vcsh causes issues
-# vcsh is safer in case we need to delete 'dotfiles' as a result of an unfortunate crash
-_clone_dotfiles() {
-    local src_url="$1"
-    local tgt_dir="$2"
-    mkdir -p "${tgt_dir}/.config"
-    pushd "$tgt_dir" >/dev/null 2>&1 || return
-    git init --separate-git-dir="${tgt_dir}/.config/dotfiles"
-    git remote add origin "$src_url"
-    git remote add nixpkgs ssh://git@stash.cirb.lan:7999/cicd/nixpkgs.git
-    git fetch --depth=1 origin master
-    git checkout -b master --track origin/master
-    git config core.excludesfile .gitignore.d/dotfiles
-    git update-index --skip-worktree .mrconfig
-    popd || return
-}
-
-_clone () {
-    local url=$1
+check_connection() {
     if ! ping -c1 stash.cirb.lan > /dev/null
     then
         echo "No connexion to stash.\nBootstrap can't be realized. Abort user configuration."
         exit 1
     fi
-    if hash vcsh >/dev/null 2>&1
-    then
-        echo "About to use vcsh to clone ${url}"
-        vcsh clone -b "$version" "$url" dotfiles
-    else
-        echo "Using cloning routine to clone ${url}"
-        _clone_dotfiles "$url" "$HOME"
-    fi
 }
 
-bootstrap_hm () {
+bootstrap () {
 
     if [ ! -d "/home/vagrant/.config/vcsh/repo.d/dotfiles.git" ]; then # bootstrap: clone of the dotfiles repo in $HOME
-        if [ -z "$dotfilesUrl" ]
+        if [ -z "$devbox_url" ]
         then
-            _failure "In box.dhall, 'dotfilesUrl' is empty.\nBootstrap can't be realized. Abort user configuration."
+            _failure "In box.dhall, 'devbox_url' is empty.\nBootstrap can't be realized. Abort user configuration."
             exit 1
         else
-            if _clone "$dotfilesUrl"
+            echo "About to use vcsh to clone ${devbox_url}"
+            if vcsh clone -b "$version" "$devbox_url" dotfiles
             then
-                _success "clone mr ${dotfilesUrl}\n"
-                if nix-shell '<home-manager>' -A install -I "home-manager=https://github.com/rycee/home-manager/archive/release-${release}.tar.gz"
-                then
-                    _success "home-manager installed.\n"
-                    nix-channel --update
-                else
-                    _failure "Unable to install the home-manager."
-                    exit 1
-                fi
+                _success "clone mr ${devbox_url}\n"
             else
                 printf '\n'
-                _failure "Bootstrap has failed ! Unable to clone ${dotfilesUrl}.\nAborting user configuration."
+                _failure "Bootstrap has failed ! Unable to clone ${devbox_url}.\nAborting user configuration."
                 exit 1
             fi
         fi
-    else # No in bootstrap
-	    printf 'Running the Home-manager ...\n'
+    fi
+}
+
+install_hm () {
+    if hash home-manager >/dev/null 2>&1
+    then
+        printf 'Running the Home-manager ...\n'
         if home-manager switch >/dev/null 2>&1
         then
             _success "home-manager switch"
@@ -117,9 +87,17 @@ bootstrap_hm () {
             _failure "Type 'home-manager switch' to see what went wrong."
             exit 1
         fi
+    else
+        if nix-shell '<home-manager>' -A install -I "home-manager=https://github.com/rycee/home-manager/archive/release-${release}.tar.gz"
+        then
+            _success "home-manager installed.\n"
+            nix-channel --update
+        else
+            _failure "Unable to install the home-manager."
+            exit 1
+        fi
     fi
 }
-
 
 install_mr_repos () {
     if mr -d "$HOME" up -q
@@ -131,9 +109,10 @@ install_mr_repos () {
 }
 
 # Main
-
+check_connection
 install_ssh_keys
-bootstrap_hm
+bootstrap
+install_hm
 install_mr_repos
 
 } | tee "${mount_dir}/user_lastrun.log"
