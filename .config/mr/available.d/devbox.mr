@@ -1,5 +1,0 @@
-[$HOME/bootstrap]
-checkout =
-  git clone http://stash.cirb.lan/scm/devb/devbox.git bootstrap
-push =
-  git push ssh://git@stash.cirb.lan:7999/devb/devbox.git

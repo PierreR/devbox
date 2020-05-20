@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "/home/vagrant/.config"
+		},
+		{
+			"path": "/home/vagrant/.zsh_custom"
 		}
 		,
 		{

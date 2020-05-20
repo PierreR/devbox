@@ -29,7 +29,7 @@ fi
 source "$script_dir/../utils.sh"
 
 # shellcheck source=/home/vagrant/bootstrap/version.sh
-source "$script_dir/../../version.sh"
+source "$script_dir/../version.sh"
 
 set -u
 
