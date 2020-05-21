@@ -4,6 +4,14 @@ let
   sharedDir = builtins.getEnv "SHARED_DIR";
   configData = pkgs.dhallToNix (builtins.readFile "${sharedDir}/box.dhall");
   defaultStacks = lib.concatMapStringsSep "," (x: "\"" + x + "\"") configData.defaultStacks;
+  puppet-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "puppet-vim";
+    src = pkgs.fetchgit {
+      url = "https://github.com/rodjek/vim-puppet.git";
+      rev = "fc6e9efef797c505b2e67631ad2517d7d6e8f00d";
+      sha256 = "0a4qv8f74g6c2i9l6kv3zbcq9lskhdqg86w12f8hshw1vkfmfr4x";
+    };
+  };
 in
 {
   imports = [
@@ -91,5 +99,32 @@ in
   };
 
   services.lorri.enable = configData.lorri or false;
+
+
+  programs.neovim = {
+    vimAlias = true;
+    enable = true;
+    extraConfig = ''
+      if has('unnamedplus')
+        set clipboard=unnamed,unnamedplus
+      endif
+      set directory=~/tmp
+      set gdefault
+      set hidden
+      set smartcase
+      set history=50
+      set nobackup
+      set noswapfile
+      set wildignore+=*.pyc,*.jar,*.pdf,*.class,/tmp/*.*,.git,*.o,*.obj,*.png,*.jpeg,*.gif,*.orig,target/*,*.6,*.a,*.out,*.hi
+      set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+      set t_Co=256
+      set undofile
+      set undodir=/tmp
+      set cursorline
+      colorscheme slate
+      hi CursorLine cterm=NONE ctermbg=${configData.console.ctermbg or "254"}
+    '';
+    plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim ];
+  };
 
 }

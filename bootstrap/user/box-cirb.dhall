@@ -37,7 +37,7 @@ Box configuration file
   }
 , eclipse = False
 , lorri = False
-, console = { color = "light" }
+, console = { color = "light", ctermbg = "254" }
 , mr =
     { config = [] : List Text
     , repos = [] : List Text
