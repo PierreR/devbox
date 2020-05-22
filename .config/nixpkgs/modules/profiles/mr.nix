@@ -1,22 +1,20 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.profiles.mr;
 in
-
 {
   options = {
     profiles.mr = {
       enable = mkEnableOption "mr";
       configExtra = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.lines;
         description = "Extra mr repositories to setup (aka mr config)";
       };
       repos = mkOption {
-        default = [];
+        default = [ ];
         type = types.listOf types.str;
         description = "List of pre-defined repos to enable";
       };
@@ -43,13 +41,16 @@ in
         '';
       }
       (
-        mkIf (cfg.repos != []) {
-          home.file = map (
-            repo: {
-              target = ".config/mr/config.d/${repo}";
-              source = builtins.toPath "${config.home.homeDirectory}/.config/mr/available.d/${repo}";
-            }
-          ) cfg.repos;
+        mkIf (cfg.repos != [ ]) {
+          home.file =
+            (listToAttrs (
+              map (
+                  repo: {
+                    name = ".config/mr/config.d/${repo}";
+                    value.source = builtins.toPath "${config.home.homeDirectory}/.config/mr/available.d/${repo}";
+                  }
+              ) cfg.repos)
+            );
         }
       )
     ]
