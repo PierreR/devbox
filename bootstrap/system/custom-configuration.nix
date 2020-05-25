@@ -166,10 +166,6 @@ in
     SHARED_DIR = if isVmware then "/vagrant/shared" else "/vagrant";
   };
 
-  environment.etc."containers/registries.conf".text = ''
-    [registries.search]
-    registries = ['docker.io', 'quay.io', 'registry.access.redhat.com']
-  '';
   environment.etc."containers/policy.json".text = ''
   {
     "default": [

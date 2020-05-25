@@ -31,9 +31,9 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       buildah
+      oc.odo
+      oc.tkn
     ];
     programs.podman.enable = cfg.podman;
-    programs.odo.enable = cfg.odo;
-    programs.tkn.enable = cfg.tkn;
   };
 }
