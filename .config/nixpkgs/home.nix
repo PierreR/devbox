@@ -25,7 +25,7 @@ in
   programs.home-manager.enable = true;
 
   home.file.".nix-channels".text = ''
-    https://releases.nixos.org/nixos/20.03/nixos-20.03.1917.82b5f87fcc7/nixexprs.tar.xz nixpkgs
+    https://releases.nixos.org/nixos/20.03/nixos-20.03.1950.48723f48ab9/nixexprs.tar.xz nixpkgs
     https://github.com/rycee/home-manager/archive/release-20.03.tar.gz home-manager
   '';
   home.packages = with pkgs; [
