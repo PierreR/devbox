@@ -15,7 +15,7 @@ Box configuration file
   eclipse                     : Do you want to install a statically defined Eclipse version that is known to work.
   defaultStacks               : List of stack to use by default for tools such as the cicd shell.
   lorri                       : Enable lorri (https://github.com/target/lorri/)
-  zshTheme                    : Select zsh theme from ~/.zsh_custom/theme (optionnal)
+  zshTheme                    : Select zsh theme from ~/.zsh_custom/themes (optionnal)
   console.color               : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
   console.cterm               : Change vim cursor line text font : italic,bold,underline, ... (optionnal)
   console.ctermbg             : Set vim cursor line color. (optionnal)
