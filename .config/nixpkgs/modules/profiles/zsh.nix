@@ -18,13 +18,17 @@ in
         default = "/vagrant";
         type = types.str;
       };
+      zshTheme = mkOption {
+        default = "lambda-mod";
+        type = types.str;
+      };
     };
   };
   config = {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
-      enableAutosuggestions = false;
+      enableAutosuggestions = true;
       history = {
         size = 80000;
         expireDuplicatesFirst = true;
@@ -32,8 +36,8 @@ in
       };
       oh-my-zsh.enable = true;
       oh-my-zsh.custom = "$HOME/.zsh_custom";
-      oh-my-zsh.theme = "lambda-mod";
-      oh-my-zsh.plugins = [ "cicd" ];
+      oh-my-zsh.theme = "${cfg.zshTheme}";
+      oh-my-zsh.plugins = [ "cicd zsh-autosuggestions" ];
       shellAliases = {
         la = " ls -alh";
         ls = " ls --color=tty";
