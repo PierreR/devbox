@@ -12,6 +12,7 @@
     # cabal-install
     # cabal2nix
     # (import (builtins.fetchTarball "https://cachix.org/api/v1/install") {}).cachix
+    # dhall-lsp-server
     # docker_compose
     # dnsmasq
     # du-dust
