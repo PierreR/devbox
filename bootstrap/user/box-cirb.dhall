@@ -37,6 +37,7 @@ Box configuration file
   }
 , eclipse = False
 , lorri = False
+, ocp = False
 , console = { color = "light", ctermbg = "254" }
 , mr =
     { config = [] : List Text
