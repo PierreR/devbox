@@ -123,12 +123,10 @@ in
       set undodir=/tmp
       set cursorline
       set nu
-      set relativenumber
       colorscheme slate
-      map <C-n> :NERDTreeToggle<CR>
-      hi CursorLine cterm=underline ctermbg=${configData.console.ctermbg or "NONE"}
+      hi CursorLine cterm=${configData.console.cterm or "NONE"} ctermbg=${configData.console.ctermbg or "239"}
     '';
-    plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim vim-gitgutter nerdtree ];
+    plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim ];
   };
 
 }

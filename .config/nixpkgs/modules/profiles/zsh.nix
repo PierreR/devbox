@@ -28,7 +28,7 @@ in
     programs.zsh = {
       enable = true;
       enableCompletion = true;
-      enableAutosuggestions = true;
+      enableAutosuggestions = false;
       history = {
         size = 80000;
         expireDuplicatesFirst = true;
@@ -37,7 +37,7 @@ in
       oh-my-zsh.enable = true;
       oh-my-zsh.custom = "$HOME/.zsh_custom";
       oh-my-zsh.theme = "${cfg.zshTheme}";
-      oh-my-zsh.plugins = [ "cicd zsh-autosuggestions" ];
+      oh-my-zsh.plugins = [ "cicd" ];
       shellAliases = {
         la = " ls -alh";
         ls = " ls --color=tty";
