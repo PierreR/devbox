@@ -3,6 +3,16 @@ include::_attributes.adoc[]
 
 ## {latest_revision}
 
+[CAUTION,caption=Breaking changes]
+====
+The devbox has been migrated into http://stash.cirb.lan/projects/CICD/repos/devbox/browse[one single repository].
+====
+
+- Upgrade nixos version to `2020.03`
+- Improve dark console theme
+- Support VirtualBox 6.1 by default.
+
+## v19.09, 22/10/2019
 
 [CAUTION,caption=Breaking changes]
 ====
