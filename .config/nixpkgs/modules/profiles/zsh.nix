@@ -18,6 +18,10 @@ in
         default = "/vagrant";
         type = types.str;
       };
+      zshTheme = mkOption {
+        default = "lambda-mod";
+        type = types.str;
+      };
     };
   };
   config = {
@@ -32,7 +36,7 @@ in
       };
       oh-my-zsh.enable = true;
       oh-my-zsh.custom = "$HOME/.zsh_custom";
-      oh-my-zsh.theme = "lambda-mod";
+      oh-my-zsh.theme = "${cfg.zshTheme}";
       oh-my-zsh.plugins = [ "cicd" ];
       shellAliases = {
         la = " ls -alh";

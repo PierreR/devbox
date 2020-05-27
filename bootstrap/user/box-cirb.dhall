@@ -15,7 +15,10 @@ Box configuration file
   eclipse                     : Do you want to install a statically defined Eclipse version that is known to work.
   defaultStacks               : List of stack to use by default for tools such as the cicd shell.
   lorri                       : Enable lorri (https://github.com/target/lorri/)
+  zshTheme                    : Select zsh theme from ~/.zsh_custom/themes (optionnal)
   console.color               : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
+  console.cterm               : Change vim cursor line text font : italic,bold,underline, ... (optionnal)
+  console.ctermbg             : Set vim cursor line color. (optionnal)
   mr.config                   : List of additional personal mr repositories you might want to add to your mrconfig file.
                                 Ex: config = [ "projects/pi3r/notebook checkout='git clone git@mygithub.com:PierreR/notebook.git notebook'"]
   mr.repos                    : List of repositories to activate from the available set defined above.
@@ -38,7 +41,8 @@ Box configuration file
 , eclipse = False
 , lorri = False
 , ocp = False
-, console = { color = "light", ctermbg = "254" }
+, zshTheme = "lambda-mod"
+, console = { color = "light", cterm ="NONE", ctermbg="239" }
 , mr =
     { config = [] : List Text
     , repos = [] : List Text

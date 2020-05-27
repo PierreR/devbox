@@ -81,6 +81,7 @@ in
   profiles.zsh = {
     inherit sharedDir;
     loginId = configData.loginId;
+    zshTheme = configData.zshTheme or "lambda-mod";
   };
 
   profiles.mr = {
@@ -121,8 +122,9 @@ in
       set undofile
       set undodir=/tmp
       set cursorline
+      set nu
       colorscheme slate
-      hi CursorLine cterm=NONE ctermbg=${configData.console.ctermbg or "254"}
+      hi CursorLine cterm=${configData.console.cterm or "NONE"} ctermbg=${configData.console.ctermbg or "239"}
     '';
     plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim ];
   };
