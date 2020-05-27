@@ -124,7 +124,7 @@ in
       set cursorline
       set nu
       colorscheme slate
-      hi CursorLine cterm=${configData.console.cterm or "NONE"} ctermbg=${configData.console.ctermbg or "239"}
+      hi CursorLine cterm=${configData.console.cterm or "NONE"} ctermbg=${configData.console.ctermbg or "254"}
     '';
     plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim ];
   };

@@ -42,7 +42,7 @@ Box configuration file
 , lorri = False
 , ocp = False
 , zshTheme = "lambda-mod"
-, console = { color = "light", cterm ="NONE", ctermbg="239" }
+, console = { color = "light", ctermbg="254" }
 , mr =
     { config = [] : List Text
     , repos = [] : List Text
