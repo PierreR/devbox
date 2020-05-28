@@ -31,7 +31,7 @@ in
         dt = "difftool";
         mt = "mergetool";
         df = "diff -w";
-        ls = ''log --pretty=format:\"%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]\" --decorate --date=short'';
+        ls = ''log --pretty=format:"%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]" --decorate --date=short'';
         ci = "commit -v";
       };
       extraConfig = {
