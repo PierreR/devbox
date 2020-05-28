@@ -30,7 +30,7 @@ function updateSystem () {
 function updateUser () {
     echo "Provisioning devbox"
     vcsh dotfiles pull --quiet --rebase --ff-only
-    make user
+    updateConfig
 }
 
 # Don't provision anything, just update the user with the current (user) configuration
