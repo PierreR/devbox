@@ -22,7 +22,9 @@ function sshp () {
 function updateSystem () {
     echo "Provisioning devbox"
     vcsh dotfiles pull --quiet --rebase --ff-only
+    pushd ~ > /dev/null
     sudo make system
+    popd > /dev/null 2>&1
 }
 
 # Update provision both from dotfiles and bootstrap
