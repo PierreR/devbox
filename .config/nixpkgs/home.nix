@@ -28,6 +28,11 @@ in
     https://releases.nixos.org/nixos/20.03/nixos-20.03.1950.48723f48ab9/nixexprs.tar.xz nixpkgs
     https://github.com/rycee/home-manager/archive/release-20.03.tar.gz home-manager
   '';
+  home.sessionVariables = {
+    LOGINID = "${configData.loginId}";
+    DIRENV_WARN_TIMEOUT = "60s";
+  };
+
   home.packages = with pkgs; [
     ansible
     facter
@@ -37,7 +42,18 @@ in
     shellcheck
   ];
 
-  programs.cicd.enable = configData.cicd-shell or true;
+
+  home.keyboard.layout = "be";
+
+  home.file = {
+
+    ".config/termite/config".source = ../termite + ("/" + configData.console.color);
+
+    ".config/cicd/shell.dhall".text = ''
+      { loginId = env:LOGINID as Text, defaultStacks = [${defaultStacks}] }
+    '';
+
+  };
 
   programs.vscode = {
     inherit (configData.vscode) enable;
@@ -55,20 +71,6 @@ in
     };
   };
 
-  programs.direnv.enable = configData.direnv or true;
-
-  home.keyboard.layout = "be";
-
-  home.file = {
-
-    ".config/termite/config".source = ../termite + ("/" + configData.console.color);
-
-    ".config/cicd/shell.dhall".text = ''
-      { loginId = env:LOGINID as Text, defaultStacks = [${defaultStacks}] }
-    '';
-
-  };
-
   profiles.xmonad = {
     inherit (configData.defaultUI) enable wallpaper netw appLauncherHotkey;
   };
@@ -80,7 +82,6 @@ in
 
   profiles.zsh = {
     inherit sharedDir;
-    loginId = configData.loginId;
     zshTheme = configData.zshTheme or "lambda-mod";
   };
 
@@ -99,8 +100,11 @@ in
     srcPath = /. + config.home.homeDirectory + /bootstrap/docs;
   };
 
-  services.lorri.enable = configData.lorri or false;
+  profiles.lorri.enable = configData.lorri or false;
 
+  programs.cicd.enable = configData.cicd-shell or true;
+
+  programs.direnv.enable = configData.direnv or true;
 
   programs.neovim = {
     vimAlias = true;

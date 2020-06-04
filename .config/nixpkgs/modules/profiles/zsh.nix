@@ -9,10 +9,6 @@ in
 {
   options = {
     profiles.zsh = {
-      loginId = mkOption {
-        default = "";
-        type = types.str;
-      };
       sharedDir = mkOption {
         default = "/vagrant";
         type = types.str;
@@ -44,9 +40,7 @@ in
         duh = " du -h --max-depth=1";
         df = " df -h";
         ag = "ag --color-line-number=3";
-        vi = "vim";
         chrome = "google-chrome-stable";
-        see = "./bin/check_role.sh";
         heyaml = "./bin/eyaml.sh $@";
         fixlint = "./bin/fix-lint.sh";
         nixreb = "sudo nixos-rebuild switch";
@@ -59,11 +53,7 @@ in
         source $(dirname $(which autojump))/../share/autojump/autojump.zsh
         path+="$HOME/.local/bin"
         # hot fix for https://github.com/NixOS/nixpkgs/issues/27587
-        autoload -U compinit && compinit
-      '';
-      envExtra = ''
-        export LOGINID='${cfg.loginId}'
-        export DIRENV_WARN_TIMEOUT='60s'
+        autoload -Uz compinit && compinit
       '';
     };
   };
