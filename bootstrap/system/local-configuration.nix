@@ -5,6 +5,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  users.users.vagrant.shell = pkgs.zsh;
 
   environment.systemPackages = with pkgs; [
   ];
@@ -46,12 +47,5 @@
   # services.kubernetes = {
   #   roles = ["master" "node"];
   #   addons.dashboard.enable = true;
-  # };
-
-  # Activate direnv for zsh
-  # programs = {
-  #   zsh.interactiveShellInit = ''
-  #     eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
-  #   '';
   # };
 }

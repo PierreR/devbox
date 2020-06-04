@@ -4,7 +4,6 @@ with lib;
 
 let
   cfg = config.profiles.zsh;
-
 in
 
 {
@@ -54,17 +53,17 @@ in
         ldir = "ls -ladh (.*|*)(/,@)";
         lfile = "ls -lah *(.)";
       };
+      initExtraBeforeCompInit = ''
+      '';
       initExtra = ''
         source $(dirname $(which autojump))/../share/autojump/autojump.zsh
-        source <(${pkgs.openshift}/bin/oc completion zsh)
-        source <(${pkgs.openshift}/bin/kubectl completion zsh)
         path+="$HOME/.local/bin"
-        export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
+        # hot fix for https://github.com/NixOS/nixpkgs/issues/27587
+        autoload -U compinit && compinit
       '';
       envExtra = ''
         export LOGINID='${cfg.loginId}'
         export DIRENV_WARN_TIMEOUT='60s'
-        export EDITOR='vim'
       '';
     };
   };

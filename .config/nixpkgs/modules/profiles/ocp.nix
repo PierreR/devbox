@@ -35,5 +35,9 @@ in
       oc.tkn
     ];
     programs.podman.enable = cfg.podman;
+    programs.zsh.initExtra = ''
+      # Ugly hack: oc completion does not work out of the box with zsh
+      source ${pkgs.openshift-client}/share/zsh/site-functions/_oc
+    '';
   };
 }

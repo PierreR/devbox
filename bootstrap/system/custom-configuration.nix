@@ -45,6 +45,7 @@ in
       {
         name = "home-manager";
         start = ''
+          export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
           ${pkgs.runtimeShell} $HOME/.hm-xsession &
           waitPID=$!
         '';
@@ -63,6 +64,7 @@ in
     export _JAVA_AWT_WM_NONREPARENTING=1 # Fix intelliJ blank popup
     export DESKTOP_SESSION=gnome
     export BROWSER=google-chrome-stable
+    export EDITOR='vim'
   '';
 
   environment.pathsToLink = [ "/share" ];
@@ -120,7 +122,6 @@ in
     zip
   ];
 
-  users.users.vagrant.shell = pkgs.zsh;
   users.users.vagrant.extraGroups = [ "docker" ];
   users.users.vagrant.subGidRanges = [ { startGid = 1001; count = 65535; } ];
   users.users.vagrant.subUidRanges = [ { startUid = 1001; count = 65535; } ];
