@@ -1,11 +1,9 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.profiles.ocp;
 in
-
 {
   options = {
     profiles.ocp = {
@@ -36,7 +34,7 @@ in
     ];
     programs.podman.enable = cfg.podman;
     programs.zsh.initExtra = ''
-      # Ugly hack: oc completion does not work out of the box with zsh
+      # Ugly hack: oc completion does not seem to work out of the box with zsh
       source ${pkgs.openshift-client}/share/zsh/site-functions/_oc
     '';
   };

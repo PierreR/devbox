@@ -1,5 +1,4 @@
 { config, pkgs, lib, ... }:
-
 let
   sharedDir = builtins.getEnv "SHARED_DIR";
   configData = pkgs.dhallToNix (builtins.readFile "${sharedDir}/box.dhall");
@@ -43,6 +42,7 @@ in
   ];
 
 
+
   home.keyboard.layout = "be";
 
   home.file = {
@@ -81,9 +81,11 @@ in
   };
 
   profiles.zsh = {
-    inherit sharedDir;
+    enable = true;
     zshTheme = configData.zshTheme or "lambda-mod";
   };
+
+  profiles.bash.enable = true;
 
   profiles.mr = {
     enable = configData.mr.enable or true;
@@ -100,7 +102,6 @@ in
     srcPath = /. + config.home.homeDirectory + /bootstrap/docs;
   };
 
-  profiles.lorri.enable = configData.lorri or false;
 
   programs.cicd.enable = configData.cicd-shell or true;
 
@@ -133,4 +134,5 @@ in
     plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim ];
   };
 
+  services.lorri.enable = configData.lorri or false;
 }

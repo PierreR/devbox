@@ -1,18 +1,14 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.profiles.zsh;
+  alias = import ../assets/alias.nix;
 in
-
 {
   options = {
     profiles.zsh = {
-      sharedDir = mkOption {
-        default = "/vagrant";
-        type = types.str;
-      };
+      enable = mkEnableOption "zsh";
       zshTheme = mkOption {
         default = "lambda-mod";
         type = types.str;
@@ -21,7 +17,7 @@ in
   };
   config = {
     programs.zsh = {
-      enable = true;
+      enable = cfg.enable;
       enableCompletion = true;
       enableAutosuggestions = false;
       history = {
@@ -33,17 +29,7 @@ in
       oh-my-zsh.custom = "$HOME/.zsh_custom";
       oh-my-zsh.theme = "${cfg.zshTheme}";
       oh-my-zsh.plugins = [ "cicd" ];
-      shellAliases = {
-        la = " ls -alh";
-        ls = " ls --color=tty";
-        ll = "ls -lh";
-        duh = " du -h --max-depth=1";
-        df = " df -h";
-        ag = "ag --color-line-number=3";
-        chrome = "google-chrome-stable";
-        heyaml = "./bin/eyaml.sh $@";
-        fixlint = "./bin/fix-lint.sh";
-        nixreb = "sudo nixos-rebuild switch";
+      shellAliases = alias // {
         ldir = "ls -ladh (.*|*)(/,@)";
         lfile = "ls -lah *(.)";
       };

@@ -1,6 +1,7 @@
 {
   imports = [
     ./albert.nix
+    ./bash.nix
     ./doc.nix
     ./eclipse.nix
     ./git.nix

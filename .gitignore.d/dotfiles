@@ -1,7 +1,5 @@
 *
 !/.npmenv
-!/.bash_profile
-!/.bashrc
 !/test
 !/test/*
 !/.dev
@@ -24,6 +22,8 @@
 !/.config/nixpkgs
 !/.config/nixpkgs/*
 !/.config/nixpkgs/modules
+!/.config/nixpkgs/modules/assets
+!/.config/nixpkgs/modules/assets/*
 !/.config/nixpkgs/modules/profiles
 !/.config/nixpkgs/modules/profiles/*
 !/.config/nixpkgs/modules/profiles/vscode
