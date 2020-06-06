@@ -114,15 +114,6 @@ To import the `ova` image file, just click on the file. The virtualbox UI will p
 
 ## Usage
 
-The provisioning of the devbox is done by 2 repositories (both on Bitbucket):
-
-- http://stash.cirb.lan/projects/DEVB/repos/devbox/browse[devbox]
-- http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[dotfiles]
-
-The `devbox` repository is quite small. It holds the ignition files necessary to bootstrap a devbox. This repository will be automatically present in the devbox in the `~/bootstrap` folder.
-
-The `dotfiles` repository holds the user configuration files. The git repository is hidden from the user through the use of `vcsh`. The `vcsh` program is also helpful in case of crash to recover a clean user state.
-
 ### User provisioning
 
 The most common operation is to modify your user configuration through `box.dhall` in your SHARED_DIR.
@@ -134,28 +125,9 @@ To activate these changes, you execute the command #updateConfig# in a console.
 
 ### Devbox update
 
-If you wish to update the files that provision the devbox, you do so by pulling them from the `dotfiles` and `devbox` source repositories.
-
-The command #updateUser# defined in `~/.zsh_custom/fun.zsh` does this before activating the user configuration (#updateConfig# would only do the later).
-
-You can also do these steps in a more fine grain way. For instance to pull the changes from `dotfiles`:
-
-```
-→ cd ~/bootstrap
-→ git st <1>
-→ git pull
-```
-<1> get the status
-
-Similarly for the `dotfiles`:
-
-```
-→ vcsh dotfiles
-→ git st
-→ git pull --ff-only
-→ exit <1>
-```
-<1> don't forget to exit the `vcsh` mode.
+If you wish to update the files that provision the devbox, you do so with the #updateUser# command.
+If you only want to activate your configuration change use #updateConfig#.
+You can also just update the home-manager with the `home-manager switch` command.
 
 ### Advanced system provisioning
 
@@ -284,7 +256,7 @@ https://albertlauncher.github.io/[Albert] is an application launcher similar to 
 
 The https://myrepos.branchable.com[myrepos] project help you to automate the cloning of multiple git repositories. The usage of `mr` is optional but quite useful when you work with dozens of repositories.
 
-Mr files are pointers to repositories you want to clone. These are defined in the same http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
+Mr files are pointers to repositories you want to clone. These are defined in the same http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
 
 To activate an available repository in your devbox, add the name of the file to the `mr.repos` list in `SHARED_DIR/box.dhall`.
 
@@ -314,10 +286,12 @@ You can ask a `git status` of all your repositories with
 ```
 ====
 
-### Local environment (direnv & lorri)
+### Local environment (direnv/lorri)
 
-https://github.com/target/lorri[Lorri] removes the need to `nix-shell` into a project folder.
+https://direnv.net/[direnv] removes the need to `nix-shell` into a project folder.
 It prevents the project derivation to be garbage collected as the dependency graph is rebuild whenever the project dependencies changes.
+
+If you feel the initiation time when you switch from folder to folder is too long, you can enable https://github.com/target/lorri[Lorri] in your box.dhall configuration.
 
 ## Tips & Tricks
 
@@ -345,16 +319,6 @@ You can open a shell with the `nix-shell` commmand. For instance to open a shell
 ```
 → nix-shell -p jdk11
 ```
-
-### Generic dotfiles
-
-The standard http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[CIRB dotfiles repositry] maintains a very general default configuration for the devbox. It is continuously evolving and improving. Please feel welcomed to propose any change via a pull request.
-
-The repository pulls the http://stash.cirb.lan/projects/cicd/repos/nixpkgs/browse[CIRB nixpkgs repository] using `git substree`.
-
-### Personal mr repositories
-
-You can register any source repository by adding it to https://github.com/CIRB/devbox/blob/4da9cf0a073e98dcdafab5100c156dc537adf57a/config/box-cirb.dhall#L45[mr.config] in `SHARED_DIR/box.dhall`. This is for personal configuration that you don't want to share. After saving the file, you update your box with #updateConfig#.
 
 ### Storing the box configuration file
 
