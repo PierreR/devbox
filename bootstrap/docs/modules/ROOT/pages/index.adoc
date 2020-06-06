@@ -381,25 +381,10 @@ TIP: Keep the old box and the new one for a while and make sure you aren't losin
 
 Question, support, discussion are handled in the team `#cicd` channel.
 
-## Without virtualbox
+## Using another unix distribution
 
-It is possible to use the devbox without the use of Virtualbox for instance within a Nixos linux or a vmware nixos guest.
-
-If you have a nixbox linux up and running, follow these steps:
-====
-[lowerroman]
-. mount your configuration into your nixos box, for instance `/vagrant/shared`footnote:notrequired[not required if you don't want to configure anything]
-. add an env variable named `SHARED_DIR` that points to the mounted dirfootnote:notrequired[]
-. `git clone ssh://git@stash.cirb.lan:7999/devb/devbox.git bootstrap`
-. cd bootstrap
-. `make home-manager`
-. (logout/login)
-. `make user`
-====
-
-## Without NixOS
-
-The devbox provided an easy way to get started. Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team maintained.
+The devbox provided an easy way to get started.
+Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
 
 All you need to do is:
 
