@@ -449,8 +449,8 @@ If you miss other plugins, let us know.
 ## How is the box generated ?
 
 The box (of about 4G) is generated in two stages.
-The first step generates a minimal generic vagrant box file with packer (currently packer-1.4.4).
-The second step applies some customization to produce a more heavy tailored box (desktop, ...).
+The first step generates a minimal generic ova file with packer (currently packer-1.5.5).
+The second step applies some customizations to produce a more heavy tailored box (desktop, ...).
 
 ### Stage 1
 
