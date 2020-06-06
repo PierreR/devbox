@@ -18,4 +18,11 @@ node ('middleware') {
   generic.time("test", {
     make.make(target: 'test')
   })
+
+  post {
+    success {
+      build job: 'cicd/docs.cicd.cirb.lan/master', wait: true
+    }
+  }
 }
+
