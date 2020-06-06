@@ -11,6 +11,7 @@ The devbox has been migrated into http://stash.cirb.lan/projects/CICD/repos/devb
 - Upgrade nixos version to `2020.03`
 - Improve dark console theme
 - Support VirtualBox 6.1 by default.
+- Support bash as well as zsh
 
 ## v19.09, 22/10/2019
 

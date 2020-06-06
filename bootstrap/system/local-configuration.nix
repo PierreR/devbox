@@ -23,15 +23,6 @@
   # #   initialScript = /vagrant/initdb.sql;
   # };
 
-  # Salt server
-  # networking.extraHosts = ''
-  #   127.0.0.1 salt
-  # '';
-  # services.salt.master = {
-  #   enable = true;
-  # };
-  # services.salt.minion.enable = true;
-
   # Elasticsearch with Kibana
   # services.rsyslogd.enable = true;
   # services.elasticsearch = {
