@@ -1,2 +1,0 @@
-:latest_version: 20.03
-:latest_revision: v{latest_version}, 29/05/2019

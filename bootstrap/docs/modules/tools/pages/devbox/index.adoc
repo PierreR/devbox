@@ -1,7 +1,8 @@
 # A development box that persists every configuration
 :experimental:
 :source-language: bash
-include::_attributes.adoc[]
+:latest_version: 20.03
+:latest_revision: v{latest_version}, 08/06/2020
 ifndef::site-gen-antora[]
 :toc:
 :toclevels: 2
@@ -336,7 +337,7 @@ The versioning scheme follows the one of NixOS. For instance `19.09.buildnumber`
 
 When a new major version is released, breaking changes are expected.
 It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
-Please look at the https://github.com/CIRB/devbox/blob/master/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
+Please look at the xref:CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
 You would commonly need to make some adjustements to your personal configuration file such as `dhall.box` or `local-configuration.nix` before importing them in the new SHARED_DIR.
 
 TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
@@ -437,6 +438,7 @@ If you enable `eclipse` in #$SHARED_DIR/box.dhall#, you might want to add the `e
 If you miss other plugins, let us know.
 ifndef::site-gen-antora[]
 ifndef::env-github[]
+
 :leveloffset: +1
 
 include::CHANGELOG.adoc[]

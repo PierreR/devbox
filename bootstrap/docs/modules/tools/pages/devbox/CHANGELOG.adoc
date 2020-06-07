@@ -1,5 +1,4 @@
 # CHANGELOG
-include::_attributes.adoc[]
 
 ## {latest_revision}
 
@@ -12,6 +11,7 @@ The devbox has been migrated into http://stash.cirb.lan/projects/CICD/repos/devb
 - Improve dark console theme
 - Support VirtualBox 6.1 by default.
 - Support bash as well as zsh
+- Add `oc`, `kubectl` and many more derivations to the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache]
 
 ## v19.09, 22/10/2019
 

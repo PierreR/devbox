@@ -18,7 +18,7 @@ in
   config = mkIf (cfg.enable && builtins.pathExists cfg.srcPath) {
     home.file.".local/share/devbox".source =
       let
-        indexFile = "${cfg.srcPath}/modules/ROOT/pages/index.adoc";
+        indexFile = "${cfg.srcPath}/modules/tools/pages/devbox/index.adoc";
       in
         pkgs.runCommand "doc"
           {
@@ -28,9 +28,9 @@ in
           }
           ''
             mkdir $out
-            cp -r ${cfg.srcPath}/modules/ROOT/assets/images $out
+            cp -r ${cfg.srcPath}/modules/tools/assets/images $out
             asciidoctor ${indexFile} -a docinfodir=${cfg.srcPath} -a imagesdir=$out/images -o $out/devbox.html
-            asciidoctor ${indexFile} -r asciidoctor-pdf -b pdf -a imagesdir=${cfg.srcPath}/modules/ROOT/assets/images -o $out/devbox.pdf
+            asciidoctor ${indexFile} -r asciidoctor-pdf -b pdf -a imagesdir=${cfg.srcPath}/modules/tools/assets/images -o $out/devbox.pdf
           '';
   };
 }
