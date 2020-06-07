@@ -293,13 +293,13 @@ It prevents the project derivation to be garbage collected as the dependency gra
 
 If you feel the initiation time when you switch from folder to folder is too long, you can enable https://github.com/target/lorri[Lorri] in your box.dhall configuration.
 
-## Tips & Tricks
+### Tips & Tricks
 
 ====
 The customization of the devbox operates at different levels and ensure configuration - personal or shared - survives the destruction of the box.
 ====
 
-### Install local packages
+#### Install local packages
 
 To install a package, just do:
 
@@ -312,7 +312,7 @@ This imperative approach is useful for testing but the change is not persistent.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
 
-### Open a shell
+#### Open a shell
 
 You can open a shell with the `nix-shell` commmand. For instance to open a shell that have `JAVA_HOME` set:
 
@@ -320,7 +320,7 @@ You can open a shell with the `nix-shell` commmand. For instance to open a shell
 → nix-shell -p jdk11
 ```
 
-### Storing the box configuration file
+#### Storing the box configuration file
 
 You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `SHARED_DIR/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
 
@@ -410,13 +410,13 @@ If you enable `eclipse` in #$SHARED_DIR/box.dhall#, you might want to add the `e
 
 If you miss other plugins, let us know.
 
-## How is the box generated ?
+### How is the box generated ?
 
 The box (of about 4G) is generated in two stages.
 The first step generates a minimal generic ova file with packer (currently packer-1.5.5).
 The second step applies some customizations to produce a more heavy tailored box (desktop, ...).
 
-### Stage 1
+#### Stage 1
 
 . On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository] within the shared directory.
 . On the host OS, in the nixbox directory, execute the following commands:
@@ -425,7 +425,7 @@ The second step applies some customizations to produce a more heavy tailored box
 packer.exe build nixos-x86_64.json --only virtualbox-iso
 ```
 
-### Stage 2
+#### Stage 2
 
 . Create the SHARED_DIR
 . Import the `ova` image file using the Virtualbox UI.
