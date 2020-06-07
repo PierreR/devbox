@@ -37,12 +37,6 @@ The main configuration file is `box.dhall`. It sits in your shared folder.
 
 image::devbox.png[]
 
-### Software requirements
-
-- Virtualbox 6.1.x (tested with 6.1.6)
-
-Please do update if you have older version(s).
-
 ## First time setup
 
 [TIP]
@@ -54,6 +48,12 @@ Please do update if you have older version(s).
 ifdef::backend-pdf[<<<]
 
 ### Preparation
+
+#### Software requirements
+
+- Virtualbox 6.1.x (tested with 6.1.6)
+
+Please do update if you have older version(s).
 
 ====
 Within the host os (usually `Windows`), create a folder #C:\Users\virtualbox\devbox-{latest_version}#.
@@ -121,15 +121,13 @@ The most common operation is to modify your user configuration through `box.dhal
 You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager].
 Such more advanced and optional configuration is done by editing the `local-home.nix` file which also sits in your SHARED_DIR.
 
-To activate these changes, you execute the command #updateConfig# in a console.
+To activate these changes, you execute the command #updateConfig# in a consolefootnote:[If you want to skip the mr step, you can use `home-manager switch`].
 
-### Devbox update
-
+****
 If you wish to update the files that provision the devbox, you do so with the #updateUser# command.
-If you only want to activate your configuration change use #updateConfig#.
-You can also just update the home-manager with the `home-manager switch` command.
+****
 
-### Advanced system provisioning
+### System provisioning
 
 The advanced user might want to update the system configuration.
 This is useful to enable middleware such as a postgresql database, an elk cluster or a minishift.
@@ -293,7 +291,7 @@ It prevents the project derivation to be garbage collected as the dependency gra
 
 If you feel the initiation time when you switch from folder to folder is too long, you can enable https://github.com/target/lorri[Lorri] in your box.dhall configuration.
 
-### Tips & Tricks
+### Tips & tricks
 
 ====
 The customization of the devbox operates at different levels and ensure configuration - personal or shared - survives the destruction of the box.
@@ -398,18 +396,6 @@ Support for VMware Workstation is not provided.
 
 ## FAQ
 
-### Eclipse: how to add plugins ?
-
-If you enable `eclipse` in #$SHARED_DIR/box.dhall#, you might want to add the `egit` and `m2e` plugins.
-
-.enable egit and m2e
-```
-→ cd ~/bootstrap
-→ make eclipse-extraplugins
-```
-
-If you miss other plugins, let us know.
-
 ### How is the box generated ?
 
 The box (of about 4G) is generated in two stages.
@@ -438,6 +424,17 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 . Export the vm
 . Push the ova to a mirror site.
 
+### Eclipse: how to add plugins ?
+
+If you enable `eclipse` in #$SHARED_DIR/box.dhall#, you might want to add the `egit` and `m2e` plugins.
+
+.enable egit and m2e
+```
+→ cd ~/bootstrap
+→ make eclipse-extraplugins
+```
+
+If you miss other plugins, let us know.
 ifndef::site-gen-antora[]
 ifndef::env-github[]
 :leveloffset: +1
