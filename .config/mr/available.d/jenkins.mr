@@ -4,7 +4,6 @@ checkout =
     pushd $HOME/projects/bric/jenkins/puppet
     git submodule update --init
     ln -s ../../bin/pre-push .git/hooks/pre-push
-    make import-gpg-keys
     popd
 
 [$HOME/projects/bric/jenkins/documentation]
