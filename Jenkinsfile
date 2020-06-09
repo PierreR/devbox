@@ -1,28 +1,27 @@
-#!/usr/bin/env groovy
-
-if (env.BRANCH_NAME == 'master') {
-  properties (
-    [
-      pipelineTriggers([cron('0 21 * * *')])
-    ]
-  )
-}
-
-generic = new brussels.bric.Generic()
-make = new brussels.bric.Make()
-
-node ('middleware') {
-  stage('Checkout') {
-    checkout scm
+pipeline {
+  agent {
+    label 'middleware'
   }
-  generic.time("test", {
-    make.make(target: 'test')
-  })
-
+  options {
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+  }
+  stages {
+    stage('Validate') {
+      steps {
+        script {
+          make = new brussels.bric.Make()
+          make.make(target: 'test', useNixShell: false)
+        }
+      }
+    }
+  }
   post {
     success {
       build job: 'cicd/docs.cicd.cirb.lan/master', wait: true
     }
+    cleanup{
+      deleteDir()
+    }
   }
 }
-
