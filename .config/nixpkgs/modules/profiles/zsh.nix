@@ -10,7 +10,7 @@ in
     profiles.zsh = {
       enable = mkEnableOption "zsh";
       zshTheme = mkOption {
-        default = "lambda-mod";
+        default = "simple";
         type = types.str;
       };
     };

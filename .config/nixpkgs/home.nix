@@ -82,7 +82,7 @@ in
 
   profiles.zsh = {
     enable = true;
-    zshTheme = configData.zshTheme or "lambda-mod";
+    zshTheme = configData.zshTheme or "simple";
   };
 
   profiles.bash.enable = true;

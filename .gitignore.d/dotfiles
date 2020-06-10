@@ -48,10 +48,10 @@
 !/.local/share
 !/.local/share/icons
 !/.local/share/icons/*
-!/.oh-my-zsh
-!/.oh-my-zsh/themes
-!/.oh-my-zsh/themes/*
-!/.oh-my-zsh/.zsh_aliases
+!/.zsh_custom
+!/.zsh_custom/themes
+!/.zsh_custom/themes/*
+!/.zsh_custom/.zsh_aliases
 !/.spacemacs
 !/.stack
 !/.stack/config.yaml

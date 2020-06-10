@@ -23,6 +23,7 @@ in
         GIT_PS1_SHOWUNTRACKEDFILES="show"
         GIT_PS1_SHOWDIRTYSTATE="show"
         source ~/.config/nixpkgs/modules/assets/git-prompt.sh
+        source ~/.zsh_custom/fun.zsh
         PS1='\n\[\033[1;32m\]\w \[\033[0m\]\[\033[01;34m\]$(__git_ps1 " %s \n\n")\[\033[0m\]→ '
       '';
     };
