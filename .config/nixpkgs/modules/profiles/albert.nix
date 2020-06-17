@@ -49,7 +49,7 @@ in
         enabled=false
 
         [org.albert.extension.files]
-        enabled=true
+        enabled=false
 
         [org.albert.extension.system]
         enabled=true
