@@ -11,6 +11,9 @@ in
     enable = mkEnableOption "CICD shell";
   };
   config = mkIf cfg.enable {
+    programs.bash.initExtra = ''
+      source <(${pkgs.cicd-shell}/bin/cicd --bash-completion-script `which cicd`)
+    '';
     home.packages = [ pkgs.cicd-shell ];
   };
 }
