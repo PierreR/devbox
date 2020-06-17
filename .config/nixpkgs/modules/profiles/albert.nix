@@ -46,7 +46,7 @@ in
         enabled=true
 
         [org.albert.extension.chromebookmarks]
-        enabled=true
+        enabled=false
 
         [org.albert.extension.files]
         enabled=true
@@ -57,7 +57,7 @@ in
         shutdown=sudo systemctl poweroff
 
         [org.albert.extension.websearch]
-        enabled=true
+        enabled=false
 
         [org.albert.frontend.widgetboxmodel]
         alwaysOnTop=true
