@@ -1,9 +1,9 @@
 # Place here any custom configuration specific to your organisation (locale, terminal, ...)
 # if you want it to be part of the packer base image to be used with vagrant.
 { config, pkgs, ... }:
-
-let isVmware = config.virtualisation.vmware.guest.enable;
-    isVirtualbox = config.virtualisation.virtualbox.guest.enable;
+let
+  isVmware = config.virtualisation.vmware.guest.enable;
+  isVirtualbox = config.virtualisation.virtualbox.guest.enable;
 in
 {
   imports = [
@@ -14,7 +14,10 @@ in
   boot.plymouth.enable = true;
 
   networking.enableIPv6 = false;
-  networking.nameservers = [ "192.168.34.244" "172.28.131.10"];
+  networking.nameservers = [ "192.168.34.244" "172.28.131.10" ];
+  networking.hosts = {
+    "192.168.34.171" = [ "stash.cirb.lan" ];
+  };
 
   security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ./CIRB_CIBG_SERVER_CA.crt ];
 
@@ -24,7 +27,7 @@ in
       gc-keep-derivations = true
     '';
     gc.automatic = true;
-    trustedUsers = [ "root" "vagrant"];
+    trustedUsers = [ "root" "vagrant" ];
     binaryCachePublicKeys = [
       "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
     ];
@@ -54,8 +57,8 @@ in
     displayManager = {
       lightdm = {
         enable = true;
-        autoLogin.user= "vagrant";
-        autoLogin.enable= true;
+        autoLogin.user = "vagrant";
+        autoLogin.enable = true;
       };
     };
   };
@@ -80,31 +83,32 @@ in
     gitFull
     google-chrome
     htop
-    ( neovim.override {
-        vimAlias = true;
-        configure = {
-          customRC = ''
-            if has('unnamedplus')
-              set clipboard=unnamed,unnamedplus
-            endif
-            set gdefault
-            set hlsearch
-            set smartcase
-            set showcmd
-            set t_Co=256
-            set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
-            set undofile
-            set undodir=/tmp
-          '';
-          vam.pluginDictionaries = [
-            { names = [
+    (neovim.override {
+      vimAlias = true;
+      configure = {
+        customRC = ''
+          if has('unnamedplus')
+            set clipboard=unnamed,unnamedplus
+          endif
+          set gdefault
+          set hlsearch
+          set smartcase
+          set showcmd
+          set t_Co=256
+          set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+          set undofile
+          set undodir=/tmp
+        '';
+        vam.pluginDictionaries = [
+          {
+            names = [
               "sensible"
               "surround"
               "vim-nix"
-              ];
-            }
-          ];
-        };
+            ];
+          }
+        ];
+      };
     })
     mr
     paper-gtk-theme
@@ -123,8 +127,8 @@ in
   ];
 
   users.users.vagrant.extraGroups = [ "docker" ];
-  users.users.vagrant.subGidRanges = [ { startGid = 1001; count = 65535; } ];
-  users.users.vagrant.subUidRanges = [ { startUid = 1001; count = 65535; } ];
+  users.users.vagrant.subGidRanges = [{ startGid = 1001; count = 65535; }];
+  users.users.vagrant.subUidRanges = [{ startUid = 1001; count = 65535; }];
 
   virtualisation.docker.enable = true;
 
@@ -136,12 +140,12 @@ in
       pkgs.source-code-pro
       pkgs.source-sans-pro
       pkgs.source-serif-pro
-      ];
+    ];
     fontconfig = {
       defaultFonts = {
         monospace = [ "Source Code Pro" ];
         sansSerif = [ "Source Sans Pro" ];
-        serif     = [ "Source Serif Pro" ];
+        serif = [ "Source Serif Pro" ];
       };
     };
   };
@@ -158,7 +162,7 @@ in
       {
         fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
         device = ".host:/";
-        options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults"];
+        options = [ "allow_other" "uid=1000" "gid=100" "auto_unmount" "defaults" ];
       }
     else
       throw "Unsupported builder";
@@ -168,13 +172,13 @@ in
   };
 
   environment.etc."containers/policy.json".text = ''
-  {
-    "default": [
-        {
-            "type": "insecureAcceptAnything"
-        }
-    ]
-  }
+    {
+      "default": [
+          {
+              "type": "insecureAcceptAnything"
+          }
+      ]
+    }
   '';
 
   nixpkgs.config.allowUnfree = true;
