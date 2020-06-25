@@ -349,7 +349,7 @@ Question, support, discussion are handled in the team `#cicd` channel.
 The devbox provided an easy way to get started.
 Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
 
-All you need to do is:
+Follow these simple steps:
 
 . install nix on your linux machine following https://nixos.org/download.html[these instructions]. It is actually a single command:
 +
@@ -360,6 +360,30 @@ curl -L https://nixos.org/nix/install | sh
 +
 ```
 export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
+```
+. Add the current nixpkgs pointer
++
+```
+cat > ~/.nix-channels <<EOF
+https://releases.nixos.org/nixos/20.03/nixos-20.03.1950.48723f48ab9/nixexprs.tar.xz nixpkgs <1>
+EOF
+```
+<1> You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp?until=071ed0ebfa60cc91f2af333c7a40c64e27b22321&untilPath=manifests%2Fnix.pp#111[the pointer].
+. configure the binary cache
++
+```
+cat > ~/.config/nix/nix.conf <<EOF
+substituters = https://repository.irisnet.be/artifactory/nix/
+trusted-public-keys = nix.cirb.org:CeHSF470ofjLTEwKr4nyGXlH8Haxelxu1RItfo7yOZU= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+sandbox = false
+EOF
+```
+. configure nix
++
+```
+cat > ~/.config/nixpkgs/config.nix <<EOF
+{ allowUnfree = true; allowBroken = true; }
+EOF
 ```
 . install https://direnv.net/[direnv]
 
