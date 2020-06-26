@@ -369,6 +369,11 @@ https://releases.nixos.org/nixos/20.03/nixos-20.03.1950.48723f48ab9/nixexprs.tar
 EOF
 ```
 <1> You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp?until=071ed0ebfa60cc91f2af333c7a40c64e27b22321&untilPath=manifests%2Fnix.pp#111[the pointer].
+. Update your nix channel
++
+```
+nix-channel --update
+```
 . configure the binary cache
 +
 ```
