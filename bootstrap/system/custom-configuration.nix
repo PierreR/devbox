@@ -48,7 +48,6 @@ in
       {
         name = "home-manager";
         start = ''
-          export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
           ${pkgs.runtimeShell} $HOME/.hm-xsession &
           waitPID=$!
         '';
@@ -68,6 +67,7 @@ in
     export DESKTOP_SESSION=gnome
     export BROWSER=google-chrome-stable
     export EDITOR='vim'
+    export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
   '';
 
   environment.pathsToLink = [ "/share" ];
