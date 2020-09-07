@@ -131,7 +131,7 @@ in
       colorscheme slate
       hi CursorLine cterm=${configData.console.cterm or "NONE"} ctermbg=${configData.console.ctermbg or "254"}
     '';
-    plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim ];
+    plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim editorconfig-vim dhall-vim vim-fugitive bufexplorer vim-nix vim-terraform direnv-vim ];
   };
 
   services.gpg-agent = {
