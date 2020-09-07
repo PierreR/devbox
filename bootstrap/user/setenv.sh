@@ -83,6 +83,7 @@ install_hm () {
         if home-manager switch >/dev/null 2>&1
         then
             _success "home-manager switch"
+            nix-channel --update
         else
             _failure "Type 'home-manager switch' to see what went wrong."
             exit 1
