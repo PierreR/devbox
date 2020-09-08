@@ -2,6 +2,7 @@
   imports = [
     ./albert.nix
     ./bash.nix
+    ./direnv.nix
     ./doc.nix
     ./eclipse.nix
     ./git.nix

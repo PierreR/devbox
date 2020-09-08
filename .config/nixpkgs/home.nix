@@ -105,7 +105,7 @@ in
 
   programs.cicd.enable = configData.cicd-shell or true;
 
-  programs.direnv.enable = configData.direnv or true;
+  profiles.direnv.enable = configData.direnv or true;
 
   programs.neovim = {
     vimAlias = true;
