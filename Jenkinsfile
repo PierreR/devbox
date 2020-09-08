@@ -18,7 +18,11 @@ pipeline {
   }
   post {
     success {
-      build job: 'cicd/docs.cicd.cirb.lan/master', wait: true
+      script {
+        if (env.GIT_BRANCH == 'master') {
+          build job: 'cicd/docs.cicd.cirb.lan/master', wait: true
+        }
+      }
     }
     cleanup{
       deleteDir()
