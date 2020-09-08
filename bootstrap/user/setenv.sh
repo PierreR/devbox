@@ -80,6 +80,7 @@ install_hm () {
     if hash home-manager >/dev/null 2>&1
     then
         printf 'Running the Home-manager ...\n'
+        nix-channel --update
         if home-manager switch >/dev/null 2>&1
         then
             _success "home-manager switch"
