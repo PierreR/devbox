@@ -134,10 +134,7 @@ in
     plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim editorconfig-vim dhall-vim vim-fugitive bufexplorer vim-nix vim-terraform direnv-vim ];
   };
 
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    defaultCacheTtlSsh = 7200;
-  };
+  profiles.gpg.enable = true;
+
   services.lorri.enable = configData.lorri or false;
 }

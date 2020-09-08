@@ -6,6 +6,7 @@
     ./doc.nix
     ./eclipse.nix
     ./git.nix
+    ./gpg.nix
     ./mr.nix
     ./ocp.nix
     ./taffybar.nix
