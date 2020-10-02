@@ -5,4 +5,3 @@ checkout =
     git submodule update --init
     ln -s ../../bin/pre-push .git/hooks/pre-push
     popd
-skip = ([ "$1" = update ])

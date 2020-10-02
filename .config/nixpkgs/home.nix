@@ -37,7 +37,6 @@ in
     facter
     git-crypt
     gnupg
-    nixpkgs-fmt
     shellcheck
   ];
 
