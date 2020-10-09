@@ -54,10 +54,10 @@ in
       }
     ];
     displayManager = {
+      autoLogin.user = "vagrant";
+      autoLogin.enable = true;
       lightdm = {
         enable = true;
-        autoLogin.user = "vagrant";
-        autoLogin.enable = true;
       };
     };
   };

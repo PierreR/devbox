@@ -1,8 +1,8 @@
 # A development box that persists every configuration
 :experimental:
 :source-language: bash
-:latest_version: 20.03
-:latest_revision: v{latest_version}, 08/06/2020
+:latest_version: 20.09
+:latest_revision: v{latest_version}, 16/10/2021
 ifndef::site-gen-antora[]
 :toc:
 :toclevels: 2

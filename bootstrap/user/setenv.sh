@@ -64,9 +64,9 @@ bootstrap () {
             exit 1
         else
             echo "About to use vcsh to clone ${devbox_url}"
-            if vcsh clone -b "$version" "$devbox_url" dotfiles
+            if vcsh clone -b "$release" "$devbox_url" dotfiles
             then
-                _success "clone mr ${devbox_url}\n"
+                _success "clone devbox ${release} from ${devbox_url}\n"
             else
                 printf '\n'
                 _failure "Bootstrap has failed ! Unable to clone ${devbox_url}.\nAborting user configuration."

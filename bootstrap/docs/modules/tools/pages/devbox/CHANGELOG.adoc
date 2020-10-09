@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## {latest_revision}
+## v20.09, 16/10/2020
+
+- Upgrade nixos version to `2020.09`
+
+## v20.03, 08/04/2020
 
 [CAUTION,caption=Breaking changes]
 ====
