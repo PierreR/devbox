@@ -33,7 +33,6 @@ in
   };
 
   home.packages = with pkgs; [
-    ansible
     facter
     git-crypt
     gnupg

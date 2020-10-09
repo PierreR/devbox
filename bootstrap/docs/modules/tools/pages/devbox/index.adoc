@@ -424,15 +424,14 @@ There is currently an issue with packer & VMware Workstation.
 Since 6.1, Virtualbox supports nested hardware-virtualization on Intel CPUs (starting with 5th generation Core i, codename Broadwell).
 Support for VMware Workstation is not provided.
 
-## FAQ
 
-### How is the box generated ?
+## How is the box generated ?
 
 The box (of about 4G) is generated in two stages.
 The first step generates a minimal generic ova file with packer (currently packer-1.5.5).
 The second step applies some customizations to produce a more heavy tailored box (desktop, ...).
 
-#### Stage 1
+### Stage 1
 
 . On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository] within the shared directory.
 . On the host OS, in the nixbox directory, execute the following commands:
@@ -441,7 +440,7 @@ The second step applies some customizations to produce a more heavy tailored box
 packer.exe build nixos-x86_64.json --only virtualbox-iso
 ```
 
-#### Stage 2
+### Stage 2
 
 . Create the SHARED_DIR
 . Import the `ova` image file using the Virtualbox UI.
@@ -453,6 +452,18 @@ packer.exe build nixos-x86_64.json --only virtualbox-iso
 .. make user
 . Export the vm
 . Push the ova to a mirror site.
+
+### Update NixOS
+
+To update the devbox to a new version of NixOS you follow these steps:
+
+. create a new branch (for instance `20.09`)
+. update the `version.sh` file in the bootstrap folder
+. update .config/nixpkgs/home.nix with the correct channels
+. Follow Stage 1 with a fresh nixbox clone
+* ensure nixos-x86_64.json & scripts/install have the correct pointers.
+
+## FAQ
 
 ### Eclipse: how to add plugins ?
 
