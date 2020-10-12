@@ -67,7 +67,7 @@ in
     export DESKTOP_SESSION=gnome
     export BROWSER=google-chrome-stable
     export EDITOR='vim'
-    export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
+    export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/20.09.tar.gz
   '';
 
   environment.pathsToLink = [ "/share" ];

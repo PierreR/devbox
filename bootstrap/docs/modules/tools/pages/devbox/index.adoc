@@ -461,7 +461,7 @@ To update the devbox to a new version of NixOS you follow these steps:
 . update the `version.sh` file in the bootstrap folder
 . update .config/nixpkgs/home.nix with the correct channels
 . Follow Stage 1 with a fresh nixbox clone
-* ensure nixos-x86_64.json & scripts/install have the correct pointers.
+* ensure _nixos-x86_64.json_ & _scripts/install_ have the correct pointers.
 
 ## FAQ
 
