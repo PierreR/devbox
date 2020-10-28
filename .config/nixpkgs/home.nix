@@ -24,7 +24,7 @@ in
   programs.home-manager.enable = true;
 
   home.file.".nix-channels".text = ''
-    https://releases.nixos.org/nixos/20.09/nixos-20.09beta992.7badbf18c45/nixexprs.tar.xz nixpkgs
+    https://releases.nixos.org/nixos/20.09/nixos-20.09.1469.13d0c311e3a/nixexprs.tar.xz nixpkgs
     https://github.com/nix-community/home-manager/archive/release-20.09.tar.gz home-manager
   '';
   home.sessionVariables = {
@@ -36,7 +36,6 @@ in
     facter
     git-crypt
     gnupg
-    shellcheck
   ];
 
 
