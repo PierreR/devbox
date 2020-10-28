@@ -36,7 +36,7 @@ in
       initExtraBeforeCompInit = ''
       '';
       initExtra = ''
-        source $(dirname $(which autojump))/../share/autojump/autojump.zsh
+        # source $(dirname $(which autojump))/../share/autojump/autojump.zsh
         path+="$HOME/.local/bin"
         # hot fix for https://github.com/NixOS/nixpkgs/issues/27587
         autoload -Uz compinit && compinit

@@ -52,6 +52,7 @@ in
     '';
 
   };
+  programs.autojump.enable = true;
 
   programs.vscode = {
     inherit (configData.vscode) enable;

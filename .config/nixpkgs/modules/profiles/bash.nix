@@ -14,7 +14,6 @@ in
   config = {
     programs.bash = {
       enable = cfg.enable;
-      enableAutojump = true;
       historyControl = [ "erasedups" ];
       historyIgnore = [ "cd" ];
       shellAliases = alias;
