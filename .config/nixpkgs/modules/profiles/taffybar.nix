@@ -24,16 +24,13 @@ in
         -- -*- mode:haskell -*-
         module Main where
 
-        import System.Taffybar
+        import System.Taffybar.Context (TaffybarConfig(..))
         import System.Taffybar.Hooks
         import System.Taffybar.Information.CPU
         import System.Taffybar.Information.Memory
         import System.Taffybar.SimpleConfig
         import System.Taffybar.Widget
         import System.Taffybar.Widget.Generic.PollingGraph
-        import System.Taffybar.Widget.Generic.PollingLabel
-        import System.Taffybar.Widget.Util
-        import System.Taffybar.Widget.Workspaces
 
         transparent = (0.0, 0.0, 0.0, 0.0)
         yellow1 = (0.9453125, 0.63671875, 0.2109375, 1.0)
@@ -44,7 +41,7 @@ in
 
         myGraphConfig =
           defaultGraphConfig
-          { graphPadding = 0 -- -1
+          { graphPadding = 0
           , graphBorderWidth = 1 -- 0
           , graphWidth = 68 -- 75
           , graphBackgroundColor = transparent
@@ -68,7 +65,7 @@ in
           (_, systemLoad, totalLoad) <- cpuLoad
           return [totalLoad, systemLoad]
 
-        main = do
+        main =
           let myWorkspacesConfig =
                 defaultWorkspacesConfig
                 { minIcons = 1
@@ -81,11 +78,11 @@ in
               net = networkGraphNew netCfg (Just ["${cfg.netw}"])
               clock = textClockNew Nothing "%b %_d %H:%M" 1
               layout = layoutNew defaultLayoutConfig
-              windows = windowsNew defaultWindowsConfig
+              windowsW = windowsNew defaultWindowsConfig
               tray = sniTrayNew
               myConfig = defaultSimpleTaffyConfig
                 { startWidgets =
-                    workspaces : map (>>= buildContentsBox) [ layout, windows ]
+                    workspaces : map (>>= buildContentsBox) [ layout, windowsW ]
                 , endWidgets = map (>>= buildContentsBox)
                   [ clock, net, mem, cpu]
                 , barPosition = Top
@@ -93,7 +90,7 @@ in
                 , barHeight = 30
                 , widgetSpacing = 1
                 }
-          startTaffybar $ toTaffyConfig myConfig
+          in startTaffybar $ toTaffyConfig myConfig
       '';
     };
   };
