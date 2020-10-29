@@ -187,7 +187,7 @@ azertyKeys conf@XConfig {modMask = modm} = M.fromList $
           (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
 
 main =
-  xmonad $ docks $  ewmh $ pagerHints $ myConfig
+  xmonad $ docks $ ewmh $ pagerHints $ myConfig
   where
     myConfig  = def
       { terminal           = "termite"

@@ -18,7 +18,7 @@ in
   };
   config = mkIf cfg.enable {
     services.taffybar.enable = true;
-    services.taffybar.package = pkgs.unstable.taffybar;
+    services.taffybar.package = pkgs.desktop.taffybar;
     home.file = {
       ".config/taffybar/taffybar.hs".text = ''
         -- -*- mode:haskell -*-
