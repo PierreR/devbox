@@ -5,16 +5,16 @@ function sshi () {
     then
         echo "Please specify the machine fqdn or IP";
     else
-	      TERM=xterm ssh -A -i ~/.ssh/cirb_rsa $LOGINID@$1
+        TERM=xterm ssh -A -i ~/.ssh/cirb_rsa $LOGINID@$1
     fi
 }
 
 function sshp () {
     if [ -z "$1" ]
     then
-	echo "Please specify the target (username@machine)";
+        echo "Please specify the target (username@machine)";
     else
-	TERM=xterm ssh -o PreferredAuthentications=keyboard-interactive,password -o PubkeyAuthentication=no $1
+        TERM=xterm ssh -o PreferredAuthentications=keyboard-interactive,password -o PubkeyAuthentication=no $1
     fi
 }
 # Update provision from bootstrap
@@ -22,9 +22,7 @@ function sshp () {
 function updateSystem () {
     echo "Provisioning devbox"
     vcsh dotfiles pull --quiet --rebase --ff-only
-    pushd ~ > /dev/null
-    sudo make system
-    popd > /dev/null 2>&1
+    sudo ~/bootstrap/system/setenv.sh
 }
 
 # Update provision both from dotfiles and bootstrap
@@ -37,7 +35,5 @@ function updateUser () {
 
 # Don't provision anything, just update the user with the current (user) configuration
 function updateConfig () {
-    pushd ~ > /dev/null
-    make user
-    popd > /dev/null 2>&1
+    ~/bootstrap/user/setenv.sh
 }

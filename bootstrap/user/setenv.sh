@@ -111,6 +111,7 @@ install_mr_repos () {
 }
 
 # Main
+echo "Starting user configuration. Hold on."
 check_connection
 install_ssh_keys
 bootstrap

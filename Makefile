@@ -6,11 +6,9 @@ help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 user: ## Update your user configuration
-	@echo -e "Starting user configuration from ${PWD}.\nHold on.\n"
 	@time -f "Completed after %E min" nix-shell -p vcsh --run './bootstrap/user/setenv.sh'
 
 system: ## Update your system configuration
-	@echo -e "Starting system configuration from ${PWD}.\nHold on.\n"
 	sudo $(CURDIR)/bootstrap/system/setenv.sh
 
 update-release:

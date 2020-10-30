@@ -6,7 +6,7 @@ source "$script_dir/../utils.sh"
 
 shared_dir="${1:-$SHARED_DIR}"
 
-echo "Using shared dir: ${shared_dir}"
+echo "Starting system configuration using shared dir: ${shared_dir}"
 
 set -euo pipefail
 
