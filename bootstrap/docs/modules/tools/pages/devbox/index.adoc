@@ -2,7 +2,6 @@
 :experimental:
 :source-language: bash
 :latest_version: 20.09
-:latest_revision: v{latest_version}, 16/10/2021
 ifndef::site-gen-antora[]
 :toc:
 :toclevels: 2
@@ -12,7 +11,6 @@ ifndef::site-gen-antora[]
 :nofooter:
 :icons: font
 ifndef::env-github[]
-{latest_revision}
 :toc: left
 endif::[]
 ifdef::backend-html5,backend-docbook5[]
@@ -359,7 +357,7 @@ curl -L https://nixos.org/nix/install | sh
 . export the #NIX_PATH# environment variable:
 +
 ```
-export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz
+export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/{latest_version}.tar.gz
 ```
 . Add the current nixpkgs pointer
 +
