@@ -32,7 +32,7 @@ endif::[]
 ## Overview
 
 The devbox provides a virtualbox linux operating system that would typically run on top of a Windows host.
-The box is based on https://nixos.org[NixOS] and make sure any setting can be persisted.
+The box is based on https://nixos.org[NixOS] and make sure any settings can be persisted.
 
 The main configuration file is `box.dhall`. It sits in your shared folder.
 
@@ -52,7 +52,7 @@ ifdef::backend-pdf[<<<]
 
 #### Software requirements
 
-- Virtualbox 6.1.x (tested with 6.1.6)
+- Virtualbox 6.1.x (tested with 6.1.14)
 
 Please do update if you have older version(s).
 
@@ -60,7 +60,7 @@ Please do update if you have older version(s).
 Within the host os (usually `Windows`), create a folder #C:\Users\virtualbox\devbox-{latest_version}#.
 
 Make sure your windows user has read/write permission on the folder.
-On Windows, right-click on the folder and follow menu:Properties[Sharing].
+On Windows, right-click on the folder and follow menu:Properties[Security].
 
 This will be your shared folder between the host (Windows) and the guest (/vagrant in the linux box).
 We will use the term `SHARED_DIR` to refer to this folder throughout the rest of the guide.
@@ -365,7 +365,7 @@ export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-ov
 +
 ```
 cat > ~/.nix-channels <<EOF
-https://releases.nixos.org/nixos/20.03/nixos-20.03.1950.48723f48ab9/nixexprs.tar.xz nixpkgs <1>
+https://releases.nixos.org/nixos/20.09/nixos-20.09.1469.13d0c311e3a/nixexprs.tar.xz nixpkgs <1>
 EOF
 ```
 <1> You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp?until=071ed0ebfa60cc91f2af333c7a40c64e27b22321&untilPath=manifests%2Fnix.pp#111[the pointer].

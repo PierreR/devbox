@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v20.09, 16/10/2020
+## v20.09, 27/10/2020
 
 - Upgrade nixos version to `2020.09`
 
