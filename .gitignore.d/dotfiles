@@ -81,3 +81,4 @@
 !/bootstrap/system/*
 !/bootstrap/docs/*
 !/.editorconfig
+!/.nix-channels
