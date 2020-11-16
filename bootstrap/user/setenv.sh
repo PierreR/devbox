@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+set -euo pipefail
 export NIX_PATH="${NIX_PATH}:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz"
 rm -fr ~/.config/nixpkgs/overlays
 devbox_url="http://stash.cirb.lan/scm/cicd/devbox.git"
@@ -77,14 +78,13 @@ bootstrap () {
 }
 
 install_hm () {
+    nix-channel --update
     if hash home-manager >/dev/null 2>&1
     then
         printf 'Running the Home-manager ...\n'
-        nix-channel --update
         if home-manager switch >/dev/null 2>&1
         then
             _success "home-manager switch"
-            nix-channel --update
         else
             _failure "Type 'home-manager switch' to see what went wrong."
             exit 1
@@ -93,7 +93,6 @@ install_hm () {
         if nix-shell '<home-manager>' -A install -I "home-manager=https://github.com/rycee/home-manager/archive/release-${release}.tar.gz"
         then
             _success "home-manager installed.\n"
-            nix-channel --update
         else
             _failure "Unable to install the home-manager."
             exit 1
@@ -110,11 +109,21 @@ install_mr_repos () {
     fi
 }
 
+upgrade_20_03_to_20_09() {
+  # nix-channels is no longer managed by home-manager/nix. It is installed using vcsh.
+  set +e
+  if [ -h "${HOME}/.nix-channels" ]; then
+    rm "${HOME}/.nix-channels"
+    vcsh dotfiles pull --quiet --rebase --ff-only
+  fi
+}
+
 # Main
 echo "Starting user configuration. Hold on."
 check_connection
 install_ssh_keys
 bootstrap
+upgrade_20_03_to_20_09
 install_hm
 install_mr_repos
 
