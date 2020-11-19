@@ -16,7 +16,7 @@ in
   networking.enableIPv6 = false;
   networking.nameservers = [ "192.168.34.244" "172.28.131.10" ];
   networking.hosts = {
-    "192.168.34.171" = [ "stash.cirb.lan" ];
+    "192.168.135.33" = [ "stash.cirb.lan" ];
   };
 
   security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ./CIRB_CIBG_SERVER_CA.crt ];
