@@ -19,7 +19,7 @@ in
         type = types.bool;
       };
       podman = mkOption {
-        default = true;
+        default = false;
         description = "Enable podman";
         type = types.bool;
       };
@@ -32,7 +32,9 @@ in
       oc.odo
       oc.tkn
     ];
+
     programs.podman.enable = cfg.podman;
+
     programs.zsh.initExtra = ''
       # Ugly hack: oc completion does not seem to work out of the box with zsh
       source ${pkgs.openshift-client}/share/zsh/site-functions/_oc
