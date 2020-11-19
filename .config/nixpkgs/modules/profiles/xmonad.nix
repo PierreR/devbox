@@ -30,7 +30,6 @@ in
       scriptPath = ".hm-xsession";
       windowManager.xmonad = {
         enable = true;
-        haskellPackages = pkgs.desktop.haskellPackages;
         extraPackages =
           hpkgs: [
             hpkgs.xmonad-contrib
