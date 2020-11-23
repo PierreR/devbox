@@ -19,7 +19,7 @@ pipeline {
   post {
     success {
       script {
-        if (env.GIT_BRANCH == 'master') {
+        if (env.GIT_BRANCH == '20.09') {
           build job: 'cicd/docs.cicd.cirb.lan/master', wait: true
         }
       }

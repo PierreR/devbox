@@ -364,7 +364,7 @@ export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-ov
 +
 ```
 cat > ~/.nix-channels <<EOF
-https://releases.nixos.org/nixos/20.09/nixos-20.09.1469.13d0c311e3a/nixexprs.tar.xz nixpkgs <1>
+https://releases.nixos.org/nixos/20.09/nixos-20.09.1870.14cf906f33c/nixexprs.tar.xz nixpkgs <1>
 EOF
 ```
 <1> You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp#27[the pointer].
