@@ -354,7 +354,7 @@ Follow these simple steps:
 ```
 curl -L https://nixos.org/nix/install | sh
 ```
-. export the #NIX_PATH# environment variable:
+. export the #NIX_PATH# environment variable (in _.bashrc_, _.profile_ or a location that suits your distribution the best):
 +
 [subs=attributes+]
 ```
