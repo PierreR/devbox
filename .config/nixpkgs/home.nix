@@ -77,6 +77,8 @@ in
   profiles.zsh = {
     enable = true;
     zshTheme = configData.zshTheme or "simple";
+    enableCompletion = configData.zshEnableCompletion or false;
+    enableAutosuggestions = configData.zshEnableAutosuggestions or false;
   };
 
   profiles.bash.enable = true;
