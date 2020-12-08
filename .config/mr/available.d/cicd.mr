@@ -20,3 +20,7 @@ checkout =
 [$HOME/projects/bric/cicd/docs]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/docs.cicd.cirb.lan.git docs
+
+[$HOME/projects/bric/cicd/devbox]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/devbox.git -b 20.09 devbox
