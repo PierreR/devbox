@@ -9,7 +9,7 @@ in
   options = {
     profiles.zsh = {
       enable = mkEnableOption "zsh";
-      zshTheme = mkOption {
+      theme = mkOption {
         default = "simple";
         type = types.str;
       };
@@ -35,7 +35,7 @@ in
       };
       oh-my-zsh.enable = true;
       oh-my-zsh.custom = "$HOME/.zsh_custom";
-      oh-my-zsh.theme = "${cfg.zshTheme}";
+      oh-my-zsh.theme = "${cfg.theme}";
       oh-my-zsh.plugins = [ "cicd" "git" "git-extras" ];
       shellAliases = alias // {
         ldir = "ls -ladh (.*|*)(/,@)";

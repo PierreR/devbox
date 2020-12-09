@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   sharedDir = builtins.getEnv "SHARED_DIR";
-  configData = pkgs.dhallToNix (builtins.readFile "${sharedDir}/box.dhall");
+  configData = import ./box.nix { inherit config pkgs sharedDir; };
   defaultStacks = lib.concatMapStringsSep "," (x: "\"" + x + "\"") configData.defaultStacks;
   puppet-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     name = "puppet-vim";
@@ -20,6 +20,7 @@ in
     "${sharedDir}/local-home.nix"
   ];
 
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -30,16 +31,14 @@ in
 
   home.packages = with pkgs; [
     facter
-    git-crypt
     gnupg
   ];
-
-
 
   home.keyboard.layout = "be";
 
   home.file = {
 
+    ".config/generated/config.nix".text = "${configData}";
     ".config/termite/config".source = ../termite + ("/" + configData.console.color);
 
     ".config/cicd/shell.dhall".text = ''
@@ -76,9 +75,9 @@ in
 
   profiles.zsh = {
     enable = true;
-    zshTheme = configData.zshTheme or "simple";
-    enableCompletion = configData.zshEnableCompletion or false;
-    enableAutosuggestions = configData.zshEnableAutosuggestions or false;
+    theme = configData.zsh.theme or "simple";
+    enableCompletion = configData.zsh.enableCompletion;
+    enableAutosuggestions = configData.zsh.enableAutosuggestions;
   };
 
   profiles.bash.enable = true;
@@ -98,9 +97,7 @@ in
     srcPath = /. + config.home.homeDirectory + /bootstrap/docs;
   };
 
-
   programs.cicd.enable = configData.cicd-shell or true;
-
   profiles.direnv.enable = configData.direnv or true;
 
   programs.neovim = {
