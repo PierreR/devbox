@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 set -euo pipefail
-export NIX_PATH="${NIX_PATH}:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/master.tar.gz"
-rm -fr ~/.config/nixpkgs/overlays
 devbox_url="http://stash.cirb.lan/scm/cicd/devbox.git"
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
