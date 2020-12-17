@@ -61,6 +61,7 @@ in
       files.trimTrailingWhitespace = true;
       nix.editor.tabSize = 2;
       diffEditor.renderSideBySide = true;
+      editor.minimap.enabled = configData.vscode.minimap or true;
     };
   };
 
@@ -88,17 +89,36 @@ in
     repos = configData.mr.repos;
   };
 
-  profiles.vscode.extensions.enable = configData.vscode.manageExtension or false;
+  profiles.gpg.enable = true;
   profiles.ocp.enable = configData.ocp or false;
   profiles.eclipse.enable = configData.eclipse or false;
+  profiles.vscode.extensions.enable = configData.vscode.manageExtension or false;
 
   profiles.doc = {
     enable = configData.doc or true;
     srcPath = /. + config.home.homeDirectory + /bootstrap/docs;
   };
 
-  programs.cicd.enable = configData.cicd-shell or true;
   profiles.direnv.enable = configData.direnv or true;
+
+  programs.alacritty = {
+    enable = true;
+    settings =
+    {
+      font.normal = {
+        family = "Source Code Pro";
+        style = "Medium";
+      };
+      font.size = 10.0;
+      colors.primary = {
+        background = "#2e3440";
+        foreground = "#d8dee9";
+      };
+      cursor.style = "Beam";
+    };
+  };
+
+  programs.cicd.enable = configData.cicd-shell or true;
 
   programs.neovim = {
     vimAlias = true;
@@ -127,7 +147,6 @@ in
     plugins = with pkgs.vimPlugins; [ surround sensible vim-nix ctrlp puppet-vim editorconfig-vim dhall-vim vim-fugitive bufexplorer vim-nix vim-terraform direnv-vim ];
   };
 
-  profiles.gpg.enable = true;
 
   services.lorri.enable = configData.lorri or false;
 }
