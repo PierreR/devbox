@@ -117,7 +117,7 @@ To import the `ova` image file, just click on the file. The virtualbox UI will p
 
 The most common operation is to modify your user configuration through `box.dhall` in your SHARED_DIR.
 
-You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager].
+You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager,role=external].
 Such more advanced and optional configuration is done by editing the `local-home.nix` file which also sits in your SHARED_DIR.
 
 To activate these changes, you execute the command #updateConfig# in a consolefootnote:[If you want to skip the mr step, you can use `home-manager switch`].
@@ -214,7 +214,7 @@ TIP: You can also change layout by clicking on the symbol in the status bar.
 
 ### Terminal emulator (termite)
 
-The `devbox` currently uses the https://github.com/thestinger/termite#keybindings[`termite`] terminal by default.
+The `devbox` currently uses the https://github.com/thestinger/termite#keybindings[`termite`,role=external] terminal by default.
 Alacritty can also be usedfootnote:[Alacritty will likely be the default terminal in 21.03].
 
 |=====
@@ -228,7 +228,7 @@ Alacritty can also be usedfootnote:[Alacritty will likely be the default termina
 
 The default user shell is `zsh` but you can easily switch to `bash` by changing http://stash.cirb.lan/projects/CICD/repos/devbox/browse/bootstrap/system/local-configuration.nix#8[this line]. Both allows for predictable history and completion.
 
-You can use https://github.com/wting/autojump[`autojump`,role=external] to quickly navigate from one directory to another using the #j# shortcut:
+You can use https://github.com/wting/autojump[autojump,role=external] to quickly navigate from one directory to another using the #j# shortcut:
 ```
 # Go to your directory (you can omit the `cd`)
 → cd projects/cicd/puppet/bos
@@ -238,7 +238,7 @@ You can use https://github.com/wting/autojump[`autojump`,role=external] to quick
 → j bos
 ```
 
-If you wish to add some plugins to `oh-my-zsh` the setting is http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35 [here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
+If you wish to add some plugins to `oh-my-zsh` the setting is http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35[here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
 
 Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/xxxx_rsa $LOGINID@$1`.
 
@@ -252,7 +252,7 @@ https://albertlauncher.github.io/[Albert,role=external] is an application launch
 
 ### Projects (mr)
 
-The https://myrepos.branchable.com[myrepos] project help you to automate the cloning of multiple git repositories. The usage of `mr` is optional but quite useful when you work with dozens of repositories.
+The https://myrepos.branchable.com[myrepos,role=external] project help you to automate the cloning of multiple git repositories. The usage of `mr` is optional but quite useful when you work with dozens of repositories.
 
 Mr files are pointers to repositories you want to clone. These are defined in the same http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
 
@@ -334,8 +334,8 @@ The versioning scheme follows the one of NixOS. For instance `19.09.buildnumber`
 
 When a new major version is released, breaking changes are expected.
 It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
-Please look at the xref:CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
-You would commonly need to make some adjustments to your personal configuration file such as `dhall.box` or `local-configuration.nix` before importing them in the new SHARED_DIR.
+Please look at the xref:devbox/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
+You would commonly need to make some adjustments to your personal configuration file such as `dhall.box` or `local-configuration.nix`.
 
 TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
 

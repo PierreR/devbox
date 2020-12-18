@@ -8,7 +8,7 @@
 
 [NOTE]
 ====
-A new - less strict - lifecycle will be in place in v21.03.
+A new - less strict - lifecycle will be in use in v21.03.
 Upgrading the devbox in place will be supported; removing the need to create a new box every six months.
 ====
 
@@ -53,19 +53,4 @@ The sole requirement is to defined on your host a `SHARED_DIR` in C:\Users\virtu
 - The devbox is using 2 source repositories (`devbox` and `dotfiles`). Both have been moved to our internal Bitbucket.
 - To get the devbox, you need to download its ova file which is hosted by https://repository.irisnet.be/artifactory/webapp/#/artifacts/browse/tree/General/cicd-devbox[Artifactory].
 - Add support for OpenShift.
-
-## v19.03, 17/04/2019
-
-[CAUTION,caption=Breaking changes]
-====
-- The new `config/box.dhall` comes with quite a lot of changes.
-It is probably more convenient to fetch it with `curl` again and apply back your customization.
-====
-
-- Upgrade NixOS to `19.03`.
-- Update Eclipse to `2018-12`.
-- Upgrade versioning scheme to match the underline OS.
-- Add support for vmware workstation (without vagrant).
-- Add `updateSystem`/`updateUser` to synchronize customization directly from the devbox.
-- Move mr repository on bitbucket.
 
