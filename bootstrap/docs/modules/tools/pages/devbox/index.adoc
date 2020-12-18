@@ -30,7 +30,7 @@ endif::[]
 ## Overview
 
 The devbox provides a virtualbox linux operating system that would typically run on top of a Windows host.
-The box is based on https://nixos.org[NixOS] and make sure any settings can be persisted.
+The box is based on https://nixos.org[NixOS,role=external] and make sure any settings can be persisted.
 
 The main configuration file is `box.dhall`. It sits in your shared folder.
 
@@ -41,7 +41,7 @@ image::devbox.png[]
 [TIP]
 ====
 - Have a quick look at the <<_troubleshooting>> section before to get started.
-- You can install https://git-scm.com/download/win[Git for windows] in order to get a terminal console on Windows.
+- You can install https://git-scm.com/download/win[Git for windows,role=external] in order to get a terminal console on Windows.
 ====
 
 ifdef::backend-pdf[<<<]
@@ -129,7 +129,7 @@ If you wish to update the files that provision the devbox, you do so with the #u
 ### System provisioning
 
 The advanced user might want to update the system configuration.
-This is useful to enable middleware such as a postgresql database, an elk cluster or a minishift.
+This might useful to enable middleware such as a postgresql database, elk cluster, ...
 
 If you want to go into this level of configuration, first import in your SHARED_DIR the example configuration file:
 ```
@@ -140,7 +140,7 @@ To publish your system configuration change, you execute the command #updateSyst
 
 ### Operating system (nixos)
 
-The devbox is based on https://nixos.org/[NixOS] version {latest_version}. NixOS is a Linux distribution based on the https://nixos.org/nix/[nix] package manager.
+The devbox is based on https://nixos.org/[NixOS,role=external] version {latest_version}. NixOS is a Linux distribution based on the `nix` package manager.
 
 Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
 
@@ -165,7 +165,7 @@ The entry point for the system setup is the `/etc/nixos/configuration.nix` file.
 
 ### Windows manager (xmonad)
 
-The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tiling windows manager] called http://xmonad.org/[xmonad]. Such a minimal approach has been chosen for 3 reasons:
+The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tiling windows manager,role=external] called http://xmonad.org/[xmonad,role=external]. Such a minimal approach has been chosen for 3 reasons:
 
 * Efficiency: the box needs to consume as minimum CPU/Mem resources as possible
 * Simplicity: the window manager is basic but yet quite flexible
@@ -214,7 +214,8 @@ TIP: You can also change layout by clicking on the symbol in the status bar.
 
 ### Terminal emulator (termite)
 
-The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite`] terminal.
+The `devbox` currently uses the https://github.com/thestinger/termite#keybindings[`termite`] terminal by default.
+Alacritty can also be usedfootnote:[Alacritty will likely be the default terminal in 21.03].
 
 |=====
 |Command | Description
@@ -227,7 +228,7 @@ The `devbox` uses the https://github.com/thestinger/termite#keybindings[`termite
 
 The default user shell is `zsh` but you can easily switch to `bash` by changing http://stash.cirb.lan/projects/CICD/repos/devbox/browse/bootstrap/system/local-configuration.nix#8[this line]. Both allows for predictable history and completion.
 
-You can use https://github.com/wting/autojump[`autojump`] to quickly navigate from one directory to another using the #j# shortcut:
+You can use https://github.com/wting/autojump[`autojump`,role=external] to quickly navigate from one directory to another using the #j# shortcut:
 ```
 # Go to your directory (you can omit the `cd`)
 → cd projects/cicd/puppet/bos
@@ -243,7 +244,7 @@ Another useful shortcut is #sshi# to quickly log to a remote machine. It is the 
 
 ### Application launcher (albert)
 
-https://albertlauncher.github.io/[Albert] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]footnote:[you can change the hotkey in the box.dhall configuration file.]. Use it to:
+https://albertlauncher.github.io/[Albert,role=external] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]footnote:[you can change the hotkey in the box.dhall configuration file.]. Use it to:
 
 - open any application, directory or file by typing its name (type 'File' to open `Nautilus`)
 - shutdown/reboot the vm
@@ -283,12 +284,10 @@ You can ask a `git status` of all your repositories with
 ```
 ====
 
-### Local environment (direnv/lorri)
+### Local environment (direnv)
 
-https://direnv.net/[direnv] removes the need to `nix-shell` into a project folder.
+https://direnv.net/[direnv,role=external] removes the need to `nix-shell` into a project folder.
 It prevents the project derivation to be garbage collected as the dependency graph is rebuild whenever the project dependencies changes.
-
-If you feel the initiation time when you switch from folder to folder is too long, you can enable https://github.com/target/lorri[Lorri] in your box.dhall configuration.
 
 ### Tips & tricks
 
@@ -307,11 +306,11 @@ To install a package, just do:
 
 This imperative approach is useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `local-home.nix` to gain persistence.
 
-You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org]
+You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org,role=external]
 
 #### Open a shell
 
-You can open a shell with the `nix-shell` commmand. For instance to open a shell that have `JAVA_HOME` set:
+You can open a shell with the `nix-shell` command. For instance to open a shell that have `JAVA_HOME` set:
 
 ```
 → nix-shell -p jdk11
@@ -336,7 +335,7 @@ The versioning scheme follows the one of NixOS. For instance `19.09.buildnumber`
 When a new major version is released, breaking changes are expected.
 It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
 Please look at the xref:CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
-You would commonly need to make some adjustements to your personal configuration file such as `dhall.box` or `local-configuration.nix` before importing them in the new SHARED_DIR.
+You would commonly need to make some adjustments to your personal configuration file such as `dhall.box` or `local-configuration.nix` before importing them in the new SHARED_DIR.
 
 TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
 
@@ -389,13 +388,13 @@ cat > ~/.config/nixpkgs/config.nix <<EOF
 { allowUnfree = true; allowBroken = true; }
 EOF
 ```
-. install https://direnv.net/[direnv]
+. install https://direnv.net/[direnv,role=external]
 
 ## Troubleshooting
 
 Ssh-key with passphrase::
 +
-Using cirb ssh-keys with a passphrase will currently cause difficulties with `mr`, a tool we use to handle git repositories in a declarative way. It will prevent some of the automation to go through (nothing critical though). If possible, please regenerate a pair of keys with no passphrase and register them in stash.cirb.lanfootnote:[We will improve the situation in a future release if it is tagged as a major concern.].
+Using cirb ssh-keys with a passphrase will currently cause difficulties with `mr`, a tool we use to handle git repositories in a declarative way. It will prevent some of the automation to go through (nothing critical though). If possible, please regenerate a pair of keys with no passphrase and register them in stash.cirb.lan.
 
 For Windows 10 users::
 +
@@ -428,11 +427,11 @@ Support for VMware Workstation is not provided.
 
 The box (of about 4G) is generated in two stages.
 The first step generates a minimal generic ova file with packer (currently packer-1.5.5).
-The second step applies some customizations to produce a more heavy tailored box (desktop, ...).
+The second step applies some customization to produce a more heavy tailored box (desktop, ...).
 
 ### Stage 1
 
-. On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository] within the shared directory.
+. On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository,role=external] within the shared directory.
 . On the host OS, in the nixbox directory, execute the following commands:
 +
 ```

@@ -3,6 +3,14 @@
 ## v20.09, 27/10/2020
 
 - Upgrade nixos version to `2020.09`
+- Add https://github.com/alacritty/alacritty[Alacritty,role=external] support
+- Add https://github.com/romkatv/powerlevel10k[powerlevel10k,role=external] support
+
+[NOTE]
+====
+A new - less strict - lifecycle will be in place in v21.03.
+Upgrading the devbox in place will be supported; removing the need to create a new box every six months.
+====
 
 ## v20.03, 08/04/2020
 
