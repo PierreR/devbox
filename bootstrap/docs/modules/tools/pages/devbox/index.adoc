@@ -343,15 +343,20 @@ Question, support, discussion are handled in the team `#cicd` channel.
 
 ## Using another unix distribution
 
-The devbox provided an easy way to get started.
+The devbox provides an easy way to get started.
 Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
 
 Follow these simple steps:
 
-. install nix on your linux machine following https://nixos.org/download.html[these instructions]. It is actually a single command:
+. install nix on your linux machine following https://nixos.org/download.html[these instructions, role=external]. It is actually a single command:
 +
 ```
 curl -L https://nixos.org/nix/install | sh
+```
+You then activate `nix` in your terminal, by adding the following line in your `.bash_profile`:
++
+```
+source ~/.nix-profile/etc/profile.d/nix.sh
 ```
 . export the #NIX_PATH# environment variable (in _.bashrc_, _.profile_ or a location that suits your distribution the best):
 +
@@ -363,10 +368,10 @@ export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-ov
 +
 ```
 cat > ~/.nix-channels <<EOF
-https://releases.nixos.org/nixos/20.09/nixos-20.09.1870.14cf906f33c/nixexprs.tar.xz nixpkgs <1>
+https://releases.nixos.org/nixos/20.09/nixos-20.09.1870.14cf906f33c/nixexprs.tar.xz nixpkgs
 EOF
 ```
-<1> You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp#27[the pointer].
+IMPORTANT: You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp#27[the pointer].
 . Update your nix channel
 +
 ```
@@ -399,18 +404,12 @@ Using cirb ssh-keys with a passphrase will currently cause difficulties with `mr
 For Windows 10 users::
 +
 Everything usually just works on Windows 10.
-That said, keep in mind that various issues have been reported concerning incompatibilities between `hyper-v` and `virtualbox`. It is likely that such compatibilities arise again after a windows or virtualbox update.
+In the past, various issues have been reported concerning incompatibilities between `Hyper-V` and `Virtualbox`.
+Latest versions of Virtualbox should be compatible though.
 +
-We will try to offer a hyper-v compatible box using `packer` (no virtualbox) in the future. Packer has just announced such a support. Stay tune.
+We might offer a WSL2/Hyper-V compatible box in the future. Packer has just announced such a support. Stay tune.
 +
-In the meanwhile, if you face such a issue you will have to disable hyper-v to get a working devbox. Please proceed as follow:
-+
-[lowerroman]
-. disable hyper-v
-. use virtualbox as hypervisor
-. Use the devbox for your docker need (docker is included out of the box) or install some docker tools based on virtualbox
-
-NOTE: The only use of hyper-v we have detected so far is by the latest version of *Docker for Windows*.
+NOTE: It is possible to use *Docker for Windows* https://poweruser.blog/docker-on-windows-10-without-hyper-v-a529897ed1cc[without Hyper-V, role=external].
 
 For Mac users::
 +
