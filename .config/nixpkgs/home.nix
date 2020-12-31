@@ -77,8 +77,8 @@ in
   profiles.zsh = {
     enable = true;
     theme = configData.zsh.theme or "simple";
-    enableCompletion = configData.zsh.enableCompletion;
-    enableAutosuggestions = configData.zsh.enableAutosuggestions;
+    enableCompletion = configData.zsh.enableCompletion or true;
+    enableAutosuggestions = configData.zsh.enableAutosuggestions or false;
   };
 
   profiles.bash.enable = true;
@@ -114,7 +114,7 @@ in
         background = "#2e3440";
         foreground = "#d8dee9";
       };
-      cursor.style = "Beam";
+      cursor.style = configData.alacritty.cursor.style or "Beam";
     };
   };
 
