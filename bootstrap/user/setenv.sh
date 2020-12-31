@@ -11,7 +11,8 @@ if [ ! -d "$mount_dir" ]; then
 fi
 
 config_file="${mount_dir}/box.dhall"
-if [ ! -f "$config_file" ]; then
+cue_config_file="${mount_dir}/box.cue"
+if [ ! -f "$config_file" ] && [ ! -f "$cue_config_file" ]; then
     echo "Add empty configuration in ${config_file}. Please fill in ${config_file} with your personal data."
     cp --verbose "${script_dir}/box-cirb.dhall" "$config_file"
 fi
