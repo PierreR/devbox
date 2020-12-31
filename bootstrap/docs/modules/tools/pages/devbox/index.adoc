@@ -215,7 +215,7 @@ TIP: You can also change layout by clicking on the symbol in the status bar.
 ### Terminal emulator (termite)
 
 The `devbox` currently uses the https://github.com/thestinger/termite#keybindings[`termite`,role=external] terminal by default.
-Alacritty can also be usedfootnote:[Alacritty will likely be the default terminal in 21.03].
+https://github.com/alacritty/alacritty[Alacritty, role=external] can also be usedfootnote:[Alacritty will likely be the default terminal in 21.03].
 
 |=====
 |Command | Description
