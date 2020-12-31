@@ -42,5 +42,6 @@ light: #theme & {
 		enable:          bool | *true
 		manageExtension: bool | *false
 		showTabs:        bool | *true
+		minimap:         bool | *true
 	}
 }
