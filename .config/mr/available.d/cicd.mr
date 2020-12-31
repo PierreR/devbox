@@ -2,10 +2,6 @@
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/dhall.git
 
-[$HOME/projects/bric/cicd/nixpkgs-overlays]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/nixpkgs-overlays.git
-
 [$HOME/projects/bric/cicd/shell]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/cicd-shell.git shell
