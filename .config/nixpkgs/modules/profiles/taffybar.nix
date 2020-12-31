@@ -23,6 +23,7 @@ in
         -- -*- mode:haskell -*-
         module Main where
 
+        import System.Taffybar (startTaffybar)
         import System.Taffybar.Context (TaffybarConfig(..))
         import System.Taffybar.Hooks
         import System.Taffybar.Information.CPU
