@@ -14,7 +14,6 @@ Box configuration file
   vscode.manageExtension      : Manage vscode via the home-manager
   eclipse                     : Do you want to install a statically defined Eclipse version that is known to work.
   defaultStacks               : List of stack to use by default for tools such as the cicd shell.
-  lorri                       : Enable lorri (https://github.com/target/lorri/)
   zsh.theme                    : Select zsh theme from ~/.zsh_custom/themes (ex: "lambda-mod" or "powerlevel10k")
   zsh.enableCompletion         : Optionnal : Enable completion with zsh
   zsh.enableAutosuggestions    : Optionnal : Enable zsh Autosuggestion
@@ -41,7 +40,6 @@ Box configuration file
   , manageExtension = False
   }
 , eclipse = False
-, lorri = False
 , ocp = False
 , zsh.theme = "simple"
 , console = { color = "light", ctermbg="254" }
