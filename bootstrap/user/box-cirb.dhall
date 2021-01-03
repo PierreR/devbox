@@ -42,7 +42,7 @@ Box configuration file
 , eclipse = False
 , ocp = False
 , zsh.theme = "simple"
-, console = { color = "light", ctermbg="254" }
+, console = { color = "dark", ctermbg="239" }
 , mr =
     { config = [] : List Text
     , repos = [] : List Text
