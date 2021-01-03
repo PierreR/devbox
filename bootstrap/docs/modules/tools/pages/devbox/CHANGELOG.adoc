@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v21.05, expected release 11/06/2021
+
+- Change the default console theme to 'dark'
+- Change the default terminal to https://github.com/alacritty/alacritty[Alacritty,role=external]
+
 ## v20.09, 27/10/2020
 
 - Upgrade nixos version to `2020.09`
