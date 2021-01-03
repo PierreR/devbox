@@ -5,9 +5,6 @@ checkout =
 [$HOME/projects/bric/cicd/shell]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/cicd-shell.git shell
-    pushd shell
-    ln -s $HOME/.dev/stack.yaml stack.yaml
-    popd
 
 [$HOME/projects/bric/cicd/documentation]
 checkout =
@@ -19,18 +16,7 @@ checkout =
 
 [$HOME/projects/bric/cicd/devbox]
 checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/devbox.git -b 20.09 devbox
-
-[$HOME/projects/bric/cicd/puppet/stack-cicd]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-stack-cicd.git stack-cicd
-    pushd $HOME/projects/bric/cicd/puppet/stack-cicd
-    git submodule update --init
-    popd
-
-[$HOME/projects/bric/cicd/puppet/vault_agent]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-vault_agent.git vault_agent
+    git clone ssh://git@stash.cirb.lan:7999/cicd/devbox.git -b 21.05 devbox
 
 [$HOME/projects/bric/cicd/salt/stack-base]
 checkout =
