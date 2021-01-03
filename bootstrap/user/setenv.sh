@@ -108,21 +108,11 @@ install_mr_repos () {
     fi
 }
 
-upgrade_20_03_to_20_09() {
-  # nix-channels is no longer managed by home-manager/nix. It is installed using vcsh.
-  set +e
-  if [ -h "${HOME}/.nix-channels" ]; then
-    rm "${HOME}/.nix-channels"
-    vcsh dotfiles pull --quiet --rebase --ff-only
-  fi
-}
-
 # Main
 echo "Starting user configuration. Hold on."
 check_connection
 install_ssh_keys
 bootstrap
-upgrade_20_03_to_20_09
 install_hm
 install_mr_repos
 
