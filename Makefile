@@ -1,4 +1,4 @@
-.PHONY: user system update-release eclipse-extraplugins test
+.PHONY: help user system update-release eclipse-extraplugins test
 
 include ./bootstrap/version.sh
 

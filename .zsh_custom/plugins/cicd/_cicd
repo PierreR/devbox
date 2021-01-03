@@ -6,7 +6,7 @@ local ret=1
 
 
 _stack () {
-  compadd bas bos editoria brucat fidus fmx genericservices bruciel navapermisenv mapfish urbisaas urbisonline geoservertools urbistools hms iam irisbox nova middleware plone smartcity tms urbisaddress editoria blockchain klimcicc cicd jenkins k8s
+  compadd bas bos brucat fidus fmx genericservices bruciel urbisaas urbisonline geoservertools urbistools hms iam irisbox nova plone smartcity tms urbisaddress editoria blockchain klimcicc cicd jenkins
 }
 
 _node () {
@@ -61,19 +61,15 @@ _1subcommand () {
             local -a options
             options=('facts:return static facts'
                      'ping:ping nodes'
-                     'data:return configuration data by key'
                      'du:return disk usage'
                      'service:service management on one node'
                      'runpuppet:apply puppet configuration'
                      'run:run a command on the saltmaster'
                      'sync:sync data between minions and the saltmaster'
-                     'orch:apply an orchestration command'
-                     'result:display command result'
                      'setfacts:set machine base facts'
                      'state:apply a salt configuration'
                      'console:open console'
                      'gentags: generate node completion file'
-                     'validate: validate nodes'
                      'foreman: display the foreman report in a browser'
                     )
             _describe 'values' options && ret=0
@@ -83,35 +79,6 @@ _1subcommand () {
 
 _2stackcommand () {
     case $words[3] in
-        orch)
-            local -a options
-            options=('-s:stack name'
-                     '-h:display help'
-                    )
-            _describe 'values' options && ret=0
-            ;;
-        result)
-            local -a options
-            options=('-j:job id'
-                     '-n: number of result to display'
-                     '-h:display help'
-                    )
-            _describe 'values' options && ret=0
-            ;;
-        data)
-            local -a options
-            options=('-s:stack name'
-                     '-k:property to look at for'
-                     '-n:node fqdn'
-                     '-g:group name'
-                     '-h:display help'
-                     '--all:target all hostgroups'
-                     '--raw:raw output (no jq)'
-                     '--quiet:remove display of salt executed command'
-                     '--dry:test, noop run'
-                    )
-            _describe -t 'values' options && ret=0
-            ;;
         facts)
             local -a options
             options=('-s:stack name'
@@ -157,9 +124,6 @@ _2stackcommand () {
                      '--dry:test, noop run'
                     )
             _describe 'values' options && ret=0
-            ;;
-        run)
-            compadd puppet.clean_certs
             ;;
         state)
             compadd puppet4.agent users
@@ -213,9 +177,6 @@ if (( CURRENT == 5 )); then
         ;;
         status|reload)
             _services $words[2] && ret=0
-        ;;
-        'puppet4.agent')
-            _puppet4_agent && ret=0
         ;;
     esac
 fi
