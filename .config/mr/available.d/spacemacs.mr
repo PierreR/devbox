@@ -1,3 +1,0 @@
-[$HOME/.emacs.d]
-checkout = git clone -b develop --single-branch https://github.com/syl20bnr/spacemacs.git .emacs.d
-skip = ([ "$1" = update ])
