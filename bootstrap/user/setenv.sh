@@ -50,7 +50,7 @@ install_ssh_keys () {
 check_connection() {
     if ! ping -c1 stash.cirb.lan > /dev/null
     then
-        echo "No connexion to stash.\nBootstrap can't be realized. Abort user configuration."
+        _failure "No connexion to stash.\nBootstrap can't be realized. Abort user configuration."
         exit 1
     fi
 }
