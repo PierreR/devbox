@@ -38,21 +38,16 @@ image::devbox.png[]
 
 ## First time setup
 
-[TIP]
+[TIP, caption=Before you start]
 ====
-- Have a quick look at the <<_troubleshooting>> section before to get started.
+- Install Virtualbox 6.1.x (tested with 6.1.14)
+- Have a quick look at the <<_troubleshooting>> section.
 - You can install https://git-scm.com/download/win[Git for windows,role=external] in order to get a terminal console on Windows.
 ====
 
 ifdef::backend-pdf[<<<]
 
 ### Preparation
-
-#### Software requirements
-
-- Virtualbox 6.1.x (tested with 6.1.14)
-
-Please do update if you have older version(s).
 
 ====
 Within the host os (usually `Windows`), create a folder #C:\Users\virtualbox\devbox-{latest_version}#.
@@ -120,7 +115,7 @@ The most common operation is to modify your user configuration through `box.dhal
 You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager,role=external].
 Such more advanced and optional configuration is done by editing the `local-home.nix` file which also sits in your SHARED_DIR.
 
-To activate these changes, you execute the command #updateConfig# in a consolefootnote:[If you want to skip the mr step, you can use `home-manager switch`].
+To activate these changes, you execute the command #updateConfig# in a consolefootnote:[if you want to skip the mr step, you can use `home-manager switch`].
 
 ****
 If you wish to update the files that provision the devbox, you do so with the #updateUser# command.
@@ -144,7 +139,7 @@ The devbox is based on https://nixos.org/[NixOS,role=external] version {latest_v
 
 Compare to more traditional distributions, NixOS favors declarative settings and brings to the table the following properties:
 
-- *reproducability*: everything is reproducible (packages are identical binary wise).
+- *reproducibility*: everything is reproducible (packages are identical binary wise).
 - *atomicity*: configuration changes can be rollback.
 - *isolation*: on a project, user or system level, processes are built in an isolated environment.
 
@@ -152,16 +147,14 @@ By using `nixos` we are striving for a system that we can destroy and re-create 
 
 The entry point for the system setup is the `/etc/nixos/configuration.nix` file.
 
-#### Useful command
-
-```
+.Useful command
+----
 # rebuild nixos after changing the system configuration file
 → sudo nixos-rebuild switch
 
 # clean-up the store (whenever the disk usage is too high)
 → sudo nix-collect-garbage -d
-
-```
+----
 
 ### Windows manager (xmonad)
 
@@ -172,10 +165,9 @@ The devbox comes with a https://en.wikipedia.org/wiki/Tiling_window_manager[tili
 * Practicality: the desktop is distraction free.
 
 If you want another UI, based on Gnome, KDE, i3wm or Pantheon, that's easy enough.
-Please ask for assistance on our #CICD Team channelfootnote:[If such request is popular, we will add an help section about it.]
+Please ask for assistance on our #CICD Team channelfootnote:[if such request is popular, we will add an help section about it.]
 
-#### Minimal cheat sheet
-
+.Minimal cheat sheet
 |======
 |Command |Description
 
@@ -193,12 +185,12 @@ Please ask for assistance on our #CICD Team channelfootnote:[If such request is 
 | kbd:[F 1] |Open this README in a browser
 |======
 
-#### Layout
 
 The active layout is displayed on the status bar:
 
 image::layout-indicator.png[]
 
+.Layout
 [width="35%"]
 |=======
 |Symbol |Name
@@ -229,14 +221,14 @@ https://github.com/alacritty/alacritty[Alacritty, role=external] can also be use
 The default user shell is `zsh` but you can easily switch to `bash` by changing http://stash.cirb.lan/projects/CICD/repos/devbox/browse/bootstrap/system/local-configuration.nix#8[this line]. Both allows for predictable history and completion.
 
 You can use https://github.com/wting/autojump[autojump,role=external] to quickly navigate from one directory to another using the #j# shortcut:
-```
+----
 # Go to your directory (you can omit the `cd`)
 → cd projects/cicd/puppet/bos
 # Teach autojump that you like bos
 → autojump -i 20
 # Open a new terminal. You can now quickly go to ~/projects/cicd/puppet/bos
 → j bos
-```
+----
 
 If you wish to add some plugins to `oh-my-zsh` the setting is http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35[here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
 
@@ -269,19 +261,18 @@ In that case and more particularly when you first boot a new devbox, you might w
 In the home folder, use the following command:
 
 .force mr repo updates
-```
+----
 ~ → mr -f up <1>
-```
+----
 <1> `-f` is forcing the update
 ====
 
 [NOTE]
 ====
-You can ask a `git status` of all your repositories with
-
-```
+You can ask for a `git status` of all your repositories with
+----
 ~ → mr st
-```
+----
 ====
 
 ### Local environment (direnv)
@@ -292,54 +283,39 @@ It prevents the project derivation to be garbage collected as the dependency gra
 ### Tips & tricks
 
 ====
-The customization of the devbox operates at different levels and ensure configuration - personal or shared - survives the destruction of the box.
+The customization of the devbox operates on different levels and ensure configuration - personal or shared - survives the destruction of the box.
 ====
 
-#### Install local packages
+To install a package, the declarative and recommend practice is to add it to your _SHARED_DIR/local-home.nix_.
+You then use #updateConfig# to activate the change.
 
-To install a package, just do:
+Another approach is to use `nix-env` footnote:[suffix _env_ expresses the fact that only the user vagrant is affected]:
+
+----
+nix-env -i firefox
+----
+
+It is fast but the imperative command does not persist the configuration.
+If the use case is to be able to quickly test something, it is recommended to open a `nix shell` instead:
 
 ```
-→ nix-env -i geany <1>
+nix-shell -p jdk11 <1>
 ```
-<1> install the `geany` package for the vagrant user. The suffix _env_ expresses the fact that only the user environment is affected.
-
-This imperative approach is useful for testing but the change is not persistent. When you settle down on a list of packages, please add them to `local-home.nix` to gain persistence.
+<1> open a shell that have `JAVA_HOME` set to use jdk11.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org,role=external]
 
-#### Open a shell
-
-You can open a shell with the `nix-shell` command. For instance to open a shell that have `JAVA_HOME` set:
-
-```
-→ nix-shell -p jdk11
-```
-
-#### Storing the box configuration file
-
-You might want to go one step further and store your `box.dhall` file on Github or the like. This is pretty easy thanks to the powerful https://github.com/dhall-lang/dhall-lang/blob/master/README.md[dhall configuration language]. Replace the content of `SHARED_DIR/box.dhall` with one simple line containing an url that points to the config file. Here is an example:
+.Storing the box configuration file
+****
+You might want to go one step further and store your _box.dhall_ file in Git.
+This is easy. Replace the content of the file with one line containing an url that points to the config file.
+Here is an example:
 
 .SHARED_DIR/box.dhall
 ```
 https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
 ```
-
-## Life cycle
-
-The devbox will be maintained continuously.
-Two version are expected to be released every year in April and October following the NixOS release cycle.
-
-The versioning scheme follows the one of NixOS. For instance `19.09.buildnumber`.
-
-When a new major version is released, breaking changes are expected.
-It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
-Please look at the xref:devbox/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
-You would commonly need to make some adjustments to your personal configuration file such as `dhall.box` or `local-configuration.nix`.
-
-TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
-
-Question, support, discussion are handled in the team `#cicd` channel.
+****
 
 ## Using another unix distribution
 
@@ -395,6 +371,22 @@ EOF
 ```
 . install https://direnv.net/[direnv,role=external]
 
+## Life cycle
+
+The devbox will be maintained continuously.
+Two version are expected to be released every year in April and October following the NixOS release cycle.
+
+The versioning scheme follows the one of NixOS. For instance `20.03.buildnumber`.
+
+When a new major version is released, breaking changes are expected.
+It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
+Please look at the xref:devbox/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
+You would commonly need to make some adjustments to your personal configuration file such as `dhall.box` or `local-configuration.nix`.
+
+TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
+
+Question, support, discussion are handled in the team `#cicd` channel.
+
 ## Troubleshooting
 
 Ssh-key with passphrase::
@@ -430,7 +422,7 @@ The second step applies some customization to produce a more heavy tailored box 
 
 ### Stage 1
 
-. On  a *linux* hostfootnote:[Cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository,role=external] within the shared directory.
+. On  a *linux* hostfootnote:[cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository,role=external] within the shared directory.
 . On the host OS, in the nixbox directory, execute the following commands:
 +
 ```
