@@ -31,7 +31,7 @@ _services () {
           compadd nginx salt-master salt-minion
           ;;
       prod)
-          compadd nginx salt-master salt-minion postgrest-saltstack postgrest-saltstack_dev postgrest-saltstack_staging nexus jenkins puppetmaster puppetdb sonar
+          compadd nginx salt-master salt-minion jenkins puppetmaster puppetdb sonar
           ;;
    esac
 }
