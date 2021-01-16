@@ -1,3 +1,8 @@
+[$HOME/projects/bric/cicd/salt/base]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/CICD/salt-stack-base.git base
+skip = ([ "$1" = update ])
+
 [$HOME/projects/bric/cicd/salt/middleware]
 checkout =
     git clone -b middleware ssh://git@stash.cirb.lan:7999/middleware/salt-stack-middleware.git middleware
