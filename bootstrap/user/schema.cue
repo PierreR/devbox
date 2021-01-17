@@ -3,12 +3,12 @@
 	ctermbg: string
 }
 
-dark: #theme & {
+#dark: #theme & {
 	color:   "dark"
 	ctermbg: "239"
 }
 
-light: #theme & {
+#light: #theme & {
 	color:   "light"
 	ctermbg: "254"
 }
@@ -17,7 +17,7 @@ light: #theme & {
 	userEmail:     !=""
 	userName:      !=""
 	loginId:       !=""
-	console:       dark | *light
+	console:       *#dark | #light
 	defaultStacks: [ string, ...] | *[]
 	defaultUI: {
 		enable:            bool | *true
