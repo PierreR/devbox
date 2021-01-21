@@ -39,6 +39,7 @@ Box configuration file
   { enable = True
   , manageExtension = False
   }
+, cicd-shell = False
 , eclipse = False
 , ocp = False
 , zsh.theme = "simple"

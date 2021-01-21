@@ -27,7 +27,7 @@ package devbox
 		appLauncherHotkey: *"Ctrl+Space" | string
 		netw:              *"enp0s3" | string
 	}
-	"cicd-shell": *true  | bool
+	"cicd-shell": *false | bool
 	eclipse:      *false | bool
 	lorri:        *false | bool
 	ocp:          *false | bool
