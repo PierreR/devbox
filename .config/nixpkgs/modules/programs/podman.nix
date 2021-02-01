@@ -11,8 +11,8 @@ in
     };
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ slirp4netns podman ];
-    xdg.configFile."containers/libpod.conf".text = ''
+    home.packages = with pkgs; [ slirp4netns podman fuse-overlayfs ];
+    xdg.configFile."containers/containers.conf".text = ''
       image_default_transport = "docker://"
       runtime_path = ["${pkgs.runc}/bin/runc"]
       conmon_path = ["${pkgs.conmon}/bin/conmon"]
