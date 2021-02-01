@@ -27,6 +27,7 @@ sync_extra_config () {
 
 sync_extra_config "custom-configuration.nix"
 sync_extra_config "local-configuration.nix"
+rsync -av --include '*.crt' --exclude '*' ${script_dir}/ /etc/nixos/
 
 set +e
 echo "Updating ..."

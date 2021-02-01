@@ -19,7 +19,7 @@ in
     "192.168.135.33" = [ "stash.cirb.lan" ];
   };
 
-  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ./CIRB_CIBG_SERVER_CA.crt ];
+  security.pki.certificateFiles = [ ./CIRB_CIBG_ROOT_PKI.crt ./CIRB_CIBG_SERVER_CA.crt ./CIRB_CIBG_SUBCA_PRD.crt ./CIRB_CIBG_SERVICE_FW_CA.crt ];
 
   nix = {
     extraOptions = ''
