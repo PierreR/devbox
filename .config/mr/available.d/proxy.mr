@@ -5,3 +5,15 @@ checkout =
 [$HOME/projects/bric/proxy/ansible-elk-proxy]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/rp/ansible-elk-proxy.git
+
+[$HOME/projects/bric/proxy/dev]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/rp/rp-cirbdev.git dev
+
+[$HOME/projects/bric/proxy/lab]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/rp/rp-cirblab.git lab
+
+[$HOME/projects/bric/proxy/prod]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/rp/rp-cirbprod.git prod
