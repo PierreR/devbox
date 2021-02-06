@@ -18,19 +18,19 @@
 	userName:      !=""
 	loginId:       !=""
 	console:       *#dark | #light
-	defaultStacks: [ string, ...] | *[]
+	defaultStacks: [...string]
 	defaultUI: {
 		enable:            bool | *true
 		wallpaper:         *"mountain.jpg" | "devbox" | "devbox2" | "solarized" | "abstract-red"
-		appLauncherHotkey: string | *"Ctrl+Space"
-		netw:              string | *"enp0s3"
+		appLauncherHotkey: *"Ctrl+Space" | string
+		netw:              *"enp0s3" | string
 	}
-	"cicd-shell": bool | *true
-	eclipse:      bool | *false
-	lorri:        bool | *false
-	ocp:          bool | *false
+	"cicd-shell": *true  | bool
+	eclipse:      *false | bool
+	lorri:        *false | bool
+	ocp:          *false | bool
 	mr: {
-		config?: [ string, ...]
+		config?: [...string]
 		repos?: [ string, ...]
 	}
 	zsh: {

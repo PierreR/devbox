@@ -23,7 +23,7 @@ checkout =
 
 [$HOME/projects/bric/cicd/puppet/stack-cicd]
 checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet/stack-cicd.git
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-stack-cicd.git stack-cicd
     pushd $HOME/projects/bric/cicd/puppet/stack-cicd
     git submodule update --init
     popd
