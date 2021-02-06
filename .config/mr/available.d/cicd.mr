@@ -21,10 +21,25 @@ checkout =
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/devbox.git -b 20.09 devbox
 
-[$HOME/projects/bric/cicd/puppet]
+[$HOME/projects/bric/cicd/puppet/stack-cicd]
 checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-stack-cicd.git puppet
-    pushd $HOME/projects/bric/cicd/puppet
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet/stack-cicd.git
+    pushd $HOME/projects/bric/cicd/puppet/stack-cicd
     git submodule update --init
     popd
 
+[$HOME/projects/bric/cicd/puppet/vault_agent]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-vault_agent.git vault_agent
+
+[$HOME/projects/bric/cicd/terraform/vcloud-linuxvm-module]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/terraform-vcloud-linux-vm.git vcloud-linuxvm-module
+
+[$HOME/projects/bric/cicd/terraform/cicd]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/terraform.git cicd
+
+[$HOME/projects/bric/cicd/salt/stack-base]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/salt-stack-base.git stack-base
