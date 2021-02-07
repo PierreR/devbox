@@ -30,8 +30,9 @@ in
   };
 
   home.packages = with pkgs; [
-    facter
-    gnupg
+    ansible
+    fd
+    ripgrep
   ];
 
   home.keyboard.layout = "be";
