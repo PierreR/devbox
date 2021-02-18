@@ -1,0 +1,3 @@
+[$HOME/projects/bric/terraform/vcloud-linuxvm-module]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/ter/terraform-vcloud-linuxvm.git vcloud-linuxvm-module
