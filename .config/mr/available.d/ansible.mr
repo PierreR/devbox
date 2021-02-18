@@ -5,3 +5,7 @@ checkout =
 [$HOME/projects/bric/ansible/filebeat]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/an/filebeat.git
+
+[$HOME/projects/bric/ansible/ansible_collections/cirb/basesystem]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/an/basesystem.git
