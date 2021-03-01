@@ -25,6 +25,7 @@ in
     ./CIRB_CIBG_SERVER_CA.crt
     ./CIRB_CIBG_SUBCA_PRD.crt
     ./CIRB_CIBG_SERVICE_FW_CA.crt
+    ./TERENA_SSL_CA_3.crt
   ];
 
   nix = {
