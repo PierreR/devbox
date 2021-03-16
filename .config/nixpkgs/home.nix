@@ -30,7 +30,7 @@ in
   };
 
   home.packages = with pkgs; [
-    ansible
+    unstable.ansible
     fd
     ripgrep
   ];
