@@ -32,6 +32,7 @@ in
   home.packages = with pkgs; [
     unstable.ansible
     fd
+    openssl
     ripgrep
   ];
 
