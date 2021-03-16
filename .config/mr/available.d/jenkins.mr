@@ -18,3 +18,6 @@ checkout =
 
 [$HOME/projects/bric/jenkins/management]
 checkout = git clone ssh://git@stash.cirb.lan:7999/jen/management.git management
+
+[$HOME/projects/bric/jenkins/ansible]
+checkout = git clone ssh://git@stash.cirb.lan:7999/jen/ansible.git

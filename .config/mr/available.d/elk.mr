@@ -18,6 +18,10 @@ checkout =
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/elk/elastbric.git
 
+[$HOME/projects/bric/elk/ansible]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/elk/ansible.git
+
 [$HOME/projects/bric/elk/puppet-stack-elk]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/elk/puppet-stack-elk.git
