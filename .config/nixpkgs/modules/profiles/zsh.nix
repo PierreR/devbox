@@ -57,6 +57,7 @@ in
       '';
       localVariables = {
         ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=#8c8c8c";
+        VAULT_ADDR = "https://hashivault.cirb.lan";
       };
       plugins = [
         {

@@ -34,6 +34,7 @@ in
     fd
     openssl
     ripgrep
+    vault
   ];
 
   home.keyboard.layout = "be";
