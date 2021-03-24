@@ -30,7 +30,7 @@ in
     home.packages = with pkgs; [
       openshift-client
       oc.odo
-      oc.tkn
+      k8s.tkn
     ];
 
     programs.podman.enable = cfg.podman;
