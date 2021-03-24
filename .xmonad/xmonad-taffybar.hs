@@ -190,7 +190,7 @@ main =
   xmonad $ docks $ ewmh $ pagerHints $ myConfig
   where
     myConfig  = def
-      { terminal           = "termite"
+      { terminal           = "alacritty"
       , focusFollowsMouse  = False
       , borderWidth        = 1
       , modMask            = mod4Mask
