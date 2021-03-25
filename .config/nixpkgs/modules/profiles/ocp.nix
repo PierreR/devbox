@@ -31,6 +31,7 @@ in
       openshift-client
       oc.odo
       k8s.tkn
+      k8s.helm
     ];
 
     programs.podman.enable = cfg.podman;
