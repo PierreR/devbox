@@ -1,4 +1,6 @@
 // This is a minimal configuration for the devbox.
+package devbox
+
 config: #Config & {
 	userName:  "John Doe" // full user name (used in git)
 	userEmail: "jdoe@cirb.brussels" // email (used in git)

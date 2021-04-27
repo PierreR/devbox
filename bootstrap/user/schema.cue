@@ -1,3 +1,5 @@
+package devbox
+
 #theme: {
 	color:   string
 	ctermbg: string
