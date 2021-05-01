@@ -32,10 +32,6 @@ checkout =
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-vault_agent.git vault_agent
 
-[$HOME/projects/bric/cicd/terraform]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/terraform.git cicd
-
 [$HOME/projects/bric/cicd/salt/stack-base]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/salt-stack-base.git stack-base
