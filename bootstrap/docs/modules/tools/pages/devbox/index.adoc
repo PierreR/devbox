@@ -369,6 +369,8 @@ cat > ~/.config/nixpkgs/config.nix <<EOF
 EOF
 ```
 . install https://direnv.net/[direnv,role=external]
+. The `devbox` automates some user configurations. One example is the connection to `git`.
+You will need to realize these configuration yourself for your distribution.
 
 ## Life cycle
 
