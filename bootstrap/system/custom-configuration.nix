@@ -141,7 +141,7 @@ in
 
   fonts = {
     enableDefaultFonts = true;
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
     fonts = [
       pkgs.source-code-pro

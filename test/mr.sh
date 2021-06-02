@@ -1,5 +1,5 @@
 #! /usr/bin/env nix-shell
-#! nix-shell --keep SSH_AUTH_SOCK -i bash -p git rsync mr vcsh
+#! nix-shell --keep SSH_AUTH_SOCK -i bash -p rsync mr vcsh
 
 set -euxo pipefail
 
