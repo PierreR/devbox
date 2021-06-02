@@ -19,4 +19,4 @@ eclipse-extraplugins: ## Add egit & m2e to Eclipse
 	@time -f "Completed after %E min" nix-shell -p eclipses.eclipse-platform --run './bootstrap/user/eclipse-extraplugins.sh'
 
 test:  ## Run local test
-	nix-shell test --keep SSH_AUTH_SOCK --command './test/mr.sh'
+	./test/mr.sh

@@ -1,7 +1,15 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell --keep SSH_AUTH_SOCK -i bash -p git rsync mr vcsh
+
 set -euxo pipefail
-TEST_DIR=$(mktemp -d -p /srv/jenkins)
-mkdir -p "$TEST_DIR"
+
+if [ -z "${1+x}" ]; then
+  TEST_DIR=$(mktemp -d -p /srv/jenkins)
+  mkdir -p "$TEST_DIR"
+else
+  TEST_DIR="$1"
+fi
+echo "Using $TEST_DIR"
 function finish() {
 	rm -rf "$TEST_DIR"
 }
