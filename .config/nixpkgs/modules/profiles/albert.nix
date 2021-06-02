@@ -73,7 +73,7 @@ in
       '';
 
       ".config/albert/last_used_version".text = ''
-        0.16.1
+        0.17.2
 
       '';
 

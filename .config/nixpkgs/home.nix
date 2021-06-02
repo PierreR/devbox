@@ -30,7 +30,7 @@ in
   };
 
   home.packages = with pkgs; [
-    unstable.ansible
+    ansible
     fd
     openssl
     ripgrep
@@ -120,7 +120,7 @@ in
       cursor.style = configData.alacritty.cursor.style or "Beam";
       key_bindings = [
         { key = "Equals"; mods =  "Control"; action = "ResetFontSize";}
-        { key = "Add"; mods = "Control|Shift"; action = "IncreaseFontSize";}
+        { key = "Plus"; mods = "Control|Shift"; action = "IncreaseFontSize";}
       ];
     };
   };

@@ -1,7 +1,6 @@
-[$HOME/projects/bric/gis/puppet-stack-urbistools]
+[$HOME/projects/bric/urbt/puppet-stack-urbistools]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/urbt/puppet-stack-urbistools.git
-    pushd $HOME/projects/bric/gis/puppet-stack-urbistools
+    pushd $HOME/projects/bric/urbt/puppet-stack-urbistools
     git submodule update --init
     popd
-skip = ([ "$1" = update ])
