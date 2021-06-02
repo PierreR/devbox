@@ -1,7 +1,0 @@
-[$HOME/projects/bric/cicd/terraform/terraform-vcloud-linux-vm]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/terraform-vcloud-linux-vm.git
-
-[$HOME/projects/bric/cicd/terraform/cicd]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/terraform.git cicd
