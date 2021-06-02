@@ -16,10 +16,10 @@ package devbox
 }
 
 #Config: {
-	userEmail:     !=""
-	userName:      !=""
-	loginId:       !=""
-	console:       *#dark | #light
+	userEmail: !=""
+	userName:  !=""
+	loginId:   !=""
+	console:   *#dark | #light
 	defaultStacks: [...string]
 	defaultUI: {
 		enable:            bool | *true
@@ -33,7 +33,7 @@ package devbox
 	ocp:          *false | bool
 	mr: {
 		config?: [...string]
-		repos?: [ string, ...]
+		repos?: [...string]
 	}
 	zsh: {
 		theme:                 string | *"simple"
