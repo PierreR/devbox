@@ -1,12 +1,8 @@
-[$HOME/projects/bric/artifactory/puppet-stack-artifactory]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/artif/puppet-stack-artifactory.git
-    pushd $HOME/projects/bric/artifactory/puppet-stack-artifactory
-    git submodule update --init
-    popd
-
 [$HOME/projects/bric/artifactory/documentation]
 checkout = git clone ssh://git@stash.cirb.lan:7999/artif/documentation.git
+
+[$HOME/projects/bric/artifactory/artifactory-cleanup]
+checkout = git clone ssh://git@stash.cirb.lan:7999/artif/artifactory-cleanup.git artifactory-cleanup
 
 [$HOME/projects/bric/artifactory/cleanup]
 checkout = git clone ssh://git@stash.cirb.lan:7999/artif/cleanup.git cleanup
