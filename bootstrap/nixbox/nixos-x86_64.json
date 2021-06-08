@@ -1,0 +1,61 @@
+{
+  "variables": {
+    "disk_size": "72000",
+    "memory": "6400",
+    "version": "21.05",
+    "build": "804.5de44c15758",
+    "checksum": "f4fca6c8118f143bc5ae1f85835f5554d8b480546f9279d8ceb150f8097e864b"
+  },
+  "builders": [
+    {
+      "boot_wait": "45s",
+      "boot_command": [
+        "echo http://{{ .HTTPIP }}:{{ .HTTPPort}} > .packer_http<enter>",
+        "mkdir -m 0700 .ssh<enter>",
+        "curl $(cat .packer_http)/install_rsa.pub > .ssh/authorized_keys<enter>",
+        "sudo systemctl start sshd<enter>"
+      ],
+      "http_directory": "scripts",
+      "shutdown_command": "sudo shutdown -h now",
+      "ssh_private_key_file": "./scripts/install_rsa",
+      "ssh_port": 22,
+      "ssh_username": "nixos",
+      "headless": true,
+      "type": "virtualbox-iso",
+	  "iso_url": "https://releases.nixos.org/nixos/{{ user `version` }}/nixos-{{ user `version` }}.{{ user `build` }}/nixos-minimal-{{ user `version` }}.{{ user `build` }}-x86_64-linux.iso",
+      "iso_checksum": "{{ user `checksum` }}",
+      "guest_additions_mode": "disable",
+      "format": "ova",
+      "guest_os_type": "Linux_64",
+      "disk_size": "{{ user `disk_size` }}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{ user `memory` }}",
+          "--vram",
+          "128",
+          "--clipboard",
+          "bidirectional",
+		      "--graphicscontroller",
+          "VMSVGA"
+        ],
+        [
+          "sharedfolder",
+          "add", "{{.Name}}",
+          "--name", "vagrant",
+          "--hostpath", "C:\\Users\\virtualbox\\devbox-{{ user `version` }}",
+          "--automount"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "sudo su -c '{{ .Vars }} {{.Path}}'",
+      "type": "shell",
+      "script": "./scripts/install.sh"
+    }
+  ]
+}

@@ -2,7 +2,9 @@
 
 ## v21.05, expected release 11/06/2021
 
+- Upgrade nixos version to `2021.05`
 - By default the `cicd-shell` is not installed anymore (you can install it by setting `cicd-shell` to True in box.dhall)
+- Add _nixbox_ folder for packer source
 - Change the default console theme to 'dark'
 - Change the default terminal to https://github.com/alacritty/alacritty[Alacritty,role=external]
 

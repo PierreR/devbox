@@ -417,41 +417,31 @@ Support for VMware Workstation is not provided.
 
 ## How is the box generated ?
 
-The box (of about 4G) is generated in two stages.
-The first step generates a minimal generic ova file with packer (currently packer-1.5.5).
-The second step applies some customization to produce a more heavy tailored box (desktop, ...).
+The box (of about 4G) is generated using the configuration source files from the _bootstrap/nixbox_ folder.
+The _nixbox_ folder is a stripped and customized clone of the https://github.com/nix-community/nixbox[nixbox project, role=external].
+The first step uses https://www.packer.io[Packer, role=external] to create a minimal `ova`.
+The second step applies the system & user customizations to produce a more heavy tailored box.
 
-### Stage 1
+NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox_ folder in your `SHARED_DIR`.
 
-. On  a *linux* hostfootnote:[cloning in Windows will cause many encoding issues!], use the provided `nixbox.sh` script to clone the https://github.com/nix-community/nixbox[nixbox repository,role=external] within the shared directory.
-. On the host OS, in the nixbox directory, execute the following commands:
-+
-```
-packer.exe build nixos-x86_64.json --only virtualbox-iso
-```
-
-### Stage 2
-
-. Create the SHARED_DIR
-. Import the `ova` image file using the Virtualbox UI.
-. Start the imported vm, login as `vagrant`
-.. cd into `/etc/devbox-{latest_version}.x`
-.. make system
-.. reboot
-.. cd into `/etc/devbox-{latest_version}.x`
-.. make user
-. Export the vm
-. Push the ova to a mirror site.
+[lowerroman]
+. Go to the nixbox folder.
+. `packer build --only=virtualbox-iso nixos-x86_64.json`
+. Import the generated `ova` in Virtualbox
+. Start the vm and login with vagrant/vagrant
+. Keyboard is still qwerty at this stage. If you want to change it type `sudo loadkeys be-latin1`
+. Go to the _/etc/devbox-{latest_version}.x_ folder and run `make system`
+. Reboot
+. Go to the _/etc/devbox-{latest_version}.x_ folder and run `make user`
 
 ### Update NixOS
 
 To update the devbox to a new version of NixOS you follow these steps:
 
 . create a new branch (for instance `20.09`)
-. update the `version.sh` file in the bootstrap folder
+. update the `bootstrap/version.sh`
+. update the `bootstrap/nixbox` with the correct pointers
 . update .config/nixpkgs/home.nix with the correct channels
-. Follow Stage 1 with a fresh nixbox clone
-* ensure _nixos-x86_64.json_ & _scripts/install_ have the correct pointers.
 
 ## FAQ
 
