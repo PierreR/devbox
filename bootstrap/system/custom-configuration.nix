@@ -134,8 +134,6 @@ in
   ];
 
   users.users.vagrant.extraGroups = [ "docker" ];
-  users.users.vagrant.subGidRanges = [ { startGid = 100000; count = 65535; } ];
-  users.users.vagrant.subUidRanges = [ { startUid = 100000; count = 65535; } ];
 
   virtualisation.docker.enable = true;
 
