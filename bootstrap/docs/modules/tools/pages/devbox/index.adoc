@@ -40,7 +40,7 @@ image::devbox.png[]
 
 [TIP, caption=Before you start]
 ====
-- Install Virtualbox 6.1.x (tested with 6.1.14)
+- Install Virtualbox 6.1.x (tested with 6.1.22)
 - Have a quick look at the <<_troubleshooting>> section.
 - You can install https://git-scm.com/download/win[Git for windows,role=external] in order to get a terminal console on Windows.
 ====
@@ -55,7 +55,7 @@ Within the host os (usually `Windows`), create a folder #C:\Users\virtualbox\dev
 Make sure your windows user has read/write permission on the folder.
 On Windows, right-click on the folder and follow menu:Properties[Security].
 
-This will be your shared folder between the host (Windows) and the guest (/vagrant in the linux box).
+This will be your shared folder between the host (Windows) and the guest (_/vagrant_ in the linux box).
 We will use the term `SHARED_DIR` to refer to this folder throughout the rest of the guide.
 ====
 
@@ -426,7 +426,7 @@ NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox
 
 [lowerroman]
 . Go to the nixbox folder.
-. `packer build --only=virtualbox-iso nixos-x86_64.json`
+. `packer build nixos-x86_64.json`
 . Import the generated `ova` in Virtualbox
 . Start the vm and login with vagrant/vagrant
 . Keyboard is still qwerty at this stage. If you want to change it type `sudo loadkeys be-latin1`
@@ -438,10 +438,10 @@ NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox
 
 To update the devbox to a new version of NixOS you follow these steps:
 
-. create a new branch (for instance `20.09`)
+. create a new branch (for instance `21.05`)
 . update the `bootstrap/version.sh`
 . update the `bootstrap/nixbox` with the correct pointers
-. update .config/nixpkgs/home.nix with the correct channels
+. update _.config/nixpkgs/home.nix_ with the correct channels
 
 ## FAQ
 
