@@ -1,17 +1,20 @@
 package devbox
 
 #theme: {
-	color:   string
+	background: string
+	foreground: string
 	ctermbg: string
 }
 
 #dark: #theme & {
-	color:   "dark"
+	background: "#2e3440"
+    foreground: "#d8dee9"
 	ctermbg: "239"
 }
 
 #light: #theme & {
-	color:   "light"
+	background: "#fdf6e3"
+	foreground: "#657b83"
 	ctermbg: "254"
 }
 

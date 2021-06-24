@@ -39,7 +39,7 @@ in
         showTray=false
         standsalone_note_shown=true
         telemetry=false
-        terminal=termite -e
+        terminal=alacritty -e
         theme=Numix
 
         [org.albert.extension.applications]

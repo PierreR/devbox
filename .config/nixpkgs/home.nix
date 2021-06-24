@@ -42,7 +42,6 @@ in
   home.file = {
 
     ".config/generated/config.nix".text = "${configData}";
-    ".config/termite/config".source = ../termite + ("/" + configData.console.color);
 
     ".config/cicd/shell.dhall".text = ''
       { loginId = env:LOGINID as Text, defaultStacks = [${defaultStacks}] }
@@ -114,8 +113,8 @@ in
       };
       font.size = 10.0;
       colors.primary = {
-        background = "#2e3440";
-        foreground = "#d8dee9";
+        background = configData.console.background or "#2e3440";
+        foreground = configData.console.foreground or "#d8dee9";
       };
       cursor.style = configData.alacritty.cursor.style or "Beam";
       key_bindings = [
