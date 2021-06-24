@@ -17,7 +17,7 @@ Box configuration file
   zsh.theme                    : Select zsh theme from ~/.zsh_custom/themes (ex: "lambda-mod" or "powerlevel10k")
   zsh.enableCompletion         : Optionnal : Enable completion with zsh
   zsh.enableAutosuggestions    : Optionnal : Enable zsh Autosuggestion
-  console.color               : A color configuration file in ~/.config/termite that can be used to provide a light or dark theme to the terminal.
+  console.color               : A color configuration for the terminal.
   console.cterm               : Change vim cursor line text font : italic,bold,underline, ... (optionnal)
   console.ctermbg             : Set vim cursor line color. (optionnal)
   mr.config                   : List of additional personal mr repositories you might want to add to your mrconfig file.

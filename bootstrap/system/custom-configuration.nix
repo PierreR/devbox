@@ -123,7 +123,6 @@ in
     psmisc
     silver-searcher
     shared_mime_info
-    termite
     tree
     unzip
     vcsh

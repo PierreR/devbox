@@ -9,9 +9,6 @@
 !/.config
 !/.config/gtk-3.0
 !/.config/gtk-3.0/settings.ini
-!/.config/termite
-!/.config/termite/light
-!/.config/termite/dark
 !/.config/taffybar
 !/.config/taffybar/taffybar.css
 !/.config/mr
