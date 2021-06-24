@@ -17,7 +17,6 @@ Box configuration file
   zsh.theme                    : Select zsh theme from ~/.zsh_custom/themes (ex: "lambda-mod" or "powerlevel10k")
   zsh.enableCompletion         : Optionnal : Enable completion with zsh
   zsh.enableAutosuggestions    : Optionnal : Enable zsh Autosuggestion
-  console.color               : A color configuration for the terminal.
   console.cterm               : Change vim cursor line text font : italic,bold,underline, ... (optionnal)
   console.ctermbg             : Set vim cursor line color. (optionnal)
   mr.config                   : List of additional personal mr repositories you might want to add to your mrconfig file.
@@ -43,7 +42,6 @@ Box configuration file
 , eclipse = False
 , ocp = False
 , zsh.theme = "simple"
-, console = { color = "dark", ctermbg="239" }
 , mr =
     { config = [] : List Text
     , repos = [] : List Text
