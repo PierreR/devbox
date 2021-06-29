@@ -13,3 +13,7 @@ checkout =
 [$HOME/projects/bric/puppet/terraform]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/pup/terraform.git terraform
+
+[$HOME/projects/bric/puppet/ansible]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/pup/ansible.git
