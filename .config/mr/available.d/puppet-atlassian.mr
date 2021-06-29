@@ -1,7 +1,0 @@
-[$HOME/projects/bric/cicd/puppet/atlassian]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-stack-atlassian.git atlassian
-    pushd $HOME/projects/bric/cicd/puppet/atlassian
-    git submodule update --init
-    popd
-skip = ([ "$1" = update ])
