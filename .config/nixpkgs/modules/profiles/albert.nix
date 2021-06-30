@@ -53,8 +53,8 @@ in
 
         [org.albert.extension.system]
         enabled=true
-        reboot=sudo systemctl reboot
-        shutdown=sudo systemctl poweroff
+        reboot=systemctl reboot
+        shutdown=systemctl poweroff
 
         [org.albert.extension.websearch]
         enabled=false
