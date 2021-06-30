@@ -13,7 +13,7 @@ in
   };
   config = mkIf cfg.enable {
     programs.direnv.enable = true;
-    programs.direnv.enableNixDirenvIntegration = true;
+    programs.direnv.nix-direnv.enable = true;
 
     home.file.".config/direnv/lib/nix.sh" = {
       text = "
