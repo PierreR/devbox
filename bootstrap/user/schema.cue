@@ -3,19 +3,19 @@ package devbox
 #theme: {
 	background: string
 	foreground: string
-	ctermbg: string
+	ctermbg:    string
 }
 
 #dark: #theme & {
 	background: "#2e3440"
-    foreground: "#d8dee9"
-	ctermbg: "239"
+	foreground: "#d8dee9"
+	ctermbg:    "239"
 }
 
 #light: #theme & {
 	background: "#fdf6e3"
 	foreground: "#657b83"
-	ctermbg: "254"
+	ctermbg:    "254"
 }
 
 #Config: {
@@ -48,5 +48,6 @@ package devbox
 		manageExtension: bool | *false
 		showTabs:        bool | *true
 		minimap:         bool | *true
+		colorTheme:      string | *"Default Dark+"
 	}
 }
