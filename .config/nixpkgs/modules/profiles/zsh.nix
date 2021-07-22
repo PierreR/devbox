@@ -76,8 +76,17 @@ in
             repo = "powerlevel10k";
             rev = "v1.14.3";
             sha256 = "073d9hlf6x1nq63mzpywc1b8cljbm1dd8qr07fdf0hsk2fcjiqg7";
-         };
-       }
+          };
+        }
+        {
+          name = "zsh-syntax-highlighting";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-syntax-highlighting";
+            rev = version;
+            sha256 = "03r6hpb5fy4yaakqm3lbf4xcvd408r44jgpv4lnzl9asp4sb9qc0";
+          };
+        }
       ];
     };
   };
