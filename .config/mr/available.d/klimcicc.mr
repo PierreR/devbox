@@ -1,0 +1,6 @@
+[$HOME/projects/bric/klimcicc/puppet-stack-klimcicc]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/klim/puppet-stack-klimcicc.git
+    pushd $HOME/projects/bric/klimcicc/puppet-stack-klimcicc
+    git submodule update --init
+    popd

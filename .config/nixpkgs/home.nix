@@ -65,6 +65,7 @@ in
       diffEditor.renderSideBySide = true;
       editor.minimap.enabled = configData.vscode.minimap or true;
       workbench.colorTheme = configData.vscode.colorTheme or "Default Dark+";
+      workbench.startupEditor = "none";
     };
   };
 
