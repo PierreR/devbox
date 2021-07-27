@@ -425,14 +425,23 @@ The second step applies the system & user customizations to produce a more heavy
 NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox_ folder in your `SHARED_DIR`.
 
 [lowerroman]
-. Go to the nixbox folder.
+. Go to the nixbox  http://stash.cirb.lan/projects/CICD/repos/devbox/browse/bootstrap[folder].
 . `packer build nixos-x86_64.json`
 . Import the generated `ova` in Virtualbox
+.. Change name (_devbox-{latest_version}_)
+. Change machine configuration
+.. Storage disk option : Storage > check `Solid state`)
+.. Disable remote access : Display > remote Display > uncheck `Enable Server`
+. Before running vm, ensure that folder `C:\Users\virtualbox\devbox-21.05` is created.
+.. Files `box.dhall` and `local-home.nix` must be also present inside this folder.
 . Start the vm and login with vagrant/vagrant
 . Keyboard is still qwerty at this stage. If you want to change it type `sudo loadkeys be-latin1`
 . Go to the _/etc/devbox-{latest_version}.x_ folder and run `make system`
 . Reboot
+. On login page, press : Ctrl + Alt + F1
+. Login with vagrant/vagrant (keyboard must be in azerty)
 . Go to the _/etc/devbox-{latest_version}.x_ folder and run `make user`
+. Reboot
 
 ### Update NixOS
 
