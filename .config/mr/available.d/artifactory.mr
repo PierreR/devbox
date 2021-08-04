@@ -9,3 +9,6 @@ checkout = git clone ssh://git@stash.cirb.lan:7999/artif/cleanup.git cleanup
 
 [$HOME/projects/bric/artifactory/terraform]
 checkout = git clone ssh://git@stash.cirb.lan:7999/artif/terraform.git terraform
+
+[$HOME/projects/bric/artifactory/ansible]
+checkout = git clone ssh://git@stash.cirb.lan:7999/artif/ansible.git

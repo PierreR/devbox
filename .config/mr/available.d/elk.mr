@@ -1,26 +1,26 @@
 [$HOME/projects/bric/elk/documentation]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/elk/documentation.git
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/documentation.git
 
 [$HOME/projects/bric/elk/openshift]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/elk/openshift.git
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/openshift.git
 
-[$HOME/projects/bric/elk/tf-config]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/elk/tf-config.git
+[$HOME/projects/bric/elk/terraform]
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/terraform.git
 
 [$HOME/projects/bric/elk/elk-tls]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/elk/elk-tls.git
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/elk-tls.git
 
 [$HOME/projects/bric/elk/elastbric]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/elk/elastbric.git
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/elastbric.git
 
 [$HOME/projects/bric/elk/ansible]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/elk/ansible.git
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/ansible.git
+
+[$HOME/projects/bric/elk/kafka-client]
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/kafka-client.git
+
+[$HOME/projects/bric/elk/curator]
+checkout = git clone ssh://git@stash.cirb.lan:7999/elk/curator.git
 
 [$HOME/projects/bric/elk/puppet-stack-elk]
 checkout =
