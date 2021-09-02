@@ -1,10 +1,9 @@
-[$HOME/projects/bric/atlassian/puppet]
+[$HOME/projects/bric/atlassian/puppet-bitbucket-onprem]
 checkout =
-    git clone ssh://git@stash.cirb.lan:7999/at/puppet.git
-    pushd $HOME/projects/bric/atlassian/puppet
+    git clone ssh://git@stash.cirb.lan:7999/at/puppet-bitbucket-onprem.git
+    pushd $HOME/projects/bric/atlassian/puppet-bitbucket-onprem
     git submodule update --init
     popd
-skip = ([ "$1" = update ])
 
 [$HOME/projects/bric/atlassian/ansible]
 checkout = git clone ssh://git@stash.cirb.lan:7999/at/ansible.git
