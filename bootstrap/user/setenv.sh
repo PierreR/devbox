@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 set -euo pipefail
-devbox_url="http://stash.cirb.lan/scm/cicd/devbox.git"
+devbox_url="https://bitbucket.irisnet.be/scm/cicd/devbox.git"
 
 script_dir="$(dirname -- "$(readlink -f -- "$0")")"
 
@@ -43,14 +43,14 @@ install_ssh_keys () {
         find "$ssh_hostdir" -type f ! -name "*.*" -exec rsync -ai --chmod=600 {} "$guestdir/" \;
         _success "install ssh keys"
     else
-        _failure "no ssh-keys directory found. You won't be able to push anything to stash.cirb.lan."
+        _failure "no ssh-keys directory found. You won't be able to push anything to bitbucket.irisnet.be"
     fi
 }
 
 check_connection() {
-    if ! ping -c1 stash.cirb.lan > /dev/null
+    if ! ping -c1 bitbucket.irisnet.be > /dev/null
     then
-        _failure "No connexion to stash.\nBootstrap can't be realized. Abort user configuration."
+        _failure "No connexion to Bitbucket.\nBootstrap can't be realized. Abort user configuration."
         exit 1
     fi
 }
@@ -58,20 +58,14 @@ check_connection() {
 bootstrap () {
 
     if [ ! -d "/home/vagrant/.config/vcsh/repo.d/dotfiles.git" ]; then # bootstrap: clone of the dotfiles repo in $HOME
-        if [ -z "$devbox_url" ]
+        echo "About to use vcsh to clone ${devbox_url}"
+        if vcsh clone -b "$release" "$devbox_url" dotfiles
         then
-            _failure "In box.dhall, 'devbox_url' is empty.\nBootstrap can't be realized. Abort user configuration."
-            exit 1
+            _success "clone devbox ${release} from ${devbox_url}\n"
         else
-            echo "About to use vcsh to clone ${devbox_url}"
-            if vcsh clone -b "$release" "$devbox_url" dotfiles
-            then
-                _success "clone devbox ${release} from ${devbox_url}\n"
-            else
-                printf '\n'
-                _failure "Bootstrap has failed ! Unable to clone ${devbox_url}.\nAborting user configuration."
-                exit 1
-            fi
+            printf '\n'
+            _failure "Bootstrap has failed ! Unable to clone ${devbox_url}.\nAborting user configuration."
+            exit 1
         fi
     fi
 }

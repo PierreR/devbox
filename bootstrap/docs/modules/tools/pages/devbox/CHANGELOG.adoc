@@ -24,41 +24,11 @@ Upgrading the devbox in place will be supported; removing the need to create a n
 
 [CAUTION,caption=Breaking changes]
 ====
-The devbox has been migrated into http://stash.cirb.lan/projects/CICD/repos/devbox/browse[one single repository].
+The devbox has been migrated into https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse[one single repository].
 ====
 
 - Upgrade nixos version to `2020.03`
 - Improve dark console theme
 - Support VirtualBox 6.1 by default.
 - Support bash as well as zsh
-- Add `oc`, `kubectl` and many more derivations to the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache]
-
-## v19.09, 22/10/2019
-
-[CAUTION,caption=Breaking changes]
-====
-- This release incorporates the https://github.com/rycee/home-manager[home-manager].
-Many configurations has been moved to it: you should expect major changes from this release.
-- The `box.dhall` configuration file has changed drastically ! It now sits at the root of the `SHARED_DIR`.
-- Vagrant has been removed (use `UpdateUser` to activate configuration changes)
-- The `shell.dhall` configuration file is gone.
-====
-
-- You can now start without any configuration at all.
-****
-The sole requirement is to defined on your host a `SHARED_DIR` in C:\Users\virtualbox\devbox-19.09
-****
-- The user configuration is now the main configuration point
-+
-(system configuration is reserved for more advanced usage such as middleware configuration).
-- The user configuration is now driven by https://github.com/rycee/home-manager[home-manager].
-- All configurations have been merged into a single http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse[dotfiles] repository.
-- Upgrade NixOS to `19.09`.
-- Add https://github.com/target/lorri[lorri].
-- Add customization for the Albert launcher hotkey in `box.dhall`.
-- Support VirtualBox 6.0 by default.
-- Eclipse has been upgraded to `2019-06`. It is not installed by default (see eclipse key in box.dhall to enable it).
-- The devbox is using 2 source repositories (`devbox` and `dotfiles`). Both have been moved to our internal Bitbucket.
-- To get the devbox, you need to download its ova file which is hosted by https://repository.irisnet.be/artifactory/webapp/#/artifacts/browse/tree/General/cicd-devbox[Artifactory].
-- Add support for OpenShift.
-
+- Add `oc`, `kubectl` and many more derivations to the https://bitbucket.irisnet.be/projects/CICD/repos/nixpkgs-overlays/browse[binary cache]

@@ -217,7 +217,7 @@ The `devbox` uses the https://github.com/alacritty/alacritty[Alacritty, role=ext
 |kbd:[Control,Shift,Space] |Start selection mode
 |=====
 
-The default user shell is `zsh` but you can easily switch to `bash` by changing http://stash.cirb.lan/projects/CICD/repos/devbox/browse/bootstrap/system/local-configuration.nix#8[this line]. Both allows for predictable history and completion.
+The default user shell is `zsh` but you can easily switch to `bash` by changing https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/bootstrap/system/local-configuration.nix#8[this line]. Both allows for predictable history and completion.
 
 You can use https://github.com/wting/autojump[autojump,role=external] to quickly navigate from one directory to another using the #j# shortcut:
 ----
@@ -229,7 +229,7 @@ You can use https://github.com/wting/autojump[autojump,role=external] to quickly
 → j bos
 ----
 
-If you wish to add some plugins to `oh-my-zsh` the setting is http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35[here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
+If you wish to add some plugins to `oh-my-zsh` the setting is https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35[here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
 
 Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/xxxx_rsa $LOGINID@$1`.
 
@@ -245,7 +245,7 @@ https://albertlauncher.github.io/[Albert,role=external] is an application launch
 
 The https://myrepos.branchable.com[myrepos,role=external] project help you to automate the cloning of multiple git repositories. The usage of `mr` is optional but quite useful when you work with dozens of repositories.
 
-Mr files are pointers to repositories you want to clone. These are defined in the same http://stash.cirb.lan/projects/CICD/repos/devbox/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
+Mr files are pointers to repositories you want to clone. These are defined in the same https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
 
 To activate an available repository in your devbox, add the name of the file to the `mr.repos` list in `SHARED_DIR/box.dhall`.
 
@@ -253,7 +253,7 @@ As soon as you type #updateConfig# on the command line, the enabled repos will b
 
 [WARNING]
 ====
-Some `mr` description files purposefully prevent the repository update by using the http://stash.cirb.lan/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d/idm-back.mr#7[#skip#] marker.
+Some `mr` description files purposefully prevent the repository update by using the https://bitbucket.irisnet.be/projects/DEVB/repos/dotfiles/browse/.config/mr/available.d/idm-back.mr#7[#skip#] marker.
 For those repositories, `updateConfig` won't do anything.
 
 In that case and more particularly when you first boot a new devbox, you might want to force the update.
@@ -319,7 +319,7 @@ https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
 ## Using another unix distribution
 
 The devbox provides an easy way to get started.
-Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the http://stash.cirb.lan/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
+Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the https://bitbucket.irisnet.be/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
 
 Follow these simple steps:
 
@@ -337,7 +337,7 @@ source ~/.nix-profile/etc/profile.d/nix.sh
 +
 [subs=attributes+]
 ```
-export NIX_PATH=$NIX_PATH:nixpkgs-overlays=http://stash.cirb.lan/CICD/nixpkgs-overlays/archive/{latest_version}.tar.gz
+export NIX_PATH=$NIX_PATH:nixpkgs-overlays=https://bitbucket.irisnet.be/CICD/nixpkgs-overlays/archive/{latest_version}.tar.gz
 ```
 . Add the current nixpkgs pointer
 +
@@ -346,7 +346,7 @@ cat > ~/.nix-channels <<EOF
 https://releases.nixos.org/nixos/21.05/nixos-21.05.804.5de44c15758/nixexprs.tar.xz nixpkgs
 EOF
 ```
-IMPORTANT: You will need to manually follow the update of http://stash.cirb.lan/projects/CICD/repos/puppet-profile/browse/manifests/nix.pp#27[the pointer].
+IMPORTANT: You will need to manually follow the update of https://bitbucket.irisnet.be/projects/PUP/repos/puppet-profile/browse/manifests/nix.pp#27[the pointer].
 . Update your nix channel
 +
 ```
@@ -392,7 +392,7 @@ Question, support, discussion are handled in the team `#cicd` channel.
 
 Ssh-key with passphrase::
 +
-Using cirb ssh-keys with a passphrase will currently cause difficulties with `mr`, a tool we use to handle git repositories in a declarative way. It will prevent some of the automation to go through (nothing critical though). If possible, please regenerate a pair of keys with no passphrase and register them in stash.cirb.lan.
+Using cirb ssh-keys with a passphrase will currently cause difficulties with `mr`, a tool we use to handle git repositories in a declarative way. It will prevent some of the automation to go through (nothing critical though). If possible, please regenerate a pair of keys with no passphrase and add them to the SCM.
 
 For Windows 10 users::
 +
@@ -425,7 +425,7 @@ The second step applies the system & user customizations to produce a more heavy
 NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox_ folder in your `SHARED_DIR`.
 
 [lowerroman]
-. Go to the nixbox  http://stash.cirb.lan/projects/CICD/repos/devbox/browse/bootstrap[folder].
+. Go to the nixbox  https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/bootstrap[folder].
 . `packer build nixos-x86_64.json`
 . Import the generated `ova` in Virtualbox
 .. Change name (_devbox-{latest_version}_)
