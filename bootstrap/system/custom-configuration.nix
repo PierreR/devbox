@@ -32,8 +32,10 @@ in
     extraOptions = ''
       keep-outputs = true
       keep-derivations = true
+      experimental-features = nix-command flakes
     '';
     gc.automatic = true;
+    package = pkgs.nixFlakes;
     trustedUsers = [ "root" "vagrant" ];
     binaryCachePublicKeys = [
       "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
