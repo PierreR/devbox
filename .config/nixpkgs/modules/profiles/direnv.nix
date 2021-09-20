@@ -14,6 +14,7 @@ in
   config = mkIf cfg.enable {
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
+    programs.direnv.nix-direnv.enableFlakes = true;
 
     home.file.".config/direnv/lib/nix.sh" = {
       text = "
