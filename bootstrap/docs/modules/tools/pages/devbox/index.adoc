@@ -319,9 +319,23 @@ https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
 ## Using another unix distribution
 
 The devbox provides an easy way to get started.
-Nevertheless if you prefer to work with another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the https://bitbucket.irisnet.be/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
+Nevertheless if you use Windows or prefer another linux derivation (such as Ubuntu for instance) it is possible to do so and still benefit from the https://bitbucket.irisnet.be/projects/CICD/repos/nixpkgs-overlays/browse[binary cache] the CICD team provided.
 
-Follow these simple steps:
+### Windows (WSL)
+
+. Enable WSL feature
+. Open PowerShell with Admin right and execute the following script:
+
+```
+Set-Location -Path C:\Users\Public\Downloads
+wsl --unregister NixOS
+New-Item nixos -ItemType directory -Force
+Set-Location -Path ./nixos
+wget https://repository.irisnet.be/artifactory/cicd-nix-local/nixos-system-x86_64-linux.tar.gz -OutFile ./nixos-system-x86_64-linux.tar.gz
+wsl --import NixOS .\nixos nixos-system-x86_64-linux.tar.gz --version 2
+```
+
+### Linux
 
 . install nix on your linux machine following https://nixos.org/download.html[these instructions, role=external]. It is actually a single command:
 +
@@ -413,7 +427,6 @@ For VMware users::
 There is currently an issue with packer & VMware Workstation.
 Since 6.1, Virtualbox supports nested hardware-virtualization on Intel CPUs (starting with 5th generation Core i, codename Broadwell).
 Support for VMware Workstation is not provided.
-
 
 ## How is the box generated ?
 
