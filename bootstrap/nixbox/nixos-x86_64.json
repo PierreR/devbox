@@ -2,9 +2,9 @@
   "variables": {
     "disk_size": "72000",
     "memory": "6400",
-    "version": "21.05",
-    "build": "1240.71326cd12dd",
-    "checksum": "620f669fd77ff18547de59430682c3bcb1385a9c90298e470bba1ed3e75ebafb"
+    "version": "21.11",
+    "build": "334139.1bd4bbd49be",
+    "checksum": "8259e4a841c624c98a02e24f35e8dfe3363af821cd31831c22b79414454e9379"
   },
   "builders": [
     {

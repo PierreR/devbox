@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v21.11, 21/12/2021
+
+- Upgrade nixos version to `2021.11` with nixpkgs-overlays 21.11
+
 ## v21.05, 21/06/2021
 
 - Upgrade nixos version to `2021.05` with nixpkgs-overlays 21.05
@@ -19,16 +23,3 @@
 A new - less strict - lifecycle will be in use in v21.03.
 Upgrading the devbox in place will be supported; removing the need to create a new box every six months.
 ====
-
-## v20.03, 08/04/2020
-
-[CAUTION,caption=Breaking changes]
-====
-The devbox has been migrated into https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse[one single repository].
-====
-
-- Upgrade nixos version to `2020.03`
-- Improve dark console theme
-- Support VirtualBox 6.1 by default.
-- Support bash as well as zsh
-- Add `oc`, `kubectl` and many more derivations to the https://bitbucket.irisnet.be/projects/CICD/repos/nixpkgs-overlays/browse[binary cache]

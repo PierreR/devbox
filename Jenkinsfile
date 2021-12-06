@@ -19,7 +19,7 @@ pipeline {
   post {
     success {
       script {
-        if ("${env.BRANCH_NAME}" == '21.05') {
+        if ("${env.BRANCH_NAME}" == '21.11') {
           build job: 'cicd/docs.cicd.cirb.lan/master', wait: true
         }
       }

@@ -1,7 +1,7 @@
 # A development box that persists every configuration
 :experimental:
 :source-language: bash
-:latest_version: 21.05
+:latest_version: 21.11
 ifndef::site-gen-antora[]
 :toc:
 :toclevels: 2
@@ -357,7 +357,7 @@ export NIX_PATH=$NIX_PATH:nixpkgs-overlays=https://bitbucket.irisnet.be/CICD/nix
 +
 ```
 cat > ~/.nix-channels <<EOF
-https://releases.nixos.org/nixos/21.05/nixos-21.05.804.5de44c15758/nixexprs.tar.xz nixpkgs
+https://releases.nixos.org/nixos/21.11/nixos-21.11.334139.1bd4bbd49be/nixexprs.tar.xz nixpkgs
 EOF
 ```
 IMPORTANT: You will need to manually follow the update of https://bitbucket.irisnet.be/projects/PUP/repos/puppet-profile/browse/manifests/nix.pp#27[the pointer].
@@ -445,7 +445,7 @@ NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox
 . Change machine configuration
 .. Storage disk option : Storage > check `Solid state`)
 .. Disable remote access : Display > remote Display > uncheck `Enable Server`
-. Before running vm, ensure that folder `C:\Users\virtualbox\devbox-21.05` is created.
+. Before running vm, ensure that folder `C:\Users\virtualbox\devbox-21.11` is created.
 .. Files `box.dhall` and `local-home.nix` must be also present inside this folder.
 . Start the vm and login with vagrant/vagrant
 . Keyboard is still qwerty at this stage. If you want to change it type `sudo loadkeys be-latin1`
@@ -460,7 +460,7 @@ NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox
 
 To update the devbox to a new version of NixOS you follow these steps:
 
-. create a new branch (for instance `21.05`)
+. create a new branch (for instance `21.11`)
 . update the `bootstrap/version.sh`
 . update the `bootstrap/nixbox` with the correct pointers
 . update _.config/nixpkgs/home.nix_ with the correct channels
