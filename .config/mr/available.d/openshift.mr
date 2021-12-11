@@ -6,14 +6,6 @@ checkout =
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/oc/documentation.git
 
-[$HOME/projects/bric/openshift/nixery]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/oc/nixery.git
-
 [$HOME/projects/bric/openshift/cue]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/oc/cue.git
-
-[$HOME/projects/bric/openshift/projects]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/oc/projects.git
