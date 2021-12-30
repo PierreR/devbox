@@ -17,3 +17,7 @@ checkout =
 [$HOME/projects/bric/puppet/ansible]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/pup/ansible.git
+
+[$HOME/projects/bric/puppet/puppetserver]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/an/cirb.puppetserver.git puppetserver
