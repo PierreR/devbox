@@ -20,12 +20,6 @@ in
       justusadam.language-haskell
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       {
-        name = "dhall-lang";
-        publisher = "panaeon";
-        version = "0.0.4";
-        sha256 = "0qcxasjlhqvl5zyf7w9fjx696gnianx7c959g2wssnwyxh7d14ka";
-      }
-      {
         name = "org-mode";
         publisher = "vscode-org-mode";
         version = "1.0.0";
@@ -37,12 +31,6 @@ in
         version = "0.20.0";
         sha256 = "07hd4ii3i2a9as8mdk0qv8mcfsk0p12zn9shzdkjf80i3nwimhv2";
       }
-      # {
-      # name = "vscode-dhall-lsp-server";
-      # publisher = "panaeon";
-      # version = "0.0.4";
-      # sha256 = "0ws2ysra5iifhqd2zf7zy2kcymacr5ylcmi1i1zqljkpqqmvnv5q";
-      # }
       {
         name = "Go";
         publisher = "ms-vscode";

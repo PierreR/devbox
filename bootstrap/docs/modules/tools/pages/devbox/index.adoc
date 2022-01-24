@@ -32,7 +32,7 @@ endif::[]
 The devbox provides a virtualbox linux operating system that would typically run on top of a Windows host.
 The box is based on https://nixos.org[NixOS,role=external] and make sure any settings can be persisted.
 
-The main configuration file is `box.dhall`. It sits in your shared folder.
+The main configuration file is `box.cue`. It sits in your shared folder.
 
 image::devbox.png[]
 
@@ -70,7 +70,7 @@ C:\Users\virtualbox\devbox-{latest_version}
    │      ├── xxxx_rsa.pub
    │      ├── xxxx_github_rsa
    │      └── xxxx_github_rsa.pub
-   ├── box.dhall <2>
+   ├── box.cue <2>
    ├── local-home.nix  <2>
    └── [local-configuration.nix] <3>
 -----
@@ -110,7 +110,7 @@ To import the `ova` image file, just click on the file. The virtualbox UI will p
 
 ### User provisioning
 
-The most common operation is to modify your user configuration through `box.dhall` in your SHARED_DIR.
+The most common operation is to modify your user configuration through `box.cue` in your SHARED_DIR.
 
 You might also want to modify your user configuration through the included https://github.com/rycee/home-manager[home-manager,role=external].
 Such more advanced and optional configuration is done by editing the `local-home.nix` file which also sits in your SHARED_DIR.
@@ -171,7 +171,7 @@ Please ask for assistance on our #CICD Team channelfootnote:[if such request is 
 |======
 |Command |Description
 
-| kbd:[Ctrl,Space]footnote:[you can change this binding in box.dhall] |Open app launcher
+| kbd:[Ctrl,Space]footnote:[you can change this binding in box.cue] |Open app launcher
 | kbd:[Super, t] |New terminal
 | kbd:[Super, 1..9] |Go to nth desktop
 | kbd:[Super, Right] | Go to next desktop
@@ -229,13 +229,13 @@ You can use https://github.com/wting/autojump[autojump,role=external] to quickly
 → j bos
 ----
 
-If you wish to add some plugins to `oh-my-zsh` the setting is https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35[here]footnote:[let us know if such customization is of any interest and we will add a key in dhall.box for it.].
+If you wish to add some plugins to `oh-my-zsh` the setting is https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/.config/nixpkgs/modules/profiles/zsh.nix#35[here]footnote:[let us know if such customization is of any interest and we will add a key in cue.box for it.].
 
 Another useful shortcut is #sshi# to quickly log to a remote machine. It is the equivalent of `ssh -i ~/.ssh/xxxx_rsa $LOGINID@$1`.
 
 ### Application launcher (albert)
 
-https://albertlauncher.github.io/[Albert,role=external] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]footnote:[you can change the hotkey in the box.dhall configuration file.]. Use it to:
+https://albertlauncher.github.io/[Albert,role=external] is an application launcher similar to `Alfred` in OS X. You can launch albert with kbd:[Control,Space]footnote:[you can change the hotkey in the box.cue configuration file.]. Use it to:
 
 - open any application, directory or file by typing its name (type 'File' to open `Nautilus`)
 - shutdown/reboot the vm
@@ -247,7 +247,7 @@ The https://myrepos.branchable.com[myrepos,role=external] project help you to au
 
 Mr files are pointers to repositories you want to clone. These are defined in the same https://bitbucket.irisnet.be/projects/CICD/repos/devbox/browse/.config/mr/available.d[CIRB dotfiles repository]. You may propose any new repository definition via a pull request.
 
-To activate an available repository in your devbox, add the name of the file to the `mr.repos` list in `SHARED_DIR/box.dhall`.
+To activate an available repository in your devbox, add the name of the file to the `mr.repos` list in `SHARED_DIR/box.cue`.
 
 As soon as you type #updateConfig# on the command line, the enabled repos will be automatically cloned and configured into your box. For instance if `puppet-bos` is in the list, you will find a `~/projects/bric/box/puppet-bos` folder. In that case, the next step would be to go in that folder and enter #make# on the command line.
 
@@ -303,18 +303,6 @@ nix-shell -p jdk11 <1>
 <1> open a shell that have `JAVA_HOME` set to use jdk11.
 
 You can quickly search for packages online at https://nixos.org/nixos/packages.html[nixos.org,role=external]
-
-.Storing the box configuration file
-****
-You might want to go one step further and store your _box.dhall_ file in Git.
-This is easy. Replace the content of the file with one line containing an url that points to the config file.
-Here is an example:
-
-.SHARED_DIR/box.dhall
-```
-https://raw.githubusercontent.com/PierreR/devbox-config/master/box.dhall
-```
-****
 
 ## Using another unix distribution
 
@@ -396,7 +384,7 @@ The versioning scheme follows the one of NixOS. For instance `20.03.buildnumber`
 When a new major version is released, breaking changes are expected.
 It is required to destroy and re-create a box from scratch. An operation that take no longer than a few minutes.
 Please look at the xref:devbox/CHANGELOG.adoc[Changelog] to gather information and read the updated README if necessary.
-You would commonly need to make some adjustments to your personal configuration file such as `dhall.box` or `local-configuration.nix`.
+You would commonly need to make some adjustments to your personal configuration file such as `cue.box` or `local-configuration.nix`.
 
 TIP: Keep the old box and the new one for a while and make sure you aren't losing any customization.
 
@@ -446,7 +434,7 @@ NOTE: If you want to generate the `ova` from your Windows host, copy the _nixbox
 .. Storage disk option : Storage > check `Solid state`)
 .. Disable remote access : Display > remote Display > uncheck `Enable Server`
 . Before running vm, ensure that folder `C:\Users\virtualbox\devbox-21.11` is created.
-.. Files `box.dhall` and `local-home.nix` must be also present inside this folder.
+.. Files `box.cue` and `local-home.nix` must be also present inside this folder.
 . Start the vm and login with vagrant/vagrant
 . Keyboard is still qwerty at this stage. If you want to change it type `sudo loadkeys be-latin1`
 . Go to the _/etc/devbox-{latest_version}.x_ folder and run `make system`
@@ -469,7 +457,7 @@ To update the devbox to a new version of NixOS you follow these steps:
 
 ### Eclipse: how to add plugins ?
 
-If you enable `eclipse` in #$SHARED_DIR/box.dhall#, you might want to add the `egit` and `m2e` plugins.
+If you enable `eclipse` in #$SHARED_DIR/box.cue#, you might want to add the `egit` and `m2e` plugins.
 
 .enable egit and m2e
 ```

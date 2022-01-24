@@ -10,11 +10,11 @@ if [ ! -d "$mount_dir" ]; then
     exit 1
 fi
 
-config_file="${mount_dir}/box.dhall"
-cue_config_file="${mount_dir}/box.cue"
-if [ ! -f "$config_file" ] && [ ! -f "$cue_config_file" ]; then
+config_file="${mount_dir}/box.cue"
+dhall_config_file="${mount_dir}/box.dhall"
+if [ ! -f "$config_file" ] && [ ! -f "$dhall_config_file" ]; then
     echo "Add empty configuration in ${config_file}. Please fill in ${config_file} with your personal data."
-    cp --verbose "${script_dir}/box-cirb.dhall" "$config_file"
+    cp --verbose "${script_dir}/box-cirb.cue" "$config_file"
 fi
 
 local_config="${mount_dir}/local-home.nix"

@@ -3,6 +3,7 @@
 ## v21.11, 21/12/2021
 
 - Upgrade nixos version to `2021.11` with nixpkgs-overlays 21.11
+- CUE config is now the default, Dhall is still supported.
 
 ## v21.05, 21/06/2021
 

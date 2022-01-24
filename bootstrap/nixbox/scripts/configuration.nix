@@ -29,6 +29,12 @@
   # Replace ntpd by timesyncd
   services.timesyncd.enable = true;
 
+  # Compatibility with ssh
+  services.openssh.extraConfig = ''
+    HostkeyAlgorithms +ssh-rsa
+    PubkeyAcceptedAlgorithms +ssh-rsa
+  '';
+
   # Packages for Vagrant
   environment.systemPackages = with pkgs; [
     findutils
