@@ -64,6 +64,7 @@ in
       nix.editor.tabSize = 2;
       diffEditor.renderSideBySide = true;
       editor.minimap.enabled = configData.vscode.minimap or true;
+      editor.fontFamily = "Source Code Pro";
       workbench.colorTheme = configData.vscode.colorTheme or "Default Dark+";
       workbench.startupEditor = "none";
     };
