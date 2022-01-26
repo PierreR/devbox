@@ -12,9 +12,8 @@ checkout = git clone ssh://git@stash.cirb.lan:7999/jen/documentation.git documen
 [$HOME/projects/bric/jenkins/terraform]
 checkout = git clone ssh://git@stash.cirb.lan:7999/jen/terraform.git terraform
 
-[$HOME/projects/bric/cicd/jenkins/pipeline]
-checkout =
-    git clone ssh://git@stash.cirb.lan:7999/cicd/jenkins-pipeline-groovy.git pipeline
+[$HOME/projects/bric/jenkins/pipeline]
+checkout = git clone ssh://git@stash.cirb.lan:7999/jen/jenkins-pipeline-groovy.git pipeline
 
 [$HOME/projects/bric/jenkins/management]
 checkout = git clone ssh://git@stash.cirb.lan:7999/jen/management.git management
