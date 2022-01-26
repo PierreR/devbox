@@ -1,2 +1,2 @@
 https://releases.nixos.org/nixos/21.11/nixos-21.11.334139.1bd4bbd49be/nixexprs.tar.xz nixpkgs
-https://github.com/nix-community/home-manager/archive/6ce1d64073f48b9bc9425218803b1b607454c1e7.tar.gz home-manager
+https://github.com/nix-community/home-manager/archive/release-21.11.tar.gz home-manager
