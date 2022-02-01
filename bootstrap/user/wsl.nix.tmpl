@@ -1,0 +1,39 @@
+{ config, pkgs, ... }:
+
+{
+  # paths it should manage.
+  home.username = "$USER";
+  home.homeDirectory = "$HOME";
+
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "21.11";
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
+  imports = [
+    ./modules/profiles
+    ./modules/programs
+  ];
+
+  home.packages = with pkgs; [
+    ansible
+    fd
+    openssl
+    ripgrep
+    vault
+  ];
+  home.sessionVariables = {
+    DIRENV_WARN_TIMEOUT = "60s";
+  };
+  programs.autojump.enable = true;
+  profiles.direnv.enable = true;
+  profiles.gpg.enable = true;
+}
