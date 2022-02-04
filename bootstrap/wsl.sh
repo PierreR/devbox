@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eux
-RELEASE="21.11"
+export RELEASE="21.11"
 command -v nix >/dev/null 2>&1 || sh <(curl -L https://releases.nixos.org/nix/nix-2.5.1/install) --no-daemon
 . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 test -d devbox || git clone https://bitbucket.irisnet.be/scm/cicd/devbox.git
@@ -8,7 +8,7 @@ git -C devbox checkout "${RELEASE}"
 git -C devbox pull
 cp devbox/.nix-channels .
 nix-channel --update
-grep -qF 'NIX_PATH' .profile || echo 'export NIX_PATH=$HOME/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/$USER/channels/nixos:nixpkgs-overlays=https://bitbucket.irisnet.be/CICD/nixpkgs-overlays/archive/${RELEASE}.tar.gz' >> .profile
+grep -qF 'NIX_PATH' .profile || echo "export NIX_PATH=$HOME/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/$USER/channels/nixos:nixpkgs-overlays=https://bitbucket.irisnet.be/CICD/nixpkgs-overlays/archive/${RELEASE}.tar.gz" >> .profile
 source .profile
 mkdir -p .config/nix
 cp devbox/.config/nix/nix.conf .config/nix
