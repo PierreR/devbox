@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
+#
+# Install in WSL using:
+#   bash <(curl -L "https://bitbucket.irisnet.be/projects/CICD/repos/devbox/raw/bootstrap/wsl.sh?at=refs%2Fheads%2F21.11")
+#
 set -eux
+cd $HOME
 export RELEASE="21.11"
 sudo mkdir -p -m 0755 /nix && sudo chown -R $USER /nix
 command -v nix >/dev/null 2>&1 || sh <(curl -L https://releases.nixos.org/nix/nix-2.5.1/install) --no-daemon
