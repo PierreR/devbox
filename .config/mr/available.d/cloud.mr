@@ -1,0 +1,7 @@
+[$HOME/projects/bric/cloud/documentation]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/azure/documentation.git
+
+[$HOME/projects/bric/cloud/terraform-aks]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/azure/terraform-aks.git
