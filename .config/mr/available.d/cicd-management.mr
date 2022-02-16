@@ -1,14 +1,5 @@
-[$HOME/projects/bric/cicd/management/pulp]
-checkout = git clone ssh://git@stash.cirb.lan:7999/cicd/pulp-management.git pulp
-
 [$HOME/projects/bric/cicd/management/stash]
 checkout = git clone ssh://git@stash.cirb.lan:7999/cicd/stash-management.git stash
-
-[$HOME/projects/bric/cicd/management/puppet]
-checkout = git clone ssh://git@stash.cirb.lan:7999/cicd/puppet-stack-management.git puppet
-
-[$HOME/projects/bric/cicd/management/jenkins]
-checkout = git clone ssh://git@stash.cirb.lan:7999/cicd/jenkins-management.git jenkins
 
 [$HOME/projects/bric/cicd/management/inspec]
 checkout = git clone ssh://git@stash.cirb.lan:7999/cicd/inspec.git inspec
