@@ -1,6 +1,11 @@
 [$HOME/projects/bric/ansible/collections/cirb/basesystem]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/an/basesystem.git
+
 [$HOME/projects/bric/ansible/role-skeleton]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/an/role-skeleton.git
+
+[$HOME/projects/bric/ansible/awx]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/an/awx.git awx
