@@ -14,6 +14,10 @@ checkout =
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/devbox.git -b 21.11 devbox
 
+[$HOME/projects/bric/cicd/devbox-wsl]
+checkout =
+    git clone ssh://git@stash.cirb.lan:7999/cicd/devbox-wsl.git devbox-wsl
+
 [$HOME/projects/bric/cicd/salt/stack-base]
 checkout =
     git clone ssh://git@stash.cirb.lan:7999/cicd/salt-stack-base.git stack-base
